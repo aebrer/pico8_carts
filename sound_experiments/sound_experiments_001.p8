@@ -1,0 +1,161 @@
+pico-8 cartridge // http://www.pico-8.com
+version 32
+__lua__
+_set_fps(60)
+camera(-64,-64)
+--aebrer 2021
+
+-- functions
+function rnd_pixel()
+ local px_x = (
+  flr(rnd(128))
+ ) - 64
+ local px_y = (
+  flr(rnd(128))
+ ) - 64
+ local pixel = {
+  x=px_x,
+  y=px_y
+ }
+ return(pixel)
+end
+
+function burn(c)
+ local new_c = abs(c-1)
+ return new_c
+end
+
+function dither(cx,cy,loops,pull)
+
+ for i=loops,1,-1 do 
+
+  local pxl = rnd_pixel()
+  pxl.x += cx
+  pxl.y += cy
+  c=pget(pxl.x,pxl.y)
+  x = pxl.x * pull
+  y = pxl.y * pull
+  circ(pxl.x,pxl.y,1,burn(c))
+ end
+end
+
+function dotter()
+ for x=64,-64,-2 do
+  for y=64,-64,-2 do
+   pset(x,y,0)
+  end
+ end
+end
+
+-- setting params
+seed = flr(rnd(-1))
+srand(seed)
+colors = {
+ 8, -15, 0, -15, 
+ -4, 12, -15, 
+ 1, 9
+}
+pal(colors,1)
+
+loop_l = 8
+lc = 0
+oa_zero = false
+loop_started = false
+loop_ended = false
+
+
+function _init()
+	music(0)
+ cls()
+ _set_fps(60)
+end
+
+function _draw()
+
+
+  -- drawing to the screen
+ for i=50,0,-1 do
+  local p = rnd_pixel()
+  c = (flr(rnd(8))+1)
+  circ(p.x,p.y,rnd(5),c)
+  rectfill(
+   p.x+rnd(2),
+   p.y+rnd(2),
+   p.x-rnd(2),
+   p.y-rnd(2),
+   c
+  )
+ end
+
+ dither(0,0,150,2.0)
+
+ dotter()
+
+ local text_jitter = 2
+
+ ?"\^pbabby's",-25+rnd(text_jitter),-50+rnd(text_jitter),9
+ ?"\^p first ",-25+rnd(text_jitter),-38+rnd(text_jitter),9
+ ?"\^p track ",-25+rnd(text_jitter),-26+rnd(text_jitter),9
+
+ ?"\^pbabby's",-25+rnd(text_jitter),-50+rnd(text_jitter),9
+ ?"\^p first ",-25+rnd(text_jitter),-38+rnd(text_jitter),9
+ ?"\^p track ",-25+rnd(text_jitter),-26+rnd(text_jitter),9
+
+ ?"\^pbabby's",-25+rnd(text_jitter),-50+rnd(text_jitter),9
+ ?"\^p first ",-25+rnd(text_jitter),-38+rnd(text_jitter),9
+ ?"\^p track ",-25+rnd(text_jitter),-26+rnd(text_jitter),9
+
+
+ pal(colors, 1)
+ flip()
+end
+
+function _update60()
+ _set_fps(60)
+ -- timing the loop
+ local oa = (t())%(loop_l/2)/(loop_l/2) 
+ -- local cls_t = (t())%(loop_l/10)/(loop_l/50) 
+
+ if oa <= 0.001 and not oa_zero then
+  oa_zero = true
+ end
+ if oa > 0.001 and oa_zero then
+  oa_zero = false
+  lc+=1
+  srand(seed)
+  
+ end
+
+ -- -- gif recording
+ -- if lc == 1 and not loop_started then
+ --  extcmd("rec") -- start recording
+ --  loop_started = true
+ -- end
+ -- if lc == 2 and not loop_ended then
+ --  extcmd("video") -- save video
+ --  loop_ended = true
+ -- end
+
+end
+
+__gfx__
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+__sfx__
+a920000000000187521875200702207522075220752007021f7521f7521f752007022075220752207520070218752187521875200702207522075220752007021f7521f7521f7520070218752187521875200702
+5d200000090501015111155246150c0550a15108150246150c0501015111150246150f1500305508051030500d0701017111175000700d075131710c170000700d05010151111500f15024615000062461500000
+012000000d050140510a05000000030550805103050000000d050140510a05000000030550805103050000000d050140510a05000000030550805103050000000d050140510a0500000003055080510305000000
+772000001c6351c6350000500005000051c6350000500005000051c6350000500005000051c6350000500005000001c635000051d605000051c6350000500005000051c635000051e605000051c6350000500005
+001200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+001200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+__music__
+00 40034144
+01 40030144
+00 02030144
+00 00010344
+02 01020300
+

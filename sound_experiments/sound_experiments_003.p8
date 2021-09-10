@@ -1,0 +1,766 @@
+pico-8 cartridge // http://www.pico-8.com
+version 32
+__lua__
+_set_fps(60)
+camera(-64,-64)
+--aebrer 2021
+
+-- functions
+-- function rnd_pixel()
+--  local px_x = (
+--   flr(rnd(128))
+--  ) - 64
+--  local px_y = (
+--   flr(rnd(128))
+--  ) - 64
+--  local pixel = {
+--   x=px_x,
+--   y=px_y
+--  }
+--  return(pixel)
+-- end
+
+function rnd_pixel()
+ local px_x = (rnd(128) - 64) + (rand_sign() * sx)
+ local px_y = (rnd(128) - 64) + (rand_sign() * sy)
+ local pixel = {
+  x=px_x,
+  y=px_y
+ }
+ return(pixel)
+end
+
+
+function burn(c)
+ local new_c = abs(c-1)
+ return new_c
+end
+
+function dither(cx,cy,loops,pull)
+
+ for i=loops,1,-1 do 
+
+  local pxl = rnd_pixel()
+  pxl.x += cx
+  pxl.y += cy
+  c=pget(pxl.x,pxl.y)
+  x = pxl.x * pull
+  y = pxl.y * pull
+  circfill(pxl.x,pxl.y,1,burn(c))
+
+  pxl = rnd_pixel()
+  pxl.x += cx
+  pxl.y += cy
+  c=pget(pxl.x,pxl.y)
+  x = pxl.x * pull
+  y = pxl.y * pull
+  local sl = 1
+  drw_tri(pxl.x-sl,pxl.y-sl,3,oa,burn(c))
+
+  pxl = rnd_pixel()
+  pxl.x += cx
+  pxl.y += cy
+  c=pget(pxl.x,pxl.y)
+  x = pxl.x * pull
+  y = pxl.y * pull
+  sl = 2
+  rect(pxl.x-sl,pxl.y-sl,pxl.x+sl,pxl.y+sl,burn(c))
+ 
+ end
+end
+
+function dotter()
+ for x=64,-64,-5 do
+  for y=64,-64,-5 do
+   pset(sx-x,sx-y,0)
+  end
+ end
+ for x=66,-63,-3 do
+  for y=63,-65,-3 do
+   pset(sx-x,sx-y,0)
+  end
+ end
+end
+
+function move_planet(p)
+ 
+ for name2, p2 in pairs(planets) do
+
+  local dist=0
+
+  if not(p2==p) and not p.crashed then
+   --calculate distance
+   dist=approx_dist(p2.old_x-p.old_x,p2.old_y-p.old_y)
+   -- calc crash here
+
+   -- planets are not crashed, keep moving
+
+   --get direction of force vec
+   xdist = (p2.old_x-p.old_x)/dist * -1
+   ydist = (p2.old_y-p.old_y)/dist * -1
+   
+   --compute force of g per p
+   force = ((p.m * p2.m * (6.67*10^-3)) / dist^rad_o_g)
+   force = min(force, max_force)
+   force = max(force, min_force)
+   
+   -- --euler
+   --get componants of force
+   p.vx = p.vx - force * xdist
+   p.vy = p.vy - force * ydist
+  end
+
+ end
+  
+ --speed limits
+ p.vx = max(min_speed, p.vx)
+ p.vx = min(p.vx, max_speed)
+ p.vy = max(min_speed, p.vy)
+ p.vy = min(p.vy, max_speed)
+ 
+ --actually move
+ p.x += p.vx 
+ p.y += p.vy
+
+end
+
+-- rotation function
+-- og credit to @dec_hl on twitter
+-- c := center for rotation
+-- p := point to rotate
+-- a := angle
+function rotate(a,cx,cy,px,py)
+ local x = px - cx
+ local y = py - cy
+
+ local xr = x*cos(a) - y*sin(a)
+ local yr = y*cos(a) + x*sin(a)
+
+ return {xr+cx, yr+cy}
+end
+
+function drw_tri(x,y,tri_rad,a,c)
+
+ local triangle_points = {}
+ for i=360,0,-120 do
+  local tpx = cos(i/360.0) * tri_rad
+  local tpy = sin(i/360.0) * tri_rad
+  add(triangle_points, {flr(tpx),flr(tpy)})
+ end
+ local ta=triangle_points[1]
+ local tb=triangle_points[2]
+ local tc=triangle_points[3]
+ ta[1] += x
+ ta[2] += y
+ tb[1] += x
+ tb[2] += y 
+ tc[1] += x
+ tc[2] += y
+
+ --rotate all four points
+ ta = rotate(a,x,y,ta[1],ta[2])
+ tb = rotate(a,x,y,tb[1],tb[2])
+ tc = rotate(a,x,y,tc[1],tc[2])
+ 
+ line(ta[1], ta[2], tb[1], tb[2], c) 
+ line(tb[1], tb[2], tc[1], tc[2], c) 
+ line(tc[1], tc[2], ta[1], ta[2], c) 
+ 
+end
+
+
+function draw_planet(p,rad,a,c)
+
+circfill(p.x,p.y,rad,c)
+line(p.x,p.y,p.y,p.x,c)
+
+
+end
+
+
+function draw_star(s)
+ spr(
+  s.sprite,
+  s.x,
+  s.y
+ )
+ s.twinkle_rate -= 1
+ if s.twinkle_rate < 0 then
+  s.twinkle_rate = star_decay_rate
+  s.sprite = (rnd(star_spr_max-star_spr_offset)+star_spr_offset)
+ end
+ 
+end
+
+
+function get_avg_change()
+ 
+ local avg_x = {}
+ local avg_y = {}
+ if first_avg then
+  old_sx = 0.0
+  old_sy = 0.0
+ else
+  old_sx = sx
+  old_sy = sy
+ end
+ sx=0.0
+ sy=0.0
+ for name, p in pairs(planets) do
+  add(avg_x, p.x)
+  add(avg_y, p.y)
+  sx += p.x
+  sy += p.y
+ end
+ sx = sx / #avg_x
+ sy = sy / #avg_y
+ 
+ if first_avg then 
+  delta_sx = 0.0
+  delta_sy = 0.0
+ else
+  delta_sx = sx-old_sx
+  delta_sy = sy-old_sy
+ end
+
+ -- lets try making this a moving average
+ cam_xy[1] = sx - (delta_sx / cam_smooth_factor)
+ cam_xy[2] = sy - (delta_sy / cam_smooth_factor)
+ 
+ first_avg = false
+ 
+end
+
+function tostring(any)
+    if type(any)=="function" then 
+        return "function" 
+    end
+    if any==nil then 
+        return "nil" 
+    end
+    if type(any)=="string" then
+        return any
+    end
+    if type(any)=="boolean" then
+        if any then return "true" end
+        return "false"
+    end
+    if type(any)=="table" then
+        local str = "{ "
+        for k,v in pairs(any) do
+            str=str..tostring(k).."->"..tostring(v).." "
+        end
+        return str.."}"
+    end
+    if type(any)=="number" then
+        return ""..any
+    end
+    return "unkown" -- should never show
+end
+
+function approx_dist(dx,dy)
+ local maskx,masky=dx>>31,dy>>31
+ local a0,b0=(dx+maskx)^^maskx,(dy+masky)^^masky
+ if a0>b0 then
+  return a0*0.9609+b0*0.3984
+ end
+ return b0*0.9609+a0*0.3984
+end
+
+function generate_star()
+ local star = {}
+ star["sprite"]=(rnd(star_spr_max-star_spr_offset)+star_spr_offset)
+ star["x"]=sx - (rnd(64) * rand_sign()) - 5
+ star["y"]=sy - (rnd(64) * rand_sign())
+ star["twinkle_rate"]=star_decay_rate
+ return(star)
+end
+
+function rand_sign()
+ local coin_toss = rnd(1)
+ if coin_toss >= 0.5 then
+  factor = -1
+ else
+  factor = 1
+ end
+ return(factor)
+end
+
+function draw_glitch(gr)
+    local on=(t()*4.0)%gr<0.1
+    gso=on and 0 or rnd(0x1fff)\1
+    gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+    for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+        poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+    end
+end
+
+function rnd_choice(itr)
+ local i = flr(rnd(#itr)) + 1
+ return(itr[i])
+end
+
+function vfx_smoothing()
+ local pixel = rnd_pixel()
+ c=abs(pget(pixel.x,pixel.y)-1) 
+end
+
+function rnd_pixel()
+ local px_x = (rnd(128) - 64) + (rand_sign() * sx)
+ local px_y = (rnd(128) - 64) + (rand_sign() * sy)
+ local pixel = {
+  x=px_x,
+  y=px_y
+ }
+ return(pixel)
+end
+
+
+
+
+
+-- setting params
+seed = flr(rnd(-1))
+srand(seed)
+colors = {
+ 0,0,-8,0,
+ -8,-8,0,-3,
+ 8,-8,-8,-8,
+ -8,-8,-8,0
+}
+pal(colors,1)
+
+loop_l = 8
+lc = 0
+oa_zero = false
+loop_started = false
+loop_ended = false
+
+
+
+
+
+
+
+function _init()
+	music(0)
+ cls()
+ _set_fps(60)
+
+ --alter
+ alter_stmt_decay = 0
+ alter_effect_decay = 0
+ alter_stmt_needed=false
+ alter_statement = ""
+ alter_stmt_rate = 240
+ alter_effect_rate = 60
+ alter_pressed = false
+
+
+ gods_eye_view = false
+ cam_smooth_factor = 60
+ cam_xy = {0,0}
+
+
+ --physics
+ collision_distance = 1.99
+ collision_distance = 20
+
+ rad_o_g = 2.0
+ --speed and force limits
+ min_speed = -15
+ max_speed = 15
+ min_force = 1.0
+ max_force = 20.0
+
+ --reset timer
+ reset_timer=8
+ reset_needed=false
+ 
+ --keep planets in here
+ planets = {}
+
+ --for aligning the planets
+ local x_sign = rand_sign()
+ local y_sign = rand_sign()
+ 
+ --define planets here
+ phobos = {
+  name="phobos",
+    x=rnd(64) * rand_sign(),
+    y=rnd(64) * rand_sign(),
+    --x=-64,
+    --y=30,
+    old_x=0.0,
+    old_y=0.0,
+    m=15.0,
+    vx=rnd(0.2) * x_sign,
+    vy=rnd(1.0)+0.2 * y_sign,
+    ix=0,
+    iy=0,
+    offscreen=false,
+    history={},
+    crashed=false,
+    sprite_main=2,
+    sprite_offscreen=18,
+    sprite_trail=34,
+    spr_range_x=1,
+    spr_range_y=1
+ }
+ planets["phobos"] = phobos
+ 
+ deimos = {
+  name="deimos",
+  x=rnd(64) * rand_sign(),
+  y=rnd(64) * rand_sign(),
+  old_x=0.0,
+  old_y=0.0,
+  m=15.0,
+  vx=rnd(0.2) * x_sign,
+  vy=rnd(0.1)+0.1 * y_sign,
+  ix=0,
+  iy=0,
+  offscreen=false,
+  history={},
+  crashed=false,
+  sprite_main=4,
+  sprite_offscreen=20,
+  sprite_trail=36,
+  spr_range_x=1,
+  spr_range_y=1
+ }
+ planets["deimos"] = deimos
+
+ deimos2 = {
+  name="deimos2",
+  x=rnd(64) * rand_sign(),
+  y=rnd(64) * rand_sign(),
+  old_x=0.0,
+  old_y=0.0,
+  m=15.0,
+  vx=rnd(0.2) * x_sign,
+  vy=rnd(1.1)+0.1 * y_sign,
+  ix=0,
+  iy=0,
+  offscreen=false,
+  history={},
+  crashed=false,
+  sprite_main=4,
+  sprite_offscreen=20,
+  sprite_trail=36,
+  spr_range_x=1,
+  spr_range_y=1
+ }
+ planets["deimos2"] = deimos2
+
+ luna = {
+  name="luna",
+   x=rnd(64) * rand_sign(),
+   y=rnd(64) * rand_sign(),
+   old_x=0.0,
+   old_y=0.0,
+   m=15.0,
+   vx=rnd(1.2) * x_sign,
+   vy=rnd(0.2)+0.2 * y_sign,
+   ix=0,
+   iy=0,
+   offscreen=false,
+   history={},
+   crashed=false,
+   sprite_main=1,
+   sprite_offscreen=17,
+   sprite_trail=33,
+   spr_range_x=1,
+   spr_range_y=1
+ }
+ planets["luna"] = luna
+ 
+ luna2 = {
+  name="luna2",
+   x=rnd(64) * rand_sign(),
+   y=rnd(64) * rand_sign(),
+   old_x=0.0,
+   old_y=0.0,
+   m=15.0,
+   vx=rnd(0.7) * x_sign,
+   vy=rnd(0.6)+0.2 * y_sign,
+   ix=0,
+   iy=0,
+   offscreen=false,
+   history={},
+   crashed=false,
+   sprite_main=1,
+   sprite_offscreen=17,
+   sprite_trail=33,
+   spr_range_x=1,
+   spr_range_y=1
+ }
+ planets["luna2"] = luna2
+
+
+ --average positions
+ first_avg = t
+ sx = 0.0
+ sy = 0.0
+ delta_sx = 0.0
+ delta_sy = 0.0
+ get_avg_change() 
+
+
+ -- now some stars
+ n_stars = 16
+ star_spr_offset = 5
+ star_spr_max = 11
+ star_decay_rate = 15
+ stars = {}
+ for i=n_stars,1,-1 do
+  add(stars, generate_star())
+ end
+
+
+end
+
+
+
+
+
+
+
+function _draw()
+
+
+  -- drawing to the screen
+ -- for i=50,0,-1 do
+ --  local p = rnd_pixel()
+ --  c = (flr(rnd(8))+1)
+ --  circ(sx-p.x,sy-p.y,rnd(5),c)
+ --  rectfill(
+ --   sx-p.x+rnd(2),
+ --   sy-p.y+rnd(2),
+ --   sx-p.x-rnd(2),
+ --   sy-p.y-rnd(2),
+ --   c
+ --  )
+ -- end
+
+ dither(sx,sy,50,1.0)
+ dither(sx,sy,25,1.5)
+
+
+ camera(cam_xy[1]-64,cam_xy[2]-64)
+
+ -- for i=#stars,1,-1 do
+ --  draw_star(stars[i])
+ --  --move stars
+ --  stars[i].x += delta_sx
+ --  stars[i].y += delta_sy
+ -- end
+
+ --end
+
+ --planets 
+ for name, p in pairs(planets) do
+  draw_planet(p, 4, oa, 9)
+  draw_planet(p, 2, oa, 10)
+  draw_planet(p, 1, oa, 0)
+
+ end
+
+
+ draw_glitch(130)
+
+ dotter()
+
+ pal(colors, 1)
+ -- flip()
+end
+
+
+
+
+
+
+function _update60()
+ _set_fps(60)
+ -- timing the loop
+ oa = (t())%(loop_l/2)/(loop_l/2) 
+ -- local cls_t = (t())%(loop_l/10)/(loop_l/50) 
+
+ if oa <= 0.001 and not oa_zero then
+  oa_zero = true
+ end
+ if oa > 0.001 and oa_zero then
+  oa_zero = false
+  lc+=1
+  srand(seed)
+  
+ end
+
+ -- -- gif recording
+ -- if lc == 1 and not loop_started then
+ --  extcmd("rec") -- start recording
+ --  loop_started = true
+ -- end
+ -- if lc == 2 and not loop_ended then
+ --  extcmd("video") -- save video
+ --  loop_ended = true
+ -- end
+
+ --relative motion fix
+ if not gods_eye_view then
+  for name, p in pairs(planets) do
+   p.x -= sx+64
+   p.y -= sy+64
+  end
+ end
+
+ 
+ --avg position is needed in
+ --order to move the planets
+ --ie. do this first
+ get_avg_change() 
+ 
+ for name, p in pairs(planets) do
+  p.old_x = p.x
+  p.old_y = p.y
+ end
+
+ --actually move the planets
+ for name, p in pairs(planets) do
+  move_planet(p)
+ end
+ 
+ --alter logic
+ if alter_stmt_decay < 0 then
+  local as = alter_stmt_rate
+  alter_stmt_decay = as
+  alter_stmt_needed=false
+ end
+ 
+ if alter_pressed then
+  if alter_effect_decay<0 then
+   local aer=alter_effect_rate
+   alter_effect_decay=aer
+   alter_pressed = false
+  end
+  alter_stmt_needed=true
+ end
+ 
+ alter_effect_decay-=1  
+ alter_stmt_decay-=1
+ 
+ --controls
+ if btn(0) then
+  reset_needed=true
+ end 
+ 
+ if btn(1) then
+  reset_needed=true
+ end 
+ 
+ if btn(2) then
+  reset_needed=true
+ end 
+ 
+ if btn(3) then
+  reset_needed=true
+ end 
+ 
+ if btn(4) then
+  --z/🅾️ button
+  alter_pressed = true
+  alter_stmt_needed = true
+ else
+  alter_pressed = false
+ end 
+ 
+ if btn(5) then
+  reset_needed=true
+ end 
+ 
+ if reset_needed then
+  if reset_timer < 0 then
+    run()
+  end
+  reset_timer -= 1
+ end
+
+
+end
+
+__gfx__
+0000000006666600000ffff088888888033333300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000000006666d6660fffaaff80088008332223330000000000000000000000000000000000000000000700000000000000000000000000000000000000000000
+00700700665555560ffffaaf80088008332322230000000000700700000000000007000000707000000700000000700000000000000000000000000000000000
+000770006556d656ffaaaaaf88888888332333330000000000077000000700000077700000070000077770000077770000000000000000000000000000000000
+000770006655d556ffaaaaff88888888323333230000700000077000000070000007000000707000007777000007700000000000000000000000000000000000
+0070070066d555600faaaaf080088008333223230000000000700700000000000000000000000000000700000000700000000000000000000000000000000000
+0000000006d65d600ffaaff080088008332323330000000000000000000000000000000000000000000700000000000000000000000000000000000000000000
+000000000666666000ffff0088888888033333300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000066000000aa00000000000000330000000000000000000000000000000000000000000000090000000908888a0908888a0900888a0900088a00000000
+0000000066000000aa00000000000000330000000000000000000000000000000000000000a00a0000a99a9088a99a9a88a99a9a88a09a900000900000000000
+000000000000000000000000000000000000000000000000000000000000000000000000000a0000099909000999080a0990080a090008000900080000000000
+00000000000000000000000000000000000000000000000000000000000000000007700000a77a0000a79a9000a79a8000000080000000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000000770000a077a0009097a00a8097a80a8000080a80000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000a0000000a90990a8a90980a8a00080a80000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000530000000000000a0009000a09a8998898a8998898a80080980800000800000000
+0000000000000000000000000000000000000000000000000000000000000026000000000000000000090000a8a8988aa8a8988aa800908a0000000a00000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000055695000000000000032000000000000000000000000000000000000000
+00000000000110000004400000000000000bb000000000000000000000000000000059a99650000000000032a330000000000066600000000000000000000000
+00000000000110000004400000000000000bb000000000000000000000000000000666d69ffff00000000fff393330000003333366d600000000000000000000
+000000000000000000000000000000000000000000000000000000000000000006666699ff99ff00000fff99922333000033225566d666000000000000000000
+000000000000000000000000000000000000000000000000000000000000009305565955f5699f00000fff292aa2230000332522555555000000000000000000
+000000000000000000000000000000000000000000000000000000000000002a065599aa66aa9f0000ff9332a333330000332d6653d256000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000066655d5aaaaff0000ffa2233a33230000323d63323556000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000066d59a6599f000000faa99322323000023322dd52560000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000006d95df95ff000000ff93f9323330000333325d25d60000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000000666669fff00000000ffff23333000000323d5626660000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000006056966000000000000a99930000000000033300000000000000000000000
+0000000000000000000000000000000000000000000000000000000000000000000000066000000000000033a230000000000000000000000000000000000000
+000000000000000000000000000000000000000000000000000000000000006a0000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000950000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00036000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00059000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000066600320000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000003333366d2a3300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000003225566df39333000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000003532522555992233300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000003632d6653d92aa22300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000003523d633232a3333300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000363322dd5233a332300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000000026666699ff92aa22300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000000065565955f52a3333300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000565599aa6633a332300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000656655d5aa932232300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000006066d59a65f93233300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000006d95df9f23333000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000666669f999300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+000000000060569663a2300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+__sfx__
+b620001016020180211b0221d0221b02116021160211b0221f02322023240211f0211b0221802218021180211b0211b0221d0231d023285012050120501005021f500215001f5001c5001c500185001850000502
+6e1000200a03211032160321b032110320c032130321b0320f0320f032160321b0321603211032130321b0320f0320f032160320f0321103216032130320c0320f032110320a0320a0320c03211032110320f032
+751000002b62513625272422b6252b625242422b6252b6252b62513625272422b6252b625292422b6252b6252b62513625272422b6252b625242422b6252b6252b62513625272422b6252b6251d2422b6252b625
+191000002b752297552775224751227511f7501d7521b7521b7551875118752187551675216750167501675516751167521675516751167551675518751187521b7501b750187521875116752137551375211751
+181000001d7521d755227522775129751297502975227752247551b75116752187551b7521b750187501d75524751227522275522751227551b75516751187521b7501b7501b7521b7511b7521b7551b75218751
+001200000775007750077500a7500c7500c7500c7500c7500c7500c7500a75007750077500775007750077500775007750077500a7500a7500a7500a7500a7500a7500a7500c7500c7500c7500a7500a7500a750
+751000002b61513615000002b6152b615242002b6152b6152b61513615272002b6152b615292002b6152b6152b61513615272002b6152b615242002b6152b6152b61513615272002b6152b6151d2002b6152b615
+__music__
+00 00014144
+01 00010244
+00 00010244
+00 00010603
+00 00010604
+00 00010603
+00 00010604
+00 00010244
+00 00010244
+02 00010643
+
