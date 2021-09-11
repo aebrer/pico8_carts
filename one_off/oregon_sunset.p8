@@ -73,15 +73,13 @@ config.dither.methods = {}
 
 config.dither.cx = 0
 config.dither.cy = 0
-config.dither.loops = 2
+config.dither.loops = 1
 config.dither.pull = 1.0
-config.dither.rectw = 2
-config.dither.recth = 2
-config.dither.circ_r = 2
-config.dither.x_loops = 12
-config.dither.y_loops = 12
+config.dither.rectw = 10 + (flr(rnd(3))*rnd_sign())
+config.dither.recth = 1
+config.dither.x_loops = 7
+config.dither.y_loops = 16
 config.dither.fudge_factor = 4
-config.dither.pxl_prob = 0.55
 
 -- method params
 config.dither.params = {
@@ -91,11 +89,9 @@ config.dither.params = {
  {"pull", "float"},
  {"rectw", "int"},
  {"recth", "int"},
- {"circ_r", "int"},
  {"x_loops", "int"},
  {"y_loops", "int"},
- {"fudge_factor", "int"},
- {"pxl_prob", "float_lim", {0.01, 1.0}}
+ {"fudge_factor", "int"}
 }
 
 -- dither functions
@@ -116,11 +112,9 @@ function config.dither.ovalfill_burn()
   for x=64+fudge_x,-64,-x_loops do
    for y=64+fudge_y,-64,-y_loops do
     local pxl = rnd_pixel()
-    local x = (pxl.x - cx)
-    local y = (pxl.y - cy)
+    local x = (pxl.x - cx) * pull
+    local y = (pxl.y - cy) * pull
     c=pget(x,y)
-    x*=pull 
-    y*=pull
     ovalfill(x-rect_w,y-rect_h,x+rect_w,y+rect_h,burn(c))
    end
   end
@@ -143,110 +137,15 @@ function config.dither.pset_burn()
   for x=64+fudge_x,-64,-x_loops do
    for y=64+fudge_y,-64,-y_loops do
     local pxl = rnd_pixel()
-    local x = (pxl.x - cx)
-    local y = (pxl.y - cy)
+    local x = (pxl.x - cx) * pull
+    local y = (pxl.y - cy) * pull
     c=pget(x,y)
-    x*=pull 
-    y*=pull
     pset(x,y,burn(c))
    end
   end
  end
 end
 add(config.dither.methods, "pset_burn")
-
-function config.dither.luna_theory()
-
- local dither_modes = {
-  "burn_spiral",
-  "burn_rect",
-  "burn",
-  "circfill", 
-  "rect"
- } 
-
- 
-
- local cx = config.dither.cx
- local cy = config.dither.cy
- local loops = config.dither.loops
- local pull = config.dither.pull
- local x_loops = config.dither.x_loops
- local y_loops = config.dither.y_loops
- local rect_w = config.dither.rectw
- local rect_h = config.dither.recth
- local circ_r = config.dither.circ_r
- local pxl_prob = config.dither.pxl_prob
-
- for i=1,loops do
-  local dm = rnd(dither_modes)
-  if dm == "circfill" then
-   local fudge_x = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
-   local fudge_y = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
-   for x=64+fudge_x,-64,-x_loops do
-    for y=64+fudge_y,-64,-y_loops do
-     if rnd(1) > pxl_prob then
-      local pxl = rnd_pixel()
-      local x = (pxl.x - cx)
-      local y = (pxl.y - cy)
-      circfill(x,y,circ_r,0)
-     end
-    end
-   end
-  elseif dm == "rect" then
-   local fudge_x = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
-   local fudge_y = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
-   for x=64+fudge_x,-64,-x_loops do
-    for y=64+fudge_y,-64,-y_loops do
-     if rnd(1) > pxl_prob then
-      local pxl = rnd_pixel()
-      local x = (pxl.x - cx)
-      local y = (pxl.y - cy)
-      rect(x-rect_w,y-rect_h,x+rect_w,y+rect_h,0)
-     end
-    end
-   end
-  elseif dm == "burn_spiral" then
-   local pxl = rnd_pixel()
-   local x = (pxl.x - cx)
-   local y = (pxl.y - cy)
-   c=pget(x,y)
-   x*=pull 
-   y*=pull
-   circ(x,y,circ_r,burn(c))
-  elseif dm == "burn" then
-   local fudge_x = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
-   local fudge_y = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
-   for x=64+fudge_x,-64,-x_loops do
-    for y=64+fudge_y,-64,-y_loops do
-     local pxl = rnd_pixel()
-     local x = (pxl.x - cx)
-     local y = (pxl.y - cy)
-     c=pget(x,y)
-     x*=pull 
-     y*=pull
-     circ(x,y,circ_r,burn(c))
-    end
-   end
-  elseif dm == "burn_rect" then
-   local fudge_x = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
-   local fudge_y = (flr(rnd(fudge_factor4)) + 1) * rnd_sign()
-   for x=64+fudge_x,-64,-x_loops do
-    for y=64+fudge_y,-64,-y_loops do
-     local pxl = rnd_pixel()
-     local x = (pxl.x - cx)
-     local y = (pxl.y - cy)
-     c=pget(x,y)
-     x*=pull 
-     y*=pull
-     rect(x-rect_w,y-rect_h,x+rect_w,y+rect_h,burn(c))
-    end
-   end
-  end
- end
-end
-add(config.dither.methods, "luna_theory")
-
 
 --------------------------------
 --         colors             --
@@ -255,7 +154,7 @@ add(config.dither.methods, "luna_theory")
 config.colors = {}
 add(config.params, "colors")
 config.colors.methods = {}
-config.colors.i = 1
+config.colors.i = 9
 config.colors.params = {}
 config.colors.param_i = nil
 
@@ -297,11 +196,11 @@ add(config.colors.methods, "twobit_bw")
 config.brush = {}
 add(config.params, "brush")
 config.brush.methods = {}
-config.brush.i = 1
+config.brush.i = 2
 config.brush.params = {}
 config.brush.param_i = 1
 
-config.brush.circ_r = 6
+config.brush.circ_r = 24
 config.brush.color = #config.colors[config.colors.methods[config.colors.i]]
 
 config.brush.params = {
@@ -336,7 +235,7 @@ param_i_changed = false
 param_method_changed = false
 param_param_changed = false
 ppv_changed = false
-display_params = true
+display_params = false
 display_params_changed = false
 
 
@@ -348,40 +247,43 @@ display_params_changed = false
 --------------------------------
 --       input detect         --
 --------------------------------
-if display_params then
- if stat(34) == 1 then
-  lmbp = true
- else
-  lmbp = false
- end
+if stat(34) == 1 then
+ lmbp = true
+else
+ lmbp = false
+end
 
- if stat(34) == 2 then
-  rmbp = true
- else
-  rmbp = false
- end
+if stat(34) == 2 then
+ rmbp = true
+else
+ rmbp = false
+end
 
- if stat(34) == 4 then
-  mmbp = true
- else
-  mmbp = false
- end
+if stat(34) == 4 then
+ mmbp = true
+else
+ mmbp = false
+end
 
- if stat(36) == -1 then
-  scrl_dn = true
- else
-  scrl_dn = false
- end
+if stat(36) == -1 then
+ scrl_dn = true
+else
+ scrl_dn = false
+end
 
- if stat(36) == 1 then
-  scrl_up = true
- else
-  scrl_up = false
- end
+if stat(36) == 1 then
+ scrl_up = true
+else
+ scrl_up = false
+end
 
- --------------------------------
- --       input process        --
- --------------------------------
+
+--------------------------------
+--       input process        --
+--------------------------------
+
+ if display_params then
+
  -- change what method is being used for active param
  if lmbp and not param_method_changed then
   local idx = config.params[config.param_i]
@@ -415,14 +317,7 @@ if display_params then
    if curr_pp_type == "int" then 
     new_param_param_value = curr_param_param_value - 1
    elseif curr_pp_type == "float" then
-    new_param_param_value = curr_param_param_value * 0.97
-   elseif curr_pp_type == "float_lim" then
-    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
-    local low_lim = curr_pp_lim[1]
-    local high_lim = curr_pp_lim[2]
-    new_param_param_value = curr_param_param_value * 0.97
-    new_param_param_value = min(new_param_param_value, high_lim)
-    new_param_param_value = max(new_param_param_value, low_lim)
+    new_param_param_value = curr_param_param_value * 0.95
    end
    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
    ppv_changed = true
@@ -439,21 +334,12 @@ if display_params then
    if curr_pp_type == "int" then 
     new_param_param_value = curr_param_param_value + 1
    elseif curr_pp_type == "float" then
-    new_param_param_value = curr_param_param_value * 1.03
-   elseif curr_pp_type == "float_lim" then
-    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
-    local low_lim = curr_pp_lim[1]
-    local high_lim = curr_pp_lim[2]
-    new_param_param_value = curr_param_param_value * 1.03
-    new_param_param_value = min(new_param_param_value, high_lim)
-    new_param_param_value = max(new_param_param_value, low_lim)
+    new_param_param_value = curr_param_param_value * 1.05
    end
    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
    ppv_changed = true
   end
  end
-
-
 
  --------------------------------
  --       input reset          --
@@ -473,15 +359,8 @@ if display_params then
 end
 
  --------------------------------
- --       debug menu          --
+ --       debug menu           --
  --------------------------------
-
-if btn(4) then
- zbp = true
-else 
- zbp = false
-end
-
 if zbp and not display_params_changed then 
  display_params = not display_params
  display_params_changed = true
@@ -489,6 +368,12 @@ end
 
 if not zbp and display_params_changed then 
  display_params_changed = false
+end
+
+if btn(4) then
+ zbp = true
+else 
+ zbp = false
 end
 
 --------------------------------
@@ -508,8 +393,12 @@ local palette = config.colors[palette_name]
 --------------------------------
 --       setup brushes        --
 --------------------------------
-local x = stat(32) - 64
-local y = stat(33) - 64
+-- local x = stat(32) - 64
+local x = 0
+
+-- local y = stat(33) - 64
+local y = 0
+
 local brush_name = config.brush.methods[config.brush.i]
 local brush_func = config.brush[brush_name]
 
