@@ -55,11 +55,9 @@ config.params = {}
 --          burns             --
 --------------------------------
 function burn(c)
- local new_c = max(abs(c-1),1)
+ local new_c = max(c-1,0)
  return new_c
 end
-
-
 
 --------------------------------
 --         dithers            --
@@ -288,6 +286,8 @@ config.colors.mono_dgreen_highlight = {0,5,6,7,7,6,5,-13,-13,5,6,7,7,6,5}
 add(config.colors.methods, "mono_dgreen_highlight")
 config.colors.twobit_bw = {0,7,0,0,0,0,0,0,0,0,0,0,0,0,7}
 add(config.colors.methods, "twobit_bw")
+config.colors.default = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
+add(config.colors.methods, "default")
 
 
 --------------------------------
