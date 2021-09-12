@@ -345,6 +345,9 @@ config.timing.param_i = 1
 
 config.timing.loop_len = 8
 config.timing.loop_div = 2
+config.timing.rec_loop_start = 2
+config.timing.rec_loop_end = 4
+
 config.timing.loop_counter = 0
 config.timing.timing_zero = true  -- not displayed
 
@@ -356,6 +359,8 @@ config.timing.cls_needed = true  -- not displayed
 config.timing.params = {
  {"loop_len", "int_lim", {1,16}},
  {"loop_div", "int_lim", {1,16}},
+ {"rec_loop_start", "int_lim", {1,7}},
+ {"rec_loop_end", "int_lim", {2,8}},
  {"loop_counter", "null"},  -- resets to zero when scrolled
  {"gif_record", "bool"} 
 }
@@ -375,7 +380,7 @@ param_param_changed = false
 ppv_changed = false
 display_params = true
 display_params_changed = false
-
+prev_gif_record = false
 
 --------------------------------
 --        main loop           --
@@ -469,6 +474,8 @@ if display_params then
     new_param_param_value = max(new_param_param_value, low_lim)
    elseif curr_pp_type == "bool" then
     new_param_param_value = not curr_param_param_value
+   elseif curr_pp_type == "null" then
+    new_param_param_value = curr_param_param_value
    end
    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
    ppv_changed = true
@@ -502,6 +509,8 @@ if display_params then
     new_param_param_value = max(new_param_param_value, low_lim)
    elseif curr_pp_type == "bool" then
     new_param_param_value = not curr_param_param_value
+   elseif curr_pp_type == "null" then
+    new_param_param_value = curr_param_param_value
    end
    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
    ppv_changed = true
@@ -625,16 +634,19 @@ pal(palette, 1)
 --------------------------------
 
 if config.timing.gif_record then
- if loop_counter == 2 and not config.timing.rec_started then
+ if prev_gif_record == false then 
+  config.timing.loop_counter = 0
+ end
+ if loop_counter == config.timing.rec_loop_start and not config.timing.rec_started then
   extcmd("rec") -- start recording
   config.timing.rec_started = true
  end
- if loop_counter == 4 and not config.timing.rec_ended then
+ if loop_counter == config.timing.rec_loop_end and not config.timing.rec_ended then
   extcmd("video") -- save video
   config.timing.rec_ended = true
+  config.timing.gif_record = false
  end
 end
-
 if config.timing.loop_counter == 0 and config.timing.cls_needed then
  config.timing.rec_started = false
  config.timing.rec_ended = false
@@ -644,6 +656,8 @@ if config.timing.loop_counter == 0 and config.timing.cls_needed then
 elseif config.timing.loop_counter >= 1 then
  config.timing.cls_needed = true
 end
+
+prev_gif_record = config.timing.gif_record
 
 goto _
 __gfx__
