@@ -43,6 +43,9 @@ function safe_inc(idx, lim)
  return new_idx
 end
 
+function round(n)
+ return (n%1<0.5) and flr(n) or ceil(n)
+end
 --------------------------------
 --       config init          --
 --------------------------------
@@ -117,8 +120,8 @@ function config.dither.ovalfill_burn()
     local x = (pxl.x - cx)
     local y = (pxl.y - cy)
     c=pget(x,y)
-    x*=pull 
-    y*=pull
+    x = round(x*pull)
+    y = round(y*pull)
     ovalfill(x-rect_w,y-rect_h,x+rect_w,y+rect_h,burn(c))
    end
   end
@@ -144,8 +147,8 @@ function config.dither.pset_burn()
     local x = (pxl.x - cx)
     local y = (pxl.y - cy)
     c=pget(x,y)
-    x*=pull 
-    y*=pull
+    x = round(x*pull)
+    y = round(y*pull)
     pset(x,y,burn(c))
    end
   end
@@ -209,8 +212,8 @@ function config.dither.luna_theory()
    local x = (pxl.x - cx)
    local y = (pxl.y - cy)
    c=pget(x,y)
-   x*=pull 
-   y*=pull
+   x = round(x*pull)
+   y = round(y*pull)
    circ(x,y,circ_r,burn(c))
   elseif dm == "burn" then
    local fudge_x = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
@@ -221,8 +224,8 @@ function config.dither.luna_theory()
      local x = (pxl.x - cx)
      local y = (pxl.y - cy)
      c=pget(x,y)
-     x*=pull 
-     y*=pull
+     x = round(x*pull)
+     y = round(y*pull)
      circ(x,y,circ_r,burn(c))
     end
    end
@@ -235,8 +238,8 @@ function config.dither.luna_theory()
      local x = (pxl.x - cx)
      local y = (pxl.y - cy)
      c=pget(x,y)
-     x*=pull 
-     y*=pull
+     x = round(x*pull)
+     y = round(y*pull)
      rect(x-rect_w,y-rect_h,x+rect_w,y+rect_h,burn(c))
     end
    end
@@ -288,7 +291,8 @@ config.colors.twobit_bw = {0,7,0,0,0,0,0,0,0,0,0,0,0,0,7}
 add(config.colors.methods, "twobit_bw")
 config.colors.default = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 add(config.colors.methods, "default")
-
+config.colors.alt_default = {-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1}
+add(config.colors.methods, "alt_default")
 
 --------------------------------
 --         brushes            --
@@ -327,6 +331,39 @@ add(config.brush.methods, "circ")
 --------------------------------
 --         effects            --
 --------------------------------
+
+--------------------------------
+--          timing            --
+--------------------------------
+
+config.timing = {}
+add(config.params, "timing")
+config.timing.methods = {}
+config.timing.i = 1
+config.timing.params = {}
+config.timing.param_i = 1
+
+config.timing.loop_len = 8
+config.timing.loop_div = 2
+config.timing.loop_counter = 0
+config.timing.timing_zero = true  -- not displayed
+
+config.timing.gif_record = false
+config.timing.rec_started = false  -- not displayed
+config.timing.rec_ended = false  -- not displayed
+config.timing.cls_needed = true  -- not displayed
+
+config.timing.params = {
+ {"loop_len", "int_lim", {1,16}},
+ {"loop_div", "int_lim", {1,16}},
+ {"loop_counter", "null"},  -- resets to zero when scrolled
+ {"gif_record", "bool"} 
+}
+
+function config.timing.standard_loop() 
+ return (t())%(config.timing.loop_len/config.timing.loop_div)/(config.timing.loop_len/config.timing.loop_div) 
+end
+add(config.timing.methods, "standard_loop")
 
 
 --------------------------------
@@ -423,6 +460,15 @@ if display_params then
     new_param_param_value = curr_param_param_value * 0.97
     new_param_param_value = min(new_param_param_value, high_lim)
     new_param_param_value = max(new_param_param_value, low_lim)
+   elseif curr_pp_type == "int_lim" then
+    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+    local low_lim = curr_pp_lim[1]
+    local high_lim = curr_pp_lim[2]
+    new_param_param_value = curr_param_param_value - 1
+    new_param_param_value = min(new_param_param_value, high_lim)
+    new_param_param_value = max(new_param_param_value, low_lim)
+   elseif curr_pp_type == "bool" then
+    new_param_param_value = not curr_param_param_value
    end
    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
    ppv_changed = true
@@ -447,6 +493,15 @@ if display_params then
     new_param_param_value = curr_param_param_value * 1.03
     new_param_param_value = min(new_param_param_value, high_lim)
     new_param_param_value = max(new_param_param_value, low_lim)
+   elseif curr_pp_type == "int_lim" then
+    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+    local low_lim = curr_pp_lim[1]
+    local high_lim = curr_pp_lim[2]
+    new_param_param_value = curr_param_param_value + 1
+    new_param_param_value = min(new_param_param_value, high_lim)
+    new_param_param_value = max(new_param_param_value, low_lim)
+   elseif curr_pp_type == "bool" then
+    new_param_param_value = not curr_param_param_value
    end
    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
    ppv_changed = true
@@ -490,6 +545,26 @@ end
 if not zbp and display_params_changed then 
  display_params_changed = false
 end
+
+--------------------------------
+--          timing            --
+--------------------------------
+
+local timing_name = config.timing.methods[config.timing.i]
+local timing_func = config.timing[timing_name]
+local timing = timing_func()
+local timing_zero = config.timing.timing_zero
+local loop_counter = config.timing.loop_counter
+
+if timing <= 0.01 and not timing_zero then
+ config.timing.timing_zero = true
+end
+
+if timing > 0.01 and timing_zero then
+ config.timing.timing_zero = false
+ config.timing.loop_counter += 1
+ srand(seed)
+end  
 
 --------------------------------
 --       do dithering         --
@@ -537,13 +612,38 @@ if display_params then
  if curr_param_param_idx != nil then
   local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
   local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
-  ?curr_param_param_name..": "..curr_param_param_value.." <- mouse wheel",-60,-53,pr_col
+  ?curr_param_param_name..": "..tostr(curr_param_param_value).." <- mouse wheel",-60,-53,pr_col
  end
 end
 
 
 flip()
 pal(palette, 1) 
+
+--------------------------------
+--         recording          --
+--------------------------------
+
+if config.timing.gif_record then
+ if loop_counter == 2 and not config.timing.rec_started then
+  extcmd("rec") -- start recording
+  config.timing.rec_started = true
+ end
+ if loop_counter == 4 and not config.timing.rec_ended then
+  extcmd("video") -- save video
+  config.timing.rec_ended = true
+ end
+end
+
+if config.timing.loop_counter == 0 and config.timing.cls_needed then
+ config.timing.rec_started = false
+ config.timing.rec_ended = false
+ cls()
+ config.timing.cls_needed = false
+ display_params = false
+elseif config.timing.loop_counter >= 1 then
+ config.timing.cls_needed = true
+end
 
 goto _
 __gfx__
