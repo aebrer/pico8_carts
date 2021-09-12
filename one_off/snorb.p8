@@ -387,31 +387,31 @@ display_params_changed = false
 --       input detect         --
 --------------------------------
 if display_params then
- if stat(34) == 1 then
+ if stat(34) == 1 or btn(0) then
   lmbp = true
  else
   lmbp = false
  end
 
- if stat(34) == 2 then
+ if stat(34) == 2 or btn(1) then
   rmbp = true
  else
   rmbp = false
  end
 
- if stat(34) == 4 then
+ if stat(34) == 4 or btn(5) then
   mmbp = true
  else
   mmbp = false
  end
 
- if stat(36) == -1 then
+ if stat(36) == -1 or btn(3) then
   scrl_dn = true
  else
   scrl_dn = false
  end
 
- if stat(36) == 1 then
+ if stat(36) == 1 or btn(2) then
   scrl_up = true
  else
   scrl_up = false
@@ -610,15 +610,16 @@ if display_params then
  local current_method_name = config[current_param_name].methods[current_method_idx]
 
 
- ?current_param_name..": "..current_method_name.." <- lmb,rmb",-60,-60,pr_col
+ ?current_param_name..": "..current_method_name.." <- ➡️,⬅️",-60,-60,pr_col
 
  local curr_param_param_idx = config[config.params[config.param_i]].param_i
  if curr_param_param_idx != nil then
   local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
   local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
-  ?curr_param_param_name..": "..tostr(curr_param_param_value).." <- mouse wheel",-60,-53,pr_col
+  ?curr_param_param_name..": "..tostr(curr_param_param_value).." <- 🅾️/x key, ⬇️⬆️",-60,-53,pr_col
  end
 end
+
 
 flip()
 pal(palette, 1) 
