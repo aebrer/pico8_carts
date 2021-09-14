@@ -23,10 +23,10 @@ end
 
 function rnd_pixel()
  local px_x = (
-  flr(rnd(128)+1)
+  flr(rnd(128))
  ) - 64
  local px_y = (
-  flr(rnd(128)+1)
+  flr(rnd(128))
  ) - 64
  local pixel = {
   x=px_x,
@@ -137,10 +137,11 @@ function config.dither.pset_burn()
  local pull = config.dither.pull
  local x_loops = config.dither.x_loops
  local y_loops = config.dither.y_loops
+ local fudge_factor = config.dither.fudge_factor
 
  for i=1,loops do 
-  local fudge_x = (flr(rnd(2)) + 1) * rnd_sign()
-  local fudge_y = (flr(rnd(2)) + 1) * rnd_sign()
+  local fudge_x = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
+  local fudge_y = (flr(rnd(fudge_factor)) + 1) * rnd_sign()
   for x=64+fudge_x,-64,-x_loops do
    for y=64+fudge_y,-64,-y_loops do
     local pxl = rnd_pixel()
@@ -287,7 +288,7 @@ config.colors.mono_blue_highlight = {0,5,6,7,7,6,5,-4,-4,5,6,7,7,6,5}
 add(config.colors.methods, "mono_blue_highlight")
 config.colors.mono_dgreen_highlight = {0,5,6,7,7,6,5,-13,-13,5,6,7,7,6,5}
 add(config.colors.methods, "mono_dgreen_highlight")
-config.colors.twobit_bw = {0,7,0,0,0,0,0,0,0,0,0,0,0,0,7}
+config.colors.twobit_bw = {7,0,0,0,7,0,0,7,0,7,7,0,7,7,7}
 add(config.colors.methods, "twobit_bw")
 config.colors.default = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 add(config.colors.methods, "default")
@@ -331,6 +332,51 @@ add(config.brush.methods, "circ")
 --------------------------------
 --         effects            --
 --------------------------------
+
+config.effects = {}
+add(config.params, "effects")
+config.effects.methods = {}
+config.effects.i = 1
+config.effects.params = {}
+config.effects.param_i = 1
+
+config.effects.noise_amt = 0
+config.effects.glitch_freq = 0
+config.effects.enable_all = false
+
+config.effects.params = {
+ {"enable_all", "bool"},
+ {"noise_amt", "int"},
+ {"glitch_freq", "int"}
+}
+
+function config.effects.noise()
+ local amt = config.effects.noise_amt
+ if amt >= 1 then
+  for i=0,amt*amt do
+   poke(
+       0x6000+rnd(0x2000),
+       peek(rnd(0x7fff)))
+   poke(
+       0x6000+rnd(0x2000),
+       rnd(0xff))
+  end
+ end
+end
+add(config.effects.methods, "noise")
+
+function config.effects.glitch()
+ local gr = config.effects.glitch_freq
+ if gr >= 1 then 
+  local on=(t()*4.0)%gr<0.1
+  local gso=on and 0 or rnd(0x1fff)\1
+  local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+  for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+   poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+  end
+ end
+end
+add(config.effects.methods, "glitch")
 
 --------------------------------
 --          timing            --
@@ -378,9 +424,39 @@ param_i_changed = false
 param_method_changed = false
 param_param_changed = false
 ppv_changed = false
-display_params = true
+display_params = false
 display_params_changed = false
 prev_gif_record = false
+
+--------------------------------
+--  sketch specific override  --
+--------------------------------
+
+config.dither.i = 2
+config.dither.loops = 2
+config.dither.rectw = 9
+config.dither.recth = 0
+config.dither.circ_r = 1
+config.dither.x_loops = 8
+config.dither.y_loops = 8
+config.dither.fudge_factor = 13
+config.dither.pxl_prob = 0.266
+config.dither.pull = 0.975
+
+config.effects.enable_all = true
+config.effects.noise_amt = 4
+config.effects.glitch_freq = 10
+
+config.brush.i = 2
+config.brush.circ_r = 23
+config.brush.lem_width = 23
+add(config.brush.params, {"lem_width", "int"})
+config.brush.lem_points = 1
+add(config.brush.params, {"lem_points", "int_lim", {1,100}})
+
+config.timing.loop_len = 12
+config.timing.rec_loop_start = 2
+config.timing.rec_loop_end = 3
 
 --------------------------------
 --        main loop           --
@@ -583,6 +659,16 @@ local dither_func = config.dither[dither_name]
 dither_func()
 
 --------------------------------
+--       do effects         --
+--------------------------------
+if config.effects.enable_all then
+ for effect_name in all(config.effects.methods) do 
+  local effect_func = config.effects[effect_name]
+  effect_func()
+ end
+end
+
+--------------------------------
 --       setup palette        --
 --------------------------------
 local palette_name = config.colors.methods[config.colors.i]
@@ -592,22 +678,34 @@ local palette = config.colors[palette_name]
 --------------------------------
 --       setup brushes        --
 --------------------------------
-local x = stat(32) - 64
-local y = stat(33) - 64
+
+-- -- mouse controls
+-- local x = stat(32) - 64
+-- local y = stat(33) - 64
+
 local brush_name = config.brush.methods[config.brush.i]
 local brush_func = config.brush[brush_name]
 
--- draw with brush function
-brush_func(x,y)
+local x = 0 
+local y = 0 
+local lem_width = config.brush.lem_width
+local lem_points = config.brush.lem_points
+
+for i=0,lem_points do
+ x=sin(timing+i)*(lem_width+i)
+ y=(cos(timing+i)*sin(timing+i))*(lem_width+i)
+ brush_func(x,y)
+ brush_func(-x,-y)
+end
 
 --------------------------------
 --       onscreen gui         --
 --------------------------------
 if display_params then
  -- get a safe print color
- local pr_col = 2
+ local pr_col = #palette
  while palette[pr_col] == palette[1] do
-  pr_col += 1
+  pr_col -= 1
  end
 
  local current_param_name = config.params[config.param_i]
@@ -615,16 +713,15 @@ if display_params then
  local current_method_name = config[current_param_name].methods[current_method_idx]
 
 
- ?current_param_name..": "..current_method_name.." <- ➡️,⬅️",-60,-60,pr_col
+ ?"\#1"..current_param_name..": "..current_method_name.." <- ➡️,⬅️",-60,-60,pr_col
 
  local curr_param_param_idx = config[config.params[config.param_i]].param_i
  if curr_param_param_idx != nil then
   local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
   local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
-  ?curr_param_param_name..": "..tostr(curr_param_param_value).." <- 🅾️/x key, ⬇️⬆️",-60,-53,pr_col
+  ?"\#1"..curr_param_param_name..": "..tostr(curr_param_param_value).." <- 🅾️/x key, ⬇️⬆️",-60,-53,pr_col
  end
 end
-
 
 flip()
 pal(palette, 1) 
@@ -637,26 +734,27 @@ if config.timing.gif_record then
  if prev_gif_record == false then 
   config.timing.loop_counter = 0
  end
+ 
  if loop_counter == config.timing.rec_loop_start and not config.timing.rec_started then
   extcmd("rec") -- start recording
   config.timing.rec_started = true
  end
- if loop_counter == config.timing.rec_loop_end and not config.timing.rec_ended then
+ if loop_counter == config.timing.rec_loop_end and not config.timing.rec_ended and config.timing.rec_started then
   extcmd("video") -- save video
   config.timing.rec_ended = true
   config.timing.gif_record = false
  end
-end
-if config.timing.loop_counter == 0 and config.timing.cls_needed then
- config.timing.rec_started = false
- config.timing.rec_ended = false
- cls()
- config.timing.cls_needed = false
- display_params = false
-elseif config.timing.loop_counter >= 1 then
- config.timing.cls_needed = true
-end
 
+ if config.timing.loop_counter == 0 and config.timing.cls_needed then
+  config.timing.rec_started = false
+  config.timing.rec_ended = false
+  cls()
+  config.timing.cls_needed = false
+  display_params = false
+ elseif config.timing.loop_counter >= 1 then
+  config.timing.cls_needed = true
+ end
+end
 prev_gif_record = config.timing.gif_record
 
 goto _
