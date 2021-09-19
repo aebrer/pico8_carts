@@ -11,14 +11,11 @@ seed = rnd(-1)
 --        functions           --
 --------------------------------
 function rnd_sign()
- local coin_toss = rnd(1)
- local factor = 0.0
- if coin_toss >= 0.5 then
-  factor = -1
+ if rnd(1) >= 0.5 then
+  return(-1)
  else
-  factor = 1
+  return(1)
  end
- return(factor)
 end
 
 function rnd_pixel()
@@ -443,6 +440,7 @@ config.brush.angle = 0.0
 config.brush.auto_rotate = 0
 config.brush.drop_shadows = false
 config.brush.wiggle = 0
+config.brush.mouse_ctrl = false
 
 config.brush.params = {
  {"circ_r", "int"},
@@ -453,7 +451,8 @@ config.brush.params = {
  {"auto_rotate", "int_lim", {-1,1}},
  {"line_wt", "int_lim", {0,100}},
  {"drop_shadows", "bool"},
- {"wiggle", "int"}
+ {"wiggle", "int"},
+ {"mouse_ctrl", "bool"}
 }
 
 -- brush functions
@@ -991,15 +990,21 @@ local palette = config.colors.palette
 --       setup brushes        --
 --------------------------------
 
--- -- mouse controls
--- local x = stat(32) - 64
--- local y = stat(33) - 64
+ local x = 0
+ local y = 0
+
+if config.brush.mouse_ctrl then
+ -- mouse controls
+ x = stat(32) - 64
+ y = stat(33) - 64
+else
+ x = -4
+ y = -4
+end
 
 local brush_name = config.brush.methods[config.brush.i]
 local brush_func = config.brush[brush_name]
 
-local x = -4
-local y = -4
 brush_func(x,y)
 x -= 1
 y -= 1 
