@@ -696,6 +696,8 @@ add(config.brush.methods, "star") -- 12
 --         effects            --
 --------------------------------
 
+-- todo: add palette cycling to this section
+
 config.effects = {}
 add(config.params, "effects")
 config.effects.methods = {}
@@ -990,25 +992,27 @@ local palette = config.colors.palette
 --       setup brushes        --
 --------------------------------
 
- local x = 0
- local y = 0
+local x = 0
+local y = 0
 
-if config.brush.mouse_ctrl then
- -- mouse controls
- x = stat(32) - 64
- y = stat(33) - 64
-else
- x = -4
- y = -4
+if not (stat(34) == 2) then
+ if config.brush.mouse_ctrl then
+  -- mouse controls
+  x = stat(32) - 64
+  y = stat(33) - 64
+ else
+  x = -4
+  y = -4
+ end
+
+ local brush_name = config.brush.methods[config.brush.i]
+ local brush_func = config.brush[brush_name]
+
+ brush_func(x,y)
+ x -= 1
+ y -= 1 
+ brush_func(x,y)
 end
-
-local brush_name = config.brush.methods[config.brush.i]
-local brush_func = config.brush[brush_name]
-
-brush_func(x,y)
-x -= 1
-y -= 1 
-brush_func(x,y)
 --------------------------------
 --       onscreen gui         --
 --------------------------------
