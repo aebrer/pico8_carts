@@ -2,25 +2,12 @@ pico-8 cartridge // http://www.pico-8.com
 version 32
 __lua__
 
-_set_fps(60)
-pal({0,1,-4,-8,14,-14,11,-9},1)
-poke(24364,7)
-e=rnd
-::_::
-r=t()/10
-if flr(r*10)%5==0 then
-srand(1)
-end
-for i=0,20 do
-j=r+i
-q=sin(j)
-pset(q*(9+i*e(3))+68,cos(j)*q*(9+i*e(4))+68,9)
-end
-for i=1,300 do 
-x=e(128)\1
-y=e(128)\1
-circ(x,y,1,abs(pget(x,y)-1))
-end
+_set_fps(60)pal({0,1,-4,-8,14,-14,11,-9},1)poke(24364,7)e=rnd::_::r=t()/10
+if(flr(r*10)%5<1)srand(1)
+for i=0,20do
+q=sin(r)pset(q*(9+i*e(3))+68,cos(r)*q*(9+i*e(4))+68,9)end
+for i=1,300do
+x=e(128)y=e(128)circ(x,y,1,abs(pget(x,y)-1))end
 goto _
 
 

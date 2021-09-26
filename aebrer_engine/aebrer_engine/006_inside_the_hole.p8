@@ -918,7 +918,9 @@ function config.sketch.entity()
   while config.sketch.col_checker(new_col_i) do 
    new_col_i = flr(rnd(#config.colors.methods))+1
   end
+  
   config.colors.i = new_col_i
+ 
  else  -- preist
   sspr(15,14,20,20,dx,dy)
  end
@@ -961,6 +963,7 @@ config.effects.glitch_freq = 1
 
 -- timing
 config.timing.seed_loop = false
+config.timing.loop_len = 16
 
 -- misc
 
