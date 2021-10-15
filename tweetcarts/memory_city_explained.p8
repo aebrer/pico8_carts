@@ -32,6 +32,7 @@ pset(x,y,r(16))
 -- choose a position in the display memory
 d=r(8191)
 
+-- the part that makes the "city"
 poke(
  s+d-tonum(btn(4))*0.5, -- write to this position, if the button is pressed shift by -0.5
  @(s+d-64*(mid(1,(r()-.5)/0)*2-1))  -- peek @ this position, last part is to get 1 or -1
