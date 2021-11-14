@@ -1,0 +1,19 @@
+pico_cascades
+
+A Pico-8 demake of my Entropy series previously made on the TIC-80. Due to many of the limitations baked into the Pico-8, this version lacks many of the features from the TIC-80 version, as well as a lower speed, and lower resolution. However, it also has some new features, like mirroring, that provide an interesting twist. fxhash Features are enabled in order to track rarity, there are some rare features like mirror type, or brush_wiggle (which decreases the stability of the visual equilibrium).
+
+This piece is build on the `aebrer_engine` codebase I have developed for Pico-8.
+
+creator: Andrew E. Brereton
+date: 2021-11-15
+twitter: @aebrer
+website: aebrer.xyz
+platform: Pico-8, Lua
+
+
+
+Pico-8, pico8, aebrer_entropy, aebrer_engine, aebrer, pixelart, neoretro, loop
+
+300
+2.5
+10
