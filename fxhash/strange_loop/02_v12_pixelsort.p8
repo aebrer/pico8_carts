@@ -2,6 +2,7 @@ pico-8 cartridge // http://www.pico-8.com
 version 33
 __lua__
 
+srand(42)
 
 poke(14-😐,1)_set_fps(60)r=rnd
 
@@ -20,35 +21,35 @@ end end
 
 
 for i=0,1000 do
-x=8*2+r(8*11.6)
+x=8*2+r(8*12)
 y=8*2+r(8*4)
-pcl=pget(x-r(2),y)
+pcl=pget(x-1,y)
 pc=pget(x,y)
-pset(x,y,pcl)
-pset(x+r(2),y,pc)
+pset(x-1,y,max(pc,pcl))
+pset(x,y,min(pc,pcl))
 
 x=r(8*4)+8*10
-y=8*2+r(8*11.6)
-pcl=pget(x,y-r(2))
+y=8*2+r(8*12)
+pcl=pget(x,y-1)
 pc=pget(x,y)
-pset(x,y,pcl)
-pset(x,y+r(2),pc)
+pset(x,y-1,max(pc,pcl))
+pset(x,y,min(pc,pcl))
 
 
-x=8*2.1+r(8*11.6)
+x=8*2+r(8*12)
 y=8*10+r(8*4)
-pcl=pget(x+r(2),y)
+pcl=pget(x+1,y)
 pc=pget(x,y)
-pset(x,y,pcl)
-pset(x-r(2),y,pc)
+pset(x+1,y,min(pc,pcl))
+pset(x,y,max(pc,pcl))
 
 
 x=8*2+r(8*4)
-y=8*2+r(8*12)
-pcl=pget(x,y+r(2))
+y=8*2.2+r(8*12)
+pcl=pget(x,y+1)
 pc=pget(x,y)
-pset(x,y,pcl)
-pset(x,y-r(2),pc)
+pset(x,y+1,min(pc,pcl))
+pset(x,y,max(pc,pcl))
 
 
 end
