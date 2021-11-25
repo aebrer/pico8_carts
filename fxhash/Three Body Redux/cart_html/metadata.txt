@@ -1,0 +1,15 @@
+A Pico-8 simulation of the Three Body Problem. This is a rework of the initial generative project that got me started as an artist. This is a live simulation, coded and running entirely on the Pico-8, of the Three Body Problem: a famous example of a chaotic system that cannot be predicted. The mass of all three bodies in this simulation are identical.
+
+Uses features to track most variables. Initial position and velocity of all three bodies are randomly determined according to the fxhash. As well, collisions are disabled for the first three seconds of the simulation, in order to increase the variety of the outcomes.
+
+If viewing the piece in its own browser window, press ctrl+9 to save a 16 second gif (of the last 16 seconds of the simulation), press ctrl+6 to save a png.
+
+
+creator: Andrew E. Brereton
+date: 2021-11-21
+twitter: @aebrer
+website: aebrer.xyz
+platform: Pico-8, Lua
+
+
+Pico-8, pico8, 3bodyprob, three_body_problem, physics, simulation, lua, aebrer, pixelart, neoretro, loop

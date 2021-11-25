@@ -848,94 +848,8 @@ function config.sketch.mouse_brush()
  end
 end
 
-function config.sketch.hole() 
- local t = config.timing.time
- local r = config.sketch.hole_r
- local r2=r*r
- for j=-64,63 do
-  local y=-j
-  local x=sqrt(max(r2-y*y))
-  rectfill(-64,j,-x,j,0)
-  rectfill(x,j,63,j,0)
- end
-
- if t > config.sketch.demon_rate then  -- demon
-  ?"\^phelp me",rnd(128)-64,rnd(128)-64,flr(rnd(15))+1
- end
-end
-
-
-function config.sketch.clouds()
- 
- -- original cloud code from @von_rostock
- -- https://twitter.com/von_rostock/status/1114960244327763968?s=20
- -- fillp(▒\1)
- -- local t = config.timing.time
- local t = t()/10
- local hole_r = config.sketch.hole_r
- for y=-hole_r,hole_r do
-  x=rnd(hole_r)*rnd_sign()
-  u=(x-64)*64/(config.sketch.cloud_translate-y*2)+t
-  v=t+y*y/64
-  a=0
-  f=.005
-  g=f
-  c=.5
-  for b=1,3 do
-   f*=2
-   g*=4
-   c*=.7
-   a+=c*sin(f*u+sin(g*v/2)/2)+c*sin(g*v+sin(g*u/2)/3)
-  end
-  if(a<.2)a=12
-  if(a<.4)a=6
-  if(a<5)a=7
-  circfill(x,y,rnd(3),a)
- end
-end
-
-
-function config.sketch.col_checker(col) 
- local banned_cols = {
-  14,15,16,17,18,19,24,25,26,27,
-  28,29,30,31,32,33
- }
- local banned = false
- for i in all(banned_cols) do 
-  if (col == i) banned = true
- end
- return banned
-end
-
-
-function config.sketch.entity()
- local t = config.timing.time
- local dx = -10
- local dy = config.sketch.hole_r - 18
- if t > config.sketch.demon_rate then  -- demon
-  sspr(46,11,20,23,dx,dy-3)
-  local new_col_i = flr(rnd(#config.colors.methods))+1
-  while config.sketch.col_checker(new_col_i) do 
-   new_col_i = flr(rnd(#config.colors.methods))+1
-  end
-  config.colors.i = new_col_i
- else  -- preist
-  sspr(15,14,20,20,dx,dy)
- end
-
- -- glitch buildup effect
- if t > config.sketch.glitch_rate then  -- demon
-  config.effects.enable_all = true
- else  -- preist
-  config.effects.enable_all = false
- end
-
-end
 
 -- add layers in order
-add(config.sketch.methods, "clouds")
-add(config.sketch.methods, "entity")
-add(config.sketch.methods, "hole")
 add(config.sketch.methods, "mouse_brush")
 
 -- overrides:
@@ -943,7 +857,7 @@ add(config.sketch.methods, "mouse_brush")
 config.brush.i = 9
 config.brush.circ_r = 35
 config.brush.wiggle = 1
-config.brush.mouse_ctrl = false
+config.brush.mouse_ctrl = true
 config.brush.color = 12
 
 --  dither:
@@ -954,13 +868,15 @@ config.dither.rectw = 0
 config.dither.circ_r = 1
 
 --  palettes/colors:
-config.colors.i = 34
+config.colors.i = 22
 
 -- effects 
-config.effects.glitch_freq = 1
+config.effects.enable_all = true
+config.effects.glitch_freq = 0
+config.effects.noise_amt = 3
 
 -- timing
-config.timing.seed_loop = false
+config.timing.seed_loop = true
 
 -- misc
 

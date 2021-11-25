@@ -99,118 +99,104 @@
       return Math.floor(random_num(a, b+1))
     }
 
-    let rng=""
-    
-    let xf1_min = Math.max(random_int(-1,3),0)
-    let xf1_max = Math.max(random_int(0,3), xf1_min)
-    rng=rng.concat("",xf1_min)
-    rng=rng.concat(",",xf1_max)
+    let rng=fxhash
+    let bgc = random_int(-16,15)
+    rng=rng.concat(",",bgc)
 
-
-    let xf2_min =Math.max(random_int(-1,3),0)
-    let xf2_max = Math.max(random_int(0,3), xf2_min)
-    rng=rng.concat(",",xf2_min)
-    rng=rng.concat(",",xf2_max)
-
-    let yf1_min = Math.max(random_int(-1,3),0)
-    let yf1_max = Math.max(random_int(0,3), yf1_min)
-    rng=rng.concat(",",yf1_min)
-    rng=rng.concat(",",yf1_max)
-    let yf2_min = Math.max(random_int(-1,3),0)
-    let yf2_max = Math.max(random_int(0,3), yf2_min)
-    rng=rng.concat(",",yf2_min)
-    rng=rng.concat(",",yf2_max)
-
-    let palette = random_int(1,15)
-    rng=rng.concat(",",palette)
-
-    let brush = random_int(1,4)
-    rng=rng.concat(",",brush)
-
-    let brush_h = Math.max(random_int(-1,3),0)
-    rng=rng.concat(",",brush_h)
-    let brush_w = Math.max(random_int(-1,3),0)
-    rng=rng.concat(",",brush_w)
-
-    let brush_wiggle = Math.max(random_int(-3,4),0)
-    rng=rng.concat(",",brush_wiggle)
-
-    let mirror_type = Math.max(random_int(-3,3),0)
-    let mirror_type_correct = {
-      0: 0,
-      1: 5,
-      2: 6,
-      3: 7
-    }
-    mirror_type = mirror_type_correct[mirror_type]
-    rng=rng.concat(",",mirror_type)
-
-    //end string
-    rng=rng.concat("",",")
-    console.log(rng)
-
-    let palettes = {
-      1: "heatmap",
-      2: "heatmap_green",
-      3: "blue_white_green",
-      4: "yellow_orange_red",
-      5: "black_green",
-      6: "black_blue",
-      7: "purple_white_blue",
-      8: "purple_white_green",
-      9: "pnk_prpl_rd_yllw",
-      10: "mono_loops",
-      11: "stock_pico8",
-      12: "secret_pico8",
-      13: "dead_god",
-      14: "dead_god_awake",
-      15: "Guandanarian"
+    function bcc(bgc,fgc,a,b) {
+      return (bgc == a || bgc == b) && (fgc == a || fgc == b)
     }
 
-    console.log(palettes[palette])
+    function color_check(a,b) {
+      return(
+        a == b || 
+        bcc(a,b,-9,10) ||
+        bcc(a,b,-16,-15) ||
+        bcc(a,b,-16,-14) ||
+        bcc(a,b,0,-16) ||
+        bcc(a,b,-14,11) ||
+        bcc(a,b,14,-2) ||
+        bcc(a,b,-14,1) ||
+        bcc(a,b,-6,11)
+      )
 
-    let brushes = {
-      1: "rect",
-      2: "rectfill",
-      3: "oval",
-      4: "ovalfill"
     }
 
-    let brushes_label = brushes[brush]
-    if (brush_h == 0 & brush_w == 0) {
-      brushes_label = "pixel"
+    let fgc = random_int(-16,15)
+    while (color_check(bgc,fgc)) {
+      fgc = random_int(-16,15)
     }
-    if( ( brush_h == 0 && !(brush_w == 0) ) || ( brush_w == 0 && !(brush_h == 0) ) ) {
-      brushes_label = "line"
+    rng=rng.concat(",",fgc)
+
+    let gev = 0
+    if (random_num(0,10) > 3) {
+      gev = 1
+    }
+    rng=rng.concat(",",gev)
+    if (gev==1) {
+      gev = true
+    }
+    if (gev==0) {
+      gev = false
     }
 
-    console.log(brushes_label)
-
-    let mirror_labels = {
-      0: "none",
-      5: "horizontal",
-      6: "vertical",
-      7: "double"
+    let glitch = 0
+    if (random_num(0,10) > 7) {
+      glitch = 13
+    }
+    rng=rng.concat(",",glitch)
+    if (glitch==13) {
+      glitch = true
+    }
+    if (glitch==0) {
+      glitch = false
     }
 
-    console.log(mirror_labels[mirror_type])
+    let noise = 0
+    if (random_num(0,10) > 3) {
+      noise = 1
+    }
+    rng=rng.concat(",",noise)
+    if (noise==1) {
+      noise = true
+    }
+    if (noise==0) {
+      noise = false
+    }
 
+    let dither = random_int(1,4)
+    rng=rng.concat(",",dither)
+    dithers = {
+      1:"Mixed",
+      2:"Circles",
+      3:"Filled Circles",
+      4:"Rectangles"
+    }
+
+    let acc = fgc
+    if (random_num(0,100) < 30) {
+      acc = random_int(-16,15)
+    }
+    let acc_label = false
+    if (acc != fgc) {
+      acc_label = acc
+    }
+    rng=rng.concat(",",acc)
+
+
+    rng=rng.concat(",","")
     window.$fxhashFeatures = {
-      "xf1_min": xf1_min,
-      "xf1_max": xf1_max,
-      "xf2_min": xf2_min,
-      "xf2_max": xf2_max,
-      "yf1_min": yf1_min,
-      "yf1_max": yf1_max,
-      "yf2_min": yf2_min,
-      "yf2_max": yf2_max,
-      "palette": palettes[palette],
-      "brush": brushes_label,
-      "brush_h": brush_h,
-      "brush_w": brush_w,
-      "brush_wiggle": brush_wiggle,
-      "mirror_type": mirror_labels[mirror_type]
+      "Background Color": bgc,
+      "Foreground Color": fgc,
+      "Accent Color": acc_label,
+      "God's Eye View": gev,
+      "Glitch Effect": glitch,
+      "Noise Effect": noise,
+      "Dither Mode": dithers[dither]
     }
+
+    console.log(rng)
+    console.log(window.$fxhashFeatures)
 
 
     // ------ SETUP USED FOR PICO8 CART ------
