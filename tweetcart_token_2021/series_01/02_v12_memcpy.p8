@@ -4,9 +4,9 @@ __lua__
 
 
 poke(14-😐,1)_set_fps(60)r=rnd
-fillp(r({▥,█,▤}))
+
 g=r(5)-3a=r(5)-3b=a/3
-z=r({3,4})w=3c=r(14)+2
+z=r({1,2,3,5})w=r({2,3,4})c=r(14)+2
 while(g+a)%b==g do a=r(5)end
 for i=0,15do pal(i,r(33)-17,1)
 end
@@ -15,26 +15,40 @@ cls()::_::
 if(stat(34)==1or n)g=(g+a)%b n=1
 for x=g,128,z do 
 for y=g,128,w do
-circ(x,y,r(2),x*y%c)
+circfill(x,y,r(1),x*y%c)
 end end
 
 
 for i=0,1000 do
-x=r(128)
-y=r(42)
-pcl=pget(x-1,y)
+x=8*2+r(8*11.6)
+y=8*2+r(8*4)
+pcl=pget(x-r(2),y)
 pc=pget(x,y)
 pset(x,y,pcl)
-pset(x+1,y,pc)
+pset(x+r(2),y,pc)
 
-x=r(128)
-y=r(42)
-pcl=pget(x-1,y)
+x=r(8*4)+8*10
+y=8*2+r(8*11.6)
+pcl=pget(x,y-r(2))
 pc=pget(x,y)
 pset(x,y,pcl)
-pset(x+1,y,pc)
+pset(x,y+r(2),pc)
 
 
+x=8*2.1+r(8*11.6)
+y=8*10+r(8*4)
+pcl=pget(x+r(2),y)
+pc=pget(x,y)
+pset(x,y,pcl)
+pset(x-r(2),y,pc)
+
+
+x=8*2+r(8*4)
+y=8*2+r(8*12)
+pcl=pget(x,y+r(2))
+pc=pget(x,y)
+pset(x,y,pcl)
+pset(x,y-r(2),pc)
 
 
 end
