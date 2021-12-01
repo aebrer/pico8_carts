@@ -2,7 +2,7 @@ pico-8 cartridge // http://www.pico-8.com
 version 33
 __lua__
 
-srand(42)
+-- srand(42)
 
 poke(14-😐,1)_set_fps(60)r=rnd
 
