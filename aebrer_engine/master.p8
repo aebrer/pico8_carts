@@ -68,7 +68,7 @@ config.params = {}
 --          burns             --
 --------------------------------
 function burn(c)
- local new_c = max(c-1,0)
+ local new_c = max(c-1,-2)
  return new_c
 end
 
@@ -431,6 +431,8 @@ config.colors.mutant = {[0]=0,0,-6,0,-6,10,0,0,-6,0,10,-6,0,10,10,-9}
 add(config.colors.methods, "mutant") -- 33
 config.colors.hole = {[0]=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,0}
 add(config.colors.methods, "hole") -- 34
+config.colors.dead_god_3 = {[0]=0,8,-16,-16,-15,-15,-15,-15,-14,-14,-14,-11,-11,2,-8,-8}
+add(config.colors.methods, "dead_god_3") -- 35
 
 --------------------------------
 --         brushes            --
@@ -822,16 +824,18 @@ config.sketch.methods = {}
 config.sketch.i = 1
 config.sketch.param_i = 1
 
-config.sketch.hole_r = 43
-config.sketch.cloud_translate = 150
-config.sketch.demon_rate = 0.9
-config.sketch.glitch_rate = 0.7
+config.sketch.r_step=0.11
+config.sketch.rad=10
+config.sketch.rndx=0
+config.sketch.rndy=9
+config.sketch.num_pts=10
 
 config.sketch.params = {
- {"hole_r", "int"},
- {"cloud_translate", "int"},
- {"demon_rate", "float_fine", {0.01,1.0}},
- {"glitch_rate", "float_fine", {0.01,1.0}}
+ {"r_step", "float_fine", {0.001,0.2}},
+ {"rad", "int_lim", {1,100}},
+ {"rndx", "float_lim", {0.1,50}},
+ {"rndy", "float_lim", {0.1,50}},
+ {"num_pts", "int"}
 }
 
 -- always present mouse brush
@@ -848,35 +852,60 @@ function config.sketch.mouse_brush()
  end
 end
 
+function config.sketch.sketch()
+ local brush_name = config.brush.methods[config.brush.i]
+ local brush_func = config.brush[brush_name]
+ local r_step = config.sketch.r_step
+ local rad = config.sketch.rad
+ local rndx = config.sketch.rndx
+ local rndy = config.sketch.rndy
+ local num_pts = config.sketch.num_pts
+
+ for r=0,1,r_step do
+ -- local r = config.timing.time
+  for i=0,num_pts do
+   local x=sin(r)*(i*rad+(rnd(rndx)))
+   local y=(cos(r)*sin(r))*(rad+(i*rnd(rndy)))
+   brush_func(x,y)
+  end
+ end
+end
 
 -- add layers in order
-add(config.sketch.methods, "mouse_brush")
+--add(config.sketch.methods, "mouse_brush")
+add(config.sketch.methods, "sketch")
 
 -- overrides:
 --  brush:
-config.brush.i = 9
-config.brush.circ_r = 35
-config.brush.wiggle = 1
-config.brush.mouse_ctrl = true
-config.brush.color = 12
+config.brush.i=11
+config.brush.circ_r=0
+config.brush.recth=2
+config.brush.rectw=2
+config.brush.wiggle=0
+config.brush.color=15
+config.brush.line_wt=1
 
 --  dither:
-config.dither.i = 2
-config.dither.loops = 0
-config.dither.recth = 0
-config.dither.rectw = 0
-config.dither.circ_r = 1
+config.dither.i=4
+config.dither.loops=150
+config.dither.pull=1.03
 
 --  palettes/colors:
-config.colors.i = 22
+config.colors.i = 35
 
--- effects 
-config.effects.enable_all = true
-config.effects.glitch_freq = 0
-config.effects.noise_amt = 3
 
 -- timing
 config.timing.seed_loop = true
+config.timing.rec_loop_start = 20
+config.timing.rec_loop_end = 22
+config.timing.gif_record = true
+
+-- effects
+config.effects.enable_all = true 
+config.effects.noise_amt = 0
+config.effects.glitch_freq = 0
+config.effects.mirror_type = 7
+
 
 -- misc
 
