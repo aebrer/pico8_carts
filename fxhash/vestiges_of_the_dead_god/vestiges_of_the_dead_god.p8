@@ -68,7 +68,7 @@ config.params = {}
 --          burns             --
 --------------------------------
 function burn(c)
- local new_c = max(c-1,0)
+ local new_c = max(c-1,-2)
  return new_c
 end
 
@@ -831,6 +831,13 @@ config.sketch.rndy=20
 config.sketch.num_pts=2
 config.sketch.fc=128
 
+config.sketch.x=54
+config.sketch.y=44
+config.sketch.x2=96
+config.sketch.y2=32
+config.sketch.x0=-20
+config.sketch.y0=158
+
 config.sketch.params = {
  {"r_step", "float_fine", {0.001,0.2}},
  {"rad", "int_lim", {1,100}},
@@ -903,12 +910,12 @@ end
 
 function config.sketch.crop()
   -- black bars
- local x=54
- local y=44
- local x2=96
- local y2=32
- local x0=-20
- local y0=158
+ local x=config.sketch.x
+ local y=config.sketch.y
+ local x2=config.sketch.x2
+ local y2=config.sketch.y2
+ local x0=config.sketch.x0
+ local y0=config.sketch.y0
  rectfill(x0-x,x0-y,y2-x,y0-y,0)
  rectfill(x2-x,x0-y,y0-x,y0-y)
  rectfill(x0-x,x0-y,y0-x,y2-y)
@@ -964,12 +971,18 @@ config.effects.mirror_type = 7
 
 
 -- misc
-config.sketch.r_step=0.11
+config.sketch.r_step=rnd(0.1)+0.07
 config.sketch.rad=10
 config.sketch.rndx=0
 config.sketch.rndy=0
 config.sketch.num_pts=2
 config.sketch.fc=128
+config.sketch.x=54
+config.sketch.y=44
+config.sketch.x2=96
+config.sketch.y2=32
+config.sketch.x0=-20
+config.sketch.y0=158
 
 
 --------------------------------

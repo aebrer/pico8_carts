@@ -68,7 +68,7 @@ config.params = {}
 --          burns             --
 --------------------------------
 function burn(c)
- local new_c = max(c-1,0)
+ local new_c = max(c-1,-2)
  return new_c
 end
 

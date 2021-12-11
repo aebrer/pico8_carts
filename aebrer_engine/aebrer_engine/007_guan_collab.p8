@@ -68,7 +68,7 @@ config.params = {}
 --          burns             --
 --------------------------------
 function burn(c)
- local new_c = max(c-1,0)
+ local new_c = max(c-1,-2)
  return new_c
 end
 
@@ -827,17 +827,15 @@ config.sketch.param_i = 1
 config.sketch.r_step=0.11
 config.sketch.rad=10
 config.sketch.rndx=0
-config.sketch.rndy=20
-config.sketch.num_pts=2
-config.sketch.fc=128
+config.sketch.rndy=9
+config.sketch.num_pts=10
 
 config.sketch.params = {
  {"r_step", "float_fine", {0.001,0.2}},
  {"rad", "int_lim", {1,100}},
  {"rndx", "float_lim", {0.1,50}},
  {"rndy", "float_lim", {0.1,50}},
- {"num_pts", "int"},
- {"fc", "int"}
+ {"num_pts", "int"}
 }
 
 -- always present mouse brush
@@ -866,84 +864,32 @@ function config.sketch.sketch()
  for r=0,1,r_step do
  -- local r = config.timing.time
   for i=0,num_pts do
-   local x=(sin(r)*(rad+(rnd(rndx))))
-   local y=((cos(r)*sin(r))*(rad+(i*rnd(rndy))))
-   -- config.brush.color=x*y%15
+   local x=sin(r)*(rad+(rnd(rndx)))
+   local y=(cos(r)*sin(r))*(rad+(i*rnd(rndy)))
+   config.brush.color=x*y%15
    brush_func(x,y)
   end
  end
 end
 
-function config.sketch.shred()
- -- config.sketch.fc-=rnd(0.5)
- -- local fc = config.sketch.fc
- local fc = config.timing.time%128
-
- for i=0,1000 do
-  p=0x6000+rnd(8181)
-  q=0x6000+rnd(8181)
-  poke(p,peek(p)/128-fc)
-  poke(q,p/64-fc)
- end
-
- if fc<=0 then
-  fc=128
- end
-
- for i=1,500 do 
-  local x = rnd(128)
-  local y = rnd(128)
-  c=pget(x,y)
-  if c > 0 then
-   pset(x,y,burn(c))
-  end
- end
-
-end
-
-function config.sketch.crop()
-  -- black bars
- local x=54
- local y=44
- local x2=96
- local y2=32
- local x0=-20
- local y0=158
- rectfill(x0-x,x0-y,y2-x,y0-y,0)
- rectfill(x2-x,x0-y,y0-x,y0-y)
- rectfill(x0-x,x0-y,y0-x,y2-y)
- rectfill(x0-x,x2-y,y0-x,y0-y)
-end
-
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
 add(config.sketch.methods, "sketch")
--- add(config.sketch.methods, "shred")
-add(config.sketch.methods, "crop")
-
 
 -- overrides:
 --  brush:
 config.brush.i=11
 config.brush.circ_r=0
-config.brush.recth=1
-config.brush.rectw=10
+config.brush.recth=2
+config.brush.rectw=2
 config.brush.wiggle=0
 config.brush.color=15
-config.brush.line_wt=0
+config.brush.line_wt=1
 
 --  dither:
-config.dither.i=3
-config.dither.loops=60
-config.dither.pull=1.05
-config.dither.rectw=2
-config.dither.recth=2
-config.dither.circ_r=2
-config.dither.pxl_prob=0.575
-config.dither.fuzz_factor=4
-config.dither.rotate=1
-
-
+config.dither.i=4
+config.dither.loops=100
+config.dither.pull=1.03
 
 --  palettes/colors:
 config.colors.i = 35
@@ -951,25 +897,18 @@ config.colors.i = 35
 
 -- timing
 config.timing.seed_loop = true
-config.timing.loop_len=4
-config.timing.rec_loop_start = 4
-config.timing.rec_loop_end = 6
-config.timing.gif_record = true
+config.timing.rec_loop_start = 20
+config.timing.rec_loop_end = 22
+config.timing.gif_record = false
 
 -- effects
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = 0
-config.effects.mirror_type = 7
+config.effects.mirror_type = 0
 
 
 -- misc
-config.sketch.r_step=0.11
-config.sketch.rad=10
-config.sketch.rndx=0
-config.sketch.rndy=0
-config.sketch.num_pts=2
-config.sketch.fc=128
 
 
 --------------------------------
