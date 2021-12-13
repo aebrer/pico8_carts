@@ -2,7 +2,7 @@ pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
 cls()
-camera(-64,-64)
+--camera(-64,-64)
 _set_fps(60)
 poke(0x5f2d, 1) --enable mouse
 seed = rnd(-1)
@@ -926,7 +926,11 @@ function config.sketch.crop()
  -- set the screen memory as the spritesheet
 -- and stretch screen->screen
 poke(0x5f54, 0x60) 
-sspr(48,80,32,32, 32,32,64,64) 
+for x=0,128,16 do
+for y=0,128,16 do
+sspr(0,0,8,16, x,y,16,16)
+end
+end
 poke(0x5f54, 0x00)
 end
 
