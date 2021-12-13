@@ -928,7 +928,7 @@ function config.sketch.crop()
 poke(0x5f54, 0x60) 
 for x=0,128,16 do
 for y=0,128,16 do
-sspr(0,0,8,16, x,y,16,16)
+sspr(0,0,8,16, x,y,15,10)
 end
 end
 poke(0x5f54, 0x00)
@@ -936,8 +936,8 @@ end
 
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
--- add(config.sketch.methods, "sketch")
-add(config.sketch.methods, "shred")
+add(config.sketch.methods, "sketch")
+--add(config.sketch.methods, "shred")
 add(config.sketch.methods, "crop")
 
 
@@ -953,7 +953,7 @@ config.brush.line_wt=0
 
 --  dither:
 config.dither.i=2
-config.dither.loops=0
+config.dither.loops=300
 config.dither.pull=1.05
 config.dither.rectw=2
 config.dither.recth=2
