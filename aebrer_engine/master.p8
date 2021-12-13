@@ -877,13 +877,13 @@ end
 function config.sketch.shred()
  -- config.sketch.fc-=rnd(0.5)
  -- local fc = config.sketch.fc
- local fc = config.timing.time%128
+ local fc = 128
 
- for i=0,1000 do
-  p=0x6000+rnd(8181)
-  q=0x6000+rnd(8181)
+ for i=0,50 do
+  p=0x6000+flr(rnd(8181))
+  q=0x6000+flr(rnd(8181))
   poke(p,peek(p)/128-fc)
-  poke(q,p/64-fc)
+  poke(q,p)
  end
 
  if fc<=0 then
@@ -917,9 +917,9 @@ end
 
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
-add(config.sketch.methods, "sketch")
--- add(config.sketch.methods, "shred")
-add(config.sketch.methods, "crop")
+-- add(config.sketch.methods, "sketch")
+add(config.sketch.methods, "shred")
+-- add(config.sketch.methods, "crop")
 
 
 -- overrides:
@@ -933,8 +933,8 @@ config.brush.color=15
 config.brush.line_wt=0
 
 --  dither:
-config.dither.i=3
-config.dither.loops=60
+config.dither.i=2
+config.dither.loops=0
 config.dither.pull=1.05
 config.dither.rectw=2
 config.dither.recth=2
@@ -952,15 +952,15 @@ config.colors.i = 35
 -- timing
 config.timing.seed_loop = true
 config.timing.loop_len=4
-config.timing.rec_loop_start = 4
-config.timing.rec_loop_end = 6
+config.timing.rec_loop_start = 12
+config.timing.rec_loop_end = 14
 config.timing.gif_record = true
 
 -- effects
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = 0
-config.effects.mirror_type = 7
+config.effects.mirror_type = 0
 
 
 -- misc
