@@ -877,7 +877,7 @@ function config.sketch.sketch()
   for i=0,num_pts do
    local x=(sin(r)*(rad+(rnd(rndx))))
    local y=((cos(r)*sin(r))*(rad+(i*rnd(rndy))))
-   -- config.brush.color=x*y%15
+   --config.brush.color=x*y%15
    brush_func(x,y)
   end
  end
@@ -910,6 +910,8 @@ function config.sketch.shred()
 
 end
 
+
+
 function config.sketch.crop()
  --  -- black bars
  -- local x=54
@@ -926,6 +928,7 @@ function config.sketch.crop()
  -- set the screen memory as the spritesheet
 -- and stretch screen->screen
 poke(0x5f54, 0x60) 
+ 
 for x=0,128,16 do
 for y=0,128,16 do
 sspr(0,0,8,16, x,y,15,10)
@@ -941,6 +944,19 @@ add(config.sketch.methods, "sketch")
 add(config.sketch.methods, "crop")
 
 
+
+
+-- todo:
+-- - in the crop function, mirror sizes should change
+-- - see if you can make a labyrinth thing happen
+-- - remember to be patient and minimal
+
+
+
+
+
+
+
 -- overrides:
 --  brush:
 config.brush.i=11
@@ -952,21 +968,21 @@ config.brush.color=15
 config.brush.line_wt=0
 
 --  dither:
-config.dither.i=3
-config.dither.loops=50
+config.dither.i=rnd({3,4})
+config.dither.loops=25
 config.dither.pull=1.05
-config.dither.rectw=0
-config.dither.recth=8
-config.dither.circ_r=0
-config.dither.pxl_prob=0.575
-config.dither.fuzz_factor=4
+config.dither.rectw=rnd({0,0,0,0,1,1,1,1,2,2,2,3,3,4,5})
+config.dither.recth=rnd({5,5,5,6,6,6,7,7,7,8,8,8,8,8,8,9,9,10,11})
+config.dither.circ_r=rnd({0,0,1,1,1,2,2})
+config.dither.pxl_prob=0.96
+config.dither.fuzz_factor=0
 config.dither.rotate=0
 config.dither.cx=-64
 config.dither.cy=-64
 
 
 --  palettes/colors:
-config.colors.i = 35
+config.colors.i = flr(rnd(#config.colors.methods))+1
 
 
 -- timing
@@ -980,7 +996,7 @@ config.timing.gif_record = false
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = 0
-config.effects.mirror_type = 0
+config.effects.mirror_type = 7
 
 
 -- misc
