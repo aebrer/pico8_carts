@@ -952,16 +952,17 @@ config.brush.color=15
 config.brush.line_wt=0
 
 --  dither:
-config.dither.i=2
-config.dither.loops=300
+config.dither.i=3
+config.dither.loops=50
 config.dither.pull=1.05
-config.dither.rectw=2
-config.dither.recth=2
-config.dither.circ_r=2
+config.dither.rectw=0
+config.dither.recth=8
+config.dither.circ_r=1
 config.dither.pxl_prob=0.575
 config.dither.fuzz_factor=4
-config.dither.rotate=1
-
+config.dither.rotate=0
+config.dither.cx=-64
+config.dither.cy=-64
 
 
 --  palettes/colors:
