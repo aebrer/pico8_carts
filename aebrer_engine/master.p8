@@ -957,7 +957,7 @@ config.dither.loops=50
 config.dither.pull=1.05
 config.dither.rectw=0
 config.dither.recth=8
-config.dither.circ_r=1
+config.dither.circ_r=0
 config.dither.pxl_prob=0.575
 config.dither.fuzz_factor=4
 config.dither.rotate=0
@@ -971,10 +971,10 @@ config.colors.i = 35
 
 -- timing
 config.timing.seed_loop = true
-config.timing.loop_len=4
+config.timing.loop_len=16
 config.timing.rec_loop_start = 12
 config.timing.rec_loop_end = 14
-config.timing.gif_record = true
+config.timing.gif_record = false
 
 -- effects
 config.effects.enable_all = true 
