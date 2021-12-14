@@ -7,13 +7,13 @@ _set_fps(60)
 poke(0x5f2d, 1) --enable mouse
 seed = rnd(-1)
 
-local sprite_sheet_loc = 0x5f54
-local screen_loc = 0x5f55
-local sprite_sheet_val = 0x00 -- 0x00 (default) or 0x60
-local screen_val = 0x60 -- 0x00 or 0x60 (default)
+-- local sprite_sheet_loc = 0x5f54
+-- local screen_loc = 0x5f55
+-- local sprite_sheet_val = 0x00 -- 0x00 (default) or 0x60
+-- local screen_val = 0x60 -- 0x00 or 0x60 (default)
 
-poke(sprite_sheet_loc, sprite_sheet_val)
-poke(screen_loc, screen_val)
+-- poke(sprite_sheet_loc, sprite_sheet_val)
+-- poke(screen_loc, screen_val)
 
 
 --------------------------------
@@ -77,7 +77,8 @@ config.params = {}
 --          burns             --
 --------------------------------
 function burn(c)
- local new_c = max(c-1,0)
+ local new_c = 0
+ if(c==0)new_c=15 else new_c=c-1
  return new_c
 end
 
@@ -400,15 +401,15 @@ add(config.colors.methods, "mono_dgreen_highlight") -- 13
 config.colors.onebit_bw = {[0]=0,7,0,0,0,7,0,0,7,0,7,7,0,7,7,7}
 add(config.colors.methods, "onebit_bw") -- 14
 config.colors.onebit_red = {[0]=0,8,0,0,0,8,0,0,8,0,8,8,0,8,8,8}
-add(config.colors.methods, "onebit_red") -- 15
+-- add(config.colors.methods, "onebit_red") -- 15
 config.colors.onebit_green = {[0]=0,3,0,0,0,3,0,0,3,0,3,3,0,3,3,3}
-add(config.colors.methods, "onebit_green") -- 16
+-- add(config.colors.methods, "onebit_green") -- 16
 config.colors.onebit_blue = {[0]=0,-4,0,0,0,-4,0,0,-4,0,-4,-4,0,-4,-4,-4}
-add(config.colors.methods, "onebit_blue") -- 17
+-- add(config.colors.methods, "onebit_blue") -- 17
 config.colors.onebit_purple = {[0]=0,2,0,0,0,2,0,0,2,0,2,2,0,2,2,2}
-add(config.colors.methods, "onebit_purple") -- 18
+-- add(config.colors.methods, "onebit_purple") -- 18
 config.colors.onebit_yellow = {[0]=0,10,0,0,0,10,0,0,10,0,10,10,0,10,10,10}
-add(config.colors.methods, "onebit_yellow") -- 19
+-- add(config.colors.methods, "onebit_yellow") -- 19
 config.colors.default = {[0]=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 add(config.colors.methods, "default") -- 20
 config.colors.alt_default = {[0]=0,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1}
@@ -418,17 +419,17 @@ add(config.colors.methods, "dead_god") -- 22
 config.colors.dead_god_2 = {[0]=0,0,-8,8,-3,-8,8,7,2,-8,0,-8,8,-3,-8,-8}
 add(config.colors.methods, "dead_god_2") -- 23
 config.colors.twobit_bw = {[0]=0,6,0,0,0,6,0,0,6,0,6,6,0,6,6,7}
-add(config.colors.methods, "twobit_bw") -- 24
+-- add(config.colors.methods, "twobit_bw") -- 24
 config.colors.twobit_red = {[0]=0,-8,0,0,0,-8,0,0,-8,0,-8,-8,0,-8,-8,8}
-add(config.colors.methods, "twobit_red") -- 25
+-- add(config.colors.methods, "twobit_red") -- 25
 config.colors.twobit_green = {[0]=0,3,0,0,0,3,0,0,3,0,3,3,0,3,3,11}
-add(config.colors.methods, "twobit_green") -- 26
+-- add(config.colors.methods, "twobit_green") -- 26
 config.colors.twobit_blue = {[0]=0,-4,0,0,0,-4,0,0,-4,0,-4,-4,0,-4,-4,12}
-add(config.colors.methods, "twobit_blue") -- 27
+-- add(config.colors.methods, "twobit_blue") -- 27
 config.colors.twobit_purple = {[0]=0,2,0,0,0,2,0,0,2,0,2,2,0,2,2,13}
-add(config.colors.methods, "twobit_purple") -- 28
+-- add(config.colors.methods, "twobit_purple") -- 28
 config.colors.twobit_yellow = {[0]=0,0,10,0,0,10,0,0,10,0,10,10,0,10,10,-9}
-add(config.colors.methods, "twobit_yellow") -- 29
+-- add(config.colors.methods, "twobit_yellow") -- 29
 config.colors.terminal_green = {[0]=-15,11,-15,-15,-15,11,-15,-15,11,-15,11,11,-15,11,11,11}
 -- config.colors.terminal_green = {[0]=-15,-5,-15,-15,-15,-5,-15,-15,-5,-15,-5,-5,-15,-5,-5,-5}
 add(config.colors.methods, "terminal_green") -- 30
@@ -437,11 +438,13 @@ add(config.colors.methods, "terminal_red") -- 31
 config.colors.terminal_blue = {[0]=-15,12,-15,-15,-15,12,-15,-15,12,-15,12,12,-15,12,12,12}
 add(config.colors.methods, "terminal_blue") -- 32
 config.colors.mutant = {[0]=0,0,-6,0,-6,10,0,0,-6,0,10,-6,0,10,10,-9}
-add(config.colors.methods, "mutant") -- 33
+-- add(config.colors.methods, "mutant") -- 33
 config.colors.hole = {[0]=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,0}
-add(config.colors.methods, "hole") -- 34
+-- add(config.colors.methods, "hole") -- 34
 config.colors.dead_god_3 = {[0]=0,8,-16,-16,-15,-15,-15,-15,-14,-14,-14,-11,-11,2,-8,-8}
 add(config.colors.methods, "dead_god_3") -- 35
+config.colors.rainbow = {[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}
+add(config.colors.methods, "rainbow") -- 36
 
 --------------------------------
 --         brushes            --
@@ -840,13 +843,26 @@ config.sketch.rndy=20
 config.sketch.num_pts=2
 config.sketch.fc=128
 
+config.sketch.sspr_iv_x=16
+config.sketch.sspr_iv_y=16
+config.sketch.sspr_x1=8
+config.sketch.sspr_x2=15
+config.sketch.sspr_y1=16
+config.sketch.sspr_y2=10
+
 config.sketch.params = {
  {"r_step", "float_fine", {0.001,0.2}},
  {"rad", "int_lim", {1,100}},
  {"rndx", "float_lim", {0.1,50}},
  {"rndy", "float_lim", {0.1,50}},
  {"num_pts", "int"},
- {"fc", "int"}
+ {"fc", "int"},
+ {"sspr_iv_x", "int"},
+ {"sspr_iv_y", "int"},
+ {"sspr_x1", "int"},
+ {"sspr_x2", "int"},
+ {"sspr_y1", "int"},
+ {"sspr_y2", "int"}
 }
 
 -- always present mouse brush
@@ -888,7 +904,7 @@ function config.sketch.shred()
  -- local fc = config.sketch.fc
  local fc = 128
 
- for i=0,50 do
+ for i=0,10 do
   p=0x6000+flr(rnd(8181))
   q=0x6000+flr(rnd(8181))
   poke(p,peek(p)/128-fc)
@@ -899,39 +915,26 @@ function config.sketch.shred()
   fc=128
  end
 
- for i=1,500 do 
-  local x = rnd(128)
-  local y = rnd(128)
-  c=pget(x,y)
-  if c > 0 then
-   pset(x,y,burn(c))
-  end
- end
-
 end
 
 
 
 function config.sketch.crop()
- --  -- black bars
- -- local x=54
- -- local y=44
- -- local x2=96
- -- local y2=32
- -- local x0=-20
- -- local y0=158
- -- rectfill(x0-x,x0-y,y2-x,y0-y,0)
- -- rectfill(x2-x,x0-y,y0-x,y0-y)
- -- rectfill(x0-x,x0-y,y0-x,y2-y)
- -- rectfill(x0-x,x2-y,y0-x,y0-y)
+local sspr_iv_x = config.sketch.sspr_iv_x
+local sspr_iv_y = config.sketch.sspr_iv_y
+local sspr_x1 = config.sketch.sspr_x1
+local sspr_x2 = config.sketch.sspr_x2
+local sspr_y1 = config.sketch.sspr_y1
+local sspr_y2 = config.sketch.sspr_y2
+
 
  -- set the screen memory as the spritesheet
 -- and stretch screen->screen
 poke(0x5f54, 0x60) 
  
-for x=0,128,16 do
-for y=0,128,16 do
-sspr(0,0,8,16, x,y,15,10)
+for x=0,128,sspr_iv_x do
+for y=0,128,sspr_iv_y do
+sspr(0,0,sspr_x1,sspr_y1, x,y,sspr_x2,sspr_y2)
 end
 end
 poke(0x5f54, 0x00)
@@ -940,14 +943,13 @@ end
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
 add(config.sketch.methods, "sketch")
---add(config.sketch.methods, "shred")
+-- add(config.sketch.methods, "shred")
 add(config.sketch.methods, "crop")
 
 
 
 
 -- todo:
--- - in the crop function, mirror sizes should change
 -- - see if you can make a labyrinth thing happen
 -- - remember to be patient and minimal
 
@@ -959,18 +961,20 @@ add(config.sketch.methods, "crop")
 
 -- overrides:
 --  brush:
-config.brush.i=11
+config.brush.i=rnd({5,11})
 config.brush.circ_r=0
 config.brush.recth=1
-config.brush.rectw=10
+config.brush.rectw=rnd({5,6,7,8,13})
 config.brush.wiggle=0
 config.brush.color=15
 config.brush.line_wt=0
 
 --  dither:
-config.dither.i=rnd({3,4})
+config.dither.i=3
 config.dither.loops=25
-config.dither.pull=1.05
+-- config.dither.loops=0
+
+config.dither.pull=1.0
 config.dither.rectw=rnd({0,0,0,0,1,1,1,1,2,2,2,3,3,4,5})
 config.dither.recth=rnd({5,5,5,6,6,6,7,7,7,8,8,8,8,8,8,9,9,10,11})
 config.dither.circ_r=rnd({0,0,1,1,1,2,2})
@@ -984,9 +988,8 @@ config.dither.cy=-64
 --  palettes/colors:
 config.colors.i = flr(rnd(#config.colors.methods))+1
 
-
 -- timing
-config.timing.seed_loop = true
+config.timing.seed_loop = false
 config.timing.loop_len=16
 config.timing.rec_loop_start = 12
 config.timing.rec_loop_end = 14
@@ -1000,12 +1003,19 @@ config.effects.mirror_type = 7
 
 
 -- misc
-config.sketch.r_step=0.11
-config.sketch.rad=10
+config.sketch.r_step=rnd(0.1)+0.07
+config.sketch.rad=rnd(15)+5
 config.sketch.rndx=0
 config.sketch.rndy=0
-config.sketch.num_pts=2
+config.sketch.num_pts=rnd({1,2,3})
 config.sketch.fc=128
+
+config.sketch.sspr_iv_x=rnd(8)+14
+config.sketch.sspr_iv_y=rnd(8)+14
+config.sketch.sspr_x1=rnd({5,6,6,8,8,8,10,10,12})
+config.sketch.sspr_x2=rnd({14,16,16,18,18,18,12,15})
+config.sketch.sspr_y1=rnd({14,16,16,18,18,18,12,15})
+config.sketch.sspr_y2=rnd({5,6,6,8,8,8,10,10,12})
 
 
 --------------------------------
@@ -1014,113 +1024,113 @@ config.sketch.fc=128
 ::_:: 
 
 
-if display_params then
- --------------------------------
- --       input process        --
- --------------------------------
- -- change what method is being used for active param
- if btnp(1) then
-  local idx = config.params[config.param_i]
-  config[idx].i = safe_inc(config[idx].i, #config[idx].methods)
- end
+-- if display_params then
+--  --------------------------------
+--  --       input process        --
+--  --------------------------------
+--  -- change what method is being used for active param
+--  if btnp(1) then
+--   local idx = config.params[config.param_i]
+--   config[idx].i = safe_inc(config[idx].i, #config[idx].methods)
+--  end
 
- -- cycle through the changable parameters
- if btnp(0) then
-  config.param_i = safe_inc(config.param_i, #config.params)
- end
+--  -- cycle through the changable parameters
+--  if btnp(0) then
+--   config.param_i = safe_inc(config.param_i, #config.params)
+--  end
 
- if btnp(5) then  -- change the selected param
-  local curr_param_param_idx = config[config.params[config.param_i]].param_i
-   if curr_param_param_idx != nil then
-   local param = config[config.params[config.param_i]]
-   local new_param_i = safe_inc(param.param_i, #param.params)
-   config[config.params[config.param_i]].param_i = new_param_i
-  end
- end
+--  if btnp(5) then  -- change the selected param
+--   local curr_param_param_idx = config[config.params[config.param_i]].param_i
+--    if curr_param_param_idx != nil then
+--    local param = config[config.params[config.param_i]]
+--    local new_param_i = safe_inc(param.param_i, #param.params)
+--    config[config.params[config.param_i]].param_i = new_param_i
+--   end
+--  end
 
- if btnp(3) then  -- scroll down
-  local curr_param_param_idx = config[config.params[config.param_i]].param_i
-  if curr_param_param_idx != nil then
-   local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
-   local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
-   local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
-   local new_param_param_value = 0
-   if curr_pp_type == "int" then 
-    new_param_param_value = curr_param_param_value - 1
-   elseif curr_pp_type == "float" then
-    new_param_param_value = curr_param_param_value * 0.97
-   elseif curr_pp_type == "float_fine" then
-    new_param_param_value = curr_param_param_value * 0.998
-   elseif curr_pp_type == "float_lim" then
-    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
-    local low_lim = curr_pp_lim[1]
-    local high_lim = curr_pp_lim[2]
-    new_param_param_value = curr_param_param_value * 0.97
-    new_param_param_value = min(new_param_param_value, high_lim)
-    new_param_param_value = max(new_param_param_value, low_lim)
-   elseif curr_pp_type == "int_lim" then
-    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
-    local low_lim = curr_pp_lim[1]
-    local high_lim = curr_pp_lim[2]
-    new_param_param_value = curr_param_param_value - 1
-    new_param_param_value = min(new_param_param_value, high_lim)
-    new_param_param_value = max(new_param_param_value, low_lim)
-   elseif curr_pp_type == "bool" then
-    new_param_param_value = not curr_param_param_value
-   elseif curr_pp_type == "null" then
-    new_param_param_value = curr_param_param_value
-   end
-   config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
-  end
- end
+--  if btnp(3) then  -- scroll down
+--   local curr_param_param_idx = config[config.params[config.param_i]].param_i
+--   if curr_param_param_idx != nil then
+--    local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
+--    local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
+--    local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
+--    local new_param_param_value = 0
+--    if curr_pp_type == "int" then 
+--     new_param_param_value = curr_param_param_value - 1
+--    elseif curr_pp_type == "float" then
+--     new_param_param_value = curr_param_param_value * 0.97
+--    elseif curr_pp_type == "float_fine" then
+--     new_param_param_value = curr_param_param_value * 0.998
+--    elseif curr_pp_type == "float_lim" then
+--     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+--     local low_lim = curr_pp_lim[1]
+--     local high_lim = curr_pp_lim[2]
+--     new_param_param_value = curr_param_param_value * 0.97
+--     new_param_param_value = min(new_param_param_value, high_lim)
+--     new_param_param_value = max(new_param_param_value, low_lim)
+--    elseif curr_pp_type == "int_lim" then
+--     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+--     local low_lim = curr_pp_lim[1]
+--     local high_lim = curr_pp_lim[2]
+--     new_param_param_value = curr_param_param_value - 1
+--     new_param_param_value = min(new_param_param_value, high_lim)
+--     new_param_param_value = max(new_param_param_value, low_lim)
+--    elseif curr_pp_type == "bool" then
+--     new_param_param_value = not curr_param_param_value
+--    elseif curr_pp_type == "null" then
+--     new_param_param_value = curr_param_param_value
+--    end
+--    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
+--   end
+--  end
 
- if btnp(2) then  -- scroll up
-  local curr_param_param_idx = config[config.params[config.param_i]].param_i
-  if curr_param_param_idx != nil then
-   local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
-   local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
-   local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
-   local new_param_param_value = 0
-   if curr_pp_type == "int" then 
-    new_param_param_value = curr_param_param_value + 1
-   elseif curr_pp_type == "float" then
-    new_param_param_value = curr_param_param_value * 1.03
-   elseif curr_pp_type == "float_fine" then
-    new_param_param_value = curr_param_param_value * 1.002
-   elseif curr_pp_type == "float_lim" then
-    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
-    local low_lim = curr_pp_lim[1]
-    local high_lim = curr_pp_lim[2]
-    if curr_param_param_value == 0 then 
-     new_param_param_value = 0.01 
-    else
-     new_param_param_value = curr_param_param_value * 1.03
-     new_param_param_value = min(new_param_param_value, high_lim)
-     new_param_param_value = max(new_param_param_value, low_lim)
-    end
-   elseif curr_pp_type == "int_lim" then
-    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
-    local low_lim = curr_pp_lim[1]
-    local high_lim = curr_pp_lim[2]
-    new_param_param_value = curr_param_param_value + 1
-    new_param_param_value = min(new_param_param_value, high_lim)
-    new_param_param_value = max(new_param_param_value, low_lim)
-   elseif curr_pp_type == "bool" then
-    new_param_param_value = not curr_param_param_value
-   elseif curr_pp_type == "null" then
-    new_param_param_value = curr_param_param_value
-   end
-   config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
-  end
- end
-end
---------------------------------
---        debug menu          --
---------------------------------
+--  if btnp(2) then  -- scroll up
+--   local curr_param_param_idx = config[config.params[config.param_i]].param_i
+--   if curr_param_param_idx != nil then
+--    local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
+--    local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
+--    local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
+--    local new_param_param_value = 0
+--    if curr_pp_type == "int" then 
+--     new_param_param_value = curr_param_param_value + 1
+--    elseif curr_pp_type == "float" then
+--     new_param_param_value = curr_param_param_value * 1.03
+--    elseif curr_pp_type == "float_fine" then
+--     new_param_param_value = curr_param_param_value * 1.002
+--    elseif curr_pp_type == "float_lim" then
+--     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+--     local low_lim = curr_pp_lim[1]
+--     local high_lim = curr_pp_lim[2]
+--     if curr_param_param_value == 0 then 
+--      new_param_param_value = 0.01 
+--     else
+--      new_param_param_value = curr_param_param_value * 1.03
+--      new_param_param_value = min(new_param_param_value, high_lim)
+--      new_param_param_value = max(new_param_param_value, low_lim)
+--     end
+--    elseif curr_pp_type == "int_lim" then
+--     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+--     local low_lim = curr_pp_lim[1]
+--     local high_lim = curr_pp_lim[2]
+--     new_param_param_value = curr_param_param_value + 1
+--     new_param_param_value = min(new_param_param_value, high_lim)
+--     new_param_param_value = max(new_param_param_value, low_lim)
+--    elseif curr_pp_type == "bool" then
+--     new_param_param_value = not curr_param_param_value
+--    elseif curr_pp_type == "null" then
+--     new_param_param_value = curr_param_param_value
+--    end
+--    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
+--   end
+--  end
+-- end
+-- --------------------------------
+-- --        debug menu          --
+-- --------------------------------
 
-if btnp(4) then 
- display_params = not display_params
-end
+-- if btnp(4) then 
+--  display_params = not display_params
+-- end
 
 --------------------------------
 --          timing            --
