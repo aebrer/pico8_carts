@@ -5,7 +5,56 @@ cls()
 --camera(-64,-64)
 _set_fps(60)
 poke(0x5f2d, 1) --enable mouse
-seed = rnd(-1)
+
+
+rng = stat(6)
+fxhash = ""
+hash_needed = true
+if rng == "" then
+ -- rng = "oodcjh3hsz2uu2xeamgxgdyzuyyhheyvw6wun3c9smuw16wents,5,8,0,9,0,1,0.16408,6.45875,2,17,14,10,12,16,10,7,1,"
+ -- rng = "oojvpavkao5ewgqvqtouytkpukavz6nahyf4dnqnfzxjrbl7cmw,5,6,3,8,0,4,0.10540,6.11290,3,22,16,10,14,18,10,7,1,"
+ -- rng = "oocej2jhr73nrea8afjpwgtpctzsypngcysx2d5mecdmmkpvbqj,5,5,0,9,2,4,0.10989,15.95501,3,19,21,6,16,16,12,7,1,"
+ -- rng = "ooms9wghudk7ukmckgrybzm1dd5jjzjl95remqpjvkpsadmbpuv,11,5,4,6,2,18,0.16672,18.25583,1,17,14,8,15,18,8,7,1,"
+
+ -- demo:
+ -- rng = "ooviehpnfk1hdldcly7zmvbssx8txcgl3w6wazr2hmvlyl3urhd,11,6,1,8,2,9,0.11202,16.72099,1,21,20,6,18,16,6,7,1,"
+ -- rng = "ooit89ahz31hnbmenrzn1fr47bpv46bg8cnvkjtasrjqbv734pv,11,5,2,11,1,12,0.15680,6.93772,3,15,21,5,18,18,8,7,1,"
+ -- rng = "oox8mep5fr6rscmn6xhfoyyrrmpzbz6y7dcdfiigaerhzm2ebbn,5,8,1,9,1,7,0.07475,13.52081,3,19,17,6,18,16,8,7,1,"
+ -- rng = "ooiq7jlvwejecmyrepbaququozflcltmaz8jwgp8yomkcpmzgcw,5,5,3,6,1,23,0.15130,12.24344,2,21,22,6,18,16,10,7,1,"
+ -- rng = "oojnn6wveeaactw9tw5fnnyq8gjfzvwzrztsdrdbpevvicugslg,5,7,2,8,2,5,0.09224,19.27716,3,19,18,8,12,12,8,7,1,"
+ -- rng = "oojhpfhrzq7u192qu5gfacoj4tvebgg7nxkbqdgwoxzavofjeop,11,13,0,9,2,11,0.12301,10.37918,3,21,14,8,15,16,8,7,1,"
+ -- rng = "ooeq54wrnob9ppdtjj4k9s4iguybrvrmjdsf2ykqrxbftfwytzu,11,8,1,6,1,4,0.13951,8.74137,3,21,21,5,15,18,6,7,1,"
+ -- rng = "oooxwveytzqbebxhb1swhacmukqxms3symmdx3ry5cmtphdfdsq,11,5,4,7,1,18,0.11254,6.43888,1,14,15,8,18,18,6,7,1,"
+ -- rng = "oovfsgkfuzljzz86zsnjfboynyxchenamrjntne2zm8qcbg8hz7,5,5,1,7,1,9,0.15990,11.23201,2,19,14,6,12,18,8,7,1,"
+ -- rng = "oorrayky5lzfntdp24fodpfpe2kjke4ebkrrxsgngncrf1ofgtz,5,13,1,7,2,13,0.09235,15.61074,1,15,16,8,14,12,6,7,1,"
+
+ -- unused:
+ rng = "ooqnaku8w6bxqwhlzqisi64ez63dexjtl6dn874segvhmyfsrbs,5,5,1,9,1,1,0.09787,8.03835,3,22,17,6,16,16,10,7,1,"
+
+end
+rng_vals = {}
+c_num = ""
+for i=1,#rng do
+ if sub(rng,i,i) != "," then
+  c_num = c_num..sub(rng,i,i)
+ else 
+  if hash_needed then
+   fxhash = c_num
+   hash_needed = false
+   c_num = ""
+  else
+   add(rng_vals,tonum(c_num))
+   c_num = ""
+  end
+ end
+end
+
+seed = 1
+for i=1,#fxhash do
+ ch = ord(sub(fxhash,i,i))
+ seed += seed*31 + ch
+end 
+srand(seed)
 
 -- local sprite_sheet_loc = 0x5f54
 -- local screen_loc = 0x5f55
@@ -849,6 +898,8 @@ config.sketch.sspr_x1=8
 config.sketch.sspr_x2=15
 config.sketch.sspr_y1=16
 config.sketch.sspr_y2=10
+config.sketch.cross=0
+
 
 config.sketch.params = {
  {"r_step", "float_fine", {0.001,0.2}},
@@ -862,7 +913,8 @@ config.sketch.params = {
  {"sspr_x1", "int"},
  {"sspr_x2", "int"},
  {"sspr_y1", "int"},
- {"sspr_y2", "int"}
+ {"sspr_y2", "int"},
+ {"cross", "int_lim", {0,1}}
 }
 
 -- always present mouse brush
@@ -899,6 +951,7 @@ function config.sketch.sketch()
  end
 end
 
+
 function config.sketch.shred()
  -- config.sketch.fc-=rnd(0.5)
  -- local fc = config.sketch.fc
@@ -920,31 +973,43 @@ end
 
 
 function config.sketch.crop()
-local sspr_iv_x = config.sketch.sspr_iv_x
-local sspr_iv_y = config.sketch.sspr_iv_y
-local sspr_x1 = config.sketch.sspr_x1
-local sspr_x2 = config.sketch.sspr_x2
-local sspr_y1 = config.sketch.sspr_y1
-local sspr_y2 = config.sketch.sspr_y2
+ local sspr_iv_x = config.sketch.sspr_iv_x
+ local sspr_iv_y = config.sketch.sspr_iv_y
+ local sspr_x1 = config.sketch.sspr_x1
+ local sspr_x2 = config.sketch.sspr_x2
+ local sspr_y1 = config.sketch.sspr_y1
+ local sspr_y2 = config.sketch.sspr_y2
 
 
- -- set the screen memory as the spritesheet
--- and stretch screen->screen
-poke(0x5f54, 0x60) 
- 
-for x=0,128,sspr_iv_x do
-for y=0,128,sspr_iv_y do
-sspr(0,0,sspr_x1,sspr_y1, x,y,sspr_x2,sspr_y2)
+  -- set the screen memory as the spritesheet
+ -- and stretch screen->screen
+ poke(0x5f54, 0x60) 
+  
+ for x=0,128,sspr_iv_x do
+ for y=0,128,sspr_iv_y do
+ sspr(0,0,sspr_x1,sspr_y1, x,y,sspr_x2,sspr_y2)
+ end
+ end
+ poke(0x5f54, 0x00)
+
+ poke(0x5f54, 0x60) 
+
+ if config.sketch.cross==1 then
+  for x=0,128,(sspr_iv_x*sspr_iv_y)*rnd(0.5)+0.2 do
+  y=x
+  sspr(0,0,sspr_x1,sspr_y1, x,y,sspr_x2,sspr_y2)
+  end
+  poke(0x5f54, 0x00)
+ end
 end
-end
-poke(0x5f54, 0x00)
-end
+
 
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
 add(config.sketch.methods, "sketch")
 -- add(config.sketch.methods, "shred")
 add(config.sketch.methods, "crop")
+
 
 
 
@@ -961,10 +1026,10 @@ add(config.sketch.methods, "crop")
 
 -- overrides:
 --  brush:
-config.brush.i=rnd({5,11})
+config.brush.i=rng_vals[1]
 config.brush.circ_r=0
 config.brush.recth=1
-config.brush.rectw=rnd({5,6,7,8,13})
+config.brush.rectw=rng_vals[2]
 config.brush.wiggle=0
 config.brush.color=15
 config.brush.line_wt=0
@@ -975,9 +1040,9 @@ config.dither.loops=25
 -- config.dither.loops=0
 
 config.dither.pull=1.0
-config.dither.rectw=rnd({0,0,0,0,1,1,1,1,2,2,2,3,3,4,5})
-config.dither.recth=rnd({5,5,5,6,6,6,7,7,7,8,8,8,8,8,8,9,9,10,11})
-config.dither.circ_r=rnd({0,0,1,1,1,2,2})
+config.dither.rectw=rng_vals[3]
+config.dither.recth=rng_vals[4]
+config.dither.circ_r=rng_vals[5]
 config.dither.pxl_prob=0.96
 config.dither.fuzz_factor=0
 config.dither.rotate=0
@@ -986,7 +1051,7 @@ config.dither.cy=-64
 
 
 --  palettes/colors:
-config.colors.i = flr(rnd(#config.colors.methods))+1
+config.colors.i = rng_vals[6]
 
 -- timing
 config.timing.seed_loop = false
@@ -999,23 +1064,24 @@ config.timing.gif_record = false
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = 0
-config.effects.mirror_type = 7
+config.effects.mirror_type = rng_vals[16]
 
 
 -- misc
-config.sketch.r_step=rnd(0.1)+0.07
-config.sketch.rad=rnd(15)+5
+config.sketch.r_step=rng_vals[7]
+config.sketch.rad=rng_vals[8]
 config.sketch.rndx=0
 config.sketch.rndy=0
-config.sketch.num_pts=rnd({1,2,3})
+config.sketch.num_pts=rng_vals[9]
 config.sketch.fc=128
 
-config.sketch.sspr_iv_x=rnd(8)+14
-config.sketch.sspr_iv_y=rnd(8)+14
-config.sketch.sspr_x1=rnd({5,6,6,8,8,8,10,10,12})
-config.sketch.sspr_x2=rnd({14,16,16,18,18,18,12,15})
-config.sketch.sspr_y1=rnd({14,16,16,18,18,18,12,15})
-config.sketch.sspr_y2=rnd({5,6,6,8,8,8,10,10,12})
+config.sketch.sspr_iv_x=rng_vals[10]
+config.sketch.sspr_iv_y=rng_vals[11]
+config.sketch.sspr_x1=rng_vals[12]
+config.sketch.sspr_x2=rng_vals[13]
+config.sketch.sspr_y1=rng_vals[14]
+config.sketch.sspr_y2=rng_vals[15]
+config.sketch.cross = rng_vals[17]
 
 
 --------------------------------
