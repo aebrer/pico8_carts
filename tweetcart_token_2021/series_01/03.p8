@@ -2,25 +2,17 @@ pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
 poke(0x5f54, 0x60)r=rnd
-s=r(-1)srand(s)cls()::_::
+s=r(-1)srand(s)cls()c=circ
+::_::
 for x=0,128,32 do
 for y=0,128,32 do
---camera(x,y)
-c=r({circ,circfill})
-c(x,y,r(10)+1,r(3))
-for i=0,10 do
- a=r(128)b=r(128)
- c(a,b,r(1))
+c(x,y,r(10)+1,r({8,1,12}))
+xr=r(64)
+yr=r(64)
+sspr(x,y,8,8,y,x,8,8)
 end
-xr=r(128)
-yr=r(128)
-sspr(x,y,xr,yr,xr,yr,xr%40+9,yr%40+9)
-c=r({circ,circfill})
-c(x,y,r(10)+1)
 end
---if(r()>0.4)srand(s)
-end
-if(r()>0.1)srand(s)
+if(r()>0.9)srand(s)
 
 if(t()%5<=0.01)extcmd("reset")
 
