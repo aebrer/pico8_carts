@@ -3,25 +3,24 @@ version 34
 __lua__
 poke(0x5f54, 0x60)r=rnd
 s=r(-1)srand(s)cls()::_::
-
 for x=0,128,32 do
 for y=0,128,32 do
+--camera(x,y)
 c=r({circ,circfill})
-c(x,y,r(10)+1,r(16))
-
+c(x,y,r(10)+1,r(3))
 for i=0,10 do
  a=r(128)b=r(128)
- pset(a,b)
+ c(a,b,r(1))
 end
 xr=r(128)
 yr=r(128)
-sspr(x,y,xr,yr,xr,yr,xr,yr)
+sspr(x,y,xr,yr,xr,yr,xr%40+9,yr%40+9)
 c=r({circ,circfill})
-c(x,y,r(10)+1,r(16))
+c(x,y,r(10)+1)
 end
-if(r()>0.9)srand(s)
+--if(r()>0.4)srand(s)
 end
-if(r()>0.7)srand(s)
+if(r()>0.1)srand(s)
 
 if(t()%5<=0.01)extcmd("reset")
 
