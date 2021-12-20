@@ -1,15 +1,30 @@
 pico-8 cartridge // http://www.pico-8.com
-version 33
+version 34
 __lua__
-poke(14-😐,1)_set_fps(60)r=rnd
-fillp(r({▥,█,▤}))
-g=r(5)-3a=r(5)-3b=a/3z=r({2,3,4})w=r({1,3})c=r(14)+2
-while(g+a)%b==g do a=r(5)end
-for i=0,15do pal(i,r(33)-17,1)end
-cls()::_::
-if(stat(34)==1or n)g=(g+a)%b n=1
-for x=g,128,z do for y=g,128,w do
-circ(x,y,r(2),x*y%c)end end
+poke(0x5f54, 0x60)r=rnd
+s=r(-1)srand(s)cls()::_::
+
+for x=0,128,32 do
+for y=0,128,32 do
+c=r({circ,circfill})
+c(x,y,r(10)+1,r(16))
+
+for i=0,10 do
+ a=r(128)b=r(128)
+ pset(a,b)
+end
+xr=r(128)
+yr=r(128)
+sspr(x,y,xr,yr,xr,yr,xr,yr)
+c=r({circ,circfill})
+c(x,y,r(10)+1,r(16))
+end
+if(r()>0.9)srand(s)
+end
+if(r()>0.7)srand(s)
+
+if(t()%5<=0.01)extcmd("reset")
+
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
