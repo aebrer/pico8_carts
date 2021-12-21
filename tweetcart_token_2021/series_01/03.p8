@@ -6,13 +6,19 @@ s=r(-1)srand(s)cls()c=circ
 ::_::
 for x=0,128,32 do
 for y=0,128,32 do
-c(x,y,r(10)+1,r({8,1,12}))
-xr=r(64)
-yr=r(64)
-sspr(x,y,8,8,y,x,8,8)
+c(x,y,r(10)+1,r({8,1,2,3,12}))
+c(r(128),r(128),r(3))
 end
 end
-if(r()>0.9)srand(s)
+for x=0,128,32 do
+for y=0,128,32 do
+xr = x*cos(a) - y*sin(a)
+yr = y*cos(a) + x*sin(a)
+sspr(xr,yr,8,8,y,x,8,8)
+end
+end
+
+if(r()>0.92)srand(s)
 
 if(t()%5<=0.01)extcmd("reset")
 
