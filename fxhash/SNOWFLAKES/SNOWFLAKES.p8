@@ -1,14 +1,18 @@
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
+wallet=stat(6)s=1
+for i=1,#wallet do
+ch=ord(sub(wallet,i,i))s+=seed*31+ch
+end 
+srand(s)
 poke(24364,7)pal({-15,1,-4,12,6,7,6,12,-4,1,-15},1)poke(0x5f54, 0x60)r=rnd
-s=r(-1)srand(s)cls()c=circ::_::
+cls()c=circ::_::
 for x=32,64,8do
 for y=32,64,8do
 c(x,y,r(3)+1,r(12)) end end
 for x=0,99do
-x=r(70)
-y=r(70)
+x=r(70)y=r(70)
 sspr(x,y,r(3)+4,r(3)+4,y,x,r(8)+4,r(8)+4)end
 if(r()>.6)srand(s)flip()
 goto _
