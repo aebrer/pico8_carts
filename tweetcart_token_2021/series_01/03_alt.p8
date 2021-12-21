@@ -1,16 +1,17 @@
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
-pal({0,0,-15,1,-4,12,6,7,6,12,-4,1,-15,0,0},1)poke(0x5f54, 0x60)r=rnd
+poke(24364,7)pal({0,0,-15,1,-4,12,6,7,6,12,-4,1,-15,0,0},1)poke(0x5f54, 0x60)r=rnd
 s=r(-1)srand(s)cls()c=circ::_::
-for x=0,128,32do
-for y=0,128,32do
-c(r(128),r(128),r(2),r(16)) end end
-for x=0,128,8do
-for y=0,128,8do
-sspr(x,y,r(8)+4,r(8)+4,y,x,r(8)+4,r(8)+4)end end
+for x=32,64,8do
+for y=32,64,8do
+c(x,y,r(3)+1,r(16)) end end
+for x=0,99do
+x=r(64)
+y=r(64)
+sspr(x,y,r(8)+4,r(8)+4,y,x,r(8)+4,r(8)+4)end
 flip()
-if(r()>0.9)srand(s)
+if(r(2)>1)srand(s)
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
