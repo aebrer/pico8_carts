@@ -3,7 +3,7 @@ version 34
 __lua__
 wallet=stat(6)s=1
 for i=1,#wallet do
-ch=ord(sub(wallet,i,i))s+=seed*31+ch
+ch=ord(sub(wallet,i,i))s+=s*31+ch
 end 
 srand(s)
 poke(24364,7)pal({-15,1,-4,12,6,7,6,12,-4,1,-15},1)poke(0x5f54, 0x60)r=rnd

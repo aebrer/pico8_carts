@@ -2,15 +2,13 @@ pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
 poke(0x5f54,0x60)r=rnd
-s=r(-1)srand(s)cls()c=circ::_::
+s=r(-1)srand(s)cls()::_::
 for x=0,128,32do
 for y=0,128,32do
-c(x,y,r(10)+1,r({8,1,2,3,12}))c(r(128),r(128),r(3)) end end
-for x=0,128,8do
-for y=0,128,8do
-sspr(x,y,8,8,y,x,r(4)+7,r(4)+7)end end
-srand(s)
-if(t()%5<=0.01)extcmd("reset") 
+circ(x,y,r(10)+1,r({8,12,1}))w=r(16)h=r(16)sspr(x-8+w,y-8+h,w,h,y-8+w,x-8+h,w,h)circ(x,y,r(10)+1,r({8,12,1}))
+end end
+if(r()>0.8)srand(s)
+if(t()%5<=0.01)extcmd("reset")
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
