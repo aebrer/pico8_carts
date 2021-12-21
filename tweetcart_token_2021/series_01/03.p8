@@ -8,8 +8,8 @@ for y=0,128,32do
 c(x,y,r(10)+1,r({8,1,2,3,12}))c(r(128),r(128),r(3)) end end
 for x=0,128,8do
 for y=0,128,8do
-sspr(x,y,8,8,y,x,8,8)end end
-srand(s)
+sspr(x,y,8,8,y,x,r(3)+8,r(3)+8)end end
+srand(s)flip()
 if(t()%5<=0.01)extcmd("reset") 
 goto _
 __gfx__
