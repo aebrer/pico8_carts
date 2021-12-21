@@ -8,7 +8,7 @@ for y=0,128,32do
 c(r(128),r(128),r(2),r(16)) end end
 for x=0,128,8do
 for y=0,128,8do
-sspr(x,y,r(8),r(8),y,x,r(4)+4,r(4)+4)end end
+sspr(x,y,r(16),r(16),y,x,r(8)+4,r(8)+4)end end
 flip()
 goto _
 __gfx__
