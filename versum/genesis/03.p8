@@ -1,16 +1,48 @@
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
-poke(0x5f54,0x60)r=rnd
-s=r(-1)srand(s)cls()c=circ::_::
-for x=0,128,32do
-for y=0,128,32do
-c(x,y,r(10)+1,r({8,1,2,3,12}))c(r(128),r(128),r(3)) end end
+poke(0x5f54,0x60)
+r=rnd
+s=r(-1)
+srand(s)
+cls()
+c=circ
+p=r({
+ {8,1,2,3,12},
+ {130,141,2,14,136},
+ {140,129,137,4,1},
+ {129,130,132,9,14},
+ {1,2,129,130,142}
+})
+pal(p,1)
+fillp(r({
+∧,░,…,█,█,
+█,▥,▒,♪,▤
+}))
+xi=r({4,8,16,32,32,64})
+yi=r({4,8,16,32,32,64})
+::_::
+for x=0,128,xi do
+ for y=0,128,yi do
+  c(x,y,r(10)+1,r(6))
+  c(r(128),r(128),r(3)) 
+ end
+end
 for x=0,128,8do
-for y=0,128,8do
-sspr(x,y,8,8,y,x,r(4)+7,r(4)+7)end end
-srand(s)flip()
-if(t()%5<=0.01)extcmd("reset") 
+ for y=0,128,8do
+  sspr(x,y,8,8,y,x,
+  r(4)+7,r(4)+7)
+ end
+end
+if r()>0.3 then
+ if(r()>0.9)srand(s)
+else 
+ srand(s)
+end
+flip()
+if(t()%5<=0.01)extcmd("reset")
+if(btnp(4))extcmd("screen") 
+if(btnp(5))extcmd("video") 
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
