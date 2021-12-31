@@ -401,15 +401,15 @@ add(config.colors.methods, "mono_dgreen_highlight") -- 13
 config.colors.onebit_bw = {[0]=0,7,0,0,0,7,0,0,7,0,7,7,0,7,7,7}
 add(config.colors.methods, "onebit_bw") -- 14
 config.colors.onebit_red = {[0]=0,8,0,0,0,8,0,0,8,0,8,8,0,8,8,8}
--- add(config.colors.methods, "onebit_red") -- 15
+add(config.colors.methods, "onebit_red") -- 15
 config.colors.onebit_green = {[0]=0,3,0,0,0,3,0,0,3,0,3,3,0,3,3,3}
--- add(config.colors.methods, "onebit_green") -- 16
+add(config.colors.methods, "onebit_green") -- 16
 config.colors.onebit_blue = {[0]=0,-4,0,0,0,-4,0,0,-4,0,-4,-4,0,-4,-4,-4}
--- add(config.colors.methods, "onebit_blue") -- 17
+add(config.colors.methods, "onebit_blue") -- 17
 config.colors.onebit_purple = {[0]=0,2,0,0,0,2,0,0,2,0,2,2,0,2,2,2}
--- add(config.colors.methods, "onebit_purple") -- 18
+add(config.colors.methods, "onebit_purple") -- 18
 config.colors.onebit_yellow = {[0]=0,10,0,0,0,10,0,0,10,0,10,10,0,10,10,10}
--- add(config.colors.methods, "onebit_yellow") -- 19
+add(config.colors.methods, "onebit_yellow") -- 19
 config.colors.default = {[0]=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}
 add(config.colors.methods, "default") -- 20
 config.colors.alt_default = {[0]=0,-15,-14,-13,-12,-11,-10,-9,-8,-7,-6,-5,-4,-3,-2,-1}
@@ -419,28 +419,28 @@ add(config.colors.methods, "dead_god") -- 22
 config.colors.dead_god_2 = {[0]=0,0,-8,8,-3,-8,8,7,2,-8,0,-8,8,-3,-8,-8}
 add(config.colors.methods, "dead_god_2") -- 23
 config.colors.twobit_bw = {[0]=0,6,0,0,0,6,0,0,6,0,6,6,0,6,6,7}
--- add(config.colors.methods, "twobit_bw") -- 24
+add(config.colors.methods, "twobit_bw") -- 24
 config.colors.twobit_red = {[0]=0,-8,0,0,0,-8,0,0,-8,0,-8,-8,0,-8,-8,8}
--- add(config.colors.methods, "twobit_red") -- 25
+add(config.colors.methods, "twobit_red") -- 25
 config.colors.twobit_green = {[0]=0,3,0,0,0,3,0,0,3,0,3,3,0,3,3,11}
--- add(config.colors.methods, "twobit_green") -- 26
+add(config.colors.methods, "twobit_green") -- 26
 config.colors.twobit_blue = {[0]=0,-4,0,0,0,-4,0,0,-4,0,-4,-4,0,-4,-4,12}
--- add(config.colors.methods, "twobit_blue") -- 27
+add(config.colors.methods, "twobit_blue") -- 27
 config.colors.twobit_purple = {[0]=0,2,0,0,0,2,0,0,2,0,2,2,0,2,2,13}
--- add(config.colors.methods, "twobit_purple") -- 28
+add(config.colors.methods, "twobit_purple") -- 28
 config.colors.twobit_yellow = {[0]=0,0,10,0,0,10,0,0,10,0,10,10,0,10,10,-9}
--- add(config.colors.methods, "twobit_yellow") -- 29
+add(config.colors.methods, "twobit_yellow") -- 29
 config.colors.terminal_green = {[0]=-15,11,-15,-15,-15,11,-15,-15,11,-15,11,11,-15,11,11,11}
--- config.colors.terminal_green = {[0]=-15,-5,-15,-15,-15,-5,-15,-15,-5,-15,-5,-5,-15,-5,-5,-5}
+--config.colors.terminal_green = {[0]=-15,-5,-15,-15,-15,-5,-15,-15,-5,-15,-5,-5,-15,-5,-5,-5}
 add(config.colors.methods, "terminal_green") -- 30
 config.colors.terminal_red = {[0]=-15,8,-15,-15,-15,8,-15,-15,8,-15,8,8,-15,8,8,8}
 add(config.colors.methods, "terminal_red") -- 31
 config.colors.terminal_blue = {[0]=-15,12,-15,-15,-15,12,-15,-15,12,-15,12,12,-15,12,12,12}
 add(config.colors.methods, "terminal_blue") -- 32
 config.colors.mutant = {[0]=0,0,-6,0,-6,10,0,0,-6,0,10,-6,0,10,10,-9}
--- add(config.colors.methods, "mutant") -- 33
+add(config.colors.methods, "mutant") -- 33
 config.colors.hole = {[0]=0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,0}
--- add(config.colors.methods, "hole") -- 34
+add(config.colors.methods, "hole") -- 34
 config.colors.dead_god_3 = {[0]=0,8,-16,-16,-15,-15,-15,-15,-14,-14,-14,-11,-11,2,-8,-8}
 add(config.colors.methods, "dead_god_3") -- 35
 config.colors.rainbow = {[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}
@@ -932,8 +932,8 @@ local sspr_y2 = config.sketch.sspr_y2
 -- and stretch screen->screen
 poke(0x5f54, 0x60) 
  
-for x=0,128,sspr_iv_x do
-for y=0,128,sspr_iv_y do
+for x=-64,64,sspr_iv_x do
+for y=-64,64,sspr_iv_y do
 sspr(0,0,sspr_x1,sspr_y1, x,y,sspr_x2,sspr_y2)
 end
 end
@@ -943,8 +943,8 @@ end
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
 add(config.sketch.methods, "sketch")
---add(config.sketch.methods, "shred")
---add(config.sketch.methods, "crop")
+add(config.sketch.methods, "shred")
+add(config.sketch.methods, "crop")
 
 -- overrides:
 --  brush:
@@ -984,7 +984,7 @@ config.timing.gif_record = false
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = 0
-config.effects.mirror_type = 0
+config.effects.mirror_type = 7
 
 
 -- misc
@@ -1153,6 +1153,7 @@ if config.effects.enable_all then
   local effect_func = config.effects[effect_name]
   effect_func()
  end
+ if(display_params)poke(24364,0)
 end
 
 --------------------------------
