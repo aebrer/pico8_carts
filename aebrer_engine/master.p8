@@ -2,7 +2,7 @@ pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
 cls()
---camera(-64,-64)
+camera(-64,-64)
 _set_fps(60)
 poke(0x5f2d, 1) --enable mouse
 seed = rnd(-1)
@@ -943,21 +943,8 @@ end
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
 add(config.sketch.methods, "sketch")
--- add(config.sketch.methods, "shred")
-add(config.sketch.methods, "crop")
-
-
-
-
--- todo:
--- - see if you can make a labyrinth thing happen
--- - remember to be patient and minimal
--- - make the 1bit colors rare!
-
-
-
-
-
+--add(config.sketch.methods, "shred")
+--add(config.sketch.methods, "crop")
 
 -- overrides:
 --  brush:
@@ -981,8 +968,6 @@ config.dither.circ_r=rnd({0,0,1,1,1,2,2})
 config.dither.pxl_prob=0.96
 config.dither.fuzz_factor=0
 config.dither.rotate=0
-config.dither.cx=-64
-config.dither.cy=-64
 
 
 --  palettes/colors:
@@ -999,7 +984,7 @@ config.timing.gif_record = false
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = 0
-config.effects.mirror_type = 7
+config.effects.mirror_type = 0
 
 
 -- misc
@@ -1024,113 +1009,113 @@ config.sketch.sspr_y2=rnd({5,6,6,8,8,8,10,10,12})
 ::_:: 
 
 
--- if display_params then
---  --------------------------------
---  --       input process        --
---  --------------------------------
---  -- change what method is being used for active param
---  if btnp(1) then
---   local idx = config.params[config.param_i]
---   config[idx].i = safe_inc(config[idx].i, #config[idx].methods)
---  end
+if display_params then
+--------------------------------
+--       input process        --
+--------------------------------
+ -- change what method is being used for active param
+ if btnp(1) then
+  local idx = config.params[config.param_i]
+  config[idx].i = safe_inc(config[idx].i, #config[idx].methods)
+ end
 
---  -- cycle through the changable parameters
---  if btnp(0) then
---   config.param_i = safe_inc(config.param_i, #config.params)
---  end
+ -- cycle through the changable parameters
+ if btnp(0) then
+  config.param_i = safe_inc(config.param_i, #config.params)
+ end
 
---  if btnp(5) then  -- change the selected param
---   local curr_param_param_idx = config[config.params[config.param_i]].param_i
---    if curr_param_param_idx != nil then
---    local param = config[config.params[config.param_i]]
---    local new_param_i = safe_inc(param.param_i, #param.params)
---    config[config.params[config.param_i]].param_i = new_param_i
---   end
---  end
+ if btnp(5) then  -- change the selected param
+  local curr_param_param_idx = config[config.params[config.param_i]].param_i
+   if curr_param_param_idx != nil then
+    local param = config[config.params[config.param_i]]
+    local new_param_i = safe_inc(param.param_i, #param.params)
+    config[config.params[config.param_i]].param_i = new_param_i
+   end
+  end
 
---  if btnp(3) then  -- scroll down
---   local curr_param_param_idx = config[config.params[config.param_i]].param_i
---   if curr_param_param_idx != nil then
---    local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
---    local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
---    local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
---    local new_param_param_value = 0
---    if curr_pp_type == "int" then 
---     new_param_param_value = curr_param_param_value - 1
---    elseif curr_pp_type == "float" then
---     new_param_param_value = curr_param_param_value * 0.97
---    elseif curr_pp_type == "float_fine" then
---     new_param_param_value = curr_param_param_value * 0.998
---    elseif curr_pp_type == "float_lim" then
---     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
---     local low_lim = curr_pp_lim[1]
---     local high_lim = curr_pp_lim[2]
---     new_param_param_value = curr_param_param_value * 0.97
---     new_param_param_value = min(new_param_param_value, high_lim)
---     new_param_param_value = max(new_param_param_value, low_lim)
---    elseif curr_pp_type == "int_lim" then
---     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
---     local low_lim = curr_pp_lim[1]
---     local high_lim = curr_pp_lim[2]
---     new_param_param_value = curr_param_param_value - 1
---     new_param_param_value = min(new_param_param_value, high_lim)
---     new_param_param_value = max(new_param_param_value, low_lim)
---    elseif curr_pp_type == "bool" then
---     new_param_param_value = not curr_param_param_value
---    elseif curr_pp_type == "null" then
---     new_param_param_value = curr_param_param_value
---    end
---    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
---   end
---  end
+ if btnp(3) then  -- scroll down
+  local curr_param_param_idx = config[config.params[config.param_i]].param_i
+  if curr_param_param_idx != nil then
+   local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
+   local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
+   local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
+   local new_param_param_value = 0
+   if curr_pp_type == "int" then 
+    new_param_param_value = curr_param_param_value - 1
+   elseif curr_pp_type == "float" then
+    new_param_param_value = curr_param_param_value * 0.97
+   elseif curr_pp_type == "float_fine" then
+    new_param_param_value = curr_param_param_value * 0.998
+   elseif curr_pp_type == "float_lim" then
+    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+    local low_lim = curr_pp_lim[1]
+    local high_lim = curr_pp_lim[2]
+    new_param_param_value = curr_param_param_value * 0.97
+    new_param_param_value = min(new_param_param_value, high_lim)
+    new_param_param_value = max(new_param_param_value, low_lim)
+   elseif curr_pp_type == "int_lim" then
+    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+    local low_lim = curr_pp_lim[1]
+    local high_lim = curr_pp_lim[2]
+    new_param_param_value = curr_param_param_value - 1
+    new_param_param_value = min(new_param_param_value, high_lim)
+    new_param_param_value = max(new_param_param_value, low_lim)
+   elseif curr_pp_type == "bool" then
+    new_param_param_value = not curr_param_param_value
+   elseif curr_pp_type == "null" then
+    new_param_param_value = curr_param_param_value
+   end
+   config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
+  end
+ end
 
---  if btnp(2) then  -- scroll up
---   local curr_param_param_idx = config[config.params[config.param_i]].param_i
---   if curr_param_param_idx != nil then
---    local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
---    local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
---    local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
---    local new_param_param_value = 0
---    if curr_pp_type == "int" then 
---     new_param_param_value = curr_param_param_value + 1
---    elseif curr_pp_type == "float" then
---     new_param_param_value = curr_param_param_value * 1.03
---    elseif curr_pp_type == "float_fine" then
---     new_param_param_value = curr_param_param_value * 1.002
---    elseif curr_pp_type == "float_lim" then
---     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
---     local low_lim = curr_pp_lim[1]
---     local high_lim = curr_pp_lim[2]
---     if curr_param_param_value == 0 then 
---      new_param_param_value = 0.01 
---     else
---      new_param_param_value = curr_param_param_value * 1.03
---      new_param_param_value = min(new_param_param_value, high_lim)
---      new_param_param_value = max(new_param_param_value, low_lim)
---     end
---    elseif curr_pp_type == "int_lim" then
---     local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
---     local low_lim = curr_pp_lim[1]
---     local high_lim = curr_pp_lim[2]
---     new_param_param_value = curr_param_param_value + 1
---     new_param_param_value = min(new_param_param_value, high_lim)
---     new_param_param_value = max(new_param_param_value, low_lim)
---    elseif curr_pp_type == "bool" then
---     new_param_param_value = not curr_param_param_value
---    elseif curr_pp_type == "null" then
---     new_param_param_value = curr_param_param_value
---    end
---    config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
---   end
---  end
--- end
--- --------------------------------
--- --        debug menu          --
--- --------------------------------
+ if btnp(2) then  -- scroll up
+  local curr_param_param_idx = config[config.params[config.param_i]].param_i
+  if curr_param_param_idx != nil then
+   local curr_param_param_name = config[config.params[config.param_i]].params[curr_param_param_idx][1]
+   local curr_pp_type = config[config.params[config.param_i]].params[curr_param_param_idx][2]
+   local curr_param_param_value = config[config.params[config.param_i]][curr_param_param_name]
+   local new_param_param_value = 0
+   if curr_pp_type == "int" then 
+    new_param_param_value = curr_param_param_value + 1
+   elseif curr_pp_type == "float" then
+    new_param_param_value = curr_param_param_value * 1.03
+   elseif curr_pp_type == "float_fine" then
+    new_param_param_value = curr_param_param_value * 1.002
+   elseif curr_pp_type == "float_lim" then
+    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+    local low_lim = curr_pp_lim[1]
+    local high_lim = curr_pp_lim[2]
+    if curr_param_param_value == 0 then 
+     new_param_param_value = 0.01 
+    else
+     new_param_param_value = curr_param_param_value * 1.03
+     new_param_param_value = min(new_param_param_value, high_lim)
+     new_param_param_value = max(new_param_param_value, low_lim)
+    end
+   elseif curr_pp_type == "int_lim" then
+    local curr_pp_lim = config[config.params[config.param_i]].params[curr_param_param_idx][3]
+    local low_lim = curr_pp_lim[1]
+    local high_lim = curr_pp_lim[2]
+    new_param_param_value = curr_param_param_value + 1
+    new_param_param_value = min(new_param_param_value, high_lim)
+    new_param_param_value = max(new_param_param_value, low_lim)
+   elseif curr_pp_type == "bool" then
+    new_param_param_value = not curr_param_param_value
+   elseif curr_pp_type == "null" then
+    new_param_param_value = curr_param_param_value
+   end
+   config[config.params[config.param_i]][curr_param_param_name] = new_param_param_value
+  end
+ end
+end
+--------------------------------
+--        debug menu          --
+--------------------------------
 
--- if btnp(4) then 
---  display_params = not display_params
--- end
+if btnp(4) then 
+ display_params = not display_params
+end
 
 --------------------------------
 --          timing            --
