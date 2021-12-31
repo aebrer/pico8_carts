@@ -19,26 +19,23 @@ fillp(r({
 ∧,░,…,█,█,
 █,▥,▒,♪,▤
 }))
-xi=r({4,8,16,32,32,64})
-yi=r({4,8,16,32,32,64})
+xi=r({8,16,32,32,64})
+yi=r({8,16,32,32,64})
+--xi=64yi=64
+
 ::_::
 for x=0,128,xi do
  for y=0,128,yi do
   c(x,y,r(10)+1,r(6))
-  c(r(128),r(128),r(3)) 
  end
 end
 for x=0,128,8do
  for y=0,128,8do
-  sspr(x,y,8,8,y,x,
+  sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,y+r(4)-r(4),x+r(4)-r(4),
   r(4)+7,r(4)+7)
  end
-end
-if r()>0.3 then
- if(r()>0.9)srand(s)
-else 
- srand(s)
-end
+end 
+srand(s)
 flip()
 if(t()%5<=0.01)extcmd("reset")
 if(btnp(4))extcmd("screen") 
