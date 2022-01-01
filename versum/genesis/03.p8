@@ -5,13 +5,14 @@ poke(0x5f54,0x60)
 r=rnd
 s=r(-1)
 srand(s)
+poke(24364,r({0,0,0,5,6,7}))
 cls()
 c=circ
 p=r({
  {8,1,2,3,12},
  {130,141,2,14,136},
- {140,129,137,4,1},
- {129,130,132,9,14},
+ {140,129,137,-10,1},
+ {129,130,132,9,15},
  {1,2,129,130,142}
 })
 pal(p,1)
@@ -23,6 +24,12 @@ xi=r({8,16,32,32,64})
 yi=r({8,16,32,32,64})
 --xi=64yi=64
 
+rev_x=r({true,false})
+rev_y=r({true,false})
+
+--rev_x=true
+--rev_y=true
+frame=0
 ::_::
 for x=0,128,xi do
  for y=0,128,yi do
@@ -31,12 +38,19 @@ for x=0,128,xi do
 end
 for x=0,128,8do
  for y=0,128,8do
-  sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,y+r(4)-r(4),x+r(4)-r(4),
-  r(4)+7,r(4)+7)
+  if(rev_x)x=128-x
+  if(rev_y)y=128-y
+  if r()>.5 then
+  	sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,y+r(4)-r(4),x+r(4)-r(4),
+  	r(4)+7,r(4)+7)
+  else	
+  	sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),
+  	r(4)+7,r(4)+7)
+  end
  end
 end 
 srand(s)
-flip()
+flip()frame+=1
 if(t()%5<=0.01)extcmd("reset")
 if(btnp(4))extcmd("screen") 
 if(btnp(5))extcmd("video") 
