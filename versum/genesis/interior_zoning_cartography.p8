@@ -10,6 +10,8 @@ xi=0
 yi=0
 rev_x=0
 rev_y=0
+cx=0
+cy=0
 function _init()
 srand(s)
 poke(24364,r({0,0,0,5,6,7}))
@@ -36,13 +38,14 @@ rev_y=r({true,false})
 end
 _init()
 ::_::
-for x=0,128,xi do
- for y=0,128,yi do
+camera(cx,cy)
+for x=0+cx,128+cx,xi do
+ for y=0+cy,128+cy,yi do
   c(x,y,r(10)+1,r(6))
  end
 end
-for x=0,128,8do
- for y=0,128,8do
+for x=0+cx,128+cx,8do
+ for y=0+cy,128+cy,8do
   if(rev_x)x=128-x
   if(rev_y)y=128-y
   if r()>.5 then
@@ -60,10 +63,10 @@ flip()
 --if(t()%5<=0.01)extcmd("reset")
 if(btnp(4))extcmd("screen") 
 if(btnp(5))extcmd("video")
-if(btnp(3))s-=1 _init() 
-if(btnp(2))s+=1 _init() 
-if(btnp(0))s-=1 _init() 
-if(btnp(1))s+=1 _init()  
+if(btn(3))cy-=1 _init() 
+if(btn(2))cy+=1 _init() 
+if(btn(0))cx-=1 _init() 
+if(btn(1))cx+=1 _init()  
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
