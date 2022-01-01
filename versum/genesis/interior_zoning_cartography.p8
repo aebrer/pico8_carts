@@ -4,10 +4,16 @@ __lua__
 poke(0x5f54,0x60)
 r=rnd
 s=r(-1)
+c=circ
+p=0
+xi=0
+yi=0
+rev_x=0
+rev_y=0
+function _init()
 srand(s)
 poke(24364,r({0,0,0,5,6,7}))
 cls()
-c=circ
 p=r({
  {8,1,2,3,12},
  {130,141,2,14,136},
@@ -20,16 +26,15 @@ fillp(r({
 ∧,░,…,█,█,
 █,▥,▒,♪,▤
 }))
+--fillp(░)
 xi=r({8,16,32,32,64})
 yi=r({8,16,32,32,64})
 --xi=64yi=64
 
 rev_x=r({true,false})
 rev_y=r({true,false})
-
---rev_x=true
---rev_y=true
-frame=0
+end
+_init()
 ::_::
 for x=0,128,xi do
  for y=0,128,yi do
@@ -50,10 +55,15 @@ for x=0,128,8do
  end
 end 
 srand(s)
-flip()frame+=1
-if(t()%5<=0.01)extcmd("reset")
+--print("\^#"..s,0,0,7)
+flip()
+--if(t()%5<=0.01)extcmd("reset")
 if(btnp(4))extcmd("screen") 
-if(btnp(5))extcmd("video") 
+if(btnp(5))extcmd("video")
+if(btnp(3))s-=1 _init() 
+if(btnp(2))s+=1 _init() 
+if(btnp(0))s-=1 _init() 
+if(btnp(1))s+=1 _init()  
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
