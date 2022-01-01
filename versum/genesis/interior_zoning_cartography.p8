@@ -13,6 +13,8 @@ rev_y=0
 cx=0
 cy=0
 function _init()
+--cx=0cy=0
+--camera(-cx,-cy)
 srand(s)
 poke(24364,r({0,0,0,5,6,7}))
 cls()
@@ -28,24 +30,29 @@ fillp(r({
 ∧,░,…,█,█,
 █,▥,▒,♪,▤
 }))
---fillp(░)
-xi=r({8,16,32,32,64})
-yi=r({8,16,32,32,64})
---xi=64yi=64
+--fillp(∧)
+xi=r({12,16,32,32,64})
+yi=r({12,16,32,32,64})
+while (xi<=16 and yi<=16) do
+ if r()>.5 then
+  xi=r({12,16,32,32,64})
+ else 
+  yi=r({12,16,32,32,64})
+ end
+end
 
 rev_x=r({true,false})
 rev_y=r({true,false})
 end
 _init()
 ::_::
-camera(cx,cy)
-for x=0+cx,128+cx,xi do
- for y=0+cy,128+cy,yi do
+for x=-640+cx,640+cx,xi do
+ for y=-640+cy,640+cy,yi do
   c(x,y,r(10)+1,r(6))
  end
 end
-for x=0+cx,128+cx,8do
- for y=0+cy,128+cy,8do
+for x=0,128,8do
+ for y=0,128,8do
   if(rev_x)x=128-x
   if(rev_y)y=128-y
   if r()>.5 then
@@ -58,15 +65,15 @@ for x=0+cx,128+cx,8do
  end
 end 
 srand(s)
---print("\^#"..s,0,0,7)
+--print("\^#"..xi.." "..yi,0,0,7)
 flip()
 --if(t()%5<=0.01)extcmd("reset")
-if(btnp(4))extcmd("screen") 
-if(btnp(5))extcmd("video")
-if(btn(3))cy-=1 _init() 
-if(btn(2))cy+=1 _init() 
-if(btn(0))cx-=1 _init() 
-if(btn(1))cx+=1 _init()  
+if(btnp(4))s+=1cx=0cy=0_init()
+if(btnp(5))s-=1cx=0cy=0_init()
+if(btn(3))cy+=1 _init() 
+if(btn(2))cy-=1 _init()
+if(btn(0))cx-=1 _init()
+if(btn(1))cx+=1 _init()
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
