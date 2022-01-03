@@ -61,11 +61,12 @@ for x=0,128,8do
  for y=0,128,8do
   if(rev_x)x=128-x
   if(rev_y)y=128-y
-  if r()>.5 then
-   h=g()j=g()k=g()l=g()
-  	sspr(x+h,y+j,8,8,y+k,x+l,
-  	r(4)+7,r(4)+7)
---  	r(4)+7,8)
+  if t()*100%4==0 then
+   h=x+g()j=y+g()k=y+g()l=x+g()
+   a=r(4)+7
+   b=r(4)+7
+  	sspr(h,j,8,8,k,l,a,b)
+--  	printh(h.." "..j.." "..k.." "..l.." "..a.." "..b, "debug.txt", true)
 --  	rectfill(h,j,k,l,7)
   else	
   	sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),
@@ -73,8 +74,19 @@ for x=0,128,8do
   end
  end
 end 
+local amt = 3
+ if amt >= 1 then
+  for i=0,amt*amt do
+   poke(
+       0x6000+rnd(0x2000),
+       peek(rnd(0x7fff)))
+   poke(
+       0x6000+rnd(0x2000),
+       rnd(0xff))
+  end
+ end
 srand(s)
-print("\#".." "..s.." "..xi.." "..yi,0,0,7)
+--print("\#".." "..s.." "..xi.." "..yi,0,0,7)
 flip()
 --if(t()%5<=0.01)extcmd("reset")
 if(btnp(4))s+=1cx=0cy=0_init()
