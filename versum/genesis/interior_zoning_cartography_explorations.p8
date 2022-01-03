@@ -17,7 +17,7 @@ function _init()
 --cx=0cy=0
 --camera(-cx,-cy)
 srand(s)
-poke(24364,r({0,0,0,5,6,7}))
+poke(24364,5)
 cls()
 p=r({
  {8,1,2,3,12},
@@ -42,8 +42,7 @@ while (xi<=16 and yi<=16) do
  end
 end
 
-rev_x=r({true,false})
-rev_y=r({true,false})
+
 end
 _init()
 
@@ -52,16 +51,15 @@ function g()
 end
 
 ::_::
-for x=-640+cx,640+cx,xi do
- for y=-640+cy,640+cy,yi do
+for x=20,128,xi do
+ for y=20,128,yi do
   c(x,y,r(10)+1,r(6))
  end
 end
-for x=0,128,8do
- for y=0,128,8do
-  if(rev_x)x=128-x
-  if(rev_y)y=128-y
-  if t()*100%4==0 then
+for i=0,400 do
+ x=r(108)+20y=r(108)+20
+
+  if r()>0.5 then
    h=x+g()j=y+g()k=y+g()l=x+g()
    a=r(4)+7
    b=r(4)+7
@@ -72,19 +70,7 @@ for x=0,128,8do
   	sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),
   	r(4)+7,r(4)+7)
   end
- end
 end 
-local amt = 3
- if amt >= 1 then
-  for i=0,amt*amt do
-   poke(
-       0x6000+rnd(0x2000),
-       peek(rnd(0x7fff)))
-   poke(
-       0x6000+rnd(0x2000),
-       rnd(0xff))
-  end
- end
 srand(s)
 --print("\#".." "..s.." "..xi.." "..yi,0,0,7)
 flip()
