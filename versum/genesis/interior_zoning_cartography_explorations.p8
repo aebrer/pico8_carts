@@ -14,34 +14,37 @@ rev_y=0
 cx=0
 cy=0
 function _init()
---cx=0cy=0
---camera(-cx,-cy)
-srand(s)
-poke(24364,5)
-cls()
-p=r({
- {8,1,2,3,12},
- {130,141,2,14,136},
- {140,129,137,-10,1},
- {129,130,132,9,15},
- {1,2,129,130,142}
-})
-pal(p,1)
-fillp(r({
-∧,░,…,█,█,
-█,▥,▒,♪,▤
-}))
---fillp(∧)
-xi=r({12,16,32,32,64})
-yi=r({12,16,32,32,64})
-while (xi<=16 and yi<=16) do
- if r()>.5 then
-  xi=r({12,16,32,32,64})
- else 
-  yi=r({12,16,32,32,64})
- end
-end
+	--cx=0cy=0
+	--camera(-cx,-cy)
+	srand(s)
+	poke(24364,5)
+	cls()
+	p=r({
+	 {8,1,2,3,12},
+	 {130,141,2,14,136},
+	 {140,129,137,-10,1},
+	 {129,130,132,9,15},
+	 {1,2,129,130,142}
+	})
+	pal(p,1)
+	fillp(r({
+	∧,░,…,█,█,
+	█,▥,▒,♪,▤
+	}))
+	--fillp(∧)
+	xi=r({12,16,32,32})
+	yi=r({12,16,32,32})
+	while (xi<=16 and yi<=16) do
+	 if r()>.5 then
+	  xi=r({12,16,32,32})
+	 else 
+	  yi=r({12,16,32,32})
+	 end
+	end
 
+	--debug
+	print("\#".." "..s,0,0,7)
+	flip()
 
 end
 _init()
@@ -51,14 +54,17 @@ function g()
 end
 
 ::_::
-for x=20,128,xi do
- for y=20,128,yi do
-  c(x,y,r(10)+1,r(6))
- end
+for i=0,18 do
+x=r(88)+20y=r(88)+20
+c(x,y,r(10)+1,r(6))
 end
-for i=0,400 do
- x=r(108)+20y=r(108)+20
-
+--for x=20,108,xi do
+-- for y=20,108,yi do
+--  c(x,y,r(10)+1,r(6))
+-- end
+--end
+for i=0,200 do
+ x=r(88)+20y=r(88)+20
   if r()>0.5 then
    h=x+g()j=y+g()k=y+g()l=x+g()
    a=r(4)+7
@@ -75,12 +81,12 @@ srand(s)
 --print("\#".." "..s.." "..xi.." "..yi,0,0,7)
 flip()
 --if(t()%5<=0.01)extcmd("reset")
-if(btnp(4))s+=1cx=0cy=0_init()
-if(btnp(5))s-=1cx=0cy=0_init()
-if(btn(3))cy+=1 _init() 
-if(btn(2))cy-=1 _init()
-if(btn(0))cx-=1 _init()
-if(btn(1))cx+=1 _init()
+if(btnp(4))extcmd("screen")
+if(btnp(5))extcmd("video")
+if(btnp(3))s-=1 _init() 
+if(btnp(2))s+=1 _init()
+if(btnp(0))s-=1 _init()
+if(btnp(1))s+=1 _init() 
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
