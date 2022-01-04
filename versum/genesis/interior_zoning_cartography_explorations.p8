@@ -4,89 +4,28 @@ __lua__
 poke(0x5f54,0x60)
 r=rnd
 s=r(-1)
-s=0
-c=circ
-p=0
-xi=0
-yi=0
-rev_x=0
-rev_y=0
-cx=0
-cy=0
-function _init()
-	--cx=0cy=0
-	--camera(-cx,-cy)
-	srand(s)
-	poke(24364,5)
-	cls()
-	p=r({
-	 {8,1,2,3,12},
-	 {130,141,2,14,136},
-	 {140,129,137,-10,1},
-	 {129,130,132,9,15},
-	 {1,2,129,130,142}
-	})
-	pal(p,1)
-	fillp(r({
-	∧,░,…,█,█,
-	█,▥,▒,♪,▤
-	}))
-	--fillp(∧)
-	xi=r({12,16,32,32})
-	yi=r({12,16,32,32})
-	while (xi<=16 and yi<=16) do
-	 if r()>.5 then
-	  xi=r({12,16,32,32})
-	 else 
-	  yi=r({12,16,32,32})
-	 end
-	end
-
-	--debug
-	print("\#".." "..s,0,0,7)
-	flip()
-
-end
-_init()
-
-function g()
- return r(4)-r(4)
-end
-
-::_::
-for i=0,18 do
-x=r(88)+20y=r(88)+20
-c(x,y,r(10)+1,r(6))
-end
---for x=20,108,xi do
--- for y=20,108,yi do
---  c(x,y,r(10)+1,r(6))
--- end
---end
-for i=0,200 do
- x=r(88)+20y=r(88)+20
-  if r()>0.5 then
-   h=x+g()j=y+g()k=y+g()l=x+g()
-   a=r(4)+7
-   b=r(4)+7
-  	sspr(h,j,8,8,k,l,a,b)
---  	printh(h.." "..j.." "..k.." "..l.." "..a.." "..b, "debug.txt", true)
---  	rectfill(h,j,k,l,7)
-  else	
-  	sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),
-  	r(4)+7,r(4)+7)
-  end
-end 
 srand(s)
---print("\#".." "..s.." "..xi.." "..yi,0,0,7)
-flip()
---if(t()%5<=0.01)extcmd("reset")
+poke(24364,5)
+function q()return r(32)-16end
+p={q(),q(),q(),q(),q()}pal(p,1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
+function v()srand(s)cls()end
+v()
+function g()return r(4)-r(4)end::_::
+for i=0,18do
+x=r(88)+20y=r(88)+20circ(x,y,r(10)+1,r(6))end
+for i=0,250do
+x=r(88)+20y=r(88)+20
+if r()>0.5 then
+sspr(x+g(),y+g(),8,8,y+g(),x+g(),r(4)+7,r(4)+7)else
+sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),r(4)+7,r(4)+7)end
+end
+srand(s)flip()
 if(btnp(4))extcmd("screen")
 if(btnp(5))extcmd("video")
-if(btnp(3))s-=1 _init() 
-if(btnp(2))s+=1 _init()
-if(btnp(0))s-=1 _init()
-if(btnp(1))s+=1 _init() 
+if(btnp(3))s-=1v()
+if(btnp(2))s+=1v()
+if(btnp(0))s-=1v()
+if(btnp(1))s+=1v()
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
