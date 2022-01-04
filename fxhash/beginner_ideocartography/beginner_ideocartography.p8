@@ -3,16 +3,19 @@ version 34
 __lua__
 poke(0x5f54,0x60)
 r=rnd
-s=r(-1)
+w=stat(6)s=1
+for i=1,#w do
+ch=ord(sub(w,i,i))s+=s*31+ch
+end 
 srand(s)
 poke(24364,5)
 function q()return r(32)-16end
-p={q(),q(),q(),q(),q()}pal(p,1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
+p={q(),q(),q(),q()}pal(p,1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
 function v()srand(s)cls()end
 v()
 function g()return r(4)-r(4)end::_::
 for i=0,18do
-x=r(88)+20y=r(88)+20circ(x,y,r(10)+1,r(6))end
+x=r(88)+20y=r(88)+20circ(x,y,r(10)+1,r(5))end
 for i=0,250do
 x=r(88)+20y=r(88)+20
 if r()>0.5 then
