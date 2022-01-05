@@ -3,16 +3,22 @@ version 34
 __lua__
 poke(0x5f54,0x60)
 r=rnd
-w=stat(6)s=1
+z=false
+w=stat(6)
+s=1
 for i=1,#w do
 ch=ord(sub(w,i,i))s+=s*31+ch
-end 
+end
+if(#w==0)s=r(-1) 
 srand(s)
 poke(24364,5)
 function q()return r(32)-16end
-p={q(),q(),q(),q()}pal(p,1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
-function v()srand(s)cls()end
-v()
+pal({q(),q(),q(),q()},1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
+function v()
+srand(s)cls()if(z)pal({q(),q(),q(),q()},1)
+end
+function e()return r({"u","d","l","r"})end
+k={e(),e(),e(),e(),e(),e(),e(),e(),e(),e()}v()
 function g()return r(4)-r(4)end::_::
 for i=0,18do
 x=r(88)+20y=r(88)+20circ(x,y,r(10)+1,r(5))end
@@ -25,10 +31,18 @@ end
 srand(s)flip()
 if(btnp(4))extcmd("screen")
 if(btnp(5))extcmd("video")
-if(btnp(3))s-=1v()
-if(btnp(2))s+=1v()
-if(btnp(0))s-=1v()
-if(btnp(1))s+=1v()
+if(btnp(3))s-=1v()add(k,"d")
+if(btnp(2))s+=1v()add(k,"u")
+if(btnp(0))s-=1v()add(k,"l")
+if(btnp(1))s+=1v()add(k,"r")
+if(#k>8)deli(k,1)
+kc={"u","u","d","d","l","r","l","r"}
+function ch(a,b)
+for i,j in ipairs(a) do
+if(j ~= b[i])return false
+end return true
+end
+if(ch(k,kc))z=true
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
