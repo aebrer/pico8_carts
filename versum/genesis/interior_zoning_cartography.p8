@@ -16,6 +16,8 @@ cx=0
 cy=0
 f=100
 max_f=100
+mir_lab={}
+mirror=0
 function q()return r(32)-16end
 function _init()
 s=abs(s)
@@ -53,19 +55,27 @@ function _seed_print()
  while #s1<5 do 
   s1 = "0"..s1
  end
+ mirror=r({0,0,0,5,6,7})
+ mir_lab={}
+ mir_lab[0]="0"
+ mir_lab[5]="|"
+ mir_lab[6]="-"
+ mir_lab[7]="x"
  while f>0 do 
   cls()
-  print("\^#\^w\^tcalibrating seed",0,48,7)
+  print("\^#\^w\^tcalibrating seed",0,40,7)
   print("\^#metalayer:\t \t \t \t   "..s1,7)
   print("\^#orientation:\t \t \t \t   "..s2,7)
   print("\^#cognitive buffer:\t \t \t"..f/max_f,7)
-  print("\f1█\f2█\f3█\f4█\f5█")
+  print("\^#planar symmetry:\t \t \t \t   "..mir_lab[mirror])
+  print("\^#color compression:\t  \f1█\f2█\f3█\f4█\f5█")
+
   f-=1
   flip()
   _seed_input()
  end
  cls()
- poke(24364,r({0,0,0,5,6,7}))
+ poke(24364,mirror)
 end
 
 function _seed_input()
