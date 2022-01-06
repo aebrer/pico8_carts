@@ -4,6 +4,8 @@ __lua__
 poke(0x5f54,0x60)
 r=rnd
 s=r(-1)
+s1=0
+s2=0
 c=circ
 p=0
 xi=0
@@ -12,20 +14,18 @@ rev_x=0
 rev_y=0
 cx=0
 cy=0
+f=100
+max_f=100
+function q()return r(32)-16end
 function _init()
---cx=0cy=0
---camera(-cx,-cy)
+s=abs(s)
+f=max_f
 srand(s)
-poke(24364,r({0,0,0,5,6,7}))
+local ss=split(tostr(s),".",false)
+s1,s2=ss[1],ss[2]
+if(not s2)s2="0000"
 cls()
-p=r({
- {8,1,2,3,12},
- {130,141,2,14,136},
- {140,129,137,-10,1},
- {129,130,132,9,15},
- {1,2,129,130,142}
-})
-pal(p,1)
+pal({q(),q(),q(),q(),q(),0,7},1)
 fillp(r({
 ∧,░,…,█,█,
 █,▥,▒,♪,▤
@@ -44,7 +44,40 @@ end
 rev_x=r({true,false})
 rev_y=r({true,false})
 end
+function _seed_print()
+ poke(24364,0)
+ while #s2<4 do 
+  s2 = s2.."0"
+ end
+ s2 = s2.."a"
+ while #s1<5 do 
+  s1 = "0"..s1
+ end
+ while f>0 do 
+  cls()
+  print("\^#\^w\^tcalibrating seed",0,48,7)
+  print("\^#metalayer:\t \t \t \t   "..s1,7)
+  print("\^#orientation:\t \t \t \t   "..s2,7)
+  print("\^#cognitive buffer:\t \t \t"..f/max_f,7)
+  print("\f1█\f2█\f3█\f4█\f5█")
+  f-=1
+  flip()
+  _seed_input()
+ end
+ cls()
+ poke(24364,r({0,0,0,5,6,7}))
+end
+
+function _seed_input()
+ if(btnp(3))s-=.0001 _init() _seed_print()
+ if(btnp(2))s+=.0001 _init() _seed_print()
+ if(btnp(0))s-=1 _init() _seed_print()
+ if(btnp(1))s+=1 _init() _seed_print()
+end
+
 _init()
+_seed_print()
+
 ::_::
 for x=-640+cx,640+cx,xi do
  for y=-640+cy,640+cy,yi do
@@ -68,12 +101,17 @@ srand(s)
 --print("\^#"..xi.." "..yi,0,0,7)
 flip()
 --if(t()%5<=0.01)extcmd("reset")
-if(btnp(4))s+=1cx=0cy=0_init()
-if(btnp(5))s-=1cx=0cy=0_init()
-if(btn(3))cy+=1 _init() 
-if(btn(2))cy-=1 _init()
-if(btn(0))cx-=1 _init()
-if(btn(1))cx+=1 _init()
+if not btn(4) then 
+ if(btnp(5))extcmd("screen")
+ if(btn(3))cy+=1 _init() 
+ if(btn(2))cy-=1 _init()
+ if(btn(0))cx-=1 _init()
+ if(btn(1))cx+=1 _init()
+else 
+ if(btnp(5))extcmd("video")
+ _seed_input()
+end
+-- if(f>0)print("\#"..xi.." "..yi,0,0,7)f-=1
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
