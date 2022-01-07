@@ -51,21 +51,22 @@ function _seed_print()
  while #s2<4 do 
   s2 = s2.."0"
  end
- s2 = s2.."a"
+ s2 = s2..r({"⬇️","░","█","⬇️","●","🅾️","⬇️"})
  while #s1<5 do 
   s1 = "0"..s1
  end
- mirror=r({0,0,0,5,6,7})
+ s1=s1..r({"a","e","b","r","e","r"})
+ mirror=r({0,5,5,5,6,7})
  mir_lab={}
- mir_lab[0]="0"
+ mir_lab[0]=""
  mir_lab[5]="|"
  mir_lab[6]="-"
  mir_lab[7]="x"
  while f>0 do 
   cls()
   print("\^#\^w\^tcalibrating seed",0,40,7)
-  print("\^#metalayer:\t \t \t \t   "..s1,7)
-  print("\^#orientation:\t \t \t \t   "..s2,7)
+  print("\^#metalayer:\t \t \t \t  "..s1,7)
+  print("\^#orientation:\t \t \t \t  "..s2,7)
   print("\^#cognitive buffer:\t \t \t"..f/max_f,7)
   print("\^#planar symmetry:\t \t \t \t   "..mir_lab[mirror])
   print("\^#color compression:\t  \f1█\f2█\f3█\f4█\f5█")
@@ -79,10 +80,10 @@ function _seed_print()
 end
 
 function _seed_input()
- if(btnp(3))s-=.0001 _init() _seed_print()
- if(btnp(2))s+=.0001 _init() _seed_print()
- if(btnp(0))s-=1 _init() _seed_print()
- if(btnp(1))s+=1 _init() _seed_print()
+ if(btnp(3))s-=r({.0001,.0002,.0003,.0005,.0007}) _init() _seed_print()
+ if(btnp(2))s+=r({.0001,.0002,.0003,.0005,.0007}) _init() _seed_print()
+ if(btnp(0))s-=r({1,2,3,5,7}) _init() _seed_print()
+ if(btnp(1))s+=r({1,2,3,5,7}) _init() _seed_print()
 end
 
 _init()
