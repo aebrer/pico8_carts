@@ -18,6 +18,26 @@ f=100
 max_f=100
 mir_lab={}
 mirror=0
+
+menuitem(1, "display controls", function()
+ poke(24364,0)
+  while not (btnp(4) or btnp(5)) do 
+   cls()
+   print("use arrow keys to move map",7)
+   print("z/🅾️ is mod button",7)
+   print("x/❎ to take a screenshot",7)
+   print("")
+   print("z/🅾️ + x/❎ to record gif",7)
+   print("z/🅾️ + arrow keys to change seed",7)
+   print("")
+   print("press z/🅾️  or x/❎ to return to\nthe game")
+   flip()
+  end
+ poke(24364,mirror)
+ cls()
+ _init()
+end)
+
 function q()return r(32)-16end
 function _init()
 s=abs(s)
@@ -47,7 +67,6 @@ rev_x=r({true,false})
 rev_y=r({true,false})
 end
 function _seed_print()
- poke(24364,0)
  while #s2<4 do 
   s2 = s2.."0"
  end
@@ -64,6 +83,7 @@ function _seed_print()
  mir_lab[7]="x"
  while f>0 do 
   cls()
+  poke(24364,0)
   print("\^#\^w\^tcalibrating seed",0,40,7)
   print("\^#metalayer:\t \t \t \t  "..s1,7)
   print("\^#orientation:\t \t \t \t  "..s2,7)
