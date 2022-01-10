@@ -88,9 +88,8 @@ function _seed_print()
   print("\^#metalayer:\t \t \t \t  "..s1,7)
   print("\^#orientation:\t \t \t \t  "..s2,7)
   print("\^#cognitive buffer:\t \t \t"..f/max_f,7)
-  print("\^#planar symmetry:\t \t \t \t   "..mir_lab[mirror])
+  print("\^#planar symmetry:\t \t \t \t   "..mir_lab[mirror],7)
   print("\^#color compression:\t  \f1█\f2█\f3█\f4█\f5█")
-
   f-=1
   flip()
   _seed_input()
