@@ -1,6 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
+--_set_fps(60)
 poke(0x5f54,0x60)
 r=rnd
 s=r(-1)
@@ -14,8 +15,8 @@ rev_x=0
 rev_y=0
 cx=0
 cy=0
-f=100
-max_f=100
+f=128
+max_f=128
 mir_lab={}
 mirror=0
 
