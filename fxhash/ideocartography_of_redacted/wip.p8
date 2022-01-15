@@ -1,40 +1,152 @@
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
+
 poke(0x5f54,0x60)
 r=rnd
+
+controls={
+ {" "},
+ {"use","arrow", "keys", "to", "move"},
+ {"through", "generative", "space"},
+ {" "},
+ {"🅾️", "record", "gif"},
+ {"❎", "take", "screenshot"},
+ {" "},
+ {"press", "🅾️", "or", "❎", "to"},
+ {"return", "to", "the", "game"}
+}
+
+corruptions={"help", "free", "eternal", "promise", "🐱", "★", "░", "⌂웃☉"}
+
+code="⬆️⬆️⬇️⬇️⬅️➡️⬅️➡️"
+
+function corrupt_controls()
+ local ci=r(#controls)\1+1
+ local ll=controls[ci]
+ local li=r(#ll)\1+1
+ controls[ci][li]=r(corruptions)
+ glitch()
+end
+
+function glitch()
+  local on=(t()*4.0)%1<0.1
+  local gso=on and 0 or rnd(0x1fff)\1
+  local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+  for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+   poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+  end
+end
+
+function rj1()
+ return r(6)
+end
+
+function rj2()
+ return r(6)+122
+end
+
+function rejigger()
+ ga,gb,ga2,gb2=rj1()
+ gc,gd,gc2,gd2=rj2()
+ gr=r(2)\1+1*r({1,1,2,4,8})
+end
+
+menuitem(1, "display controls", function()
+ poke(24364,0)
+ local prc=r()>coderate
+  while not (btnp(4) or btnp(5)) do 
+   cls()
+   for l,ws in pairs(controls) do
+   local cl = ""
+    for w in all(ws) do
+     if(z) then 
+      cl = cl.." "..r(corruptions)
+     else
+      cl = cl.." "..w
+     end
+    end
+   print(cl,7)
+   if(prc)print(code)
+   end
+   flip()
+  end
+ poke(24364,r({5,5,5,0,7}))
+ cls()
+ glitch()
+end)
+
+menuitem(2, "help me", function()
+ cls()
+ grow=not grow
+ pal({q(),q(),q(),q()},1)
+ corrupt_controls()
+ glitch()
+end)
+
+
+menuitem(3, "<█-⌂▥웃▥>", function()
+ cls()
+ glitch()
+ corrupt_controls()
+ rejigger()
+ if(r()>.1)coderate-=0.1
+ if(r()>.99)extcmd("reset")
+end)
+
+function scare()
+ print("")
+ print("\^pfind me",r(128),r(128),r(5))
+ print("")
+ palt(0,r({true,false,false}))
+ for i=0,gr do 
+ glitch()
+ end
+end
+
+grow=true
+first_loop=true
 z=false
 w=stat(6)
 s=1
+gr=1
+coderate=0.9
 for i=1,#w do
 ch=ord(sub(w,i,i))s+=s*31+ch
 end
 if(#w==0)s=r(-1) 
 srand(s)
-poke(24364,5)
+rejigger()
+poke(24364,r(0,0,0,7))
 function q()return r(32)-16end
 pal({q(),q(),q(),q()},1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
 function v()
-srand(s)cls()if(z)pal({q(),q(),q(),q()},1)
+srand(s)cls()if(z)scare()
 end
 function e()return r({"u","d","l","r"})end
 k={e(),e(),e(),e(),e(),e(),e(),e(),e(),e()}v()
-function g()return r(4)-r(4)end::_::
+function g()return r(4)-r(4)end
+
+
+::_::
+if(first_loop)glitch()first_loop=r()>.85
 for i=0,18do
-x=r(88)+20y=r(88)+20circ(x,y,r(10)+1,r(5))end
+x=r(88)+20y=r(88)+20rect(x+r(10)+1,y+r(10)+1,x-r(10)-1,y-r(10)-1,r(5))end
 for i=0,250do
 x=r(88)+20y=r(88)+20
 if r()>0.5 then
 sspr(x+g(),y+g(),8,8,y+g(),x+g(),r(4)+7,r(4)+7)else
 sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),r(4)+7,r(4)+7)end
 end
-srand(s)flip()
-if(btnp(4))extcmd("screen")
-if(btnp(5))extcmd("video")
-if(btnp(3))s-=1v()add(k,"d")
-if(btnp(2))s+=1v()add(k,"u")
-if(btnp(0))s-=1v()add(k,"l")
-if(btnp(1))s+=1v()add(k,"r")
+srand(s)
+if(grow and r()>.05)sspr(ga,gb,gc,gd,ga2,gb2,gc2,gd2)
+flip()
+if(btnp(❎))extcmd("screen")
+if(btnp(🅾️))extcmd("video")
+if(btnp(3))s-=.0001v()add(k,"d")rejigger()glitch()
+if(btnp(2))s+=.0001v()add(k,"u")rejigger()glitch()
+if(btnp(0))s-=1v()add(k,"l")glitch()
+if(btnp(1))s+=1v()add(k,"r")glitch()
 if(#k>8)deli(k,1)
 kc={"u","u","d","d","l","r","l","r"}
 function ch(a,b)
@@ -44,6 +156,7 @@ end return true
 end
 if(ch(k,kc))z=true
 goto _
+
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
