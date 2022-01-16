@@ -112,7 +112,7 @@ menuitem(3, st, function()
  shrink=r({true,false})
 end)
 
-poke(24364,r(0,0,0,7))
+poke(24364,r({0,0,0,7,5}))
 function q()return r(32)-16end
 pal({q(),q(),q(),q(),11,12,-4,0,-8,8,9,10,11,12,-4},1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
 function v()
