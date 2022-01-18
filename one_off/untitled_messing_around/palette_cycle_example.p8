@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 34
 __lua__
-
+--_set_fps(60)
 poke(0x5f54,0x60)
 r=rnd
 
@@ -172,7 +172,7 @@ sspr(x+g(),y+g(),8,8,y+g(),x+g(),r(4)+7,r(4)+7)else
 sspr(x+g(),y+g(),8,8,x+g(),y+g(),r(4)+7,r(4)+7)end
 end
 srand(s)
-if(t()*600\1%6==0)pal_cyc(4)
+--if(t()*600\1%6==0)pal_cyc(4)
 if(grow)sspr(1,1,126,126,0,0,128,128)
 if(shrink)sspr(0,0,128,128,1,1,126,126)
 flip()
