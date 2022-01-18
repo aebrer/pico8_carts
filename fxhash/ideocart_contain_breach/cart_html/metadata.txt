@@ -1,0 +1,20 @@
+Ideocartogrphy: CONTAINMENT_BREACH
+
+
+<REDACTED>
+
+---------------------------
+creator: Andrew E. Brereton
+date: 2022-01-16
+twitter: @aebrer
+website: aebrer.xyz
+medium: Pico-8, Lua
+
+keyboard controls:
+- arrow keys
+- z,x
+- enter
+
+
+
+pico8, pico-8, ideocartography, vestiges_of_the_dead_god, lua, genart, generative, pixelart, 4-bit, neoretro, interactive, game
