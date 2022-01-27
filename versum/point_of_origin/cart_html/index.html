@@ -1,0 +1,82 @@
+﻿<html manifest="game.manifest">                                           <!-- <= LINK TO MANIFEST (to cache files for offline-access= -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!--
+    Based on https://github.com/headjump/pico8_html_template
+    You are free to remove this comment or leave it here so others may find and use the repo as well :)
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Game Title">           <!-- <= WEBAPP TITLE -->
+  <link rel="apple-touch-icon" href="icon.png">                           <!-- <= YOUR ICON -->
+  <link rel="icon" href="icon.png">                                       <!-- <= YOUR ICON -->
+  <!--
+    Icon info:
+    ----------
+    There are many different resolutions for different devices supported or recommended,
+    but I wanted this template to be easy to use "manually" and for me it works fine
+    to have a single PNG icon at 200x200. (200x200 is the minimum for facebok-sharing to use the og:image as thumbnail)
+  -->
+  <title>aebrer.xyz</title>                                               <!-- <= WEBSITE TITLE -->
+  <meta name="description" content="twitter.com/aebrer">                    <!-- <= SITE DESCRIPTION as seen by web-search-engines -->
+
+  <!-- Info as seen by sharing apps like WhatsApp or Facebook, so they can show a preview-image and description when you share the URL -->
+  <meta property="og:type"        content="game" />
+  <meta property="og:title"       content="" />                                               <!-- <= GAME TITLE -->
+  <meta property="og:image" content="thumb.gif" />  
+  <meta property="og:description" content="twitter.com/aebrer" />                                         <!-- <= GAME DESCRIPTION -->
+
+  <style TYPE="text/css">
+    /* ------- DEFINE BUTTON COLORS ------- */
+    :root {
+      --btn: #1288D1;
+      --btn--pressed: #29ADFF;
+
+      --btnIcon: #ffffff;
+      --btnIcon--pressed: #d6d6d6;
+
+      --btn__analogBg: #232f37;
+    }
+    body { font-family: Verdana, Arial, sans-serif; padding: 0; margin: 0; outline: none; background: auto; overflow: hidden; }
+
+    /* ------ POSITION GAME-CANVAS ------ */
+    canvas#canvas {
+      width: min(100vh,100vw); height: min(100vh,100vw)
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: optimize-contrast;
+      image-rendering: pixelated;
+      -ms-interpolation-mode: nearest-neighbor;
+      border: 0;
+    }
+    .canvas-wrapper { text-align: center; }
+    .canvas-wrapper canvas { margin: 0 auto; }    /* center game */
+
+  </style>
+
+</head>
+
+<body ontouchstart="Module.pico8Reset();" onmousedown="Module.pico8Reset();">
+
+<div class="canvas-wrapper">
+  <canvas class="emscripten" id="canvas"></canvas>
+</div>
+
+<div>
+  <script type="text/javascript">
+    // ------ SETUP USED FOR PICO8 CART ------
+    var
+      canvas = document.getElementById("canvas"),
+      Module = {canvas: canvas, arguments: ["-gif_len", "16"]};
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+  </script>
+
+  <script async type="text/javascript" src="cart.js"></script>       <!-- <= INCLUDES YOUR cart.js FILE -->
+</div>
+
+</body></html>

@@ -74,7 +74,7 @@ end
 -- setting params
 seed = flr(rnd(-1))
 -- good seeds: 9,11,12,15,25,31,41,43,48!,56
-seed = 67
+-- seed = 67
 srand(seed)
 
 colors = {
@@ -83,7 +83,7 @@ colors = {
 cls(colors[1])
 pal(colors,1)
 
-loop_l = 8
+loop_l = 4
 loop_counter = 0
 oa_zero = false
 patience = 0
