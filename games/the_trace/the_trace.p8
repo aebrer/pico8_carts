@@ -7,6 +7,7 @@ curr_page=nil -- current page
 prev_page=nil -- previous page
 bkmk=nil -- bookmark a page
 debug={}  -- list of things to print for debug
+pal(15,7,1)
 
 function _init()
  
@@ -17,22 +18,23 @@ function _init()
  "you find yourself looking at the\n"..
  "strange digital cosmology of \n"..
  "the trace, once again.\n\n"..
- "now there is even more text."
+ "now there is even more text.",
+ v9_static
  )
 	lp.choices[⬆️]=new_choice(
 	"begin",
 	lib["landing/debug"]
 	)
 	
-	lp.choices[⬇️]=new_choice(
-	"debug",
-	lib["landing/debug"]
-	)
-
-	lp.choices[⬅️]=new_choice(
-	"yeah testing",
-	lib["landing/debug"]
-	)
+--	lp.choices[⬇️]=new_choice(
+--	"debug",
+--	lib["landing/debug"]
+--	)
+--
+--	lp.choices[⬅️]=new_choice(
+--	"yeah testing",
+--	lib["landing/debug"]
+--	)
 	
 	lp.choices[➡️]=new_choice(
 	"wrting stuff",
@@ -47,7 +49,9 @@ end
 -->8
 -- update
 function _update60()
- srand(curr_page.seed)
+-- srand(curr_page.seed)
+ srand(rnd(-1))
+ if(not curr_page.i)curr_page.logo:init()curr_page.i=true
  
  -- do callbacks for curr_page
  if(curr_page.cb)curr_page:cb()
@@ -70,18 +74,22 @@ end
 -->8
 -- classes
 
-function new_page(title,text,cb)
+function new_page(title,text,logo,cb)
 	local page = {}
 	page.title = title
 	page.seed = get_seed(page.title)
 	page.text = text
+	page.logo = logo
 	page.cb = cb
 	page.choices = {}
 	
+	-- method assignments
 	page.dis_title = dis_title
 	page.dis_text = dis_text
 	page.dis_logo = dis_logo
 	page.dis_choices = dis_choices
+	
+	-- finish
 	lib[title]=page
 	return page
 end
@@ -126,24 +134,22 @@ function _draw()
  
  -- debug
  for i=1,#debug do
-  print("\^#"..tostr(debug[i]),0,0+8*i,7)
+  print("\^#"..tostr(debug[i]),0,0+8*i,15)
  end
 end
 
 function dis_title(page)
-	print(page.title,0,0,7)
+	print(page.title,0,0,15)
 end
 
 function dis_logo(page)
  clip(0,8,128,32)
- for i=0,200 do
-  pset(rnd(128),rnd(32)+8,rnd(16))
- end
+ page.logo:draw()
  clip()
 end
 
 function dis_text(page)
- print(page.text,0,48,7)
+ print(page.text,0,48,15)
 end
 
 function dis_choices(page)
@@ -153,26 +159,45 @@ function dis_choices(page)
  local c➡️=page.choices[➡️]
 	
 	if c⬆️ then
-	 print(butt_key[⬆️],60,106,7)
-	 print(c⬆️.title,hcenter(c⬆️.title,64),98,7)
+	 print(butt_key[⬆️],60,106,15)
+	 print(c⬆️.title,hcenter(c⬆️.title,64),98,15)
 	end
 	if c⬇️ then
-	 print(butt_key[⬇️],60,114,7)
-	 print(c⬇️.title,hcenter(c⬇️.title,64),122,7)
+	 print(butt_key[⬇️],60,114,15)
+	 print(c⬇️.title,hcenter(c⬇️.title,64),122,15)
 	end
 	if c⬅️ then
-	 print(butt_key[⬅️],56,110,7)
-	 print(c⬅️.title,hcenter(c⬅️.title,26),110,7)
+	 print(butt_key[⬅️],56,110,15)
+	 print(c⬅️.title,hcenter(c⬅️.title,26),110,15)
 	end
 	if c➡️ then
-	 print(butt_key[➡️],64,110,7)
-	 print(c➡️.title,hcenter(c➡️.title,102),110,7)
+	 print(butt_key[➡️],64,110,15)
+	 print(c➡️.title,hcenter(c➡️.title,102),110,15)
 	end
 end
 -->8
 -- pages
 
 
+-->8
+-- logos
+v9_static = {}
+function v9_static.init(self)
+ fillp(rnd({▥,█,▤}))
+ self.p={1,3}
+ self.g=rnd(5)-3
+ self.a=-1
+ self.b=self.a*2
+ self.z=2
+ self.w=self.z+rnd(self.p)
+ self.c=rnd(14)\1+2
+ for i=1,14do pal(i,flr(rnd(33)-17),1)end
+end
+
+function v9_static.draw(self)
+	for x=self.g,128,self.z do for y=self.g,128,self.w do
+ circ(x,y,rnd(2),x*y%self.c)end end
+end
 __gfx__
 00000000007777700077777000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000007777700070007000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
