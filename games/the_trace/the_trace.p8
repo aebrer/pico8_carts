@@ -59,7 +59,7 @@ function _update60()
  
  -- set bookmark
  if(btnp(❎))bkmk=curr_page
- if(bkmk and btnp(🅾️))curr_page=bkmk
+ if(bkmk and btnp(🅾️))curr_page=bkmk;curr_page.i=false
    
 end
 -->8
