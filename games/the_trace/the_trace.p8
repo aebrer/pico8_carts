@@ -47,12 +47,12 @@ function _update60()
  for b in all({⬆️,⬇️,⬅️,➡️}) do
 	 if btnp(b) then
 	  if curr_page.choices[b] then
-	  	prev_page=curr_page
-	  	curr_page=curr_page.choices[b].page
-	  	curr_page.i=false
-				-- do callback for choice
-				-- after going to new page
-	  	if(prev_page.choices[b].cb)prev_page.choices[b]:cb()
+				if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
+		  if curr_page.choices[b].page then
+		  	prev_page=curr_page
+		  	curr_page=curr_page.choices[b].page
+		  	curr_page.i=false
+		  end
 	  end
 	 end
  end
@@ -89,7 +89,7 @@ function new_choice(title,page,cb)
  local choice = {}
  choice.title=title
  choice.page=page
- choice.cb=cls
+ choice.cb=cb
  return(choice)
 end
 -->8
@@ -192,6 +192,16 @@ title,
 lib["landing/debug"].choices[⬆️]=new_choice(
 "begin",
 lib["the second page"]
+)
+
+local function cb(self)
+ curr_page.i=false
+ curr_page.seed+=1 
+end
+lib["landing/debug"].choices[➡️]=new_choice(
+"seed+",
+nil,
+cb
 )
 
 lib["the second page"].choices[⬆️]=new_choice(
