@@ -31,7 +31,7 @@ end
 function _init() 
  cls()
  -- set current page to landing page
-	curr_page=lib["welcome to the trace"]
+	curr_page=lib["welcome to the trace gallery"]
 end
 -->8
 -- update
@@ -159,17 +159,19 @@ function dis_choices(page)
 	end
 	if c⬅️ then
 	 print(butt_key[⬅️],56,110,15)
-	 print(c⬅️.title,hcenter(c⬅️.title,26),110,15)
+	 print(c⬅️.title,hcenter(c⬅️.title,28),110,15)
 	end
 	if c➡️ then
 	 print(butt_key[➡️],64,110,15)
-	 print(c➡️.title,hcenter(c➡️.title,102),110,15)
+	 print(c➡️.title,hcenter(c➡️.title,100),110,15)
 	end
+--	line(64,0,64,128,15)
 end
 -->8
 -- pages
+
 -- landing page
-title="welcome to the trace"
+title="welcome to the trace gallery"
 lib[title]=new_page(
 title, 
 "you find yourself looking at the\n"..
@@ -179,34 +181,47 @@ title,
 )
 	
 -- second page
-title="the second page"
-lib[title]=new_page(
-title, 
-"you are now on a second page.\n"..
-"actually it's *the* second page\n"
+tsp="the second page"
+lib[tsp]=new_page(
+tsp, 
+"in this piece the artist\n"..
+"intended to create an atmosphere\n"..
+"of ominous intent.\n"..
+"\n"..
+"this is your last chance to stop.\n"
 )
 
+-- the open concept
+toc="the open concept"
+lib[toc]=new_page(
+toc,
+"the foyer stretches\n"..
+"far deeper than you realize\n"..
+"and invites you in\n"..
+"\n"..
+"\n"
+)
 
 -- choices
 
-lib["welcome to the trace"].choices[⬅️]=new_choice(
-"wake up",
-lib["the second page"]
+lib[title].choices[⬅️]=new_choice(
+"go inside",
+lib[tsp]
 )
 
 local function cb(self)
  curr_page.i=false
  curr_page.seed+=1 
 end
-lib["welcome to the trace"].choices[➡️]=new_choice(
-"stay dream",
+lib[title].choices[➡️]=new_choice(
+"drift away",
 nil,
 cb
 )
 
-lib["the second page"].choices[⬆️]=new_choice(
-"return",
-lib["welcome to the trace"]
+lib[tsp].choices[⬅️]=new_choice(
+"go back",
+lib[title]
 )
 
 
