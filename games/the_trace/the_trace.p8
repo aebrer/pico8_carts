@@ -2,6 +2,10 @@ pico-8 cartridge // http://www.pico-8.com
 version 35
 __lua__
 -- init
+
+-- todo
+-- - function for handling dead ends
+
 lib={} -- library of all pages: title,page
 curr_page=nil -- current page
 prev_page=nil -- previous page
@@ -121,6 +125,9 @@ function _draw()
  curr_page:dis_logo()
  curr_page:dis_choices()
  
+ if(curr_page.vfx)curr_page:vfx()
+ if(bkmk and bkmk.vfx)bkmk:vfx()
+ 
  if(bkmk)spr(2,120,0)
  if(curr_page==bkmk)spr(1,120,0)
  
@@ -191,6 +198,12 @@ tsp,
 "\n"..
 "this is your last chance to stop.\n"
 )
+function dither_noise()
+ for i=0,1000do
+ 	pset(rnd(128),rnd(128),0)
+ end
+end
+lib[tsp].vfx=dither_noise
 
 -- the open concept
 toc="the open concept"
