@@ -42,7 +42,8 @@ function _update60()
  
  -- do callbacks for curr_page
  if(curr_page.cb)curr_page:cb()
- 
+ if(bkmk and bkmk.cb)bkmk:cb()
+  
  -- check inputs for choices
  for b in all({⬆️,⬇️,⬅️,➡️}) do
 	 if btnp(b) then
@@ -197,9 +198,7 @@ lib[toc]=new_page(
 toc,
 "the foyer stretches\n"..
 "far deeper than you realize\n"..
-"and invites you in\n"..
-"\n"..
-"\n"
+"and invites you in\n"
 )
 
 -- choices
@@ -209,7 +208,7 @@ lib[title].choices[⬅️]=new_choice(
 lib[tsp]
 )
 
-local function cb(self)
+function cb(self)
  curr_page.i=false
  curr_page.seed+=1 
 end
@@ -222,6 +221,11 @@ cb
 lib[tsp].choices[⬅️]=new_choice(
 "go back",
 lib[title]
+)
+
+lib[tsp].choices[➡️]=new_choice(
+"go on",
+lib[toc]
 )
 
 
