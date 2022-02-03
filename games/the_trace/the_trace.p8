@@ -5,6 +5,7 @@ __lua__
 
 -- todo
 -- - function for handling dead ends
+-- - vfx that is a slice of the bg
 
 lib={} -- library of all pages: title,page
 curr_page=nil -- current page
@@ -40,9 +41,8 @@ end
 -->8
 -- update
 function _update60()
- srand(curr_page.seed)
 -- srand(rnd(-1))
- if(not curr_page.i)curr_page.logo:init()curr_page.i=true
+ if(not curr_page.i)srand(curr_page.seed)curr_page.logo:init()curr_page.i=true
  
  -- do callbacks for curr_page
  if(curr_page.cb)curr_page:cb()
@@ -175,6 +175,15 @@ function dis_choices(page)
 	end
 --	line(64,0,64,128,15)
 end
+
+function glitch()
+ local on=(t()*4.0)%1<0.1
+ local gso=on and 0 or rnd(0x1fff)\1
+ local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+ for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+ poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+ end
+end
 -->8
 -- pages
 
@@ -199,11 +208,12 @@ tsp,
 "this is your last chance to stop.\n"
 )
 function dither_noise()
- for i=0,1000do
+ for i=0,400do
  	pset(rnd(128),rnd(128),0)
  end
 end
-lib[tsp].vfx=dither_noise
+--lib[tsp].vfx=dither_noise
+lib[tsp].vfx=glitch
 
 -- the open concept
 toc="the open concept"
