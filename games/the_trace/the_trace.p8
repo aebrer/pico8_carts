@@ -275,6 +275,16 @@ ade,
 )
 lib[ade].vfx=dither_noise
 
+-- engineering regret
+engreg="engineering regret"
+lib[engreg]=new_page(
+engreg,
+"the artist is present\n"..
+"in this work.\n\n"..
+"can't you feel it?\n"
+)
+lib[engreg].vfx=tear
+
 -- choices
 
 function no_trace()
@@ -322,6 +332,10 @@ end
 lib[toc].choices[⬅️]=new_choice(
 "go back",
 lib[ade]
+)
+lib[toc].choices[➡️]=new_choice(
+"deep breaths",
+lib[engreg]
 )
 
 
