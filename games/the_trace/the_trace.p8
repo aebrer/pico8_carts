@@ -13,6 +13,15 @@ prev_page=nil -- previous page
 bkmk=nil -- bookmark a page
 debug={}  -- list of things to print for debug
 pal(15,7,1)
+pressed=nil -- if a button was pressed
+pc=0  -- timer for button press
+butt_pos={}
+butt_pos[⬆️]={60,106}
+butt_pos[⬇️]={60,114}
+butt_pos[⬅️]={56,110}
+butt_pos[➡️]={64,110}
+
+
 
 -- logos
 v9_static = {}
@@ -51,6 +60,7 @@ function _update60()
  -- check inputs for choices
  for b in all({⬆️,⬇️,⬅️,➡️}) do
 	 if btnp(b) then
+	  pressed=b
 	  if curr_page.choices[b] then
 				if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
 		  if curr_page.choices[b].page then
@@ -173,11 +183,17 @@ function dis_choices(page)
 	 print(butt_key[➡️],64,110,15)
 	 print(c➡️.title,hcenter(c➡️.title,100),110,15)
 	end
---	line(64,0,64,128,15)
+ -- draw button press effect
+ if pressed then
+  print(butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0)
+ 	pc+=1
+ 	if(pc>6)pc=0pressed=nil
+ end
+ 
 end
 
 function glitch()
- local on=(t()*4.0)%1<0.1
+ local on=(t()*4.0)%13<0.1
  local gso=on and 0 or rnd(0x1fff)\1
  local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
  for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
