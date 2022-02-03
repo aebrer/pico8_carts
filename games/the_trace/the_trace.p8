@@ -8,6 +8,7 @@ __lua__
 -- - vfx that is a slice of the bg
 
 lib={} -- library of all pages: title,page
+inventory={} -- player inventory
 curr_page=nil -- current page
 prev_page=nil -- previous page
 bkmk=nil -- bookmark a page
@@ -21,7 +22,17 @@ butt_pos[⬇️]={60,114}
 butt_pos[⬅️]={56,110}
 butt_pos[➡️]={64,110}
 
-
+menuitem(1, "display controls", function()
+ if(btnp(4) or btnp(5))local quit=true
+ while not quit do 
+  cls()
+  print("press arrow keys to navigate",15)
+  print("press x/❎ to use bookmark",15)
+  print("press z/c/🅾️ to go to prev. page",15)
+  flip()
+ end
+ cls()
+end)
 
 -- logos
 v9_static = {}
@@ -73,9 +84,16 @@ function _update60()
  end
  
  -- set bookmark
- if(btnp(❎))bkmk=curr_page
- if(bkmk and btnp(🅾️))curr_page=bkmk;curr_page.i=false
-   
+ if (bkmk and btnp(❎)) then 
+  curr_page=bkmk
+  curr_page.i=false
+  bkmk=nil
+ elseif btnp(❎) then
+  bkmk=curr_page
+ end
+ if(prev_page and btnp(🅾️))curr_page=prev_page;curr_page.i=false;prev_page=nil
+
+
 end
 -->8
 -- classes
@@ -200,6 +218,18 @@ function glitch()
  poke(a,peek(a+2),peek(a-1)+(rnd(3)))
  end
 end
+
+function dither_noise()
+ for i=0,400do
+  pset(rnd(128),rnd(128),0)
+ end
+end
+
+function tear(page)
+ clip(rnd(20)+70,0,rnd(15)+5,128)
+ page.logo:draw()
+ clip()
+end
 -->8
 -- pages
 
@@ -223,11 +253,6 @@ tsp,
 "\n"..
 "this is your last chance to stop.\n"
 )
-function dither_noise()
- for i=0,400do
- 	pset(rnd(128),rnd(128),0)
- end
-end
 --lib[tsp].vfx=dither_noise
 lib[tsp].vfx=glitch
 
@@ -239,22 +264,37 @@ toc,
 "far deeper than you realize\n"..
 "and invites you in\n"
 )
+lib[toc].vfx=tear
+
+-- another dead end
+ade="another dead end"
+lib[ade]=new_page(
+ade,
+"you didn't think it would\n"..
+"be that easy, did you?\n"
+)
+lib[ade].vfx=dither_noise
 
 -- choices
+
+function no_trace()
+ prev_page=nil
+ bkmk=nil
+end
 
 lib[title].choices[⬅️]=new_choice(
 "go inside",
 lib[tsp]
 )
 
-function cb(self)
+function seed_plus()
  curr_page.i=false
  curr_page.seed+=1 
 end
 lib[title].choices[➡️]=new_choice(
 "drift away",
 nil,
-cb
+seed_plus
 )
 
 lib[tsp].choices[⬅️]=new_choice(
@@ -264,15 +304,32 @@ lib[title]
 
 lib[tsp].choices[➡️]=new_choice(
 "go on",
-lib[toc]
+lib[toc],
+no_trace
+)
+
+lib[toc].choices[⬇️]=new_choice(
+"look around",
+nil,
+function() 
+ if rnd()>0.7 then
+  if(not inventory["blank card"])lib[toc].text = lib[toc].text.."\nyou find a small blank card\nand pocket it."
+  inventory["blank card"]=true
+ end
+ seed_plus()
+end
+)
+lib[toc].choices[⬅️]=new_choice(
+"go back",
+lib[ade]
 )
 
 
 __gfx__
 0000000000fffff000fffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000fffff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0070070000fffff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0007700000fffff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000f7f7f000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0070070000ff7ff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0007700000f7f7f000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0007700000fffff000f0f0f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0070070000ff0ff000ff0ff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000f000f000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
