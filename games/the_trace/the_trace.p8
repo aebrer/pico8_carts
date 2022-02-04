@@ -216,11 +216,8 @@ function dis_choices(page)
   print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
   if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
   if(not bkmk)bkmk=lib[title]
- end
-
-
  -- draw button press effect
- if pressed then
+ elseif pressed then
   print(butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0)
  	pc+=1
  	if(pc>6)pc=0pressed=nil
