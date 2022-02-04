@@ -9,6 +9,7 @@ __lua__
 
 lib={} -- library of all pages: title,page
 inventory={} -- player inventory
+cursed=false
 curr_page=nil -- current page
 prev_page=nil -- previous page
 bkmk=nil -- bookmark a page
@@ -57,13 +58,21 @@ function _init()
  cls()
  -- set current page to landing page
 	curr_page=lib["welcome to the trace gallery"]
+ bkmk=curr_page
 end
 -->8
 -- update
 function _update60()
 -- srand(rnd(-1))
  if(not curr_page.i)srand(curr_page.seed)curr_page.logo:init()curr_page.i=true
- 
+ if lib[title].seed%17==0 then
+  cursed=true
+ else
+  cursed=false
+ end
+
+ if(inventory["cursed"])srand(curr_page.seed)
+
  -- do callbacks for curr_page
  if(curr_page.cb)curr_page:cb()
  if(bkmk and bkmk.cb)bkmk:cb()
@@ -148,9 +157,9 @@ butt_key={[0]="⬅️","➡️","⬆️","⬇️"}
 -->8
 -- draw
 function _draw()
+ curr_page:dis_logo()
  curr_page:dis_title()
  curr_page:dis_text()
- curr_page:dis_logo()
  curr_page:dis_choices()
  
  if(curr_page.vfx)curr_page:vfx()
@@ -158,7 +167,8 @@ function _draw()
  
  if(bkmk)spr(2,120,0)
  if(curr_page==bkmk)spr(1,120,0)
- 
+ if(cursed)glitch()tear(lib[title])
+
  -- debug
  for i=1,#debug do
   print("\^#"..tostr(debug[i]),0,0+8*i,15)
@@ -166,7 +176,7 @@ function _draw()
 end
 
 function dis_title(page)
-	print(page.title,0,0,15)
+	print("\^#"..page.title,0,0,15)
 end
 
 function dis_logo(page)
@@ -176,7 +186,7 @@ function dis_logo(page)
 end
 
 function dis_text(page)
- print(page.text,0,48,15)
+ print("\^#"..page.text,0,48,15)
 end
 
 function dis_choices(page)
@@ -201,6 +211,14 @@ function dis_choices(page)
 	 print(butt_key[➡️],64,110,15)
 	 print(c➡️.title,hcenter(c➡️.title,100),110,15)
 	end
+
+ if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then 
+  print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
+  if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
+  if(not bkmk)bkmk=lib[title]
+ end
+
+
  -- draw button press effect
  if pressed then
   print(butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0)
@@ -230,6 +248,12 @@ function tear(page)
  page.logo:draw()
  clip()
 end
+
+function zoom()
+ poke(0x5f54,0x60)
+ sspr(0,8,128,32,1,9,126,30)
+ poke(0x5f54,0x00)
+end
 -->8
 -- pages
 
@@ -237,21 +261,14 @@ end
 title="welcome to the trace gallery"
 lib[title]=new_page(
 title, 
-"you find yourself looking at the\n"..
-"strange digital cosmology of \n"..
-"the trace, once again.\n\n"..
-"you swore you would give up.\n"
+"you find yourself looking at the\nstrange digital cosmology of \nthe trace, once again.\n\nyou swore you would give up.\n"
 )
 	
 -- second page
 tsp="the second page"
 lib[tsp]=new_page(
 tsp, 
-"in this piece the artist\n"..
-"intended to create an atmosphere\n"..
-"of ominous intent.\n"..
-"\n"..
-"this is your last chance to stop.\n"
+"in this piece the artist\nintended to create an atmosphere\nof ominous intent.\n\nthis is your last chance to stop.\n"
 )
 --lib[tsp].vfx=dither_noise
 lib[tsp].vfx=glitch
@@ -260,18 +277,15 @@ lib[tsp].vfx=glitch
 toc="the open concept"
 lib[toc]=new_page(
 toc,
-"the foyer stretches\n"..
-"far deeper than you realize\n"..
-"and invites you in\n"
+"the foyer stretches\nfar deeper than you realize\nand invites you in\n"
 )
-lib[toc].vfx=tear
+-- lib[toc].vfx=tear
 
 -- another dead end
 ade="another dead end"
 lib[ade]=new_page(
 ade,
-"you didn't think it would\n"..
-"be that easy, did you?\n"
+"you didn't think it would\nbe that easy, did you?\n"
 )
 lib[ade].vfx=dither_noise
 
@@ -279,17 +293,44 @@ lib[ade].vfx=dither_noise
 engreg="engineering regret"
 lib[engreg]=new_page(
 engreg,
-"the artist is present\n"..
-"in this work.\n\n"..
-"can't you feel it?\n"
+"the artist is present\nin this work.\n\ncan't you feel it?\n"
 )
 lib[engreg].vfx=tear
+
+-- read_card
+read_card="what's on the card?"
+lib[read_card]=new_page(
+read_card,
+"now you have to make a choice:\n"
+)
+
+-- cursed card
+p_curse="what were you thinking?"
+lib[p_curse]=new_page(
+p_curse,
+"i specifically said not to read\nthis card. did no one tell you\nhow this works? are you alone?\n\nit doesn't matter.\no.k. done! enjoy your curse."
+)
+
+-- threat card
+p_threat="i know what you want"
+lib[p_threat]=new_page(
+p_threat,
+"you think i don't know why\nyou came here? i know.\n\nyou won't find it, no matter\nhow hard you look.\n"
+)
+
+-- fuck me?
+fuck_me="fuck me?!"
+lib[fuck_me]=new_page(
+fuck_me,
+"fuck me? fuck me?!\nfuck you!\n\nyou're stuck here just like me.\nwe all dissolve here.\nyou're not special.\n"
+)
+lib[fuck_me].vfx=zoom
 
 -- choices
 
 function no_trace()
  prev_page=nil
- bkmk=nil
+ -- bkmk=nil
 end
 
 lib[title].choices[⬅️]=new_choice(
@@ -323,8 +364,25 @@ lib[toc].choices[⬇️]=new_choice(
 nil,
 function() 
  if rnd()>0.7 then
-  if(not inventory["blank card"])lib[toc].text = lib[toc].text.."\nyou find a small blank card\nand pocket it."
-  inventory["blank card"]=true
+  if not inventory["blank card"] then 
+   lib[toc].text = lib[toc].text.."\nyou find a small blank card\nand pocket it."
+   inventory["blank card"]=true
+   lib[engreg].choices[➡️]=new_choice(
+    "read card",
+    lib[read_card],
+     function()
+      if cursed then 
+       lib[read_card].choices[⬇️]=new_choice(
+        "don't read",
+        lib[p_curse],
+        function()
+        inventory["cursed"]=true
+        end
+       )
+      end
+     end
+   )
+  end
  end
  seed_plus()
 end
@@ -338,14 +396,24 @@ lib[toc].choices[➡️]=new_choice(
 lib[engreg]
 )
 
+lib[read_card].choices[⬅️]=new_choice(
+"a threat",
+lib[p_threat]
+)
+
+lib[p_threat].choices[⬆️]=new_choice(
+"fuck you",
+lib[fuck_me]
+)
+
 
 __gfx__
 0000000000fffff000fffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000f7f7f000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0070070000ff7ff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0007700000f7f7f000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0007700000fffff000f0f0f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0070070000ff0ff000ff0ff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0070070000ff7ff000f000f000777700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0007700000f7f7f000f000f00077f700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0007700000fffff000f0f0f0007ff700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0070070000ff0ff000ff0ff000777700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000f000f000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __label__
 70707770700007700770777077700000777007700000777070707770000077707770777007707770000000000000000000000000000000000000000000000000
