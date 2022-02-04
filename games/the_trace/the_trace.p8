@@ -319,7 +319,7 @@ p_threat,
 )
 
 -- fuck me?
-fuck_me="fuck me?!"
+fuck_me="fuck me?"
 lib[fuck_me]=new_page(
 fuck_me,
 "fuck me? fuck me?!\nfuck you!\n\nyou're stuck here just like me.\nwe all dissolve here.\nyou're not special.\n"
