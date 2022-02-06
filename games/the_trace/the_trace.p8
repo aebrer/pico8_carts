@@ -51,8 +51,8 @@ function v9_static.init(self)
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
 end
 
-function v9_static.draw(self)
-	for x=self.g,128,self.z do for y=self.g,128,self.w do
+function v9_static.draw(self,x1,y1,w,h)
+	for x=self.g+x1,self.g+x1+w,self.z do for y=self.g+y1,self.g+y1+h,self.w do
  circ(x,y,rnd(2),x*y%self.c)end end
 end
 
@@ -84,7 +84,10 @@ function _update60()
 	 if btnp(b) then
 	  pressed=b
 	  if curr_page.choices[b] then
-				if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
+				-- callback for this choice 
+    if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
+    -- callback for any choice
+    if(curr_page.leave_cb)curr_page:leave_cb()
 		  if curr_page.choices[b].page then
 		  	sfx(16, 3) -- select option sound
 		  	prev_page=curr_page
@@ -97,14 +100,19 @@ function _update60()
  
  -- set bookmark
  if (bkmk and btnp(❎)) then 
+  if(curr_page.leave_cb)curr_page:leave_cb()
   curr_page=bkmk
   curr_page.i=false
   bkmk=nil
  elseif btnp(❎) then
   bkmk=curr_page
  end
- if(prev_page and btnp(🅾️))curr_page=prev_page;curr_page.i=false;prev_page=nil
-
+ if (prev_page and btnp(🅾️)) then
+  curr_page=prev_page
+  curr_page.i=false
+  prev_page=nil
+  if(curr_page.leave_cb)curr_page:leave_cb()
+ end
 
 end
 -->8
@@ -117,6 +125,7 @@ function new_page(title,text)
 	page.text = text
 	page.logo = v9_static
 	page.cb = cls
+ page.leave_cb = nil
 	page.choices = {}
 	
 	-- method assignments
@@ -184,12 +193,12 @@ end
 
 function dis_logo(page)
  clip(0,8,128,32)
- page.logo:draw()
+ page.logo:draw(0,8,128,32)
  clip()
 end
 
 function dis_text(page)
- print("\^#"..page.text,0,48,15)
+ if(page.text)print("\^#"..page.text,0,48,15)
 end
 
 function dis_choices(page)
@@ -215,17 +224,29 @@ function dis_choices(page)
 	 print(c➡️.title,hcenter(c➡️.title,100),110,15)
 	end
 
+	-- if there are no options, what do?
  if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then 
-  print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
-  if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
+		local no_choice=true
+		if inventory["open mind"]	then
+			no_choice=false
+			curr_page.choices[⬇️]=ch_look_around
+		end
+		if inventory["blank card"]	then
+			no_choice=false
+			curr_page.choices[➡️]=ch_read_card
+		end
+		if no_choice then
+	  print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
+	  if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
+  end
   if(not bkmk)bkmk=lib[title]
  -- draw button press effect
- elseif pressed then
+ end
+ if page.choices[pressed] then
   print(butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0)
  	pc+=1
  	if(pc>6)pc=0pressed=nil
  end
- 
 end
 
 function glitch()
@@ -244,8 +265,10 @@ function dither_noise()
 end
 
 function tear(page)
- clip(rnd(20)+70,0,rnd(15)+5,128)
- page.logo:draw()
+ local x1=rnd(20)+70
+ local w=rnd(15)+5
+ clip(x1,0,w,128)
+ page.logo:draw(x1,0,w,128)
  clip()
 end
 
@@ -253,6 +276,12 @@ function zoom()
  poke(0x5f54,0x60)
  sspr(0,8,128,32,1,9,126,30)
  poke(0x5f54,0x00)
+end
+
+function more_art(page)
+ clip(0,37,128,64)
+ page.logo:draw(0,37,128,64)
+ clip()
 end
 -->8
 -- pages
@@ -263,7 +292,8 @@ lib[title]=new_page(
 title, 
 "you find yourself looking at the\nstrange digital cosmology of \nthe trace, once again.\n\nyou swore you would give up.\n"
 )
-	
+lib[title].seed=1
+
 -- second page
 tsp="the second page"
 lib[tsp]=new_page(
@@ -318,6 +348,21 @@ p_threat,
 "you think i don't know why\nyou came here? i know.\n\nyou won't find it, no matter\nhow hard you look.\n"
 )
 
+-- art card
+p_art="...it matches the walls"
+lib[p_art]=new_page(
+p_art
+)
+lib[p_art].vfx=more_art
+
+-- good for you
+p_g4u="good for you"
+lib[p_g4u]=new_page(
+p_g4u,
+"maybe that was a test.\ndo you ever think that?\nbut there's no one\nwatching. you're alone here."
+)
+
+
 -- fuck me?
 fuck_me="fuck me?"
 lib[fuck_me]=new_page(
@@ -343,6 +388,12 @@ function seed_plus()
  curr_page.i=false
  curr_page.seed+=1 
 end
+
+function seed_rnd()
+ sfx(17, 3) --scutter sound
+ curr_page.i=false
+ curr_page.seed=rnd(-1)
+end
 lib[title].choices[➡️]=new_choice(
 "drift away",
 nil,
@@ -360,7 +411,23 @@ lib[toc],
 no_trace
 )
 
-lib[toc].choices[⬇️]=new_choice(
+ch_read_card=new_choice(
+ "read card",
+ lib[read_card],
+ function()
+  if cursed then 
+   lib[read_card].choices[⬇️]=new_choice(
+    "don't read",
+    lib[p_curse],
+    function()
+    inventory["cursed"]=true
+    end
+   )
+  end
+ end
+)
+
+ch_look_around=new_choice(
 "look around",
 nil,
 function() 
@@ -368,26 +435,20 @@ function()
   if not inventory["blank card"] then 
    lib[toc].text = lib[toc].text.."\nyou find a small blank card\nand pocket it."
    inventory["blank card"]=true
-   lib[engreg].choices[➡️]=new_choice(
-    "read card",
-    lib[read_card],
-     function()
-      if cursed then 
-       lib[read_card].choices[⬇️]=new_choice(
-        "don't read",
-        lib[p_curse],
-        function()
-        inventory["cursed"]=true
-        end
-       )
-      end
-     end
-   )
+   lib[engreg].choices[➡️]=ch_read_card
   end
  end
- seed_plus()
+ if rnd()<.01 then
+  if not inventory["open mind"] then
+  	inventory["open mind"]=true
+  	if(curr_page.text)curr_page.text=curr_page.text.."\nyou've got a pretty open mind."
+ 	end
+ end
+ seed_rnd()
 end
 )
+lib[toc].choices[⬇️]=ch_look_around
+
 lib[toc].choices[⬅️]=new_choice(
 "go back",
 lib[ade]
@@ -399,13 +460,38 @@ lib[engreg]
 
 lib[read_card].choices[⬅️]=new_choice(
 "a threat",
-lib[p_threat]
+lib[p_threat],
+function()
+ for i in all({➡️,⬆️,⬇️}) do
+ 	lib[read_card].choices[i]=nil
+ end
+end
 )
+
+lib[read_card].choices[⬆️]=new_choice(
+"just art",
+lib[p_art],
+function()
+ for i in all({➡️,⬅️,⬇️}) do
+ 	lib[read_card].choices[i]=nil
+ end
+end
+)
+
+lib[p_art].choices[⬇️]=ch_look_around
+lib[p_art].choices[⬇️].text="look inside"
 
 lib[p_threat].choices[⬆️]=new_choice(
 "fuck you",
 lib[fuck_me]
 )
+
+lib[p_threat].choices[⬅️]=new_choice(
+"ignore it",
+lib[p_g4u]
+)
+
+lib[p_g4u].choices[⬇️]=ch_look_around
 
 
 __gfx__
