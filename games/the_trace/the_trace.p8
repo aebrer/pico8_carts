@@ -66,6 +66,7 @@ end
 -- update
 function _update60()
 -- srand(rnd(-1))
+ if(curr_page.cls)cls()
  if(not curr_page.i)srand(curr_page.seed)curr_page.logo:init()curr_page.i=true
  if lib[title].seed%17==0 then
   cursed=true
@@ -90,9 +91,12 @@ function _update60()
     if(curr_page.leave_cb)curr_page:leave_cb()
 		  if curr_page.choices[b].page then
 		  	sfx(16, 3) -- select option sound
+     local target=curr_page.choices[b].page
+     curr_page:on_leave()
 		  	prev_page=curr_page
-		  	curr_page=curr_page.choices[b].page
+		  	curr_page=target
 		  	curr_page.i=false
+
 		  end
 	  end
 	 end
@@ -101,6 +105,8 @@ function _update60()
  -- set bookmark
  if (bkmk and btnp(❎)) then 
   if(curr_page.leave_cb)curr_page:leave_cb()
+  curr_page:on_leave()
+  prev_page=curr_page
   curr_page=bkmk
   curr_page.i=false
   bkmk=nil
@@ -108,6 +114,7 @@ function _update60()
   bkmk=curr_page
  end
  if (prev_page and btnp(🅾️)) then
+  curr_page:on_leave()
   curr_page=prev_page
   curr_page.i=false
   prev_page=nil
@@ -124,8 +131,12 @@ function new_page(title,text)
 	page.seed = get_seed(page.title)
 	page.text = text
 	page.logo = v9_static
-	page.cb = cls
+ page.cls=true
+	page.cb = nil
  page.leave_cb = nil
+ page.on_leave = function(pg)
+  if(pg.no_choice)pg.choices={}
+ end
 	page.choices = {}
 	
 	-- method assignments
@@ -225,8 +236,9 @@ function dis_choices(page)
 	end
 
 	-- if there are no options, what do?
- if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then 
-		local no_choice=true
+ if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then
+  curr_page.no_choice=true 
+  no_choice=true
 		if inventory["open mind"]	then
 			no_choice=false
 			curr_page.choices[⬇️]=ch_look_around
@@ -435,10 +447,9 @@ function()
   if not inventory["blank card"] then 
    lib[toc].text = lib[toc].text.."\nyou find a small blank card\nand pocket it."
    inventory["blank card"]=true
-   lib[engreg].choices[➡️]=ch_read_card
   end
  end
- if rnd()<.01 then
+ if rnd()<.03 then
   if not inventory["open mind"] then
   	inventory["open mind"]=true
   	if(curr_page.text)curr_page.text=curr_page.text.."\nyou've got a pretty open mind."
