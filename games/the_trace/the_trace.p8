@@ -135,6 +135,8 @@ function new_page(title,text)
  page.leave_cb = nil
  page.on_leave = function(pg)
   if(pg.no_choice)pg.choices={}
+  page.music_i=false
+  page.i=false
  end
 	page.choices = {}
 	
