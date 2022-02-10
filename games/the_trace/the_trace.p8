@@ -382,6 +382,7 @@ fuck_me,
 )
 lib[fuck_me].vfx=zoom
 lib[fuck_me].cb=function()if(not curr_page.music_i)music_state("angry")curr_page.music_i=true end
+lib[fuck_me].leave_cb=function()music_reset()end
 
 -- choices
 
@@ -528,22 +529,35 @@ function music_resume()
 end
 
 function music_reset()
-	memcpy(0x3100,0x3100+(4*16),4*9)
+	reload(0x3200, 0x3200, 0x10ff)
 end
 
 function music_state(_state)
 	music_reset()
 	if _state == "angry" then
-		poke(0x3100, 18)
-		poke(0x3100+4, 19)
-		poke(0x3100+8, 19)
-		poke(0x3100+12, 20)
-		poke(0x3100+16, 21)
-		poke(0x3100+20, 20)
-		poke(0x3100+24, 21)
-		poke(0x3100+28, 18)
-		poke(0x3100+32, 19)
+		swap_sfx(8,18)
+		swap_sfx(9,19)
+		swap_sfx(11,20)
+		swap_sfx(13,21)
 	end
+end
+
+-- the following is from the last post on
+-- https://www.lexaloffle.com/bbs/?tid=31326
+-- credits to kittenm4ster
+function sfx_addr(n)
+	return 0x3200 + (68 * n)
+end
+
+function swap_sfx(a, b)
+	local addr1 = sfx_addr(a)
+	local addr2 = sfx_addr(b)
+	local tmp = 0x4300
+	local len = 68
+	
+	memcpy(tmp, addr1, len)
+	memcpy(addr1, addr2, len)
+	memcpy(addr2, tmp, len)
 end
 __gfx__
 0000000000fffff000fffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -707,22 +721,6 @@ d5180000135120000210512000020c51200002135120000210512000020c51200002135120000210
 711800201885418850188501885018850188501885018850188401884018830188301882018820188101881015854158501585015850158501585015850158501584015840158301583015820158201581015810
 711800201185411850118501185011850118501185011850118401184011830118301182011820118101181013854138501385013850138501385013850138501384013840138301383013820138201381013810
 __music__
-01 08424344
-01 090a4b44
-00 090a4b44
-01 0b0a0c44
-00 0d0a0e44
-00 0b0a0c44
-00 0d0a0e44
-00 080a0f44
-02 090a4b44
-00 41424344
-00 41424344
-00 41424344
-00 41424344
-00 41424344
-00 41424344
-00 41424344
 01 08424344
 01 090a4b44
 00 090a4b44
