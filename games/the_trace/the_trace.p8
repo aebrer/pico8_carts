@@ -361,6 +361,13 @@ p_threat,
 "you think i don't know why\nyou came here? i know.\n\nyou won't find it, no matter\nhow hard you look.\n"
 )
 
+-- warning card
+p_warn="hey, listen..."
+lib[p_warn]=new_page(
+p_warn,
+"you shouldn't be here.\nthis isn't a place for humans.\n\ndo you know what you're\nlooking for?\n"
+)
+
 -- art card
 p_art="...it matches the walls"
 lib[p_art]=new_page(
@@ -491,6 +498,19 @@ function()
  end
 end
 )
+
+lib[read_card].choices[➡️]=new_choice(
+"some thing",
+lib[p_warn],
+function()
+ for i in all({⬆️,⬅️,⬇️}) do
+  lib[read_card].choices[i]=nil
+ end
+end
+)
+
+
+
 
 lib[p_art].choices[⬇️]=ch_look_around
 lib[p_art].choices[⬇️].text="look inside"
