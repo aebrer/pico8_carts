@@ -230,18 +230,17 @@ butt_key={[0]="⬅️","➡️","⬆️","⬇️"}
 -- draw
 function _draw()
  
- if(curr_page.i)curr_page:dis_logo()
- curr_page:dis_title()
- curr_page:dis_text()
- curr_page:dis_choices()
- 
+ if(curr_page.i)curr_page:dis_logo() 
  if(curr_page.vfx)curr_page:vfx()
- if(bkmk and bkmk.vfx)bkmk:vfx()
- 
+ if(bkmk and bkmk.vfx)bkmk:vfx() 
  if(bkmk)spr(2,120,0)
  if(curr_page==bkmk)spr(1,120,0)
  if(cursed)glitch()tear(lib[title])
 
+ curr_page:dis_title()
+ curr_page:dis_text()
+ curr_page:dis_choices()
+ 
  -- debug
  for i=1,#debug do
   print("\^#"..tostr(debug[i]),0,0+8*i,15)
