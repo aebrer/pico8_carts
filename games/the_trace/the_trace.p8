@@ -4,9 +4,8 @@ __lua__
 -- init
 
 -- todo
--- - function for handling dead ends
--- - vfx that is a slice of the bg
-
+-- - item that lets you stack up vfx on the title page
+-- - when dc chance to teleport to a set of dead god pages
 lib={} -- library of all pages: title,page
 inventory={} -- player inventory
 cursed=false
@@ -14,7 +13,6 @@ curr_page=nil -- current page
 prev_page=nil -- previous page
 bkmk=nil -- bookmark a page
 debug={}  -- list of things to print for debug
-pal(15,7,1)
 pressed=nil -- if a button was pressed
 pc=0  -- timer for button press
 butt_pos={}
@@ -71,9 +69,13 @@ function _update60()
  if(curr_page.cls)cls()
  -- do the init for all pages
  if not curr_page.i then 
- 	srand(curr_page.seed)
  	curr_page.dc=dc()
- 	debug[2]=curr_page.dc
+ 	if curr_page.dc then
+  	pal(15,-8,1)
+ 	else
+ 		pal(15,7,1)
+		end
+ 	srand(curr_page.seed)
  	curr_page.logo:init()
  	curr_page.i=true
  end
@@ -212,8 +214,6 @@ function _draw()
  if(bkmk)spr(2,120,0)
  if(curr_page==bkmk)spr(1,120,0)
  if(cursed)glitch()tear(lib[title])
-
-	debug[1]=dt
 
  -- debug
  for i=1,#debug do
@@ -478,7 +478,7 @@ ch_look_around=new_choice(
 "look around",
 nil,
 function() 
- if rnd()>0.7 then
+ if rnd()>0.8 then
   if not inventory["blank card"] then 
    lib[toc].text = lib[toc].text.."\nyou find a small blank card\nand pocket it."
    inventory["blank card"]=true
