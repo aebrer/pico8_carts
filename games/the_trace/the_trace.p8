@@ -23,6 +23,7 @@ butt_pos[⬇️]={60,114}
 butt_pos[⬅️]={56,110}
 butt_pos[➡️]={64,110}
 dt=0 -- doom timer
+dtm=1000
 
 menuitem(1, "display controls", function()
  if(btnp(4) or btnp(5))local quit=true
@@ -48,6 +49,7 @@ function v9_static.init(self)
  self.w=self.z+rnd(self.p)
  self.c=rnd(14)\1+2
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
+ if(curr_page.dc)for i=1,14do pal(i,rnd({8,-16,-15,-14,-11,2,-8,-8}),1)end
 end
 
 function v9_static.draw(self,x1,y1,w,h)
@@ -70,7 +72,8 @@ function _update60()
  -- do the init for all pages
  if not curr_page.i then 
  	srand(curr_page.seed)
- 	debug[2]=dc()
+ 	curr_page.dc=dc()
+ 	debug[2]=curr_page.dc
  	curr_page.logo:init()
  	curr_page.i=true
  end
@@ -134,7 +137,7 @@ function doom_plus()
 end
 
 function dc()
- return rnd(dt/50)>1.0
+ return rnd(dt/rnd(dtm))>1
 end
 -->8
 -- classes
@@ -148,6 +151,7 @@ function new_page(title,text)
  page.cls=true
 	page.cb = nil
  page.leave_cb = nil
+ page.dc=false
  page.on_leave = function(pg)
   if(pg.no_choice)pg.choices={}
   page.music_i=false
@@ -427,13 +431,15 @@ lib[tsp]
 function seed_plus()
  sfx(17, 3) --scutter sound
  curr_page.i=false
- curr_page.seed+=1 
+ curr_page.seed+=1
+ doom_plus() 
 end
 
 function seed_rnd()
  sfx(17, 3) --scutter sound
  curr_page.i=false
  curr_page.seed=rnd(-1)
+ doom_plus()
 end
 lib[title].choices[➡️]=new_choice(
 "drift away",
