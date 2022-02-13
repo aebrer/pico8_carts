@@ -39,6 +39,7 @@ end)
 v9_static = {}
 function v9_static.init(self)
  fillp(rnd({▥,█,▤}))
+ curr_page.cls=true
  self.p={1,3}
  self.g=rnd(5)-3
  self.a=-1
@@ -54,6 +55,28 @@ function v9_static.draw(self,x1,y1,w,h)
 	for x=self.g+x1,self.g+x1+w,self.z do for y=self.g+y1,self.g+y1+h,self.w do
  circ(x,y,rnd(2),x*y%self.c)end end
 end
+
+dg_logo = {}
+function dg_logo.init(self)
+ fillp(rnd({▥,█,▤}))
+ curr_page.cls=false
+ for i=1,14do pal(i,flr(rnd(33)-17),1)end
+ if(curr_page.dc)for i=1,14do pal(i,rnd({8,-16,-15,-14,-11,2,-8,-8}),1)end
+end
+
+function dg_logo.draw(self,x1,y1,w,h)
+ poke(0x5f54,0x60)
+ palt(0,false)
+ if(rnd()>.1)sspr(x1,y1,w,h,x1+2,y1+2,w-4,h-4)
+ for i=0,10 do 
+  circ(rnd(128),rnd(128),rnd(64)+64,rnd(8))
+  sspr(0,rnd(128),128,rnd(5),rnd(128),0,rnd(5),128)
+  sspr(rnd(128),0,rnd(5),128,0,rnd(128),128,rnd(5))
+ end
+ poke(0x5f54,0x00)
+ palt(0,true)
+end
+
 
 function _init() 
 	music_start(true)
@@ -72,8 +95,11 @@ function _update60()
  	curr_page.dc=dc()
  	if curr_page.dc then
   	pal(15,-8,1)
+   music_state("angry")
+   if(dc())curr_page.logo=dg_logo
  	else
  		pal(15,7,1)
+   music_reset()
 		end
  	srand(curr_page.seed)
  	curr_page.logo:init()
@@ -203,7 +229,8 @@ butt_key={[0]="⬅️","➡️","⬆️","⬇️"}
 -->8
 -- draw
 function _draw()
- curr_page:dis_logo()
+ 
+ if(curr_page.i)curr_page:dis_logo()
  curr_page:dis_title()
  curr_page:dis_text()
  curr_page:dis_choices()
@@ -243,19 +270,19 @@ function dis_choices(page)
 	
 	if c⬆️ then
 	 print(butt_key[⬆️],60,106,15)
-	 print(c⬆️.title,hcenter(c⬆️.title,64),98,15)
+	 print("\^#"..c⬆️.title,hcenter(c⬆️.title,64),98,15)
 	end
 	if c⬇️ then
 	 print(butt_key[⬇️],60,114,15)
-	 print(c⬇️.title,hcenter(c⬇️.title,64),122,15)
+	 print("\^#"..c⬇️.title,hcenter(c⬇️.title,64),122,15)
 	end
 	if c⬅️ then
 	 print(butt_key[⬅️],56,110,15)
-	 print(c⬅️.title,hcenter(c⬅️.title,28),110,15)
+	 print("\^#"..c⬅️.title,hcenter(c⬅️.title,28),110,15)
 	end
 	if c➡️ then
 	 print(butt_key[➡️],64,110,15)
-	 print(c➡️.title,hcenter(c➡️.title,100),110,15)
+	 print("\^#"..c➡️.title,hcenter(c➡️.title,100),110,15)
 	end
 
 	-- if there are no options, what do?
@@ -329,6 +356,7 @@ title,
 )
 lib[title].seed=1
 lib[title].vfx=function()sspr(18,7,11,15,110,-1,11,15)end
+-- lib[title].logo=dg_logo
 
 -- second page
 tsp="the second page"
@@ -369,6 +397,17 @@ lib[read_card]=new_page(
 read_card,
 "now you have to make a choice:\n"
 )
+lib[read_card].cb=function()
+ if btnp(🅾️) then
+  lib[read_card].choices[⬅️]=ch_a_threat
+  lib[read_card].choices[⬆️]=ch_just_art
+  lib[read_card].choices[➡️]=ch_some_thing
+  if cursed then 
+   lib[read_card].choices[⬇️]=ch_dont_read
+  end
+ end
+end
+
 
 -- cursed card
 p_curse="what were you thinking?"
@@ -397,6 +436,7 @@ lib[p_art]=new_page(
 p_art
 )
 lib[p_art].vfx=more_art
+-- lib[p_art].logo=dg_logo
 
 -- good for you
 p_g4u="good for you"
@@ -463,16 +503,18 @@ ch_read_card=new_choice(
  lib[read_card],
  function()
   if cursed then 
-   lib[read_card].choices[⬇️]=new_choice(
+   lib[read_card].choices[⬇️]=ch_dont_read
+  end
+ end
+)
+
+ch_dont_read=new_choice(
     "don't read",
     lib[p_curse],
     function()
     inventory["cursed"]=true
     end
    )
-  end
- end
-)
 
 ch_look_around=new_choice(
 "look around",
@@ -480,7 +522,7 @@ nil,
 function() 
  if rnd()>0.8 then
   if not inventory["blank card"] then 
-   lib[toc].text = lib[toc].text.."\nyou find a small blank card\nand pocket it."
+   curr_page.text = curr_page.text.."\nyou find a small blank card\nand pocket it."
    inventory["blank card"]=true
   end
  end
@@ -504,7 +546,7 @@ lib[toc].choices[➡️]=new_choice(
 lib[engreg]
 )
 
-lib[read_card].choices[⬅️]=new_choice(
+ch_a_threat=new_choice(
 "a threat",
 lib[p_threat],
 function()
@@ -513,8 +555,10 @@ function()
  end
 end
 )
+lib[read_card].choices[⬅️]=ch_a_threat
 
-lib[read_card].choices[⬆️]=new_choice(
+
+ch_just_art=new_choice(
 "just art",
 lib[p_art],
 function()
@@ -523,8 +567,10 @@ function()
  end
 end
 )
+lib[read_card].choices[⬆️]=ch_just_art
 
-lib[read_card].choices[➡️]=new_choice(
+
+ch_some_thing=new_choice(
 "some thing",
 lib[p_warn],
 function()
@@ -533,6 +579,7 @@ function()
  end
 end
 )
+lib[read_card].choices[➡️]=ch_some_thing
 
 
 
@@ -765,10 +812,10 @@ __sfx__
 093000200015400150001500015000140001300012000110001540015000150001500014000130001200011005154051500515005150051400513005120051100415404150041500415004140041300412004110
 011800200c033000330c615006150c6330061500000006150c000000130c615006150c633006150c615006150c033000330c615006150c6330061500000006150c000000130c615006150c633006150c61500615
 091800201885418850188501885018850188501885018850188401884018830188301882018820188101881015854158501585015850158501585015850158501584015840158301583015820158201581015810
-d5180000135120000210512000020c51200002135120000210512000020c512000021351200002105120000210512000020c51200002155120000210512000020c51200002155120000210512000020c51200002
+d5180000135120000200000000020c51200000000000000210512000020c512000021351200002000000000210512000020c51200002155120000210512000000000000002155120000210512000020c51200002
 091800201185411850118501185011850118501185011850118401184011830118301182011820118101181013854138501385013850138501385013850138501384013840138301383013820138201381013810
-911800000c51200002155120000211512000020c51200002155120000211512000020c5120000215512000020e51200002175120000213512000020e51200002175120000213512000020e512000021751200002
-91180010135120000210512000020c51200002135120000210512000020c5120000213512000021051200002185121f5121c5121f512185121f5121c5121f512155021c502185021c502155021c502185021c502
+911800000c51200002000000000211512000020000000002155120000211512000020c5120000200000000020e51200002175120000213512000020e51200002000000000213512000020e512000021751200002
+91180010135120000200000000020c5120000200000000021051200002000000000213512000020000000002185121f5121c5121f512185121f5121c5121f512155021c502185021c502155021c502185021c502
 000400002c4302c410033000040000400004000040000400004000040000400004000040000400004000040000400004000040000400004000040000400004000040000400004000040000400004000040000400
 010800001b6451b645146250060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600
 713000200015400150001500015000140001300012000110001540015000150001500014000130001200011000154001500015000150001400013000120001100015400150001500015000140001300012000110
