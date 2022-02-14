@@ -9,6 +9,8 @@ __lua__
 -- - a page that can occur that is just a full screen vfx
 --   and you can press any button to leave it
 -- - put some mirror ideocartography somewhere
+-- - add a credits page somewhere
+--     and remember to thank your beta testers!
 
 lib={} -- library of all pages: title,page
 inventory={} -- player inventory
@@ -85,14 +87,14 @@ function _update60()
  if(curr_page.cls)cls()
  -- do the init for all pages
  if not curr_page.i then 
- 	curr_page.dc=dc()
+  curr_page.dc=dc()
  	if curr_page.dc then
   	pal(15,-8,1)
    music_state("dead god")
    if(dc())curr_page.logo=dg_logo
  	else
  		pal(15,7,1)
-   music_reset()
+   curr_page:music_reset()
 		end
  	srand(curr_page.seed)
  	curr_page.logo:init()
@@ -182,11 +184,14 @@ function new_page(title,text)
  page.dc=false
  page.on_leave = function(pg)
   if(pg.no_choice)pg.choices={}
-  page.music_i=false
   page.i=false
   doom_plus()
  end
 	page.choices = {}
+ page.music=""
+ page.music_reset = function(pg)
+  music_state(pg.music)
+ end
 	
 	-- method assignments
 	page.dis_title = dis_title
@@ -492,11 +497,9 @@ lib[p_art].vfx=more_art
 p_g4u="good for you"
 lib[p_g4u]=new_page(
 p_g4u,
-"maybe that was a test.\ndo you ever think that?\nbut there's no one\nwatching. you're alone here."
+"maybe that was a test.\ndo you ever think that?\nbut there's no one watching.\n\nyou're alone here."
 )
-lib[p_g4u].cb=function()if(not curr_page.music_i)music_state("peaceful")curr_page.music_i=true end
-lib[p_g4u].leave_cb=function()music_reset()end
-
+lib[p_g4u].music="peaceful"
 
 -- fuck me?
 fuck_me="fuck me?"
@@ -505,8 +508,7 @@ fuck_me,
 "fuck me? fuck me?!\nfuck you!\n\nyou're stuck here just like me.\nwe all dissolve here.\nyou're not special.\n"
 )
 lib[fuck_me].vfx=zoom
-lib[fuck_me].cb=function()if(not curr_page.music_i)music_state("angry")curr_page.music_i=true end
-lib[fuck_me].leave_cb=function()music_reset()end
+lib[fuck_me].music="angry"
 
 -- choices
 
@@ -523,7 +525,6 @@ lib[tsp]
 function seed_plus()
  sfx(17, 3) --scutter sound
  curr_page.i=false
- curr_page.music_i=false
  curr_page.seed+=1
  doom_plus() 
 end
@@ -531,7 +532,6 @@ end
 function seed_rnd()
  sfx(17, 3) --scutter sound
  curr_page.i=false
- curr_page.music_i=false
  curr_page.seed=rnd(-1)
  doom_plus()
 end
