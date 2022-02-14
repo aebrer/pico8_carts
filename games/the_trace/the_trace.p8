@@ -319,7 +319,8 @@ function glitch()
  end
 end
 
-function dither_noise()
+function dither_noise(page)
+ page.cls=false
  for i=0,400do
   pset(rnd(128),rnd(128),0)
  end
@@ -344,6 +345,17 @@ function more_art(page)
  page.logo:draw(0,37,128,64)
  clip()
 end
+
+function newsy(page)
+ for i=1,14do pal(i,rnd({7,6,7,6,5,0}),1)end
+ dither_noise(page)
+end
+
+function dg_newsy(page)
+ for i=1,14do pal(i,rnd({-8,8,-8,-8,2,-14,0}),1)end
+ dither_noise(page)
+end
+
 -->8
 -- pages
 
@@ -438,28 +450,35 @@ lib[p_news1]=new_page(
 p_news1,
 "mysteries abound today at the\ntrace gallery. after a success-\nful grand opening the second day\nquickly led to tragedy. those\nwho were present report seeing\na bright flash of red light.\n\nthe desert..."
 )
+lib[p_news1].vfx=newsy
+
 p_news2="the desert"
 lib[p_news2]=new_page(
 p_news2,
 "the desert opened its maw and\ntook what belonged to it.\nwe all dissolve eventually.\nthere will be no survivors.\nonly when you..."
 )
+lib[p_news2].vfx=dg_newsy
+
 p_news3="only when you"
 lib[p_news3]=new_page(
 p_news3,
 "only when you look at the\nevidence, it's even more strange\n\nthere is no registered owner\nfor the trace gallery.\nwhere did it come from?\nwe contacted..."
 )
+lib[p_news3].vfx=newsy
+
 p_news4="we contacted"
 lib[p_news4]=new_page(
 p_news4,
 "we contacted something out here.\nor something contacted us.\nwe never should have opened\nthat door. the light that poured\nout changed everything. it fills\nyou up. i think i need help.\ni don't feel right.\nhow did i get here?"
 )
+lib[p_news4].vfx=dg_newsy
 
 p_stop_news="what the hell"
 lib[p_stop_news]=new_page(
 p_stop_news,
 "there's something written on the\nback of the page. it says:\n'drift away until you see it'\n\nyou wonder what that means.\n\nit's in your handwriting."
 )
-
+lib[p_stop_news].vfx=dither_noise
 
 -- art card
 p_art="...it matches the walls"
@@ -475,6 +494,8 @@ lib[p_g4u]=new_page(
 p_g4u,
 "maybe that was a test.\ndo you ever think that?\nbut there's no one\nwatching. you're alone here."
 )
+lib[p_g4u].cb=function()if(not curr_page.music_i)music_state("peaceful")curr_page.music_i=true end
+lib[p_g4u].leave_cb=function()music_reset()end
 
 
 -- fuck me?
@@ -619,6 +640,7 @@ lib[p_news1].choices[➡️]=new_choice(
 "keep reading",
 lib[p_news2]
 )
+
 lib[p_news2].choices[➡️]=new_choice(
 "keep reading",
 lib[p_news3]
@@ -688,7 +710,7 @@ function music_state(_state)
 		swap_sfx(9,19)
 		swap_sfx(11,20)
 		swap_sfx(13,21)
-	elseif _state == "demon" or _state == "dead god" then
+	elseif _state == "dead god" then
 		--demon/dead god
 		swap_sfx(8,22)
 		swap_sfx(9,23)
@@ -698,7 +720,7 @@ function music_state(_state)
 		swap_sfx(12,26)
 		swap_sfx(14,27)
 		swap_sfx(15,28)
-	elseif _state == "peaceful" or _state == "happy" then
+	elseif _state == "peaceful" then
 		--peaceful/happy
 		swap_sfx(10,34)
 		swap_sfx(8,30)
