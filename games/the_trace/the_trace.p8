@@ -27,17 +27,6 @@ butt_pos[➡️]={64,110}
 dt=0 -- doom timer
 dtm=1000
 
-menuitem(1, "display controls", function()
- if(btnp(4) or btnp(5))local quit=true
- while not quit do 
-  cls()
-  print("press arrow keys to navigate",15)
-  print("press x/❎ to use bookmark",15)
-  print("press z/c/🅾️ to go to prev. page",15)
-  flip()
- end
- cls()
-end)
 
 -- logos
 v9_static = {}
@@ -145,12 +134,16 @@ function _update60()
  
  -- set bookmark
  if (bkmk and btnp(❎)) then 
-  if(curr_page.leave_cb)curr_page:leave_cb()
-  curr_page:on_leave()
-  prev_page=curr_page
-  curr_page=bkmk
-  curr_page.i=false
-  bkmk=nil
+  if curr_page==bkmk then 
+   bkmk=nil
+  else 
+   if(curr_page.leave_cb)curr_page:leave_cb()
+   curr_page:on_leave()
+   prev_page=curr_page
+   curr_page=bkmk
+   curr_page.i=false
+  end
+  
  elseif btnp(❎) then
   bkmk=curr_page
  end
@@ -304,7 +297,7 @@ function dis_choices(page)
 	  print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
 	  if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
   end
-  if(not bkmk)bkmk=lib[title]
+  -- if(not bkmk)bkmk=lib[title]
  -- draw button press effect
  end
  if page.choices[pressed] then
