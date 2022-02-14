@@ -499,6 +499,7 @@ lib[tsp]
 function seed_plus()
  sfx(17, 3) --scutter sound
  curr_page.i=false
+ curr_page.music_i=false
  curr_page.seed+=1
  doom_plus() 
 end
@@ -506,6 +507,7 @@ end
 function seed_rnd()
  sfx(17, 3) --scutter sound
  curr_page.i=false
+ curr_page.music_i=false
  curr_page.seed=rnd(-1)
  doom_plus()
 end
