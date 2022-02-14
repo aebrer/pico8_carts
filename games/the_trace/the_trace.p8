@@ -6,6 +6,10 @@ __lua__
 -- todo
 -- - item that lets you stack up vfx on the title page
 -- - when dc chance to teleport to a set of dead god pages
+-- - a page that can occur that is just a full screen vfx
+--   and you can press any button to leave it
+-- - put some mirror ideocartography somewhere
+
 lib={} -- library of all pages: title,page
 inventory={} -- player inventory
 cursed=false
@@ -400,7 +404,7 @@ lib[read_card].cb=function()
  if btnp(🅾️) then
   lib[read_card].choices[⬅️]=ch_a_threat
   lib[read_card].choices[⬆️]=ch_just_art
-  lib[read_card].choices[➡️]=ch_some_thing
+  lib[read_card].choices[➡️]=ch_news_report
   if cursed then 
    lib[read_card].choices[⬇️]=ch_dont_read
   end
@@ -409,7 +413,7 @@ end
 
 
 -- cursed card
-p_curse="what were you thinking?"
+p_curse="what were you thinking"
 lib[p_curse]=new_page(
 p_curse,
 "i specifically said not to read\nthis card. did no one tell you\nhow this works? are you alone?\n\nit doesn't matter.\no.k. done! enjoy your curse."
@@ -422,12 +426,44 @@ p_threat,
 "you think i don't know why\nyou came here? i know.\n\nyou won't find it, no matter\nhow hard you look.\n"
 )
 
+
+---------------------------------------
 -- warning card
-p_warn="hey, listen..."
+p_warn="hey, listen"
 lib[p_warn]=new_page(
 p_warn,
 "you shouldn't be here.\nthis isn't a place for humans.\n\ndo you know what you're\nlooking for?\n"
 )
+---------------------------------------
+
+-- warning card
+p_news1="7 missing, 3 dead"
+lib[p_news1]=new_page(
+p_news1,
+"mysteries abound today at the\ntrace gallery. after a success-\nful grand opening the second day\nquickly led to tragedy. those\nwho were present report seeing\na bright flash of red light.\n\nthe desert..."
+)
+p_news2="the desert"
+lib[p_news2]=new_page(
+p_news2,
+"the desert opened its maw and\ntook what belonged to it.\nwe all dissolve eventually.\nthere will be no survivors.\nonly when you..."
+)
+p_news3="only when you"
+lib[p_news3]=new_page(
+p_news3,
+"only when you look at the\nevidence, it's even more strange\n\nthere is no registered owner\nfor the trace gallery.\nwhere did it come from?\nwe contacted..."
+)
+p_news4="we contacted"
+lib[p_news4]=new_page(
+p_news4,
+"we contacted something out here.\nor something contacted us.\nwe never should have opened\nthat door. the light that poured\nout changed everything. it fills\nyou up. i think i need help.\ni don't feel right.\nhow did i get here?"
+)
+
+p_stop_news="what the hell"
+lib[p_stop_news]=new_page(
+p_stop_news,
+"there's something written on the\nback of the page. it says:\n'drift away until you see it'\n\nyou wonder what that means.\n\nit's in your handwriting."
+)
+
 
 -- art card
 p_art="...it matches the walls"
@@ -569,18 +605,39 @@ end
 lib[read_card].choices[⬆️]=ch_just_art
 
 
-ch_some_thing=new_choice(
-"some thing",
-lib[p_warn],
+ch_news_report=new_choice(
+"news report",
+lib[p_news1],
 function()
  for i in all({⬆️,⬅️,⬇️}) do
   lib[read_card].choices[i]=nil
  end
 end
 )
-lib[read_card].choices[➡️]=ch_some_thing
+lib[read_card].choices[➡️]=ch_news_report
 
 
+lib[p_news1].choices[➡️]=new_choice(
+"keep reading",
+lib[p_news2]
+)
+lib[p_news2].choices[➡️]=new_choice(
+"keep reading",
+lib[p_news3]
+)
+lib[p_news3].choices[➡️]=new_choice(
+"keep reading",
+lib[p_news4]
+)
+
+ch_stop_reading=new_choice(
+"stop reading",
+lib[p_stop_news]
+)
+lib[p_news1].choices[⬅️]=ch_stop_reading
+lib[p_news2].choices[⬅️]=ch_stop_reading
+lib[p_news3].choices[⬅️]=ch_stop_reading
+lib[p_news4].choices[⬅️]=ch_stop_reading
 
 
 lib[p_art].choices[⬇️]=ch_look_around
