@@ -11,9 +11,24 @@ __lua__
 -- - put some mirror ideocartography somewhere
 -- - add a credits page somewhere
 --     and remember to thank your beta testers!
+-- - new logo like burning gate
+-- - fix ux for negative button press flicker
+--    including on the inventory
+
+----
+-- sounds todo
+----
+-- sound for flipping options
+-- should be like a digital drop of blood
+--
+
+--!!
+debug_mode=true
+--!!
 
 lib={} -- library of all pages: title,page
 inventory={} -- player inventory
+inv_chs={}
 cursed=false
 curr_page=nil -- current page
 prev_page=nil -- previous page
@@ -28,6 +43,8 @@ butt_pos[⬅️]={56,110}
 butt_pos[➡️]={64,110}
 dt=0 -- doom timer
 dtm=1000
+obutt_ani=0
+side=0
 
 
 -- logos
@@ -78,6 +95,7 @@ function _init()
  cls()
  -- set current page to landing page
 	curr_page=lib[title]
+ if(debug)curr_page=lib[p_debug]music_stop()
  bkmk=curr_page
 end
 -->8
@@ -116,22 +134,42 @@ function _update60()
  for b in all({⬆️,⬇️,⬅️,➡️}) do
 	 if btnp(b) then
 	  pressed=b
-	  if curr_page.choices[b] then
-				-- callback for this choice 
-    if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
-    -- callback for any choice
-    if(curr_page.leave_cb)curr_page:leave_cb()
-		  if curr_page.choices[b].page then
-		  	sfx(16, 3) -- select option sound
-     local target=curr_page.choices[b].page
-     curr_page:on_leave()
-		  	prev_page=curr_page
-		  	curr_page=target
-		  	curr_page.i=false
+	  
+   if side%2==0 then -- choices
 
-		  end
-	  end
-	 end
+    if curr_page.choices[b] then
+ 				-- callback for this choice 
+     if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
+     -- callback for any choice
+     if(curr_page.leave_cb)curr_page:leave_cb()
+ 		  if curr_page.choices[b].page then
+ 		  	sfx(16, 3) -- select option sound
+      local target=curr_page.choices[b].page
+      curr_page:on_leave()
+ 		  	prev_page=curr_page
+ 		  	curr_page=target
+ 		  	curr_page.i=false
+
+ 		  end
+ 	  end
+
+   else  -- inventory
+    if inv_chs[b] then
+     inv_chs[b]:cb()
+     if(curr_page.leave_cb)curr_page:leave_cb()
+     if inv_chs[b].page then
+      sfx(16, 3) -- select option sound
+      local target=inv_chs[b].page
+      curr_page:on_leave()
+      prev_page=curr_page
+      curr_page=target
+      curr_page.i=false
+      side+=1 -- don't show inventory
+     end
+    end
+   end
+
+  end
  end
  
  -- set bookmark
@@ -152,13 +190,25 @@ function _update60()
   sfx(38, 3) -- place bookmark sound
   bkmk=curr_page
  end
- if (prev_page and btnp(🅾️)) then
-  curr_page:on_leave()
-  curr_page=prev_page
-  curr_page.i=false
-  prev_page=nil
-  if(curr_page.leave_cb)curr_page:leave_cb()
+ 
+
+
+ if btnp(🅾️) then
+  obutt_ani+=1
+  if(obutt_ani%8==7)side+=1
+  debug[1]=side
+  if(side%2==0)debug[2]=side
+  doom_plus()
+  debug[3]="doom: "..dt
+
+  -- curr_page:on_leave()
+  -- curr_page=prev_page
+  -- curr_page.i=false
+  -- prev_page=nil
+  -- if(curr_page.leave_cb)curr_page:leave_cb()
  end
+
+
 
 end
 
@@ -185,6 +235,7 @@ function new_page(title,text)
  page.on_leave = function(pg)
   if(pg.no_choice)pg.choices={}
   page.i=false
+  obutt_ani=0
   doom_plus()
  end
 	page.choices = {}
@@ -272,47 +323,67 @@ function dis_choices(page)
  local c⬅️=page.choices[⬅️]
  local c➡️=page.choices[➡️]
 	
-	if c⬆️ then
-	 print(butt_key[⬆️],60,106,15)
-	 print("\^#"..c⬆️.title,hcenter(c⬆️.title,64),98,15)
-	end
-	if c⬇️ then
-	 print(butt_key[⬇️],60,114,15)
-	 print("\^#"..c⬇️.title,hcenter(c⬇️.title,64),122,15)
-	end
-	if c⬅️ then
-	 print(butt_key[⬅️],56,110,15)
-	 print("\^#"..c⬅️.title,hcenter(c⬅️.title,28),110,15)
-	end
-	if c➡️ then
-	 print(butt_key[➡️],64,110,15)
-	 print("\^#"..c➡️.title,hcenter(c➡️.title,100),110,15)
-	end
+ -- print o button
+ sspr(24+obutt_ani%8*8,0,8,8,60,109,7,7)
 
-	-- if there are no options, what do?
- if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then
-  curr_page.no_choice=true 
-  no_choice=true
-		if inventory["open mind"]	then
-			no_choice=false
-			curr_page.choices[⬇️]=ch_look_around
-		end
-		if inventory["blank card"]	then
-			no_choice=false
-			curr_page.choices[➡️]=ch_read_card
-		end
-		if no_choice then
-	  print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
-	  if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
+
+ if side%2==0 then  -- display the options
+  if c⬆️ then
+   print(butt_key[⬆️],60,104,15)
+   print("\^#"..c⬆️.title,hcenter(c⬆️.title,64),98,15)
   end
-  -- if(not bkmk)bkmk=lib[title]
- -- draw button press effect
+  if c⬇️ then
+   print(butt_key[⬇️],60,116,15)
+   print("\^#"..c⬇️.title,hcenter(c⬇️.title,64),122,15)
+  end
+  if c⬅️ then
+   print(butt_key[⬅️],54,110,15)
+   print("\^#"..c⬅️.title,hcenter(c⬅️.title,28),110,15)
+  end
+  if c➡️ then
+   print(butt_key[➡️],66,110,15)
+   print("\^#"..c➡️.title,hcenter(c➡️.title,100),110,15)
+  end
+
+
+
+  -- if there are no options, what do?
+  if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then
+   curr_page.no_choice=true 
+   no_choice=true
+   
+   if no_choice then
+    print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
+    if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
+   end
+   -- if(not bkmk)bkmk=lib[title]
+  -- draw button press effect
+  end
+  if page.choices[pressed] then
+   print(butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0)
+   pc+=1
+   if(pc>6)pc=0pressed=nil
+  end
+
+ else -- display the inventory
+
+   if inventory["open mind"] then
+    inv_chs[⬇️]=ch_look_around
+    print(butt_key[⬇️],60,116,15)
+    print("\^#"..inv_chs[⬇️].title,hcenter(inv_chs[⬇️].title,64),122,15)
+   end
+
+   if inventory["blank card"] then
+    inv_chs[➡️]=ch_read_card
+    print(butt_key[➡️],66,110,15)
+    print("\^#"..inv_chs[➡️].title,hcenter(inv_chs[➡️].title,100),110,15)
+   end
+
+
  end
- if page.choices[pressed] then
-  print(butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0)
- 	pc+=1
- 	if(pc>6)pc=0pressed=nil
- end
+
+
+
 end
 
 function glitch()
@@ -363,6 +434,18 @@ end
 
 -->8
 -- pages
+
+-- debug page
+p_debug="debug page"
+lib[p_debug]=new_page(
+p_debug, 
+"you're not even supposed\nto be here!!!\n\n    - albert einstein"
+)
+lib[p_debug].seed=42069
+lib[p_debug].cb=function()
+inventory["blank card"]=true
+inventory["open mind"]=true
+end
 
 -- landing page
 title="the trace gallery"
@@ -516,6 +599,16 @@ function no_trace()
  prev_page=nil
  -- bkmk=nil
 end
+
+ch_debug=new_choice(
+"debug choice",
+lib[p_debug]
+)
+lib[p_debug].choices[⬅️]=ch_debug
+lib[p_debug].choices[➡️]=ch_debug
+lib[p_debug].choices[⬆️]=ch_debug
+lib[p_debug].choices[⬇️]=ch_debug
+
 
 lib[title].choices[⬅️]=new_choice(
 "go inside",
@@ -750,14 +843,14 @@ function swap_sfx(_a, _b)
 	memcpy(sfxaddr+_addr2,_tmp,_len)
 end
 __gfx__
-0000000000fffff000fffff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000fffff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0070070000fffff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0007700000fffff000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0007700000fffff000f0f0f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0070070000ff0ff000ff0ff000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000f000f000f000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000fffff000fffff000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff000000000000000000000000000000000000000000
+0000000000fffff000f000f00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00000000000000000000000000000000000000000
+0070070000fffff000f000f0ff0000ffff00f0ffff00ffffff00ffffff00fffffff0ffffffffffffff0000ff0000000000000000000000000000000000000000
+0007700000fffff000f000f0ff0ff0ffff0ff0ffff0fffffff0fffffff0ffffffffffffffff00fffff0000ff0000000000000000000000000000000000000000
+0007700000fffff000f0f0f0ff0ff0ffff0ff0ffff0ff0ffff0ffffffffffffffffffffffff00fffff0000ff0000000000000000000000000000000000000000
+0070070000ff0ff000ff0ff0ff0000ffff0000ffff0000ffff00ffffffffffffffffffffffffffffff0000ff0000000000000000000000000000000000000000
+0000000000f000f000f000f00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00000000000000000000000000000000000000000
+00000000000000000000000000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff000000000000000000000000000000000000000000
 fff0000000000000000fffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 f0f0fff00f000f00f0f00000f0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 fff0f0f0f0f0f00f00f0f0f0f0ff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
