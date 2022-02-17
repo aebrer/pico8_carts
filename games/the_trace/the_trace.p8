@@ -461,7 +461,7 @@ lib[title].vfx=function()sspr(18,7,11,15,110,-1,11,15)end
 tsp="the second page"
 lib[tsp]=new_page(
 tsp, 
-"in this piece the artist\nintended to create an atmosphere\nof ominous intent.\n\nthis is your last chance to stop.\n"
+"in this piece the artist\nintended to create an atmosphere\nof ominous intent.\n\nthis is your last chance to stop.\n\nexpect flashing lights."
 )
 --lib[tsp].vfx=dither_noise
 lib[tsp].vfx=glitch
