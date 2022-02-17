@@ -12,8 +12,6 @@ __lua__
 -- - add a credits page somewhere
 --     and remember to thank your beta testers!
 -- - new logo like burning gate
--- - fix ux for negative button press flicker
---    including on the inventory
 
 ----
 -- sounds todo
@@ -23,7 +21,7 @@ __lua__
 --
 
 --!!
-debug_mode=true
+debug_mode=false
 --!!
 
 lib={} -- library of all pages: title,page
@@ -37,10 +35,10 @@ debug={}  -- list of things to print for debug
 pressed=nil -- if a button was pressed
 pc=0  -- timer for button press
 butt_pos={}
-butt_pos[⬆️]={60,106}
-butt_pos[⬇️]={60,114}
-butt_pos[⬅️]={56,110}
-butt_pos[➡️]={64,110}
+butt_pos[⬆️]={60,104}
+butt_pos[⬇️]={60,116}
+butt_pos[⬅️]={54,110}
+butt_pos[➡️]={66,110}
 dt=0 -- doom timer
 dtm=1000
 obutt_ani=0
@@ -95,7 +93,7 @@ function _init()
  cls()
  -- set current page to landing page
 	curr_page=lib[title]
- if(debug)curr_page=lib[p_debug]music_stop()
+ if(debug_mode)curr_page=lib[p_debug]music_stop()
  bkmk=curr_page
 end
 -->8
@@ -164,11 +162,12 @@ function _update60()
       prev_page=curr_page
       curr_page=target
       curr_page.i=false
-      side+=1 -- don't show inventory
      end
     end
+    if (not (inv_chs[⬆️] or inv_chs[⬇️] or inv_chs[⬅️] or inv_chs[➡️])) then
+     goto_prev_page()
+    end
    end
-
   end
  end
  
@@ -190,26 +189,23 @@ function _update60()
   sfx(38, 3) -- place bookmark sound
   bkmk=curr_page
  end
- 
-
 
  if btnp(🅾️) then
   obutt_ani+=1
-  if(obutt_ani%8==7)side+=1
-  debug[1]=side
-  if(side%2==0)debug[2]=side
+  if(obutt_ani%8==7)side+=1cls()
   doom_plus()
-  debug[3]="doom: "..dt
-
-  -- curr_page:on_leave()
-  -- curr_page=prev_page
-  -- curr_page.i=false
-  -- prev_page=nil
-  -- if(curr_page.leave_cb)curr_page:leave_cb()
  end
+end
 
-
-
+function goto_prev_page()
+ if prev_page then
+  curr_page:on_leave()
+  old_page=curr_page
+  curr_page=prev_page
+  curr_page.i=false
+  prev_page=old_page
+  if(curr_page.leave_cb)curr_page:leave_cb()
+ end
 end
 
 function doom_plus()
@@ -236,6 +232,7 @@ function new_page(title,text)
   if(pg.no_choice)pg.choices={}
   page.i=false
   obutt_ani=0
+  side=0
   doom_plus()
  end
 	page.choices = {}
@@ -299,12 +296,13 @@ function _draw()
  
  -- debug
  for i=1,#debug do
-  print("\^#"..tostr(debug[i]),0,0+8*i,15)
+  ?"\^#"..tostr(debug[i]),0,0+8*i,15
  end
 end
 
 function dis_title(page)
-	print("\^#"..page.title,0,0,15)
+	?"\^#"..page.title,0,0,15
+ -- ?"🐱: "..dt,0,123,15
 end
 
 function dis_logo(page)
@@ -314,7 +312,13 @@ function dis_logo(page)
 end
 
 function dis_text(page)
- if(page.text)print("\^#"..page.text,0,48,15)
+ if(page.text)?"\^#"..page.text,0,48,15
+end
+
+function butt_press()
+ ?butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0
+ pc+=1
+ if(pc>6)pc=0pressed=nil
 end
 
 function dis_choices(page)
@@ -326,64 +330,60 @@ function dis_choices(page)
  -- print o button
  sspr(24+obutt_ani%8*8,0,8,8,60,109,7,7)
 
-
  if side%2==0 then  -- display the options
   if c⬆️ then
-   print(butt_key[⬆️],60,104,15)
-   print("\^#"..c⬆️.title,hcenter(c⬆️.title,64),98,15)
+   ?butt_key[⬆️],butt_pos[⬆️][1],butt_pos[⬆️][2],15
+   ?"\^#"..c⬆️.title,hcenter(c⬆️.title,64),98,15
   end
   if c⬇️ then
-   print(butt_key[⬇️],60,116,15)
-   print("\^#"..c⬇️.title,hcenter(c⬇️.title,64),122,15)
+   ?butt_key[⬇️],butt_pos[⬇️][1],butt_pos[⬇️][2],15
+   ?"\^#"..c⬇️.title,hcenter(c⬇️.title,64),122,15
   end
   if c⬅️ then
-   print(butt_key[⬅️],54,110,15)
-   print("\^#"..c⬅️.title,hcenter(c⬅️.title,28),110,15)
+   ?butt_key[⬅️],butt_pos[⬅️][1],butt_pos[⬅️][2],15
+   ?"\^#"..c⬅️.title,hcenter(c⬅️.title,28),110,15
   end
   if c➡️ then
-   print(butt_key[➡️],66,110,15)
-   print("\^#"..c➡️.title,hcenter(c➡️.title,100),110,15)
+   ?butt_key[➡️],butt_pos[➡️][1],butt_pos[➡️][2],15
+   ?"\^#"..c➡️.title,hcenter(c➡️.title,100),110,15
   end
-
 
 
   -- if there are no options, what do?
   if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then
-   curr_page.no_choice=true 
-   no_choice=true
-   
-   if no_choice then
-    print("press 🅾️/c/z to forget",hcenter("press 🅾️/c/z to forget",62),110,15)
-    if(inventory["cursed"])print("(metaphorically speaking)",hcenter("(metaphorically speaking)",62),118,15)
-   end
-   -- if(not bkmk)bkmk=lib[title]
-  -- draw button press effect
+   chk_poc_msg="press ❎/x to use bookmark"
+   ?chk_poc_msg,hcenter(chk_poc_msg,62),98,15
+   chk_poc_msg="hold 🅾️/c/z to check pockets"
+   ?chk_poc_msg,hcenter(chk_poc_msg,62),122,15
   end
+
   if page.choices[pressed] then
-   print(butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0)
-   pc+=1
-   if(pc>6)pc=0pressed=nil
+   butt_press()
   end
 
  else -- display the inventory
 
-   if inventory["open mind"] then
-    inv_chs[⬇️]=ch_look_around
-    print(butt_key[⬇️],60,116,15)
-    print("\^#"..inv_chs[⬇️].title,hcenter(inv_chs[⬇️].title,64),122,15)
-   end
+  if inventory["open mind"] then
+   inv_chs[⬇️]=ch_look_around
+   ?butt_key[⬇️],60,116,15
+   ?"\^#"..inv_chs[⬇️].title,hcenter(inv_chs[⬇️].title,64),122,15
+  end
 
-   if inventory["blank card"] then
-    inv_chs[➡️]=ch_read_card
-    print(butt_key[➡️],66,110,15)
-    print("\^#"..inv_chs[➡️].title,hcenter(inv_chs[➡️].title,100),110,15)
-   end
+  if inventory["blank card"] then
+   inv_chs[➡️]=ch_read_card
+   ?butt_key[➡️],66,110,15
+   ?"\^#"..inv_chs[➡️].title,hcenter(inv_chs[➡️].title,100),110,15
+  end
 
+  if inv_chs[pressed] then
+   butt_press()
+  end
 
+  if (not (inv_chs[⬆️] or inv_chs[⬇️] or inv_chs[⬅️] or inv_chs[➡️])) then
+   chk_poc_msg="choose nothing to forget"
+   ?chk_poc_msg,hcenter(chk_poc_msg,62),122,15
+  end
  end
-
-
-
 end
 
 function glitch()
@@ -497,7 +497,7 @@ read_card,
 "now you have to make a choice:\n"
 )
 lib[read_card].cb=function()
- if btnp(🅾️) then
+ if obutt_ani%8==7 then
   lib[read_card].choices[⬅️]=ch_a_threat
   lib[read_card].choices[⬆️]=ch_just_art
   lib[read_card].choices[➡️]=ch_news_report
