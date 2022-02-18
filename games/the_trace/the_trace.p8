@@ -43,7 +43,7 @@ dt=0 -- doom timer
 dtm=1000
 obutt_ani=0
 side=0
-
+seed_reset_needed=true
 
 -- logos
 v9_static = {}
@@ -58,7 +58,7 @@ function v9_static.init(self)
  self.w=self.z+rnd(self.p)
  self.c=rnd(14)\1+2
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
- if(curr_page.dc)for i=1,14do pal(i,rnd({8,-16,-15,-14,-11,2,-8,-8}),1)end
+ dc_pal()
 end
 
 function v9_static.draw(self,x1,y1,w,h)
@@ -71,7 +71,7 @@ function dg_logo.init(self)
  fillp(rnd({▥,█,▤}))
  curr_page.cls=false
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
- if(curr_page.dc)for i=1,14do pal(i,rnd({8,-16,-15,-14,-11,2,-8,-8}),1)end
+ dc_pal()
 end
 
 function dg_logo.draw(self,x1,y1,w,h)
@@ -107,8 +107,15 @@ function _update60()
  	if curr_page.dc then
   	pal(15,-8,1)
    music_state("dead god")
-   if(dc())curr_page.logo=dg_logo
- 	else
+   if dc() then
+    curr_page.logo=dg_logo
+    if dc() then
+     curr_page=lib[p_breach]
+     prev_page=nil
+     bkmk=nil
+    end
+ 	 end
+  else
  		pal(15,7,1)
    curr_page:music_reset()
 		end
@@ -216,6 +223,11 @@ end
 function dc()
  return rnd(dt/rnd(dtm))>1
 end
+
+function dc_pal()
+ if(curr_page.dc)for i=1,14do pal(i,rnd({8,-16,-15,-14,-11,2,-8,-8}),1)end
+end
+
 -->8
 -- classes
 
@@ -447,6 +459,17 @@ inventory["blank card"]=true
 inventory["open mind"]=true
 end
 
+-- breach page
+p_breach="error: containment_breach"
+lib[p_breach]=new_page(
+p_breach, 
+""
+)
+lib[p_breach].seed=rnd(-1)
+lib[p_breach].cls=false
+lib[p_breach].vfx=tear
+lib[p_breach].logo=dg_logo
+
 -- landing page
 title="the trace gallery"
 lib[title]=new_page(
@@ -600,13 +623,31 @@ function no_trace()
  -- bkmk=nil
 end
 
+ch_breach=new_choice(
+ "containment_breach",
+ lib[p_breach],
+ function()
+  inventory["cursed"]=true
+  d=rnd()
+  bkmk=nil
+  prev_page=nil
+  lib[p_breach].text=lib[p_breach].text.."\ncontainment_breach "..d
+  lib[p_breach].choices[rnd({⬆️,⬇️,➡️,⬅️})]=ch_breach
+  seed_rnd()
+  dc_pal()
+  if(d>.88)containment_breach()
+ end
+)
+
+
+
 ch_debug=new_choice(
 "debug choice",
 lib[p_debug]
 )
 lib[p_debug].choices[⬅️]=ch_debug
 lib[p_debug].choices[➡️]=ch_debug
-lib[p_debug].choices[⬆️]=ch_debug
+lib[p_debug].choices[⬆️]=ch_breach
 lib[p_debug].choices[⬇️]=ch_debug
 
 
@@ -842,6 +883,206 @@ function swap_sfx(_a, _b)
 	memcpy(sfxaddr+_addr1,sfxaddr+_addr2,_len)
 	memcpy(sfxaddr+_addr2,_tmp,_len)
 end
+
+
+
+
+
+-->8
+-- containment breach
+
+function containment_breach()
+ music(61)
+ music_state("dead god")
+ fillp(█)
+ palt(0,false)
+ pal()
+ cls()
+ camera(-64,-64)
+ seed=rnd(-1)
+ srand(seed)
+ 
+ dither_modes = {
+  "mixed",
+  "burn_rect",
+  "burn",
+  "rect"
+ } 
+ dither_prob = 0.35
+ dither_mode="burn"
+ n_dither_modes = #dither_modes
+
+ colors = {0,7,0,7,-3,2,-8,8}
+
+ pal(colors,0)
+
+ function draw_noise(amt)
+  for i=0,amt*amt*amt do
+   poke(0x6000+rnd(0x2000), peek(rnd(0x7fff)))
+   poke(0x6000+rnd(0x2000),rnd(0xff))
+  end
+ end
+
+ function draw_glitch(gr)
+  local on=(t()*4.0)%gr<0.1
+  gso=on and 0 or rnd(0x1fff)\1
+  gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+  for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+   poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+  end
+ end
+
+ function vfx_smoothing()
+  local pixel = rnd_pixel()
+  c=abs(pget(pixel.x,pixel.y)-1) 
+ end
+
+ function rnd_pixel()
+  local px_x = (flr(rnd(128)) + 1) - 64
+  local px_y = (flr(rnd(128)) + 1) - 64
+  local pixel = {
+   x=px_x,
+   y=px_y
+  }
+  return(pixel)
+ end
+
+ function dither(dm)
+  if dm == "mixed" then
+   while dm == "mixed" do
+    dm = rnd(dither_modes)
+   end
+   dither(dm)
+  elseif dm == "rect" then
+   for i=1,6 do 
+    local fudge_x = (flr(rnd(4)) + 1) * rnd_sign()
+    local fudge_y = (flr(rnd(4)) + 1) * rnd_sign()
+    --skip some nunber (12) pixels
+    for x=128+fudge_x,0,-12 do
+     for y=128+fudge_y,0,-12 do
+      local pxl = rnd_pixel()
+      if rnd(1) > dither_prob then
+       rect(pxl.x-1,pxl.y-1,pxl.x+1,pxl.y+1,colors[0])
+      end
+     end
+    end
+   end
+  elseif dm == "burn" then
+   for i=1,4 do 
+    local fudge_x = (flr(rnd(4)) + 1) * rnd_sign()
+    local fudge_y = (flr(rnd(4)) + 1) * rnd_sign()
+    --skip some nunber (12) pixels
+    for x=128+fudge_x,0,-12 do
+     for y=128+fudge_y,0,-12 do
+      local pxl = rnd_pixel()
+       c=pget(pxl.x,pxl.y)
+       circ(pxl.x,pxl.y,1,burn(c))
+     end
+    end
+   end
+  elseif dm == "burn_rect" then
+   for i=1,4 do 
+    local fudge_x = (flr(rnd(4)) + 1) * rnd_sign()
+    local fudge_y = (flr(rnd(4)) + 1) * rnd_sign()
+    --skip some nunber (12) pixels
+    for x=128+fudge_x,0,-12 do
+     for y=128+fudge_y,0,-12 do
+      local pxl = rnd_pixel()
+       c=pget(pxl.x,pxl.y)
+       rect(pxl.x-1,pxl.y-1,pxl.x+1,pxl.y+1,burn(c))
+     end
+    end
+   end
+  end
+ end
+
+ function burn(c)
+  return abs(c-1)
+ end
+
+function rnd_sign()
+ if(rnd(1)>.5)return(-1)
+ return(1)
+end
+
+ function undither(loops,s)
+  
+  for i=-loops,1 do
+   local x=rnd(128)-64
+   local y=rnd(128)-64
+   local c=min(abs(pget(x,y)-1),4)
+   circfill(x*s,y*s,3,c)
+   x=rnd(128)-64
+   y=rnd(128)-64
+   c=min(abs(pget(x,y)-1),colors[4])
+   circ(x*s,y*s,8+rnd(3),c)
+   circ(x*s,y*s,13+rnd(5),c)
+   x=rnd(128)-64
+   y=rnd(128)-64
+   c=min(abs(pget(x,y)-1),colors[4])
+   pset(x*s,y*s,c)
+   -- circfill(x,y,2,c)
+  end
+ end
+
+ seed_reset_needed = false
+
+ function _update60()
+  local loop_len =10
+  local loop = flr(t())%loop_len == 0
+  local srf = flr(t())%(loop_len/2) == 0
+  local r = t()/loop_len
+  local x,y=0,0
+
+  if srf and seed_reset_needed then
+   srand(seed)
+   seed_reset_needed = false
+  elseif not srf and not seed_reset_needed then
+   seed_reset_needed = true
+  end
+
+  for i=0,20 do
+   x=sin(r+i)*(20+(i*rnd(3)+1))
+   y=(cos(r+i)*sin(r+i))*(20+(i*rnd(3)+1))
+   
+   pset(x*flr(rnd(3)+1),y,8)
+   pset(-x*flr(rnd(3)+1),y,8)
+   pset(x*flr(rnd(3)+1),-y,8)
+   pset(-x*flr(rnd(3)+1),-y,8)
+
+   pset(x/flr(rnd(3)+1),y*i,8)
+   pset(-x/flr(rnd(3)+1),y*i,8)
+   pset(x/flr(rnd(3)+1),-y*i,8)
+   pset(-x/flr(rnd(3)+1),-y*i,8)
+
+  end
+  
+  draw_noise(0.5)
+  dither(dither_mode)
+  undither(10,0.3)
+  for i=-15,1 do
+    x=5*sin(r)*cos(r)+max(5,rnd(14)+5)
+    y=-5*sin(r)-min(-14,rnd(14)-14-5)
+   oval(
+    -x,-y,x,y,
+    colors[0]
+   )
+  end
+
+  for i=-2,1 do
+   x=(5+rnd(30))*sin(r)*cos(r)+max(5,rnd(14)+5)
+   y=(-5-rnd(30))*sin(r)-min(-14,rnd(14)-14-5)
+   oval(
+    -x,-y,x,y,
+    colors[0]
+   )
+  end
+  pal(colors,1)
+ end
+
+ function _draw()end
+
+end
 __gfx__
 0000000000fffff000fffff000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff000000000000000000000000000000000000000000
 0000000000fffff000f000f00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00000000000000000000000000000000000000000
@@ -1048,4 +1289,59 @@ __music__
 00 0d0a0e44
 00 080a0f44
 02 090a4b44
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+00 41424344
+01 08464344
+00 090a4344
+02 090a4344
 
