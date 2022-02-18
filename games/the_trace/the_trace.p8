@@ -40,7 +40,7 @@ butt_pos[⬇️]={60,116}
 butt_pos[⬅️]={54,110}
 butt_pos[➡️]={66,110}
 dt=0 -- doom timer
-dtm=1000
+dtm=888
 obutt_ani=0
 side=0
 seed_reset_needed=true
@@ -110,9 +110,9 @@ function _update60()
    if dc() then
     curr_page.logo=dg_logo
     if dc() then
-     curr_page=lib[p_breach]
-     prev_page=nil
-     bkmk=nil
+     cls()
+     glitch()
+     curr_page.choices[rnd({⬆️,⬇️,➡️,⬅️})]=ch_breach
     end
  	 end
   else
@@ -460,15 +460,19 @@ inventory["open mind"]=true
 end
 
 -- breach page
-p_breach="error: containment_breach"
+p_breach="containment_breach"
 lib[p_breach]=new_page(
-p_breach, 
+p_breach,
 ""
 )
-lib[p_breach].seed=rnd(-1)
-lib[p_breach].cls=false
 lib[p_breach].vfx=tear
 lib[p_breach].logo=dg_logo
+lib[p_breach].cb=function()
+ inventory["cursed"]=true
+ lib[p_breach].seed=rnd(-1)
+end
+lib[p_breach].music="dead god"
+
 
 -- landing page
 title="the trace gallery"
@@ -627,17 +631,15 @@ ch_breach=new_choice(
  "containment_breach",
  lib[p_breach],
  function()
-  inventory["cursed"]=true
   d=rnd()
   bkmk=nil
   prev_page=nil
   lib[p_breach].text=lib[p_breach].text.."\ncontainment_breach "..d
-  lib[p_breach].choices[rnd({⬆️,⬇️,➡️,⬅️})]=ch_breach
-  seed_rnd()
-  dc_pal()
   if(d>.88)containment_breach()
+  doom_plus()
  end
 )
+lib[p_breach].choices[rnd({⬆️,⬇️,➡️,⬅️})]=ch_breach
 
 
 
