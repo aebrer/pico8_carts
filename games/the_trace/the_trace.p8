@@ -4,22 +4,14 @@ __lua__
 -- init
 
 -- todo
--- - item that lets you stack up vfx on the title page
--- - when dc chance to teleport to a set of dead god pages
--- - a page that can occur that is just a full screen vfx
---   and you can press any button to leave it
+
 -- - put some mirror ideocartography somewhere
--- - add a credits page somewhere
---     and remember to thank your beta testers!
+
 -- - new logo like burning gate
 
-----
--- sounds todo
-----
--- sound for going to alt text
--- inspiration:
--- digitized talking noises
--- rewinding vhs kinda sound
+-- - "ignore it" path as good path to remove doom
+--   dt*=0.9 for each right answer
+--   use voght kompff test from blade runner
 
 --!!
 debug_mode=false
@@ -41,10 +33,11 @@ butt_pos[⬇️]={60,116}
 butt_pos[⬅️]={54,110}
 butt_pos[➡️]={66,110}
 dt=0 -- doom timer
-dtm=420
+dtm=840
 obutt_ani=0
 side=0
 seed_reset_needed=true
+cam_vfx={}
 
 -- logos
 v9_static = {}
@@ -237,7 +230,7 @@ function new_page(title,text)
 	page.title = title
 	page.seed = get_seed(page.title)
 	page.text_i = 0
-	page.texts = {[0]=text}	
+	page.texts = {[0]=text, ""}	
 	page.text = page.texts[page.text_i]
 	page.logo = v9_static
  page.cls=true
@@ -304,6 +297,10 @@ function _draw()
  if(bkmk)spr(2,120,0)
  if(curr_page==bkmk)spr(1,120,0)
  if(cursed)glitch()tear(lib[title])
+
+ for cvfx in all(cam_vfx) do
+  cvfx(curr_page)
+ end
 
  curr_page:dis_title()
  curr_page:dis_text()
@@ -396,6 +393,12 @@ function dis_choices(page)
    ?"\^#"..inv_chs[⬆️].title,hcenter(inv_chs[⬆️].title,64),98,15
   end
 
+  if inventory["instant camera"] then
+   inv_chs[⬅️]=ch_photo
+   ?butt_key[⬅️],butt_pos[⬅️][1],butt_pos[⬅️][2],15
+   ?"\^#"..inv_chs[⬅️].title,hcenter(inv_chs[⬅️].title,28),110,15
+  end
+
 
   if inv_chs[pressed] then
    butt_press()
@@ -470,6 +473,7 @@ lib[p_debug].cb=function()
 inventory["blank card"]=true
 inventory["open mind"]=true
 inventory["guided tour"]=true
+inventory["instant camera"]=true
 end
 
 -- breach page
@@ -729,24 +733,31 @@ function()
  local chk=rnd()
  if chk>0.8 then
   if not inventory["blank card"] then 
-   curr_page.text = curr_page.text.."\nyou find a small blank card\nand pocket it."
+   curr_page.text = curr_page.text.."\n🅾️ you find a small blank card\nand pocket it. ➡️"
    inventory["blank card"]=true
   end
  end
  if chk<.03 then
   if not inventory["open mind"] then
   	inventory["open mind"]=true
-  	if(curr_page.text)curr_page.text=curr_page.text.."\nyou've got a pretty open mind."
+  	if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you're willing to look\nanywhere. but why?⬇️"
  	end
  end
  
  if chk<.66 and chk>=.6 then
   if not inventory["guided tour"] then
   	inventory["guided tour"]=true
-  	if(curr_page.text)curr_page.text=curr_page.text.."\nwhoa, some sort of pre-recorded\ntour. there's a timestamp for \nmost of the art."
+  	if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you suddenly realize you've\nbeen hearing a voice...\nsome kind of tour? ⬆️"
  	end
  end
  
+ if chk<.44 and chk>=.4 then
+  if not inventory["instant camera"] then
+   inventory["instant camera"]=true
+   if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you just noticed an\ninstant film camera laying\non the ground! ⬅️"
+  end
+ end
+
  seed_rnd()
 end
 )
@@ -764,12 +775,24 @@ ch_gt=new_choice(
 "guided tour",
 nil,
 function()
+ sfx(49, 3) --page turn sound
  doom_plus()
  curr_page.text_i=(curr_page.text_i+1)%(#curr_page.texts+1)
  curr_page.text=curr_page.texts[curr_page.text_i]
 end
 )
 
+ch_photo=new_choice(
+"take photo",
+nil,
+function()
+ sfx(29, 3) --camera shutter sound
+ doom_plus()
+ -- todo, delete when too many vfx
+ add(cam_vfx,curr_page.vfx)
+ if(#cam_vfx>3)deli(cam_vfx,1)
+end
+)
 
 
 ch_a_threat=new_choice(
@@ -1297,7 +1320,7 @@ d1180020059540595005950059500595005950059500595005940059400593005930059200592005
 91180000131120c1020c1000c1020c1120c1000c10000102101120c1020c1120c102131120c1020c1000c102101120c1020c1120c102151120c102101120c1000c1000c102151120c102101120c1020c1120c102
 911800000c1120c1020c1000c102111120c1020c1000c102151120c102111120c1020c1120c1020c1000c1020e1120c102171120c102131120c1020e1120c1020c1000c102131120c1020e1120c102171120c102
 91180010131120c1020c1000c1020c1120c1020c1000c102101120c1020c1000c102131120c1020c10000102181121f1121c1121f112181121f1121c1121f112151021c102181021c102151021c102181021c102
-01080000336551b6140060024600246002460024600246001d6001d60018600186001860018600186001860000600006000060000600006000060000600006000060000600006000060000600006000060000600
+00080000336571b61700607336571d6172460724607246071d6071d60718607186071860718607186071860700607006070060700607006070060700607006070060700607006070060700607006070060700607
 093000200055400550005500055000540005300052000510005540055000550005500054000530005200051000554005500055000550005400053000520005100055400550005500055000540005300052000510
 093000200055400550005500055000540005300052000510005540055000550005500054000530005200051005554055500555005550055400553005520055100455404550045500455004540045300452004510
 0918002018a5418a5018a5018a5018a5018a5018a5018a5018a4018a4018a3018a3018a2018a2018a1018a1015a5415a5015a5015a5015a5015a5015a5015a5015a4015a4015a3015a3015a2015a2015a1015a10
@@ -1317,7 +1340,7 @@ d1180020059540595005950059500595005950059500595005940059400593005930059200592005
 090800000c15300164001540060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000000000000000000000
 0d0800000c15300164001540060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000000000000000000000
 150800000c15300164001540060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000600006000060000000000000000000000
-00030000276202d6400000032650116600d640000001a6300d6200a6400c620000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00040000276112d6310060132641116510d631006011a6210d6110a6310c611006010060100601006010060100601006010060100601006010060100601006010060100601006010060100601006010060100601
 __music__
 01 08424344
 01 090a4b44
