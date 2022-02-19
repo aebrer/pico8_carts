@@ -16,9 +16,10 @@ __lua__
 ----
 -- sounds todo
 ----
--- sound for flipping options
--- should be like a digital drop of blood
---
+-- sound for going to alt text
+-- inspiration:
+-- digitized talking noises
+-- rewinding vhs kinda sound
 
 --!!
 debug_mode=false
@@ -235,7 +236,9 @@ function new_page(title,text)
 	local page = {}
 	page.title = title
 	page.seed = get_seed(page.title)
-	page.text = text
+	page.text_i = 0
+	page.texts = {[0]=text}	
+	page.text = page.texts[page.text_i]
 	page.logo = v9_static
  page.cls=true
 	page.cb = nil
@@ -377,15 +380,22 @@ function dis_choices(page)
 
   if inventory["open mind"] then
    inv_chs[⬇️]=ch_look_around
-   ?butt_key[⬇️],60,116,15
+   ?butt_key[⬇️],butt_pos[⬇️][1],butt_pos[⬇️][2],15
    ?"\^#"..inv_chs[⬇️].title,hcenter(inv_chs[⬇️].title,64),122,15
   end
 
   if inventory["blank card"] then
    inv_chs[➡️]=ch_read_card
-   ?butt_key[➡️],66,110,15
+   ?butt_key[➡️],butt_pos[➡️][1],butt_pos[➡️][2],15
    ?"\^#"..inv_chs[➡️].title,hcenter(inv_chs[➡️].title,100),110,15
   end
+
+  if inventory["guided tour"] then
+   inv_chs[⬆️]=ch_gt
+   ?butt_key[⬆️],butt_pos[⬆️][1],butt_pos[⬆️][2],15
+   ?"\^#"..inv_chs[⬆️].title,hcenter(inv_chs[⬆️].title,64),98,15
+  end
+
 
   if inv_chs[pressed] then
    butt_press()
@@ -454,9 +464,12 @@ p_debug,
 "you're not even supposed\nto be here!!!\n\n    - albert einstein"
 )
 lib[p_debug].seed=42069
+add(lib[p_debug].texts,"yeah this is a test")
+add(lib[p_debug].texts,"yeah this is *also* a test")
 lib[p_debug].cb=function()
 inventory["blank card"]=true
 inventory["open mind"]=true
+inventory["guided tour"]=true
 end
 
 -- breach page
@@ -722,11 +735,18 @@ function()
   	if(curr_page.text)curr_page.text=curr_page.text.."\nyou've got a pretty open mind."
  	end
  end
+ local chk=rnd()
+ if chk<.66 and chk>=.6 then
+  if not inventory["guided tour"] then
+  	inventory["guided tour"]=true
+  	if(curr_page.text)curr_page.text=curr_page.text.."\nwhoa, some sort of pre-recorded\ntour. there's a timestamp for \nmost of the art."
+ 	end
+ end
+ 
  seed_rnd()
 end
 )
 lib[toc].choices[⬇️]=ch_look_around
-
 lib[toc].choices[⬅️]=new_choice(
 "go back",
 lib[ade]
@@ -735,6 +755,18 @@ lib[toc].choices[➡️]=new_choice(
 "deep breaths",
 lib[engreg]
 )
+
+ch_gt=new_choice(
+"guided tour",
+nil,
+function()
+ doom_plus()
+ curr_page.text_i=(curr_page.text_i+1)%(#curr_page.texts+1)
+ curr_page.text=curr_page.texts[curr_page.text_i]
+end
+)
+
+
 
 ch_a_threat=new_choice(
 "a threat",
