@@ -41,7 +41,7 @@ butt_pos[⬇️]={60,116}
 butt_pos[⬅️]={54,110}
 butt_pos[➡️]={66,110}
 dt=0 -- doom timer
-dtm=888
+dtm=420
 obutt_ani=0
 side=0
 seed_reset_needed=true
@@ -531,10 +531,10 @@ engreg,
 lib[engreg].vfx=tear
 
 -- read_card
-read_card="what's on the card?"
+read_card="reading the future"
 lib[read_card]=new_page(
 read_card,
-"now you have to make a choice:\n"
+"now you have to make a choice...\nwhat's 0n the card?"
 )
 lib[read_card].cb=function()
  if obutt_ani%8==0 and obutt_ani>0 then
