@@ -544,7 +544,8 @@ read_card,
 "now you have to make a choice...\nwhat's 0n the card?"
 )
 lib[read_card].cb=function()
- if obutt_ani%8==0 and obutt_ani>0 then
+ if rnd()>0.995 then
+  seed_rnd()
   lib[read_card].choices[⬅️]=ch_a_threat
   lib[read_card].choices[⬆️]=ch_just_art
   lib[read_card].choices[➡️]=ch_news_report
@@ -553,7 +554,7 @@ lib[read_card].cb=function()
   end
  end
 end
-
+lib[read_card].vfx=glitch
 
 -- cursed card
 p_curse="what were you thinking"
