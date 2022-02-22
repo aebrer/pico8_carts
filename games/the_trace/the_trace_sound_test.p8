@@ -1,887 +1,289 @@
 pico-8 cartridge // http://www.pico-8.com
 version 35
 __lua__
--- init
 
--- todo
 
--- - put some mirror ideocartography somewhere
-
--- - new logo like burning gate
-
--- - "ignore it" path as good path to remove doom
---   dt*=0.9 for each right answer
---   use voght kompff test from blade runner
-
---!!
-debug_mode=false
---!!
-
-lib={} -- library of all pages: title,page
-inventory={} -- player inventory
-inv_chs={}
-cursed=false
-curr_page=nil -- current page
-prev_page=nil -- previous page
-bkmk=nil -- bookmark a page
-debug={}  -- list of things to print for debug
-pressed=nil -- if a button was pressed
-pc=0  -- timer for button press
-butt_pos={}
-butt_pos[⬆️]={60,104}
-butt_pos[⬇️]={60,116}
-butt_pos[⬅️]={54,110}
-butt_pos[➡️]={66,110}
-dt=0 -- doom timer
-dtm=840
-obutt_ani=0
-side=0
-seed_reset_needed=true
-cam_vfx={}
-
--- logos
-v9_static = {}
-function v9_static.init(self)
- fillp(rnd({▥,█,▤}))
- curr_page.cls=true
- self.p={1,3}
- self.g=rnd(5)-3
- self.a=-1
- self.b=self.a*2
- self.z=2
- self.w=self.z+rnd(self.p)
- self.c=rnd(14)\1+2
- for i=1,14do pal(i,flr(rnd(33)-17),1)end
- dc_pal()
+function _init()
+	
+	options = {
+		{
+			name="normal music",
+			func=function()
+				music_start(true)
+			end
+		},
+		{
+			name="angry music",
+			func=function()
+				music_start(true)
+				music_state("angry")
+			end
+		},
+		{
+			name="peaceful music",
+			func=function()
+				music_start(true)
+				music_state("peaceful")
+			end
+		},
+		{
+			name="dead god music",
+			func=function()
+				music_start(true)
+				music_state("dead god")
+			end
+		},
+		{
+			name="menu sfx",
+			func=function()
+				sfx(16,3)
+			end
+		},
+		{
+			name="explore sfx",
+			func=function()
+				sfx(17,3)
+			end
+		},
+		{
+			name="camera sfx",
+			func=function()
+				sfx(29,3)
+			end
+		},
+		{
+			name="bookmark sfx",
+			func=function()
+				sfx(38,3)
+			end
+		},
+		{
+			name="unbookmark sfx",
+			func=function()
+				sfx(39,3)
+			end
+		},
+		{
+			name="goto sfx",
+			func=function()
+				sfx(40,3)
+			end
+		},
+		{
+			name="blood sfx #1",
+			func=function()
+				sfx(41,3)
+			end
+		},
+		{
+			name="blood sfx #2",
+			func=function()
+				sfx(42,3)
+			end
+		},
+		{
+			name="blood sfx #3",
+			func=function()
+				sfx(43,3)
+			end
+		},
+		{
+			name="blood sfx #4",
+			func=function()
+				sfx(44,3)
+			end
+		},
+		{
+			name="blood sfx #5",
+			func=function()
+				sfx(45,3)
+			end
+		},
+		{
+			name="blood sfx #6",
+			func=function()
+				sfx(46,3)
+			end
+		},
+		{
+			name="blood sfx #7",
+			func=function()
+				sfx(47,3)
+			end
+		},
+		{
+			name="blood sfx #8",
+			func=function()
+				sfx(48,3)
+			end
+		},
+		{
+			name="page turn sfx",
+			func=function()
+				sfx(49,3)
+			end
+		},
+		{
+			name="stop all",
+			func=function()
+				music_stop()
+				basssize = 0
+				arpsize = 0
+				lastdrum = 0
+				drum = false
+			end
+		}
+	}
+	
+	selection = 1
+	
 end
 
-function v9_static.draw(self,x1,y1,w,h)
-	for x=self.g+x1,self.g+x1+w,self.z do for y=self.g+y1,self.g+y1+h,self.w do
- circ(x,y,rnd(2),x*y%self.c)end end
-end
-
-dg_logo = {}
-function dg_logo.init(self)
- fillp(rnd({▥,█,▤}))
- curr_page.cls=false
- for i=1,14do pal(i,flr(rnd(33)-17),1)end
- dc_pal()
-end
-
-function dg_logo.draw(self,x1,y1,w,h)
- poke(0x5f54,0x60)
- palt(0,false)
- if(rnd()>.1)sspr(x1,y1,w,h,x1+2,y1+2,w-4,h-4)
- for i=0,10 do 
-  circ(rnd(128),rnd(128),rnd(64)+64,rnd(8))
-  sspr(0,rnd(128),128,rnd(5),rnd(128),0,rnd(5),128)
-  sspr(rnd(128),0,rnd(5),128,0,rnd(128),128,rnd(5))
- end
- poke(0x5f54,0x00)
- palt(0,true)
-end
-
-
-function _init() 
-	music_start(true)
- cls()
- -- set current page to landing page
-	curr_page=lib[title]
- if(debug_mode)curr_page=lib[p_debug]music_stop()
- bkmk=curr_page
-end
--->8
--- update
 function _update60()
--- srand(rnd(-1))
- if(curr_page.cls)cls()
- -- do the init for all pages
- if not curr_page.i then 
-  curr_page.dc=dc()
- 	if curr_page.dc then
-  	pal(15,-8,1)
-   music_state("dead god")
-   if dc() then
-    curr_page.logo=dg_logo
-    if dc() then
-     cls()
-     glitch()
-     curr_page.choices[rnd({⬆️,⬇️,➡️,⬅️})]=ch_breach
-    end
- 	 end
-  else
- 		pal(15,7,1)
-   curr_page:music_reset()
-		end
- 	srand(curr_page.seed)
- 	curr_page.logo:init()
- 	curr_page.i=true
- end
- if lib[title].seed%17==0 then
-  cursed=true
- else
-  cursed=false
- end
-
- if(inventory["cursed"])srand(curr_page.seed)
-
- -- do callbacks for curr_page
- if(curr_page.cb)curr_page:cb()
- if(bkmk and bkmk.cb)bkmk:cb()
-  
- -- check inputs for choices
- for b in all({⬆️,⬇️,⬅️,➡️}) do
-	 if btnp(b) then
-	  pressed=b
-	  
-   if side%2==0 then -- choices
-
-    if curr_page.choices[b] then
- 				-- callback for this choice 
-     if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
-     -- callback for any choice
-     if(curr_page.leave_cb)curr_page:leave_cb()
- 		  if curr_page.choices[b].page then
- 		  	sfx(16, 3) -- select option sound
-      local target=curr_page.choices[b].page
-      curr_page:on_leave()
- 		  	prev_page=curr_page
- 		  	curr_page=target
- 		  	curr_page.i=false
-
- 		  end
- 	  end
-
-   else  -- inventory
-    if inv_chs[b] then
-     inv_chs[b]:cb()
-     if(curr_page.leave_cb)curr_page:leave_cb()
-     if inv_chs[b].page then
-      sfx(16, 3) -- select option sound
-      local target=inv_chs[b].page
-      curr_page:on_leave()
-      prev_page=curr_page
-      curr_page=target
-      curr_page.i=false
-     end
-    end
-    if (not (inv_chs[⬆️] or inv_chs[⬇️] or inv_chs[⬅️] or inv_chs[➡️])) then
-     goto_prev_page()
-    end
-   end
-  end
- end
- 
- -- set bookmark
- if (bkmk and btnp(❎)) then 
-  if curr_page==bkmk then 
-   sfx(39, 3) -- remove bookmark sound
-   bkmk=nil
-  else
-   sfx(40, 3) -- goto bookmark sound
-   if(curr_page.leave_cb)curr_page:leave_cb()
-   curr_page:on_leave()
-   prev_page=curr_page
-   curr_page=bkmk
-   curr_page.i=false
-  end
-  
- elseif btnp(❎) then
-  sfx(38, 3) -- place bookmark sound
-  bkmk=curr_page
- end
-
- if btnp(🅾️) then
-  sfx(41+obutt_ani%8,3)
-  obutt_ani+=1
-  if(obutt_ani%8==0)side+=1cls()
-  doom_plus()
- end
-end
-
-function goto_prev_page()
- if prev_page then
-  curr_page:on_leave()
-  old_page=curr_page
-  curr_page=prev_page
-  curr_page.i=false
-  prev_page=old_page
-  if(curr_page.leave_cb)curr_page:leave_cb()
- end
-end
-
-function doom_plus()
- dt+=1
-end
-
-function dc()
- return rnd(dt/rnd(dtm))>1
-end
-
-function dc_pal()
- if(curr_page.dc)for i=1,14do pal(i,rnd({8,-16,-15,-14,-11,2,-8,-8}),1)end
-end
-
--->8
--- classes
-
-function new_page(title,text)
-	local page = {}
-	page.title = title
-	page.seed = get_seed(page.title)
-	page.text_i = 0
-	page.texts = {[0]=text}	
-	page.text = page.texts[page.text_i]
-	page.logo = v9_static
- page.cls=true
-	page.cb = nil
- page.leave_cb = nil
- page.dc=false
- page.on_leave = function(pg)
-  page.i=false
-  obutt_ani=0
-  side=0
-  doom_plus()
- end
-	page.choices = {}
- page.music=""
- page.music_reset = function(pg)
-  music_state(pg.music)
- end
-	
-	-- method assignments
-	page.dis_title = dis_title
-	page.dis_text = dis_text
-	page.dis_logo = dis_logo
-	page.dis_choices = dis_choices
-	
-	-- finish
-	lib[title]=page
-	return page
-end
-
-function new_choice(title,page,cb)
- local choice = {}
- choice.title=title
- choice.page=page
- choice.cb=cb
- return(choice)
-end
--->8
--- utils
-function get_seed(w)
- s=1
- for i=1,#w do
-	ch=ord(sub(w,i,i))s+=s*31+ch
+	if btnp(⬆️) then
+		selection -= 1
+	elseif btnp(⬇️) then
+		selection += 1
+	elseif btnp(⬅️) then
+		selection -= 10
+	elseif btnp(➡️) then
+		selection += 10
 	end
---	if(#w==0)s=r(-1) 
-	return(s)
-end
-
-function hcenter(s,c)
-  -- screen center minus the
-  -- string length times the 
-  -- pixels in a char's width,
-  -- cut in half
-  return c-#s*2
-end
-
-butt_key={[0]="⬅️","➡️","⬆️","⬇️"}
--->8
--- draw
-function _draw()
- 
- if(curr_page.i)curr_page:dis_logo() 
- if(curr_page.vfx)curr_page:vfx()
- if(bkmk and bkmk.vfx)bkmk:vfx() 
- if(bkmk)spr(2,120,0)
- if(curr_page==bkmk)spr(1,120,0)
- if(cursed)glitch()tear(lib[title])
-
- for cvfx in all(cam_vfx) do
-  cvfx(curr_page)
- end
-
- curr_page:dis_title()
- curr_page:dis_text()
- curr_page:dis_choices()
- 
- -- debug
- for i=1,#debug do
-  ?"\^#"..tostr(debug[i]),0,0+8*i,15
- end
-end
-
-function dis_title(page)
-	?"\^#"..page.title,0,0,15
- -- ?"🐱: "..dt,0,123,15
-end
-
-function dis_logo(page)
- clip(0,8,128,32)
- page.logo:draw(0,8,128,32)
- clip()
-end
-
-function dis_text(page)
- if(page.text)?"\^#"..page.text,0,48,15
-end
-
-function butt_press()
- ?butt_key[pressed],butt_pos[pressed][1],butt_pos[pressed][2],0
- pc+=1
- if(pc>6)pc=0pressed=nil
-end
-
-function dis_choices(page)
- local c⬆️=page.choices[⬆️]
- local c⬇️=page.choices[⬇️]
- local c⬅️=page.choices[⬅️]
- local c➡️=page.choices[➡️]
 	
- -- print o button
- sspr(24+obutt_ani%8*8,0,8,8,60,109,7,7)
-
- if side%2==0 then  -- display the options
-  if c⬆️ then
-   ?butt_key[⬆️],butt_pos[⬆️][1],butt_pos[⬆️][2],15
-   ?"\^#"..c⬆️.title,hcenter(c⬆️.title,64),98,15
-  end
-  if c⬇️ then
-   ?butt_key[⬇️],butt_pos[⬇️][1],butt_pos[⬇️][2],15
-   ?"\^#"..c⬇️.title,hcenter(c⬇️.title,64),122,15
-  end
-  if c⬅️ then
-   ?butt_key[⬅️],butt_pos[⬅️][1],butt_pos[⬅️][2],15
-   ?"\^#"..c⬅️.title,hcenter(c⬅️.title,28),110,15
-  end
-  if c➡️ then
-   ?butt_key[➡️],butt_pos[➡️][1],butt_pos[➡️][2],15
-   ?"\^#"..c➡️.title,hcenter(c➡️.title,100),110,15
-  end
-
-
-  -- if there are no options, what do?
-  if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then
-   chk_poc_msg="press ❎/x to use bookmark"
-   ?chk_poc_msg,hcenter(chk_poc_msg,62),98,15
-   chk_poc_msg="hold 🅾️/c/z to check pockets"
-   ?chk_poc_msg,hcenter(chk_poc_msg,62),122,15
-  end
-
-  if page.choices[pressed] then
-   butt_press()
-  end
-
- else -- display the inventory
-
-  if inventory["open mind"] then
-   inv_chs[⬇️]=ch_look_around
-   ?butt_key[⬇️],butt_pos[⬇️][1],butt_pos[⬇️][2],15
-   ?"\^#"..inv_chs[⬇️].title,hcenter(inv_chs[⬇️].title,64),122,15
-  end
-
-  if inventory["blank card"] then
-   inv_chs[➡️]=ch_read_card
-   ?butt_key[➡️],butt_pos[➡️][1],butt_pos[➡️][2],15
-   ?"\^#"..inv_chs[➡️].title,hcenter(inv_chs[➡️].title,100),110,15
-  end
-
-  if inventory["guided tour"] then
-   inv_chs[⬆️]=ch_gt
-   ?butt_key[⬆️],butt_pos[⬆️][1],butt_pos[⬆️][2],15
-   ?"\^#"..inv_chs[⬆️].title,hcenter(inv_chs[⬆️].title,64),98,15
-  end
-
-  if inventory["instant camera"] then
-   inv_chs[⬅️]=ch_photo
-   ?butt_key[⬅️],butt_pos[⬅️][1],butt_pos[⬅️][2],15
-   ?"\^#"..inv_chs[⬅️].title,hcenter(inv_chs[⬅️].title,28),110,15
-  end
-
-
-  if inv_chs[pressed] then
-   butt_press()
-  end
-
-  if (not (inv_chs[⬆️] or inv_chs[⬇️] or inv_chs[⬅️] or inv_chs[➡️])) then
-   chk_poc_msg="choose nothing to forget"
-   ?chk_poc_msg,hcenter(chk_poc_msg,62),122,15
-  end
- end
+	while selection < 1 do
+		selection  += #options
+	end
+	while selection > #options do
+		selection -= #options
+	end
+	
+	if btnp(🅾️) then
+		options[selection].func()
+	elseif btnp(❎) then
+		music_stop()
+		basssize = 0
+		arpsize = 0
+		lastdrum = 0
+		drum = false
+	end
 end
 
-function glitch()
- local on=(t()*4.0)%13<0.1
- local gso=on and 0 or rnd(0x1fff)\1
- local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
- for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
- poke(a,peek(a+2),peek(a-1)+(rnd(3)))
- end
+basssize = 0
+arpsize = 0
+sfxsize = 0
+lastdrum = 0
+drum = false
+wpoints = {}
+for i=0,8 do
+	wpoints[i+1] = {x=i*16,y=23}
+end
+apoints = {}
+for i=0,8 do
+	apoints[i+1] = {x=i*16,y=23}
+end
+spoints = {}
+for i=0,8 do
+	spoints[i+1] = {x=i*16,y=23}
 end
 
-function dither_noise(page)
- page.cls=false
- for i=0,400do
-  pset(rnd(128),rnd(128),0)
- end
+function _draw()
+	
+	for i=1,2000 do
+		pset(rnd(128),rnd(38),0)
+	end
+	
+	--sound reactive code
+	for i=0,3 do
+		if stat(46+i)!=-1 then
+			--address of current note
+			local a=0x3200+68*stat(46+i)+(stat(50+i)<<1)
+			--pitch of current note
+			local p=%a&0x003f
+			--volume of note
+			local v=%a&0x0e00
+			--waveform of note
+			local w=%a&0x01c0
+			
+			if stat(24) ~= -1 then
+				if(i==0) basssize = (p+4)*v/2000
+				if i==1 and v~=lastdrum and v>0 then
+					drum = true
+					lastdrum = v
+				end
+				if(i==2) arpsize = (p+4)*v/4000
+			end
+			
+			if(i==3) sfxsize = (p+4)*v/3000
+			
+		end
+	end
+	
+	--drum flares
+	if drum then
+		circfill(rnd(128),rnd(46),lastdrum/100,7)
+		drum = false
+	end
+	
+	--sfx wave
+	if sfxsize > 0 then
+		for i=1,#spoints-1 do
+			local _r = sfxsize
+			if(i>1) spoints[i].y=23+(sin(time()*4+i/4)*_r)
+			line(spoints[i].x,spoints[i].y,spoints[i+1].x,spoints[i+1].y,13)
+		end
+	end
+	if sfxsize > 0 then
+		sfxsize -= 8
+		if(sfxsize < 0) sfxsize = 0
+	end
+	
+	--arp wave
+	if arpsize > 0 then
+		for i=1,#apoints-1 do
+			local _r = arpsize
+			if(i>1) apoints[i].y=23+(sin(time()*4+i/4)*_r)
+			line(apoints[i].x,apoints[i].y,apoints[i+1].x,apoints[i+1].y,11)
+		end
+	end
+	if arpsize > 0 then
+		arpsize -= 8
+		if(arpsize < 0) arpsize = 0
+	end
+	
+	--bass wave
+	for i=1,#wpoints-1 do
+		local _r = basssize
+		if(i>1) wpoints[i].y=23+(cos(time()*4+i/4)*_r)
+		line(wpoints[i].x,wpoints[i].y,wpoints[i+1].x,wpoints[i+1].y,8)
+	end
+	
+	--menus and other stuff
+	for i=1,64 do
+		line(i*2,8,i*2,38,0)
+	end
+	rectfill(0,0,128,8,0)
+	rectfill(0,38,128,128,0)
+	print("the trace sound test",0,0,7)
+	spr(0,110,0,3,1)
+	
+	for i=1,#options do
+		local _w = 0
+		local _h = i
+		local _c = 13
+		if(i<5 or i==#options) _c = 6
+		if(i>10) _h-=10;_w+=64
+		local _op = options[i]
+		local _name = _op.name
+		
+		if selection == i then
+			_name = "> " .. _name
+			_c = 7
+		end
+		
+		print(_name,_w,48+((_h-1)*8),_c)
+	end
+	
 end
-
-function tear(page)
- local x1=rnd(20)+70
- local w=rnd(15)+5
- clip(x1,0,w,128)
- page.logo:draw(x1,0,w,128)
- clip()
-end
-
-function zoom()
- poke(0x5f54,0x60)
- sspr(0,8,128,32,1,9,126,30)
- poke(0x5f54,0x00)
-end
-
-function more_art(page)
- clip(0,37,128,64)
- page.logo:draw(0,37,128,64)
- clip()
-end
-
-function newsy(page)
- for i=1,14do pal(i,rnd({7,6,7,6,5,0}),1)end
- dither_noise(page)
-end
-
-function dg_newsy(page)
- for i=1,14do pal(i,rnd({-8,8,-8,-8,2,-14,0}),1)end
- dither_noise(page)
-end
-
--->8
--- pages
-
-function add_text(p_name, text)
-add(lib[p_name].texts,text)
-end
-
-
--- debug page
-p_debug="debug page"
-lib[p_debug]=new_page(
-p_debug, 
-"you're not even supposed\nto be here!!!\n\n    - albert einstein"
-)
-lib[p_debug].seed=42069
-add_text(p_debug,"yeah this is a test")
-add_text(p_debug,"yeah this is *also* a test")
-lib[p_debug].cb=function()
-inventory["blank card"]=true
-inventory["open mind"]=true
-inventory["guided tour"]=true
-inventory["instant camera"]=true
-end
-
--- breach page
-p_breach="containment_breach"
-lib[p_breach]=new_page(
-p_breach,
-""
-)
-lib[p_breach].vfx=tear
-lib[p_breach].logo=dg_logo
-lib[p_breach].cb=function()
- inventory["cursed"]=true
- lib[p_breach].seed=rnd(-1)
-end
-lib[p_breach].music="dead god"
-add_text(p_breach,"it's coming for you now.")
-
-
--- landing page
-title="the trace gallery"
-lib[title]=new_page(
-title, 
-"you find yourself looking at the\nstrange digital cosmology of \nthe trace, once again.\n\nyou swore you would give up.\n"
-)
-lib[title].seed=1
-lib[title].vfx=function()sspr(18,7,11,15,110,-1,11,15)end
--- lib[title].logo=dg_logo
-add_text(title,
-"a game by aebrer\n\nwith music/sfx by carson kompon"
-)
-
--- second page
-tsp="the second page"
-lib[tsp]=new_page(
-tsp, 
-"in this piece the artist\nintended to create an atmosphere\nof ominous intent.\n\nthis is your last chance to stop.\n\nexpect flashing lights."
-)
---lib[tsp].vfx=dither_noise
-lib[tsp].vfx=glitch
-add_text(tsp,
-"it suggets that one needs\nto pay attention to the text.\nyou can't always tell\nwhat is true and what\nis merely screaming."
-)
-
-
--- the open concept
-toc="the open concept"
-lib[toc]=new_page(
-toc,
-"the foyer stretches\nfar deeper than you realize\nand invites you in\n"
-)
--- lib[toc].vfx=tear
-
--- another dead end
-ade="another dead end"
-lib[ade]=new_page(
-ade,
-"you didn't think it would\nbe that easy, did you?\n"
-)
-lib[ade].vfx=dither_noise
-
--- engineering regret
-engreg="engineering regret"
-lib[engreg]=new_page(
-engreg,
-"the artist is present\nin this work.\n\ncan't you feel it?\n"
-)
-lib[engreg].vfx=tear
-
--- read_card
-read_card="reading the future"
-lib[read_card]=new_page(
-read_card,
-"now you have to make a choice...\nwhat's 0n the card?"
-)
-lib[read_card].cb=function()
- if rnd()>0.995 then
-  seed_rnd()
-  lib[read_card].choices[⬅️]=ch_a_threat
-  lib[read_card].choices[⬆️]=ch_just_art
-  lib[read_card].choices[➡️]=ch_news_report
-  if cursed then 
-   lib[read_card].choices[⬇️]=ch_dont_read
-  end
- end
-end
-lib[read_card].vfx=glitch
-
--- cursed card
-p_curse="what were you thinking"
-lib[p_curse]=new_page(
-p_curse,
-"i specifically said not to read\nthis card. did no one tell you\nhow this works? are you alone?\n\nit doesn't matter.\no.k. done! enjoy your curse."
-)
-
--- threat card
-p_threat="i know what you want"
-lib[p_threat]=new_page(
-p_threat,
-"you think i don't know why\nyou came here? i know.\n\nyou won't find it, no matter\nhow hard you look.\n"
-)
-
-
----------------------------------------
--- warning card
-p_warn="hey, listen"
-lib[p_warn]=new_page(
-p_warn,
-"you shouldn't be here.\nthis isn't a place for humans.\n\ndo you know what you're\nlooking for?\n"
-)
----------------------------------------
-
--- warning card
-p_news1="7 missing, 3 dead"
-lib[p_news1]=new_page(
-p_news1,
-"mysteries abound today at the\ntrace gallery. after a success-\nful grand opening the second day\nquickly led to tragedy. those\nwho were present report seeing\na bright flash of red light.\n\nthe desert..."
-)
-lib[p_news1].vfx=newsy
-
-p_news2="the desert"
-lib[p_news2]=new_page(
-p_news2,
-"the desert opened its maw and\ntook what belonged to it.\nwe all dissolve eventually.\nthere will be no survivors.\nonly when you..."
-)
-lib[p_news2].vfx=dg_newsy
-
-p_news3="only when you"
-lib[p_news3]=new_page(
-p_news3,
-"only when you look at the\nevidence, it's even more strange\n\nthere is no registered owner\nfor the trace gallery.\nwhere did it come from?\nwe contacted..."
-)
-lib[p_news3].vfx=newsy
-
-p_news4="we contacted"
-lib[p_news4]=new_page(
-p_news4,
-"we contacted something out here.\nor something contacted us.\nwe never should have opened\nthat door. the light that poured\nout changed everything. it fills\nyou up. i think i need help.\ni don't feel right.\nhow did i get here?"
-)
-lib[p_news4].vfx=dg_newsy
-
-p_stop_news="what the hell"
-lib[p_stop_news]=new_page(
-p_stop_news,
-"there's something written on the\nback of the page. it says:\n'drift away until you see it'\n\nyou wonder what that means.\n\nit's in your handwriting."
-)
-lib[p_stop_news].vfx=dither_noise
-
--- art card
-p_art="...it matches the walls"
-lib[p_art]=new_page(
-p_art
-)
-lib[p_art].vfx=more_art
--- lib[p_art].logo=dg_logo
-
--- good for you
-p_g4u="good for you"
-lib[p_g4u]=new_page(
-p_g4u,
-"maybe that was a test.\ndo you ever think that?\nbut there's no one watching.\n\nyou're alone here."
-)
-lib[p_g4u].music="peaceful"
-
--- fuck me?
-fuck_me="fuck me?"
-lib[fuck_me]=new_page(
-fuck_me,
-"fuck me? fuck me?!\nfuck you!\n\nyou're stuck here just like me.\nwe all dissolve here.\nyou're not special.\n"
-)
-lib[fuck_me].vfx=zoom
-lib[fuck_me].music="angry"
-
--- choices
-
-function no_trace()
- prev_page=nil
- -- bkmk=nil
-end
-
-ch_breach=new_choice(
- "containment_breach",
- lib[p_breach],
- function()
-  d=rnd()
-  bkmk=nil
-  prev_page=nil
-  lib[p_breach].text=lib[p_breach].text.."\ncontainment_breach "..d
-  if(d>.88)containment_breach()
-  doom_plus()
- end
-)
-lib[p_breach].choices[rnd({⬆️,⬇️,➡️,⬅️})]=ch_breach
-
-
-
-ch_debug=new_choice(
-"debug choice",
-lib[p_debug]
-)
-lib[p_debug].choices[⬅️]=ch_debug
-lib[p_debug].choices[➡️]=ch_debug
-lib[p_debug].choices[⬆️]=ch_breach
-lib[p_debug].choices[⬇️]=ch_debug
-
-
-lib[title].choices[⬅️]=new_choice(
-"go inside",
-lib[tsp]
-)
-
-function seed_plus()
- sfx(17, 3) --scutter sound
- curr_page.i=false
- curr_page.seed+=1
- doom_plus() 
-end
-
-function seed_rnd()
- sfx(17, 3) --scutter sound
- curr_page.i=false
- curr_page.seed=rnd(-1)
- doom_plus()
-end
-lib[title].choices[➡️]=new_choice(
-"drift away",
-nil,
-seed_plus
-)
-
-lib[tsp].choices[⬅️]=new_choice(
-"go back",
-lib[title]
-)
-
-lib[tsp].choices[➡️]=new_choice(
-"go on",
-lib[toc],
-no_trace
-)
-
-ch_read_card=new_choice(
- "read card",
- lib[read_card],
- function()
-  if cursed then 
-   lib[read_card].choices[⬇️]=ch_dont_read
-  end
- end
-)
-
-ch_dont_read=new_choice(
-    "don't read",
-    lib[p_curse],
-    function()
-    inventory["cursed"]=true
-    end
-   )
-
-ch_look_around=new_choice(
-"look around",
-nil,
-function() 
- local chk=rnd()
- if chk>0.8 then
-  if not inventory["blank card"] then 
-   curr_page.text = curr_page.text.."\n🅾️ you find a small blank card\nand pocket it. ➡️"
-   inventory["blank card"]=true
-  end
- end
- if chk<.03 then
-  if not inventory["open mind"] then
-  	inventory["open mind"]=true
-  	if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you're willing to look\nanywhere. but why?⬇️"
- 	end
- end
- 
- if chk<.66 and chk>=.6 then
-  if not inventory["guided tour"] then
-  	inventory["guided tour"]=true
-  	if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you suddenly realize you've\nbeen hearing a voice...\nsome kind of tour? ⬆️"
- 	end
- end
- 
- if chk<.44 and chk>=.4 then
-  if not inventory["instant camera"] then
-   inventory["instant camera"]=true
-   if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you just noticed an\ninstant film camera laying\non the ground! ⬅️"
-  end
- end
-
- seed_rnd()
-end
-)
-lib[toc].choices[⬇️]=ch_look_around
-lib[toc].choices[⬅️]=new_choice(
-"go back",
-lib[ade]
-)
-lib[toc].choices[➡️]=new_choice(
-"deep breaths",
-lib[engreg]
-)
-
-ch_gt=new_choice(
-"guided tour",
-nil,
-function()
- sfx(49, 3) --page turn sound
- doom_plus()
- curr_page.text_i=(curr_page.text_i+1)%(#curr_page.texts+2)
- curr_page.text=curr_page.texts[curr_page.text_i]
-end
-)
-
-ch_photo=new_choice(
-"take photo",
-nil,
-function()
- sfx(29, 3) --camera shutter sound
- doom_plus()
- -- todo, delete when too many vfx
- add(cam_vfx,curr_page.vfx)
- if(#cam_vfx>3)deli(cam_vfx,1)
-end
-)
-
-
-ch_a_threat=new_choice(
-"a threat",
-lib[p_threat],
-function()
- for i in all({➡️,⬆️,⬇️}) do
- 	lib[read_card].choices[i]=nil
- end
-end
-)
-lib[read_card].choices[⬅️]=ch_a_threat
-
-
-ch_just_art=new_choice(
-"just art",
-lib[p_art],
-function()
- for i in all({➡️,⬅️,⬇️}) do
- 	lib[read_card].choices[i]=nil
- end
-end
-)
-lib[read_card].choices[⬆️]=ch_just_art
-
-
-ch_news_report=new_choice(
-"news report",
-lib[p_news1],
-function()
- for i in all({⬆️,⬅️,⬇️}) do
-  lib[read_card].choices[i]=nil
- end
-end
-)
-lib[read_card].choices[➡️]=ch_news_report
-
-
-lib[p_news1].choices[➡️]=new_choice(
-"keep reading",
-lib[p_news2]
-)
-
-lib[p_news2].choices[➡️]=new_choice(
-"keep reading",
-lib[p_news3]
-)
-lib[p_news3].choices[➡️]=new_choice(
-"keep reading",
-lib[p_news4]
-)
-
-ch_stop_reading=new_choice(
-"stop reading",
-lib[p_stop_news]
-)
-lib[p_news1].choices[⬅️]=ch_stop_reading
-lib[p_news2].choices[⬅️]=ch_stop_reading
-lib[p_news3].choices[⬅️]=ch_stop_reading
-lib[p_news4].choices[⬅️]=ch_stop_reading
-
-
-lib[p_art].choices[⬇️]=ch_look_around
-lib[p_art].choices[⬇️].text="look inside"
-
-lib[p_threat].choices[⬆️]=new_choice(
-"fuck you",
-lib[fuck_me]
-)
-
-lib[p_threat].choices[⬅️]=new_choice(
-"ignore it",
-lib[p_g4u]
-)
-
-lib[p_g4u].choices[⬇️]=ch_look_around
-
-
 -->8
 -- music
 
@@ -960,217 +362,14 @@ end
 
 
 
--->8
--- containment breach
-
-function containment_breach()
- music(61)
- music_state("dead god")
- fillp(█)
- palt(0,false)
- pal()
- cls()
- camera(-64,-64)
- seed=rnd(-1)
- srand(seed)
- 
- dither_modes = {
-  "mixed",
-  "burn_rect",
-  "burn",
-  "rect"
- } 
- dither_prob = 0.35
- dither_mode="burn"
- n_dither_modes = #dither_modes
-
- colors = {0,7,0,7,-3,2,-8,8}
-
- pal(colors,0)
-
- function draw_noise(amt)
-  for i=0,amt*amt*amt do
-   poke(0x6000+rnd(0x2000), peek(rnd(0x7fff)))
-   poke(0x6000+rnd(0x2000),rnd(0xff))
-  end
- end
-
- function draw_glitch(gr)
-  local on=(t()*4.0)%gr<0.1
-  gso=on and 0 or rnd(0x1fff)\1
-  gln=on and 0x1ffe or rnd(0x1fff-gso)\16
-  for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
-   poke(a,peek(a+2),peek(a-1)+(rnd(3)))
-  end
- end
-
- function vfx_smoothing()
-  local pixel = rnd_pixel()
-  c=abs(pget(pixel.x,pixel.y)-1) 
- end
-
- function rnd_pixel()
-  local px_x = (flr(rnd(128)) + 1) - 64
-  local px_y = (flr(rnd(128)) + 1) - 64
-  local pixel = {
-   x=px_x,
-   y=px_y
-  }
-  return(pixel)
- end
-
- function dither(dm)
-  if dm == "mixed" then
-   while dm == "mixed" do
-    dm = rnd(dither_modes)
-   end
-   dither(dm)
-  elseif dm == "rect" then
-   for i=1,6 do 
-    local fudge_x = (flr(rnd(4)) + 1) * rnd_sign()
-    local fudge_y = (flr(rnd(4)) + 1) * rnd_sign()
-    --skip some nunber (12) pixels
-    for x=128+fudge_x,0,-12 do
-     for y=128+fudge_y,0,-12 do
-      local pxl = rnd_pixel()
-      if rnd(1) > dither_prob then
-       rect(pxl.x-1,pxl.y-1,pxl.x+1,pxl.y+1,colors[0])
-      end
-     end
-    end
-   end
-  elseif dm == "burn" then
-   for i=1,4 do 
-    local fudge_x = (flr(rnd(4)) + 1) * rnd_sign()
-    local fudge_y = (flr(rnd(4)) + 1) * rnd_sign()
-    --skip some nunber (12) pixels
-    for x=128+fudge_x,0,-12 do
-     for y=128+fudge_y,0,-12 do
-      local pxl = rnd_pixel()
-       c=pget(pxl.x,pxl.y)
-       circ(pxl.x,pxl.y,1,burn(c))
-     end
-    end
-   end
-  elseif dm == "burn_rect" then
-   for i=1,4 do 
-    local fudge_x = (flr(rnd(4)) + 1) * rnd_sign()
-    local fudge_y = (flr(rnd(4)) + 1) * rnd_sign()
-    --skip some nunber (12) pixels
-    for x=128+fudge_x,0,-12 do
-     for y=128+fudge_y,0,-12 do
-      local pxl = rnd_pixel()
-       c=pget(pxl.x,pxl.y)
-       rect(pxl.x-1,pxl.y-1,pxl.x+1,pxl.y+1,burn(c))
-     end
-    end
-   end
-  end
- end
-
- function burn(c)
-  return abs(c-1)
- end
-
-function rnd_sign()
- if(rnd(1)>.5)return(-1)
- return(1)
-end
-
- function undither(loops,s)
-  
-  for i=-loops,1 do
-   local x=rnd(128)-64
-   local y=rnd(128)-64
-   local c=min(abs(pget(x,y)-1),4)
-   circfill(x*s,y*s,3,c)
-   x=rnd(128)-64
-   y=rnd(128)-64
-   c=min(abs(pget(x,y)-1),colors[4])
-   circ(x*s,y*s,8+rnd(3),c)
-   circ(x*s,y*s,13+rnd(5),c)
-   x=rnd(128)-64
-   y=rnd(128)-64
-   c=min(abs(pget(x,y)-1),colors[4])
-   pset(x*s,y*s,c)
-   -- circfill(x,y,2,c)
-  end
- end
-
- seed_reset_needed = false
-
- function _update60()
-  local loop_len =10
-  local loop = flr(t())%loop_len == 0
-  local srf = flr(t())%(loop_len/2) == 0
-  local r = t()/loop_len
-  local x,y=0,0
-
-  if srf and seed_reset_needed then
-   srand(seed)
-   seed_reset_needed = false
-  elseif not srf and not seed_reset_needed then
-   seed_reset_needed = true
-  end
-
-  for i=0,20 do
-   x=sin(r+i)*(20+(i*rnd(3)+1))
-   y=(cos(r+i)*sin(r+i))*(20+(i*rnd(3)+1))
-   
-   pset(x*flr(rnd(3)+1),y,8)
-   pset(-x*flr(rnd(3)+1),y,8)
-   pset(x*flr(rnd(3)+1),-y,8)
-   pset(-x*flr(rnd(3)+1),-y,8)
-
-   pset(x/flr(rnd(3)+1),y*i,8)
-   pset(-x/flr(rnd(3)+1),y*i,8)
-   pset(x/flr(rnd(3)+1),-y*i,8)
-   pset(-x/flr(rnd(3)+1),-y*i,8)
-
-  end
-  
-  draw_noise(0.5)
-  dither(dither_mode)
-  undither(10,0.3)
-  for i=-15,1 do
-    x=5*sin(r)*cos(r)+max(5,rnd(14)+5)
-    y=-5*sin(r)-min(-14,rnd(14)-14-5)
-   oval(
-    -x,-y,x,y,
-    colors[0]
-   )
-  end
-
-  for i=-2,1 do
-   x=(5+rnd(30))*sin(r)*cos(r)+max(5,rnd(14)+5)
-   y=(-5-rnd(30))*sin(r)-min(-14,rnd(14)-14-5)
-   oval(
-    -x,-y,x,y,
-    colors[0]
-   )
-  end
-  pal(colors,1)
- end
-
- function _draw()end
-
-end
 __gfx__
-0000000000fffff000fffff000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff000000000000000000000000000000000000000000
-0000000000fffff000f000f00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00000000000000000000000000000000000000000
-0070070000fffff000f000f0ff0000ffff0ff0ffff00ffffff00ffffff00fffffff0ffffffffffffff0000ff0000000000000000000000000000000000000000
-0007700000fffff000f000f0ff0ff0ffff0ff0ffff0fffffff0fffffff0ffffffffffffffff00fffff0000ff0000000000000000000000000000000000000000
-0007700000fffff000f0f0f0ff0ff0ffff0ff0ffff0ff0ffff0ffffffffffffffffffffffff00fffff0000ff0000000000000000000000000000000000000000
-0070070000ff0ff000ff0ff0ff0000ffff0000ffff0000ffff00ffffffffffffffffffffffffffffff0000ff0000000000000000000000000000000000000000
-0000000000f000f000f000f00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00000000000000000000000000000000000000000
-00000000000000000000000000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff0000ffff000000000000000000000000000000000000000000
-fff0000000000000000fffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-f0f0fff00f000f00f0f00000f0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-fff0f0f0f0f0f00f00f0f0f0f0ff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-f000f000f0000f00f0f00f00fffff000f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-f000f0000ff0f00f00f0f0f0f0ff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-000000000000000000f00000f0f00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000000000000fffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+07777700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+70000070700077777000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+70707070770077777000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+70070077777077777000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+70707070770077777000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+70000070700077777000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+07777700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __label__
 d7000000000000000000000000000000080888888888888888888888888888888888888888888888888888888888888888898888800000000000000000000000
 00000000000000000000000000000000000088888888888888888888888888888888888888888888888888888888888888889888000008800000000000000000
