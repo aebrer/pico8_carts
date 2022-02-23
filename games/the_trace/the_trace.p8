@@ -14,7 +14,7 @@ __lua__
 --   use voght kompff test from blade runner
 
 --!!
-debug_mode=false
+debug_mode=true
 --!!
 
 lib={} -- library of all pages: title,page
@@ -33,11 +33,12 @@ butt_pos[⬇️]={60,116}
 butt_pos[⬅️]={54,110}
 butt_pos[➡️]={66,110}
 dt=0 -- doom timer
-dtm=840
+dtm=1024
 obutt_ani=0
 side=0
 seed_reset_needed=true
 cam_vfx={}
+logos={}
 
 -- logos
 v9_static = {}
@@ -54,11 +55,11 @@ function v9_static.init(self)
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
  dc_pal()
 end
-
 function v9_static.draw(self,x1,y1,w,h)
 	for x=self.g+x1,self.g+x1+w,self.z do for y=self.g+y1,self.g+y1+h,self.w do
  circ(x,y,rnd(2),x*y%self.c)end end
 end
+add(logos,v9_static)
 
 dg_logo = {}
 function dg_logo.init(self)
@@ -80,6 +81,48 @@ function dg_logo.draw(self,x1,y1,w,h)
  poke(0x5f54,0x00)
  palt(0,true)
 end
+add(logos,dg_logo)
+
+ideocart_logo = {}
+function ideocart_logo.init(self)
+ for i=1,14do pal(i,flr(rnd(33)-17),1)end
+ dc_pal()
+ self.fillp=rnd({∧,░,…,█,█,█,▥,▒,♪,▤})
+ self.xi=rnd({12,16,32,32,64})
+ self.yi=rnd({12,16,32,32,64})
+ while (self.xi<=16 and self.yi<=16) do
+  if rnd()>.5 then
+   self.xi=rnd({12,16,32,32,64})
+  else 
+   self.yi=rnd({12,16,32,32,64})
+  end
+ end
+end 
+function ideocart_logo.draw(self,x1,y1,w,h)
+ fillp(self.fillp)
+ poke(0x5f54,0x60)
+ for x=x1,x1+w,self.xi do
+  for y=y1,y1+h,self.yi do
+   circ(x,y,rnd(10)+1,rnd(6))
+  end
+ end
+ for x=x1,x1+w,4do
+  for y=y1,y1+h,4do
+   if rnd()>.5 then
+    sspr(x+rnd(4)-rnd(4),y+rnd(4)-rnd(4),8,8,y+rnd(4)-rnd(4),x+rnd(4)-rnd(4),
+    rnd(4)+7,rnd(4)+7)
+   else 
+    sspr(x+rnd(4)-rnd(4),y+rnd(4)-rnd(4),8,8,x+rnd(4)-rnd(4),y+rnd(4)-rnd(4),
+    rnd(4)+7,rnd(4)+7)
+   end
+  end
+ end
+ fillp(█)
+ poke(0x5f54,0x00)
+ srand(curr_page.seed)
+end
+add(logos,ideocart_logo)
+
 
 
 function _init() 
@@ -102,7 +145,7 @@ function _update60()
   	pal(15,-8,1)
    music_state("dead god")
    if dc() then
-    curr_page.logo=dg_logo
+    curr_page.logo=rnd(logos)
     if dc() then
      cls()
      glitch()
@@ -471,6 +514,7 @@ lib[p_debug]=new_page(
 p_debug, 
 "you're not even supposed\nto be here!!!\n\n    - albert einstein"
 )
+lib[p_debug].logo=ideocart_logo
 lib[p_debug].seed=42069
 add_text(p_debug,"yeah this is a test")
 add_text(p_debug,"yeah this is *also* a test")
