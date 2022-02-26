@@ -5,20 +5,23 @@ __lua__
 
 -- todo
 
--- - put some mirror ideocartography somewhere
+-- - a mirror room (literally a mirror effect room)
 
--- - new logo like burning gate
 
 -- - "ignore it" path as good path to remove doom
 --   dt*=0.9 for each right answer
 --   use voght kompff test from blade runner
 
--- - the hierophant
---    ./trace_gallery/038_17.9dgp.p8
+-- - a statue garden with the art in random squares
+--  the rooms can be navigated semi-randomly
+--  acts like a maze
+--  there is a hidden "emergency exit" page
+--  exit takes you through an outdoor area
+--  you eventually arrive back at the main entrance
 
 
 --!!
-debug_mode=false
+debug_mode=true
 --!!
 
 lib={} -- library of all pages: title,page
@@ -142,6 +145,7 @@ function _init()
   if(sc>=1)print("./trace_gallery/038_17.9dgp.p8",4,120-sc*6,7)
   if(sc>=2)print("loading...",4,120-(sc-1)*6,7)
   if(sc>=3)print("please submit userid:",4,120-(sc-2)*6,7)
+  if(sc>=3)print("127402",4,120-(sc-3)*6,7)
   if(sc>=4)print("127402",4,120-(sc-3)*6,7)
   if(sc>=5)print("welcome: hierophant",4,120-(sc-4)*6,7)
   if(sc>=6)print("<network error>",4,120-(sc-5)*6,7)
@@ -165,7 +169,7 @@ function _init()
  -- set current page to landing page
 	curr_page=lib[title]
  if(debug_mode)curr_page=lib[p_debug]music_stop()
- bkmk=curr_page
+ bkmk=lib[title]
 
 
 
@@ -613,6 +617,7 @@ lib[toc]=new_page(
 toc,
 "the foyer stretches\nfar deeper than you realize\nand invites you in\n"
 )
+add_text(toc, "yeah it's a haiku.")
 -- lib[toc].vfx=tear
 
 -- another dead end
@@ -622,6 +627,10 @@ ade,
 "you didn't think it would\nbe that easy, did you?\n"
 )
 lib[ade].vfx=dither_noise
+add_text(ade,
+"most people don't even find\ntheir way to this page.\ncongratulations!"
+)
+
 
 -- engineering regret
 engreg="engineering regret"
@@ -630,6 +639,10 @@ engreg,
 "the artist is present\nin this work.\n\ncan't you feel it?\n"
 )
 lib[engreg].vfx=tear
+add_text(engreg,
+"someone had to have made\nthis thing... it can't just\nexist on its own... right?"
+)
+
 
 -- read_card
 read_card="reading the future"
@@ -649,6 +662,11 @@ lib[read_card].cb=function()
  end
 end
 lib[read_card].vfx=glitch
+add_text(read_card,
+"you know, there's a way to\nreset this card.\n\nthere's always more to explore."
+)
+
+
 
 -- cursed card
 p_curse="what were you thinking"
@@ -656,6 +674,10 @@ lib[p_curse]=new_page(
 p_curse,
 "i specifically said not to read\nthis card. did no one tell you\nhow this works? are you alone?\n\nit doesn't matter.\no.k. done! enjoy your curse."
 )
+add_text(p_curse,
+"this isn't the only way to get\ncursed, but it is a safer way."
+)
+
 
 -- threat card
 p_threat="i know what you want"
@@ -663,24 +685,20 @@ lib[p_threat]=new_page(
 p_threat,
 "you think i don't know why\nyou came here? i know.\n\nyou won't find it, no matter\nhow hard you look.\n"
 )
-
-
----------------------------------------
--- warning card
-p_warn="hey, listen"
-lib[p_warn]=new_page(
-p_warn,
-"you shouldn't be here.\nthis isn't a place for humans.\n\ndo you know what you're\nlooking for?\n"
+add_text(p_threat,
+"don't listen to him, we're\nnot all that bitter in here."
 )
----------------------------------------
 
--- warning card
+-- news card
 p_news1="7 missing, 3 dead"
 lib[p_news1]=new_page(
 p_news1,
 "mysteries abound today at the\ntrace gallery. after a success-\nful grand opening the second day\nquickly led to tragedy. those\nwho were present report seeing\na bright flash of red light.\n\nthe desert..."
 )
 lib[p_news1].vfx=newsy
+add_text(p_news1,
+"story continues on page 8"
+)
 
 p_news2="the desert"
 lib[p_news2]=new_page(
@@ -688,6 +706,9 @@ p_news2,
 "the desert opened its maw and\ntook what belonged to it.\nwe all dissolve eventually.\nthere will be no survivors.\nonly when you..."
 )
 lib[p_news2].vfx=dg_newsy
+add_text(p_news2,
+"it was like a sun\nfilling me with hypnotic\nwarmth and burning love."
+)
 
 p_news3="only when you"
 lib[p_news3]=new_page(
@@ -695,6 +716,9 @@ p_news3,
 "only when you look at the\nevidence, it's even more strange\n\nthere is no registered owner\nfor the trace gallery.\nwhere did it come from?\nwe contacted..."
 )
 lib[p_news3].vfx=newsy
+add_text(p_news3,
+"don't forget to like and\nsubscribe!"
+)
 
 p_news4="we contacted"
 lib[p_news4]=new_page(
@@ -702,6 +726,10 @@ p_news4,
 "we contacted something out here.\nor something contacted us.\nwe never should have opened\nthat door. the light that poured\nout changed everything. it fills\nyou up. i think i need help.\ni don't feel right.\nhow did i get here?"
 )
 lib[p_news4].vfx=dg_newsy
+add_text(p_news4,
+"we can't let it out...\nif that thing gets to the\nmainland, it's over for humanity."
+)
+
 
 p_stop_news="what the hell"
 lib[p_stop_news]=new_page(
@@ -709,6 +737,9 @@ p_stop_news,
 "there's something written on the\nback of the page. it says:\n'drift away until you see it'\n\nyou wonder what that means.\n\nit's in your handwriting."
 )
 lib[p_stop_news].vfx=dither_noise
+add_text(p_stop_news,
+"don't go too far!"
+)
 
 -- art card
 p_art="...it matches the walls"
@@ -725,6 +756,26 @@ p_g4u,
 "maybe that was a test.\ndo you ever think that?\nbut there's no one watching.\n\nyou're alone here."
 )
 lib[p_g4u].music="peaceful"
+add_text(p_g4u,
+"come back any time :)"
+)
+lib[p_g4u].cb=function()
+if lib[p_g4u].seed\1%17==0 then
+ lib[p_g4u].choices[⬆️]=ch_statue
+end
+end
+
+p_statue_01="a statue garden"
+lib[p_statue_01]=new_page(
+p_statue_01,
+"looks like some kind of statue\ngarden. they've even painted\nthe walls to look like grass."
+)
+lib[p_statue_01].logo=ideocart_logo
+lib[p_statue_01].seed=71
+add_text(p_statue_01,
+"it's a bit of a maze."
+)
+
 
 -- fuck me?
 fuck_me="fuck me?"
@@ -734,6 +785,10 @@ fuck_me,
 )
 lib[fuck_me].vfx=zoom
 lib[fuck_me].music="angry"
+add_text(fuck_me,
+"listen here you little shit:\n\nwe. are. all. doomed.\nthe sooner you realize that\nthe better off we'll be."
+)
+
 
 -- choices
 
@@ -749,7 +804,7 @@ ch_breach=new_choice(
   d=rnd()
   bkmk=nil
   prev_page=nil
-  lib[p_breach].text=lib[p_breach].text.."\ncontainment_breach "..d
+  if(lib[p_breach].text)lib[p_breach].text=lib[p_breach].text.."\ncontainment_breach "..d
   if(d>.88)containment_breach()
   doom_plus()
  end
@@ -964,6 +1019,11 @@ lib[p_g4u]
 )
 
 lib[p_g4u].choices[⬇️]=ch_look_around
+ch_statue=new_choice(
+"statue garden?",
+lib[p_statue_01]
+)
+
 
 
 -->8
