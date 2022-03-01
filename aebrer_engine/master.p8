@@ -1,5 +1,5 @@
 pico-8 cartridge // http://www.pico-8.com
-version 34
+version 35
 __lua__
 cls()
 camera(-64,-64)
@@ -880,71 +880,54 @@ function config.sketch.mouse_brush()
 end
 
 function config.sketch.sketch()
- local brush_name = config.brush.methods[config.brush.i]
- local brush_func = config.brush[brush_name]
- local r_step = config.sketch.r_step
- local rad = config.sketch.rad
- local rndx = config.sketch.rndx
- local rndy = config.sketch.rndy
- local num_pts = config.sketch.num_pts
 
- for r=0,1,r_step do
- -- local r = config.timing.time
-  for i=0,num_pts do
-   local x=(sin(r)*(rad+(rnd(rndx))))
-   local y=((cos(r)*sin(r))*(rad+(i*rnd(rndy))))
-   --config.brush.color=x*y%15
-   brush_func(x,y)
-  end
- end
-end
-
-function config.sketch.shred()
- -- config.sketch.fc-=rnd(0.5)
- -- local fc = config.sketch.fc
- local fc = 128
-
- for i=0,10 do
-  p=0x6000+flr(rnd(8181))
-  q=0x6000+flr(rnd(8181))
-  poke(p,peek(p)/128-fc)
-  poke(q,p)
+ for i=0,15 do
+ ?rnd({"\^i","\^p","\^i\^p",""})..chr(rnd(240)\1+16),rnd(132)-65,rnd(132)-65,rnd(8)
  end
 
- if fc<=0 then
-  fc=128
- end
+ -- -- memory fuckery
+ -- screen_mem_start=●-웃
+
+ -- for i=0,1 do
+ -- local amt = rnd(5)+10
+ -- if amt >= 1 then
+ --  for i=0,amt*amt do
+ --   poke(
+ --       0x6000+rnd(0x2000),
+ --       peek(rnd(0x7fff)))
+ --   poke(
+ --       0x6000+rnd(0x2000),
+ --       rnd(0xff))
+ --  end
+ -- end
+ -- -- glitch
+ --  local gr = rnd(13)+3
+ --  if gr >= 1 then 
+ --   local on=(t()*4.0)%gr<0.1
+ --   local gso=on and 0 or rnd(0x1fff)\1
+ --   local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+ --   for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+ --    poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+ --   end
+ --  end
+ --  for i=0,1 do
+ --   d=rnd(8191)
+ --   poke(
+ --    screen_mem_start+d+(rnd()*rnd_sign()), -- write to this position, if the button is pressed shift by -0.5
+ --    @(screen_mem_start+d-64*(mid(1,(rnd()-.5)/0)*2-1)+(rnd()*rnd_sign()))  -- peek @ this position, last part is to get 1 or -1
+ --   )  
+ --  end
+ -- end
+ if(rnd()>.9 and t()>0.3)srand(seed)
+
 
 end
 
-
-
-function config.sketch.crop()
-local sspr_iv_x = config.sketch.sspr_iv_x
-local sspr_iv_y = config.sketch.sspr_iv_y
-local sspr_x1 = config.sketch.sspr_x1
-local sspr_x2 = config.sketch.sspr_x2
-local sspr_y1 = config.sketch.sspr_y1
-local sspr_y2 = config.sketch.sspr_y2
-
-
- -- set the screen memory as the spritesheet
--- and stretch screen->screen
-poke(0x5f54, 0x60) 
- 
-for x=-64,64,sspr_iv_x do
-for y=-64,64,sspr_iv_y do
-sspr(0,0,sspr_x1,sspr_y1, x,y,sspr_x2,sspr_y2)
-end
-end
-poke(0x5f54, 0x00)
-end
 
 -- add layers in order
---add(config.sketch.methods, "mouse_brush")
 add(config.sketch.methods, "sketch")
-add(config.sketch.methods, "shred")
-add(config.sketch.methods, "crop")
+add(config.sketch.methods, "mouse_brush")
+
 
 -- overrides:
 --  brush:
@@ -957,17 +940,10 @@ config.brush.color=15
 config.brush.line_wt=0
 
 --  dither:
-config.dither.i=3
-config.dither.loops=25
--- config.dither.loops=0
+config.dither.i=4
+config.dither.loops=100
 
-config.dither.pull=1.0
-config.dither.rectw=rnd({0,0,0,0,1,1,1,1,2,2,2,3,3,4,5})
-config.dither.recth=rnd({5,5,5,6,6,6,7,7,7,8,8,8,8,8,8,9,9,10,11})
-config.dither.circ_r=rnd({0,0,1,1,1,2,2})
-config.dither.pxl_prob=0.96
-config.dither.fuzz_factor=0
-config.dither.rotate=0
+
 
 
 --  palettes/colors:
@@ -984,23 +960,12 @@ config.timing.gif_record = false
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = 0
-config.effects.mirror_type = 7
+config.effects.mirror_type = rnd({5,7})
 
 
 -- misc
-config.sketch.r_step=rnd(0.1)+0.07
-config.sketch.rad=rnd(15)+5
-config.sketch.rndx=0
-config.sketch.rndy=0
-config.sketch.num_pts=rnd({1,2,3})
-config.sketch.fc=128
+-- config.sketch.r_step=rnd(0.1)+0.07
 
-config.sketch.sspr_iv_x=rnd(8)+14
-config.sketch.sspr_iv_y=rnd(8)+14
-config.sketch.sspr_x1=rnd({5,6,6,8,8,8,10,10,12})
-config.sketch.sspr_x2=rnd({14,16,16,18,18,18,12,15})
-config.sketch.sspr_y1=rnd({14,16,16,18,18,18,12,15})
-config.sketch.sspr_y2=rnd({5,6,6,8,8,8,10,10,12})
 
 
 --------------------------------
