@@ -879,8 +879,9 @@ end
 
 
 -- add layers in order
-add(config.sketch.methods, "sketch")
 add(config.sketch.methods, "mouse_brush")
+add(config.sketch.methods, "sketch")
+--add(config.sketch.methods, "mouse_brush")
 
 
 -- overrides:
