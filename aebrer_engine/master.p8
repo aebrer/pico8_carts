@@ -836,8 +836,13 @@ config.sketch.methods = {}
 config.sketch.i = 1
 config.sketch.param_i = 1
 
-config.sketch.p8loops = 15
-config.sketch.colors = rnd(10)+5
+function config.sketch.init()
+ config.sketch.p8loops = rnd(30)+5
+ config.sketch.colors = rnd(10)+5
+ config.dither.loops = rnd(100)+30
+end
+
+config.sketch.init()
 
 config.sketch.params = {
  {"p8loops", "int"},
@@ -858,6 +863,7 @@ function config.sketch.mouse_brush()
  end
 end
 
+
 function config.sketch.sketch()
 
  for i=0,config.sketch.p8loops do
@@ -865,7 +871,7 @@ function config.sketch.sketch()
  end
 
  if(rnd()>.9 and t()>0.3)srand(seed)
- if((btnp(❎)and not display_params))for i=0,100do rnd()end
+ if((btnp(❎)and not display_params))config.sketch.init()cls()
 
 end
 
@@ -879,7 +885,6 @@ add(config.sketch.methods, "mouse_brush")
 
 --  dither:
 config.dither.i=4
-config.dither.loops=100
 
 --  palettes/colors:
 config.colors.i = flr(rnd(#config.colors.methods))+1
@@ -895,7 +900,7 @@ config.timing.gif_record = false
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
 config.effects.glitch_freq = rnd(13)+7
-config.effects.mirror_type = rnd({5,5,5,5,5,7,7,1})
+config.effects.mirror_type = rnd({5,5,5,5,5,7,7,0})
 
 --------------------------------
 --        main loop           --
