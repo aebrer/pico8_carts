@@ -872,9 +872,12 @@ function config.sketch.mouse_brush()
   local brush_func = config.brush[brush_name]
   if config.brush.mouse_ctrl then
    -- mouse controls
-   local x = stat(32) - 64
-   local y = stat(33) - 64
-   brush_func(x,y)
+   -- only move mouse paint if clicking
+   if stat(34) == 1 then
+    config.sketch.mousex = stat(32) - 64
+    config.sketch.mousey = stat(33) - 64
+   end
+   brush_func(config.sketch.mousex,config.sketch.mousey)
   end
  end
 end

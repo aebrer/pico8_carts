@@ -476,6 +476,7 @@ config.brush.wiggle = 0
 config.brush.mouse_ctrl = false
 
 config.brush.params = {
+ {"mouse_ctrl", "bool"},
  {"circ_r", "int"},
  {"recth", "int"},
  {"rectw", "int"},
@@ -484,8 +485,7 @@ config.brush.params = {
  {"auto_rotate", "int_lim", {-1,1}},
  {"line_wt", "int_lim", {0,100}},
  {"drop_shadows", "bool"},
- {"wiggle", "int"},
- {"mouse_ctrl", "bool"}
+ {"wiggle", "int"}
 }
 
 -- brush functions
@@ -842,10 +842,13 @@ add(config.params, "sketch")
 config.sketch.methods = {}
 config.sketch.i = 1
 config.sketch.param_i = 1
+config.sketch.mousex,config.sketch.mousey=0,0
 
 function config.sketch.init()
  config.sketch.p8loops = rnd(30)+5
  config.sketch.colors = rnd(5)+3
+ 
+
 
  config.dither.loops = rnd(60)+30
  config.dither.circ_r = rnd({1,2})
@@ -855,6 +858,17 @@ function config.sketch.init()
 
  config.effects.glitch_freq = rnd(13)+7
  config.effects.mirror_type = rnd({5,5,5,7,7})
+
+ if config.effects.mirror_type == 5 then 
+  config.sketch.mousey = rnd(128)-64
+ else 
+  config.sketch.mousey = rnd(64)-64
+ end
+ 
+
+ config.brush.circ_r=rnd(30)+2
+ config.brush.recth=rnd(30)+2
+ config.brush.rectw=rnd(30)+2
 
 end
 
@@ -872,9 +886,12 @@ function config.sketch.mouse_brush()
   local brush_func = config.brush[brush_name]
   if config.brush.mouse_ctrl then
    -- mouse controls
-   local x = stat(32) - 64
-   local y = stat(33) - 64
-   brush_func(x,y)
+   -- only move mouse paint if clicking
+   if stat(34) == 1 then
+    config.sketch.mousex = stat(32) - 64
+    config.sketch.mousey = stat(33) - 64
+   end
+   brush_func(config.sketch.mousex,config.sketch.mousey)
   end
  end
 end
@@ -906,6 +923,9 @@ config.dither.i=4
 --  palettes/colors:
 config.colors.i = #config.colors.methods
 
+-- brush
+config.brush.mouse_ctrl=true
+config.brush.i=2
 
 -- timing
 config.timing.seed_loop = false
