@@ -836,33 +836,12 @@ config.sketch.methods = {}
 config.sketch.i = 1
 config.sketch.param_i = 1
 
-config.sketch.r_step=0.11
-config.sketch.rad=10
-config.sketch.rndx=0
-config.sketch.rndy=20
-config.sketch.num_pts=2
-config.sketch.fc=128
-
-config.sketch.sspr_iv_x=16
-config.sketch.sspr_iv_y=16
-config.sketch.sspr_x1=8
-config.sketch.sspr_x2=15
-config.sketch.sspr_y1=16
-config.sketch.sspr_y2=10
+config.sketch.p8loops = 15
+config.sketch.colors = rnd(10)+5
 
 config.sketch.params = {
- {"r_step", "float_fine", {0.001,0.2}},
- {"rad", "int_lim", {1,100}},
- {"rndx", "float_lim", {0.1,50}},
- {"rndy", "float_lim", {0.1,50}},
- {"num_pts", "int"},
- {"fc", "int"},
- {"sspr_iv_x", "int"},
- {"sspr_iv_y", "int"},
- {"sspr_x1", "int"},
- {"sspr_x2", "int"},
- {"sspr_y1", "int"},
- {"sspr_y2", "int"}
+ {"p8loops", "int"},
+ {"colors", "int"},
 }
 
 -- always present mouse brush
@@ -881,45 +860,12 @@ end
 
 function config.sketch.sketch()
 
- for i=0,15 do
- ?rnd({"\^i","\^p","\^i\^p",""})..chr(rnd(240)\1+16),rnd(132)-65,rnd(132)-65,rnd(8)
+ for i=0,config.sketch.p8loops do
+ ?rnd({"\^i","\^p","\^i\^p",""})..chr(rnd(240)\1+16),rnd(132)-65,rnd(132)-65,rnd(config.sketch.colors)
  end
 
- -- -- memory fuckery
- -- screen_mem_start=●-웃
-
- -- for i=0,1 do
- -- local amt = rnd(5)+10
- -- if amt >= 1 then
- --  for i=0,amt*amt do
- --   poke(
- --       0x6000+rnd(0x2000),
- --       peek(rnd(0x7fff)))
- --   poke(
- --       0x6000+rnd(0x2000),
- --       rnd(0xff))
- --  end
- -- end
- -- -- glitch
- --  local gr = rnd(13)+3
- --  if gr >= 1 then 
- --   local on=(t()*4.0)%gr<0.1
- --   local gso=on and 0 or rnd(0x1fff)\1
- --   local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
- --   for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
- --    poke(a,peek(a+2),peek(a-1)+(rnd(3)))
- --   end
- --  end
- --  for i=0,1 do
- --   d=rnd(8191)
- --   poke(
- --    screen_mem_start+d+(rnd()*rnd_sign()), -- write to this position, if the button is pressed shift by -0.5
- --    @(screen_mem_start+d-64*(mid(1,(rnd()-.5)/0)*2-1)+(rnd()*rnd_sign()))  -- peek @ this position, last part is to get 1 or -1
- --   )  
- --  end
- -- end
  if(rnd()>.9 and t()>0.3)srand(seed)
-
+ if((btnp(❎)and not display_params))for i=0,100do rnd()end
 
 end
 
@@ -930,21 +876,10 @@ add(config.sketch.methods, "mouse_brush")
 
 
 -- overrides:
---  brush:
-config.brush.i=rnd({5,11})
-config.brush.circ_r=0
-config.brush.recth=1
-config.brush.rectw=rnd({5,6,7,8,13})
-config.brush.wiggle=0
-config.brush.color=15
-config.brush.line_wt=0
 
 --  dither:
 config.dither.i=4
 config.dither.loops=100
-
-
-
 
 --  palettes/colors:
 config.colors.i = flr(rnd(#config.colors.methods))+1
@@ -959,14 +894,8 @@ config.timing.gif_record = false
 -- effects
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
-config.effects.glitch_freq = 0
-config.effects.mirror_type = rnd({5,7})
-
-
--- misc
--- config.sketch.r_step=rnd(0.1)+0.07
-
-
+config.effects.glitch_freq = rnd(13)+7
+config.effects.mirror_type = rnd({5,5,5,5,5,7,7,1})
 
 --------------------------------
 --        main loop           --
@@ -1080,6 +1009,7 @@ end
 
 if btnp(4) then 
  display_params = not display_params
+ if(not display_params)cls()
 end
 
 --------------------------------
