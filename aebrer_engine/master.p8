@@ -840,6 +840,8 @@ function config.sketch.init()
  config.sketch.p8loops = rnd(30)+5
  config.sketch.colors = rnd(10)+5
  config.dither.loops = rnd(100)+30
+ config.effects.glitch_freq = rnd(13)+7
+ config.effects.mirror_type = rnd({5,5,5,5,5,7,7,0})
 end
 
 config.sketch.init()
@@ -899,8 +901,6 @@ config.timing.gif_record = false
 -- effects
 config.effects.enable_all = true 
 config.effects.noise_amt = 0
-config.effects.glitch_freq = rnd(13)+7
-config.effects.mirror_type = rnd({5,5,5,5,5,7,7,0})
 
 --------------------------------
 --        main loop           --
