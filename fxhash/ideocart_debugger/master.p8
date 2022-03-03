@@ -850,10 +850,10 @@ function config.sketch.init()
  
 
 
- config.dither.loops = rnd(60)+30
- config.dither.circ_r = rnd({1,2})
- config.dither.recth = rnd({0,1,2,3})
- config.dither.rectw = rnd({0,1,2,3})
+ config.dither.loops = rnd(30)
+ config.dither.circ_r = rnd(8)+1
+ config.dither.recth = rnd(5)-.3
+ config.dither.rectw = rnd(5)-.3
 
 
  config.effects.glitch_freq = rnd(13)+7
@@ -921,8 +921,11 @@ add(config.sketch.methods, "sketch")
 config.dither.i=4
 
 --  palettes/colors:
-config.colors.i = #config.colors.methods
-
+if rnd()>.1 then
+ config.colors.i = #config.colors.methods
+else
+ config.colors.i = flr(rnd(#config.colors.methods)+1)
+end
 -- brush
 config.brush.mouse_ctrl=true
 config.brush.i=2
