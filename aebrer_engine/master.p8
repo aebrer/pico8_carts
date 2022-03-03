@@ -1150,6 +1150,14 @@ if config.timing.gif_record then
 end
 prev_gif_record = config.timing.gif_record
 
+-- screenshots
+local kbp=stat(31)
+if kbp=="s" then 
+ extcmd("screen")
+elseif kbp=="g" then 
+ extcmd("video")
+end 
+
 goto _
 __label__
 0000000022020iii0000pp000000000000ii208i0000000000000020000pp0i00i0pp0000200000000000000i802ii000000000000pp0000iii0202200000000
