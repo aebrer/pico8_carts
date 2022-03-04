@@ -843,6 +843,9 @@ config.sketch.methods = {}
 config.sketch.i = 1
 config.sketch.param_i = 1
 config.sketch.mousex,config.sketch.mousey=64,64
+config.sketch.zoom1prob = 0.9
+config.sketch.zoom2prob = 0.9
+config.sketch.seed_prob = 0.93
 
 function g()return rnd(12)-rnd(4)end
 
@@ -850,6 +853,7 @@ function config.sketch.init()
  config.sketch.p8loops = rnd(30)+5
  config.sketch.colors = rnd(5)+5
  
+
 
 
  config.dither.loops = rnd(60)+30
@@ -878,7 +882,10 @@ config.sketch.init()
 
 config.sketch.params = {
  {"p8loops", "int"},
- {"colors", "int"}
+ {"colors", "int"},
+ {"zoom1prob", "float_fine"},
+ {"zoom2prob", "float_fine"},
+ {"seed_prob", "float_fine"}
 }
 
 -- always present mouse brush
@@ -908,12 +915,12 @@ function config.sketch.sketch()
  poke(0x5f54,0x60)
 
 
- if(rnd()>.9)sspr(rnd(1.5)\1,rnd(2)\1,126,126,0,0,128,128)
- if(rnd()>.9)sspr(0,0,128,128,1,1,126,126)
+ if(rnd()>config.sketch.zoom1prob)sspr(rnd(1.5)\1,rnd(2)\1,126,126,0,0,128,128)
+ if(rnd()>config.sketch.zoom2prob)sspr(0,0,128,128,1,1,126,126)
  poke(0x5f54,0x00)
 
  -- if(rnd()>.9 and t()>0.3)srand(seed)
- if(rnd()>.93)srand(seed)
+ if(rnd()>config.sketch.seed_prob)srand(seed)
 
  -- srand(seed)
  if((btnp(❎)and not display_params))config.sketch.init()cls()
