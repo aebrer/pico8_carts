@@ -1,0 +1,1293 @@
+pico-8 cartridge // http://www.pico-8.com
+version 34
+__lua__
+
+cls()
+w=stat(6)
+seed=1
+for i=1,#w do
+ch=ord(sub(w,i,i))seed+=seed*31+ch
+end
+if(#w==0)seed=rnd(-1) 
+srand(seed)
+
+function q()return rnd(32)-16end
+
+if rnd()>0.5 then 
+-- pico_punk_generator
+
+function rnd_sign()
+ return mid(1,(rnd()-.5)/0)*2-1
+end
+
+bgfg_pairs = {
+ {11,-13},
+ {0,7},
+ {0,6},
+ {6,5},
+ {6,2},
+ {-14,14},
+ {0,-8},
+ {0,8},
+ {0,-6},
+ {0,-13},
+ {0,-4},
+ {1,12},
+ {1,13},
+ {10,-8},
+ {-7,-12},
+}
+
+bg = 0 
+fg = 1
+
+skins = {
+ 2,-3,13,-11,-14,4,-12,-7,9,-11,
+ 7,0,6,8,-8,-2,-1,15,12,-4,1
+}
+skin1 = 2
+skin2 = 3 
+
+eyes = {
+ 1,12,-4,-9,-6,11,-13,-7,8,13,-8,
+ 14,7,5,-10,0,-3,3,-12,4,11,-16
+}
+eye_styles = {
+ "\^i","\^b","","\^#","\^#","\^#","\^w","\^t"
+}
+eye1 = 4
+eye2 = 5
+
+hair_c = 6
+
+mouths = {
+ 0,-3,2,8,-8,-2,-1,7,-6
+}
+mouth1 = 7 
+mouth2 = 8
+
+-- bonus features
+eyepatch_prob = 0.03
+bald_prob = 0.05
+beard_prob = 0.15
+
+::_::
+
+
+srand(seed)
+
+bgfg = {q(),q()}
+while bgfg[1]==bgfg[2] do 
+ bgfg = {q(),q()}
+end
+
+pal(bg,bgfg[1],1)
+pal(fg,bgfg[2],1)
+
+main_skin = q()
+while main_skin == bgfg[1] do 
+ main_skin = q()
+end
+pal(skin1,main_skin,1)
+pal(skin2,bgfg[2],1)
+blemish_prob = rnd(0.2)
+
+main_eye = q()
+while main_eye == main_skin do 
+ main_eye = q()
+end
+pal(eye1,main_eye,1)
+pal(eye2,q(),1)
+eye1_style = rnd(eye_styles)
+if rnd() < 0.2 then
+ eye2_style = rnd(eye_styles)
+else
+ eye2_style = eye1_style
+end
+
+
+main_hair = q()
+while (main_hair == main_skin or
+ main_hair == bgfg[1]) do 
+ main_hair = q()
+end
+pal(hair_c,main_hair,1)
+
+bald = rnd() < bald_prob
+
+main_mouth = q()
+while main_mouth == main_skin do 
+ main_mouth = q()
+end
+pal(mouth1,main_mouth,1)
+pal(mouth2,q(),1)
+
+rainbow_mode = rnd() > 0.999
+
+cls()
+wait = true
+
+
+-- hair bg
+if not bald then
+
+ hair_type = rnd(8)\1+1
+ -- hair_type = 2
+
+ if hair_type == 1 then
+  for i=0,300 do 
+  x = 57 + rnd(30) * rnd_sign()
+  y = 58 + rnd(25) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 2 then
+  for i=0,120 do 
+  x = 43 + rnd(10) * rnd_sign()
+  y = 58 + rnd(25) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 3 then
+  for i=0,100 do 
+  x = 40 + rnd(10) * rnd_sign()
+  y = 58 + rnd(5) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,170 do 
+  x = 35 + rnd(2) * rnd_sign()
+  y = 70 + rnd(40) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 4 then
+  for i=0,190 do 
+  x = 38 + rnd(13) * rnd_sign()
+  y = 40 + rnd(13) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 5 then
+  for i=0,250 do 
+  x = 55 + rnd(18) * rnd_sign()
+  y = 35 + rnd(1) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 6 then
+  -- no bg hair
+ elseif hair_type == 7 then
+  -- wispy hair
+  for i=0,50 do 
+  x = 57 + rnd(30) * rnd_sign()
+  y = 58 + rnd(25) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 8 then
+  -- wispy hair
+  for i=0,50 do 
+  x = 54 + rnd(20) * rnd_sign()
+  y = 35 + rnd(5) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ end 
+end
+
+
+-- head
+for i=0,500 do 
+ if (rnd() > blemish_prob) c=skin1 else c=skin2
+ if(rainbow_mode) c=rnd(16)\1 
+ x = 57 + rnd(18) * rnd_sign()
+ y = 69 + rnd(25) * rnd_sign()
+ ?"\^i"..chr(rnd(240)\1+16),x,y,c
+end
+
+-- neck
+for i=0,200 do 
+ if (rnd() > blemish_prob) c=skin1 else c=skin2
+ if(rainbow_mode) c=rnd(16)\1 
+ x = 44 + rnd(6) * rnd_sign()
+ y = 112 + rnd(17) * rnd_sign()
+ ?"\^i"..chr(rnd(240)\1+16),x,y,c
+end
+
+-- eye1
+srand(seed)
+for i=0,10 do 
+ if (rnd() > 0.2) c=eye1 else c=eye2 
+ if(rainbow_mode) c=rnd(16)\1
+ x = 67 + rnd(3) * rnd_sign()
+ y = 60 + rnd(5) * rnd_sign()
+ ?eye1_style..chr(rnd(240)\1+16),x,y,c
+end
+-- eye2
+srand(seed)
+for i=0,10 do 
+ if (rnd() > 0.2) c=eye1 else c=eye2 
+ if(rainbow_mode) c=rnd(16)\1
+ x = 48 + rnd(3) * rnd_sign()
+ y = 60 + rnd(5) * rnd_sign()
+ ?eye2_style..chr(rnd(240)\1+16),x,y,c
+end
+
+-- mouth
+for i=0,10 do 
+ if (rnd() > 0.2) c=mouth1 else c=mouth2 
+ if(rainbow_mode) c=rnd(16)\1
+ x = 60 + rnd(7) * rnd_sign()
+ y = 85 + rnd(3) * rnd_sign()
+ ?"\^i"..chr(rnd(240)\1+16),x,y,c
+end
+
+-- eyepatch
+if rnd() < eyepatch_prob then
+ for i=0,100 do 
+  x = 48 + rnd(3) * rnd_sign()
+  y = 60 + rnd(5) * rnd_sign()
+  ?eye1_style..chr(rnd(240)\1+16),x,y,0
+ end
+ line(55,55,60,43,0)
+ line(51,65,38,73,0)
+end
+
+if not bald then 
+ hair_type = rnd(100)
+ -- hair_type = 80
+
+ -- hairstyle 1
+ -- hair bg
+ if hair_type < 20 then
+  for i=0,300 do 
+  x = 57 + rnd(20) * rnd_sign()
+  y = 29 + rnd(15) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 40 then
+  for i=0,150 do 
+  x = 55 + rnd(18) * rnd_sign()
+  y = 37 + rnd(2) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,50 do 
+  x = 55 + rnd(29)
+  y = 44 - rnd(3) - (x*0.1)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 50 then
+  for i=0,150 do 
+  x = 55 + rnd(20) * rnd_sign()
+  y = 39 + rnd(2) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?eye1_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,100 do 
+  x = 30 + rnd(4)
+  y = 39 + rnd(70)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?eye2_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 55 then
+  for i=0,150 do 
+  x = 55 + rnd(20) * rnd_sign()
+  y = 37 + rnd(2) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,100 do 
+  x = 30 + rnd(4)
+  y = 36 + rnd(70)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 60 then
+  for i=0,10 do 
+  y = 47 - rnd(30)
+  x = 30 + rnd(3) + (y*0.2)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 75 then
+  -- no fg hair
+ elseif hair_type < 99.9 then
+
+
+  hair_style = ""
+  if (rnd() > 0.7) hair_style = "\^i"
+
+
+  for i=0,30 do 
+  y = 40 - rnd(10)
+  x = 15 + rnd(1) + (y*0.55)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 40 - rnd(15)
+  x = 20 + rnd(1) + (y*0.5)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 40 - rnd(20)
+  x = 25 + rnd(1) + (y*0.45)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 40 - rnd(25)
+  x = 30 + rnd(1) + (y*0.4)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 35 + rnd(1) + (y*0.35)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 40 + rnd(1) + (y*0.3)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 45 + rnd(1) + (y*0.25)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 50 + rnd(1) + (y*0.20)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 55 + rnd(1) + (y*0.15)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 60 + rnd(1) + (y*0.1)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 65 + rnd(3) + (y*0.05)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 70 + rnd(3) + (y*0.00)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 75 + rnd(3) - (y*0.05)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 80 + rnd(3) - (y*0.1)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 85 + rnd(3) - (y*0.2)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 90 + rnd(2) - (y*0.3)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+ elseif hair_type <= 100 then
+  -- head
+  for i=0,500 do 
+   x = 57 + rnd(18) * rnd_sign()
+   y = 69 + rnd(25) * rnd_sign()
+   if(rainbow_mode) hair_c=rnd(16)\1
+   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  -- neck
+  for i=0,200 do 
+   x = 44 + rnd(6) * rnd_sign()
+   y = 112 + rnd(17) * rnd_sign()
+   if(rainbow_mode) hair_c=rnd(16)\1
+   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ end 
+end
+
+-- beard
+if rnd() < beard_prob then
+ beard_type = rnd(5)\1+1
+ -- beard_type = 4
+ if beard_type == 1 then
+  for i=0,150 do 
+  x = 57 + rnd(25) * rnd_sign()
+  y = 88 + rnd(10) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 2 then
+  for i=0,10 do 
+  x = 57 + rnd(5) * rnd_sign()
+  y = 77 + rnd(1) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 3 then
+  for i=0,10 do 
+  x = 57 + rnd(8) * rnd_sign()
+  y = 77 + rnd(1) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,10 do 
+  x = 50 + rnd(1) * rnd_sign()
+  y = 83 + rnd(7) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,10 do 
+  x = 70 + rnd(1) * rnd_sign()
+  y = 83 + rnd(7) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 4 then
+  for i=0,30 do 
+  y = 99 + rnd(5) * rnd_sign()
+  x = 34 + rnd(3) * rnd_sign() + (0.33*y)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 5 then
+  for i=0,150 do 
+  x = 57 + rnd(20) * rnd_sign()
+  y = 88 + rnd(10) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,200 do 
+  y = 100 + rnd(20) * rnd_sign()
+  x = 40 + rnd(15) * rnd_sign() + (0.29*y)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ end
+
+end
+
+flip()
+need_screenshot=true
+while wait do
+ if (t()>7 and need_screenshot) then
+  extcmd('screen') need_screenshot=false
+ end
+end
+
+
+goto _
+
+else 
+-- pico_punks_infinite
+--------------------------------
+--        functions           --
+--------------------------------
+function rnd_sign()
+ if rnd(1) >= 0.5 then
+  return(-1)
+ else
+  return(1)
+ end
+end
+
+function rnd_pixel()
+ local px_x = (
+  flr(rnd(128))
+ ) - 64
+ local px_y = (
+  flr(rnd(128))
+ ) - 64
+ local pixel = {
+  x=px_x,
+  y=px_y
+ }
+ return(pixel)
+end
+
+function safe_inc(idx, lim)
+ local new_idx = idx + 1
+ if new_idx > lim then
+  new_idx = 1 
+ end
+ return new_idx
+end
+
+function round(n)
+ return (n%1<0.5) and flr(n) or ceil(n)
+end
+
+-- rotation function
+-- og credit to @dec_hl on twitter
+-- c := center for rotation
+-- p := point to rotate
+-- a := angle
+function rotate(a,cx,cy,px,py)
+ local x = px - cx
+ local y = py - cy
+ local xr = x*cos(a) - y*sin(a)
+ local yr = y*cos(a) + x*sin(a)
+ return {xr+cx, yr+cy}
+end
+
+function burn(c)
+ local new_c = max(c-1,0)
+ return new_c
+end
+
+orig_seed = seed
+
+function rnd_sign()
+ return mid(1,(rnd()-.5)/0)*2-1
+end
+
+
+bgfg_pairs = {
+ {11,-13},
+ {0,7},
+ {0,6},
+ {6,5},
+ {6,2},
+ {-14,14},
+ {0,-8},
+ {0,8},
+ {0,-6},
+ {0,-13},
+ {0,-4},
+ {1,12},
+ {1,13},
+ {10,-8},
+ {-7,-12},
+ {-8,7},
+ {8,1},
+ {-8,1},
+ {-8,6}
+}
+
+bg = 0 
+fg = 1
+
+skins = {
+ 2,-3,13,-11,-14,4,-12,-7,9,-11,
+ 7,0,6,8,-8,-2,-1,15,12,-4,1
+}
+skin1 = 2
+skin2 = 3 
+
+eyes = {
+ 1,12,-4,-9,-6,11,-13,-7,8,13,-8,
+ 14,7,5,-10,0,-3,3,-12,4,11,-16
+}
+eye_styles = {
+ "\^i","\^b","","\^#","\^#","\^#","\^w","\^t"
+}
+eye1 = 4
+eye2 = 5
+
+hair_c = 6
+
+
+mouths = {
+ 0,-3,2,8,-8,-2,-1,7,-6
+}
+mouth1 = 7 
+mouth2 = 8
+
+-- bonus features
+eyepatch_prob = 0.03
+bald_prob = 0.05
+beard_prob = 0.15
+::_::
+
+srand(orig_seed)
+
+bgfg = {q(),q()}
+while bgfg[1]==bgfg[2] do 
+ bgfg = {q(),q()}
+end
+
+srand(seed)
+
+red_check = sub(tostr(seed),-4,-1) == "9999"
+red_check = red_check or sub(tostr(seed),-3,-1) == "9998"
+red_check = red_check or sub(tostr(seed),-3,-1) == "9997"
+red_check = red_check or sub(tostr(seed),-3,-1) == "9996"
+red_check = red_check or sub(tostr(seed),-3,-1) == "9995"
+
+
+pal(bg,bgfg[1],1)
+if (red_check) pal(bg,8,1)
+pal(fg,bgfg[2],1)
+
+main_skin = q()
+while main_skin == bgfg[1] do 
+ main_skin = q()
+end
+pal(skin1,main_skin,1)
+pal(skin2,bgfg[2],1)
+blemish_prob = rnd(0.2)
+
+main_eye = q()
+while main_eye == main_skin do 
+ main_eye = q()
+end
+pal(eye1,main_eye,1)
+pal(eye2,q(),1)
+eye1_style = rnd(eye_styles)
+if rnd() < 0.2 then
+ eye2_style = rnd(eye_styles)
+else
+ eye2_style = eye1_style
+end
+
+
+main_hair = q()
+while (main_hair == main_skin or
+ main_hair == bgfg[1]) do 
+ main_hair = q()
+end
+pal(hair_c,main_hair,1)
+
+bald = rnd() < bald_prob
+
+main_mouth = q()
+while main_mouth == main_skin do 
+ main_mouth = q()
+end
+pal(mouth1,main_mouth,1)
+pal(mouth2,q(),1)
+
+rainbow_mode = rnd() > 0.99
+
+bw = rnd() > 0.99
+if (bw) pal({7,rnd({7,0}),0,7,0,0,7,0,7,0,7,0,7,0,7},1)
+if (bw and bgfg[1] == 0) bgfg[1] = -14 pal(bg,bgfg[1],1)
+
+if red_check then 
+ pal({7,rnd({0}),0,7,0,0,7,0,7,0,7,0,7,0,7},1)
+ if (bgfg[1] == 0) bgfg[1] = -14 pal(bg,bgfg[1],1)
+end
+
+cls()
+wait = true
+
+
+-- hair bg
+if not bald then
+
+ hair_type = rnd(8)\1+1
+ -- hair_type = 2
+
+ if hair_type == 1 then
+  for i=0,300 do 
+  x = 57 + rnd(30) * rnd_sign()
+  y = 58 + rnd(25) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 2 then
+  for i=0,120 do 
+  x = 43 + rnd(10) * rnd_sign()
+  y = 58 + rnd(25) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 3 then
+  for i=0,100 do 
+  x = 40 + rnd(10) * rnd_sign()
+  y = 58 + rnd(5) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,170 do 
+  x = 35 + rnd(2) * rnd_sign()
+  y = 70 + rnd(40) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 4 then
+  for i=0,190 do 
+  x = 38 + rnd(13) * rnd_sign()
+  y = 40 + rnd(13) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 5 then
+  for i=0,250 do 
+  x = 55 + rnd(18) * rnd_sign()
+  y = 35 + rnd(1) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 6 then
+  -- no bg hair
+ elseif hair_type == 7 then
+  -- wispy hair
+  for i=0,50 do 
+  x = 57 + rnd(30) * rnd_sign()
+  y = 58 + rnd(25) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type == 8 then
+  -- wispy hair
+  for i=0,50 do 
+  x = 54 + rnd(20) * rnd_sign()
+  y = 35 + rnd(5) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ end 
+end
+
+
+-- head
+for i=0,500 do 
+ if (rnd() > blemish_prob) c=skin1 else c=skin2
+ if(rainbow_mode) c=rnd(16)\1 
+ x = 57 + rnd(18) * rnd_sign()
+ y = 69 + rnd(25) * rnd_sign()
+ ?"\^i"..chr(rnd(240)\1+16),x,y,c
+end
+
+-- neck
+for i=0,200 do 
+ if (rnd() > blemish_prob) c=skin1 else c=skin2
+ if(rainbow_mode) c=rnd(16)\1 
+ x = 44 + rnd(6) * rnd_sign()
+ y = 112 + rnd(17) * rnd_sign()
+ ?"\^i"..chr(rnd(240)\1+16),x,y,c
+end
+
+-- eye1
+srand(seed)
+for i=0,10 do 
+ if (rnd() > 0.2) c=eye1 else c=eye2 
+ if(rainbow_mode) c=rnd(16)\1
+ x = 67 + rnd(3) * rnd_sign()
+ y = 60 + rnd(5) * rnd_sign()
+ ?eye1_style..chr(rnd(240)\1+16),x,y,c
+end
+-- eye2
+srand(seed)
+for i=0,10 do 
+ if (rnd() > 0.2) c=eye1 else c=eye2 
+ if(rainbow_mode) c=rnd(16)\1
+ x = 48 + rnd(3) * rnd_sign()
+ y = 60 + rnd(5) * rnd_sign()
+ ?eye2_style..chr(rnd(240)\1+16),x,y,c
+end
+
+-- mouth
+for i=0,10 do 
+ if (rnd() > 0.2) c=mouth1 else c=mouth2 
+ if(rainbow_mode) c=rnd(16)\1
+ x = 60 + rnd(7) * rnd_sign()
+ y = 85 + rnd(3) * rnd_sign()
+ ?"\^i"..chr(rnd(240)\1+16),x,y,c
+end
+
+-- eyepatch
+if rnd() < eyepatch_prob then
+ for i=0,100 do 
+  x = 48 + rnd(3) * rnd_sign()
+  y = 60 + rnd(5) * rnd_sign()
+  ?eye1_style..chr(rnd(240)\1+16),x,y,0
+ end
+ line(55,55,60,43,0)
+ line(51,65,38,73,0)
+end
+
+if not bald then 
+ hair_type = rnd(100)
+ -- hair_type = 80
+
+ -- hairstyle 1
+ -- hair bg
+ if hair_type < 20 then
+  for i=0,300 do 
+  x = 57 + rnd(20) * rnd_sign()
+  y = 29 + rnd(15) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 40 then
+  for i=0,150 do 
+  x = 55 + rnd(18) * rnd_sign()
+  y = 37 + rnd(2) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,50 do 
+  x = 55 + rnd(29)
+  y = 44 - rnd(3) - (x*0.1)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 50 then
+  for i=0,150 do 
+  x = 55 + rnd(20) * rnd_sign()
+  y = 39 + rnd(2) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?eye1_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,100 do 
+  x = 30 + rnd(4)
+  y = 39 + rnd(70)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?eye2_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 55 then
+  for i=0,150 do 
+  x = 55 + rnd(20) * rnd_sign()
+  y = 37 + rnd(2) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,100 do 
+  x = 30 + rnd(4)
+  y = 36 + rnd(70)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 60 then
+  for i=0,10 do 
+  y = 47 - rnd(30)
+  x = 30 + rnd(3) + (y*0.2)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif hair_type < 75 then
+  -- no fg hair
+ elseif hair_type < 99.9 then
+
+
+  hair_style = ""
+  if (rnd() > 0.7) hair_style = "\^i"
+
+
+  for i=0,30 do 
+  y = 40 - rnd(10)
+  x = 15 + rnd(1) + (y*0.55)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 40 - rnd(15)
+  x = 20 + rnd(1) + (y*0.5)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 40 - rnd(20)
+  x = 25 + rnd(1) + (y*0.45)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 40 - rnd(25)
+  x = 30 + rnd(1) + (y*0.4)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 35 + rnd(1) + (y*0.35)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 40 + rnd(1) + (y*0.3)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 45 + rnd(1) + (y*0.25)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 50 + rnd(1) + (y*0.20)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 55 + rnd(1) + (y*0.15)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 60 + rnd(1) + (y*0.1)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 65 + rnd(3) + (y*0.05)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 70 + rnd(3) + (y*0.00)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 75 + rnd(3) - (y*0.05)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 80 + rnd(3) - (y*0.1)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 85 + rnd(3) - (y*0.2)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  
+  for i=0,30 do 
+  y = 42 - rnd(30)
+  x = 90 + rnd(2) - (y*0.3)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
+  end
+
+ elseif hair_type <= 100 then
+  -- head
+  for i=0,500 do 
+   x = 57 + rnd(18) * rnd_sign()
+   y = 69 + rnd(25) * rnd_sign()
+   if(rainbow_mode) hair_c=rnd(16)\1
+   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+  -- neck
+  for i=0,200 do 
+   x = 44 + rnd(6) * rnd_sign()
+   y = 112 + rnd(17) * rnd_sign()
+   if(rainbow_mode) hair_c=rnd(16)\1
+   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ end 
+end
+
+-- beard
+if rnd() < beard_prob then
+ beard_type = rnd(5)\1+1
+ -- beard_type = 4
+ if beard_type == 1 then
+  for i=0,150 do 
+  x = 57 + rnd(25) * rnd_sign()
+  y = 88 + rnd(10) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 2 then
+  for i=0,15 do 
+  x = 50 + rnd(25)
+  y = 77 
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 3 then
+  for i=0,10 do 
+  x = 57 + rnd(8) * rnd_sign()
+  y = 77 + rnd(1) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,10 do 
+  x = 50 + rnd(1) * rnd_sign()
+  y = 83 + rnd(7) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,10 do 
+  x = 70 + rnd(1) * rnd_sign()
+  y = 83 + rnd(7) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 4 then
+  for i=0,30 do 
+  y = 99 + rnd(5) * rnd_sign()
+  x = 34 + rnd(3) * rnd_sign() + (0.33*y)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ elseif beard_type == 5 then
+  for i=0,150 do 
+  x = 57 + rnd(20) * rnd_sign()
+  y = 88 + rnd(10) * rnd_sign()
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+  for i=0,200 do 
+  y = 100 + rnd(20) * rnd_sign()
+  x = 40 + rnd(15) * rnd_sign() + (0.29*y)
+  if(rainbow_mode) hair_c=rnd(16)\1
+  ?chr(rnd(240)\1+16),x,y,hair_c
+  end
+ end
+
+end
+
+-- noise
+
+local amt = rnd(5)
+if amt >= 1 then
+ for i=0,amt*amt do
+  poke(
+      0x6000+rnd(0x2000),
+      peek(rnd(0x7fff)))
+  poke(
+      0x6000+rnd(0x2000),
+      rnd(0xff))
+ end
+end
+
+-- memory fuckery
+screen_mem_start=●-웃
+for i=0,rnd(16000)+500 do
+ d=rnd(8191)
+ poke(
+  screen_mem_start+d+(rnd()*rnd_sign()), -- write to this position, if the button is pressed shift by -0.5
+  @(screen_mem_start+d-64*(mid(1,(rnd()-.5)/0)*2-1)+(rnd()*rnd_sign()))  -- peek @ this position, last part is to get 1 or -1
+ )  
+end
+
+-- glitch
+
+local gr = rnd(2)
+if gr >= 1 then 
+ local on=(t()*4.0)%gr<0.1
+ local gso=on and 0 or rnd(0x1fff)\1
+ local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+ for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+  poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+ end
+end
+
+
+flip()
+need_screenshot=true
+while wait do
+ if (t()>7 and need_screenshot) then
+  extcmd('screen') need_screenshot=false
+ end
+end
+
+
+goto _
+
+end
+
+
+__gfx__
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+__label__
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+1cc11ccc1ccc1ccc1ccc11111ccc1cc11ccc1ccc111111111111111111111111ccc1ccc1ccc11cc11cc111111ccccc111111ccc11cc111111cc1ccc1c1c1ccc1
+11c1111c111c1c1c1c1c11111c1c11c11c1c1c1c111111111111111111111111c1c1c1c1c111c111c1111111cc1c1cc111111c11c1c11111c111c1c1c1c1c111
+11c1111c1ccc1ccc1c1c11111c1c11c11ccc1ccc111111111111111111111111ccc1cc11cc11ccc1ccc11111ccc1ccc111111c11c1c11111ccc1ccc1c1c1cc11
+11c1111c1c11111c1c1c11111c1c11c11c1c111c111111111111111111111111c111c1c1c11111c111c11111cc1c1cc111111c11c1c1111111c1c1c1ccc1c111
+1ccc111c1ccc111c1ccc11c11ccc1ccc1ccc111c111111111111111111111111c111c1c1ccc1cc11cc1111111ccccc1111111c11cc111111cc11c1c11c11ccc1
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111111111111111111111111111111111111111111111cc1c111ccc1ccc1cc111111ccc1cc111cc1111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111c111c111c111c1c1c1c11111c1c1c1c1c111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111c111c111cc11ccc1c1c11111ccc1c1c1c111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111c111c111c111c1c1c1c11111c111c1c1c1c1111111111111
+111111111111111111111111111111111111111111111111111111111111111111111111111111111cc1ccc1ccc1c1c1c1c11111c111c1c1ccc1111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111111111dd111111dd1111dd11dd11111111d1111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111111111dd11dddd11dddddddddddddddd11ddddddd1dd1111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111ddddddddddddddddddddddddddddddddddddddddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddddddddddddddddddddddddddddddddddddddd11dd1111111111111111111111111111111111111111111111
+111111111111111111111111111111111111dd1ddddddddddddddddddd77777ddddddddddddddd11dd1111111111111111111111111111111111111111111111
+111111111111111111111111111111111111dd1ddd7d7ddddddddddddd77777ddddddddddddddddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dd1d7ddddddddddddddd7d77dddddddddddddddddddddd11111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddddddddddddddddddddd7ddddddddddddddddddddd11dd111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddd7dddddd7ddddddddddddddddddd1111111111111111111111111111111111111111111111
+111111111111111111111111111111111111ddddddddddddddddddd77dddddddddddddddddddddddd11111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddd7dddddddddddddd7d7dddddddddddddddddddddd11111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d77ddddddddddddddd117ddddd11dddd1111dddd1d111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d77dd7d1d1111111dd7ddddddd11dd111111111d77d71111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d777ddd115511111517ddddd111511111111111dd7111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d7d7d7d1151111511111d7dd511151151111511177111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d77dd7d1551155511111dd7d511151511511551ddd111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d77dd7d1115151115515dddd511515111555111ddd111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d77777d1515111511511dddddd151555111111dddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddd7ddd1155151551111dd1ddd5555151551dddddddddd11111111111111111111111111111111111111111111
+111111111111111111111111111111111111d7ddddddd115555155111ddd1ddd11555555151dddddd11111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111dd155555515151111ddd1ddd1111511115151ddddd1111111111111111111111111111111111111111111111
+1111111111111111111111111111111111117d11dd151511511111111ddd1d1d115555551111ddddd1d111111111111111111111111111111111111111111111
+1111111111111111111111111111111111d711dd7ddd15dd11e11111111ddd1d1555ee111111ddddd1d111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d7dddd1151e1e111111dddddd1151e11ee1111ddddd11111111111111111111111111111111111111111111111
+111111111111111111111111111111111111d7d7d7dd1151e11111dd1dddddd1111eee111111ddddd11111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d7dddd1111111d11dddd1dddd1151111111111dd1111dd11111111111111111111111111111111111111111111
+111111111111111111111111111111111111ddd7dddd1111511151dddd1dd17111111511dddd11dddd1111111111111111111111111111111111111111111111
+111111111111111111111111111111111111ddd7dddd11111151ddddddddddd171111115dddddd11dd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddddddd1111dddddddddddddddd71dddddddddddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d1ddddddddddddddddddddddd7dddddddddddddddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d1dddddddddddddddddddddddddddddddddddddddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddd1dddddddddddddddd7dddd7dddddddddd7ddddddd1111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111dddddddddddddddddd7ddddddddddddd7ddddddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d1dddddddddddddddddddddddddddddddddddddddddddd11111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111dddddddddddddddddddddddddddddddddddddddddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d1dddddddddddddddddddddddddddddddddddddddd111111111111111111111111111111111111111111111111
+111111111111111111111111111111111111d1ddddddddddddddddddddddddddddddddddddddddddd11111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddddddddd77ddddddddddddddddddddddddddd1dd111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111ddd777dddddddddddddddddddddddddddddddddddd1111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111dddd7dddddddddddddddddddddddddddddddddddd111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111d7ddddddd7ddddddddddttddddttttdddddd8ddddddd1111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111dd7dd77d7ddddddddttttttttttt88888dddddddddd1111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111d1ddddd77d7ddddddddttttt8ttttt888d88d88dddd111111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111ddddd77ddddddddd88tttt88t88888888dddddddd771111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111ddddddddddddddddd888tt888t88888888ddddddd771111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111d1dddddddddddddd888ttt88tttt888888ddddddd771111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddd888ttt888888888888ddddddd111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddd7dddddddd8888tttt88tt888888d7ddddddd11111111111111111111111111111111111111111111111
+1111111111111111111111111111111111dd1111d7ddd777ddddddd888888888888888ddddd77dddd11111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddd7ddddddddddd8d88888888888d78ddd7d7d7ddd1111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddddd888dddd8888ddd77dddd7777d7ddd111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddddddddd7dd88dddddd7ddd77777d117d111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddddddddd7dd777ddddddddddd777d7d11111111111111111111111111111111111111111111
+1111111111111111111111111111111111111dddddddddddddddddddddd7dd77dddddddddddddd117d1111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111d11dddddddddddddddddddd77dddddddddddddd7777111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111d11ddddddddddddddddddd1dddddd11dddddddd1111771111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111dddddddddddddddddddd1d111dddddddd1111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddddd111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+111111111111111111111111111111111111dddddddddddddddddddd11dd11111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111dd1ddddddddddddddddd11d11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddddd111111111111111111111111111111111111111111111111111111111111111111111111
+111111111111111111111111111111111d111dddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111dddddddddddddddddd1d111d1111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddd11d11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111dddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111111dddddddddddddddddd1111111111111111111111111111111111111111111111111111111111111111111111
+111111111111111111111111111111111111111111ddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111711ddddddddddddd1ddd11111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111ddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111dddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111d1dddddddddddddddddddd11111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddddddddddddddddd111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddddddddddddddddd111111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111dddddddddddddddd7d1111111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddd77d7d11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddd77d11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddd77d11111111111111111111111111111111111111111111111111111111111111111111111
+1111111111111111111111111111111111111ddddddddddddddddd77d11111111111111111111111111111111111111111111111111111111111111111111111
+111111111111111111111111111111111111dddddd1111dddddd7711111111111111111111111111111111111111111111111111111111111111111111111111
+11111111111111111111111111111111111111dddd11dddd11dd1111111111111111111111111111111111111111111111111111111111111111111111111111
+
