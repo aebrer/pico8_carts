@@ -11,7 +11,7 @@ end
 if(#w==0)seed=rnd(-1) 
 srand(seed)
 
-function q()return rnd(32)-16end
+function q()return flr(rnd(32)-16)end
 
 if rnd()>0.5 then 
 -- pico_punk_generator
@@ -513,6 +513,7 @@ if rnd() < beard_prob then
 
 end
 
+-- ?"\^i"..bgfg[1].." "..bgfg[2].." "..main_skin,0,0,15
 flip()
 need_screenshot=true
 while wait do
@@ -520,6 +521,7 @@ while wait do
   extcmd('screen') need_screenshot=false
  end
 end
+
 
 
 goto _
@@ -1139,7 +1141,7 @@ if gr >= 1 then
  end
 end
 
-
+-- ?"\^i"..bgfg[1].." "..bgfg[2].." "..main_skin,0,0,15
 flip()
 need_screenshot=true
 while wait do
@@ -1147,6 +1149,7 @@ while wait do
   extcmd('screen') need_screenshot=false
  end
 end
+
 
 
 goto _
