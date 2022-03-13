@@ -765,16 +765,63 @@ if lib[p_g4u].seed\1%17==0 then
 end
 end
 
-p_statue_01="a statue garden"
-lib[p_statue_01]=new_page(
-p_statue_01,
-"looks like some kind of statue\ngarden. they've even painted\nthe walls to look like grass."
-)
-lib[p_statue_01].logo=ideocart_logo
-lib[p_statue_01].seed=71
-add_text(p_statue_01,
-"it's a bit of a maze."
-)
+-- statue garden
+statue_pages={}
+
+function get_statue()
+ local statue_seed = rnd(-1)
+ local p_statue = "statue: "..statue_seed
+ lib[p_statue]=new_page(
+ p_statue,
+ "looks like some kind of statue\ngarden. they've even painted\nthe walls to look like grass.\n\njust kidding."
+ )
+ lib[p_statue].logo=ideocart_logo
+ lib[p_statue].seed=statue_seed
+ add_text(p_statue,
+ "it's a bit of a maze."
+ )
+ add_text(p_statue,
+ "you can track the seeds.\n\nprobably."
+ )
+ add_text(p_statue,
+ "you're going to need to envision\nof a network with close\nto no rules.\n\n...but be careful."
+ )
+ lib[p_statue].cb = function()
+  curr_page.title = "statue: "..curr_page.seed
+ end
+
+ return p_statue
+end
+
+-- statue pages (and odds):
+for i=1,25 do 
+ statue_pages[i]=get_statue()
+end
+-- note... sometimes no special pages possible?
+
+-- statue choices:
+-- todo: refactor for all pages and choices
+
+function get_statue_choice()
+ local ch = new_choice(
+   "next statue",
+   lib[rnd(statue_pages)]
+  )
+ return ch
+end
+
+-- which page will be the first
+ch_statue = get_statue_choice()
+ch_statue.title = "statue garden?"
+
+for i=1,#statue_pages do 
+ for ch_i=0,3 do 
+  lib[statue_pages[i]].choices[ch_i]=get_statue_choice()
+ end
+end
+
+
+
 
 
 -- fuck me?
@@ -789,8 +836,10 @@ add_text(fuck_me,
 "listen here you little shit:\n\nwe. are. all. doomed.\nthe sooner you realize that\nthe better off we'll be."
 )
 
-
+--------------------------------
 -- choices
+--------------------------------
+
 
 function no_trace()
  prev_page=nil
@@ -1019,10 +1068,8 @@ lib[p_g4u]
 )
 
 lib[p_g4u].choices[⬇️]=ch_look_around
-ch_statue=new_choice(
-"statue garden?",
-lib[p_statue_01]
-)
+
+
 
 
 
