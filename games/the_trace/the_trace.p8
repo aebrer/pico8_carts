@@ -12,16 +12,14 @@ __lua__
 --   dt*=0.9 for each right answer
 --   use voght kompff test from blade runner
 
--- - a statue garden with the art in random squares
---  the rooms can be navigated semi-randomly
---  acts like a maze
+-- - a statue garden 
 --  there is a hidden "emergency exit" page
 --  exit takes you through an outdoor area
 --  you eventually arrive back at the main entrance
 
 
 --!!
-debug_mode=true
+debug_mode=false
 --!!
 
 lib={} -- library of all pages: title,page
@@ -785,6 +783,9 @@ function get_statue()
  )
  add_text(p_statue,
  "you're going to need to envision\nof a network with close\nto no rules.\n\n...but be careful."
+ )
+  add_text(p_statue,
+ "there's something in here."
  )
  lib[p_statue].cb = function()
   curr_page.title = "statue: "..curr_page.seed
