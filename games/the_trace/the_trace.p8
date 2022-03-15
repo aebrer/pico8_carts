@@ -528,6 +528,7 @@ end
 
 function more_art(page)
  clip(0,37,128,64)
+ if(not page.i)page.logo:init()
  page.logo:draw(0,37,128,64)
  clip()
 end
@@ -782,7 +783,7 @@ function get_statue()
  "you can track the seeds.\n\nprobably."
  )
  add_text(p_statue,
- "you're going to need to envision\nof a network with close\nto no rules.\n\n...but be careful."
+ "you're going to need to\nenvision a network with\nclose to no rules.\n\n...but be careful."
  )
   add_text(p_statue,
  "there's something in here."
