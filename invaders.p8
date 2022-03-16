@@ -1,17 +1,16 @@
 pico-8 cartridge // http://www.pico-8.com
 version 35
 __lua__
-cls()
 r=rnd
 b=srand
-s=r(-1)b(s)
-::_::
-x=r(99)y=r(99)for i=0,r(200)do
-pset(x,y,r(16))x+=r(3)-1y+=r(3)-1
-if(r(5)>1)pset(x+r(2)-1,y+r(2)-1,pget(x,y)-1)
-if(r()<.5)b(s)
-end
-if(r()>.9)b(s)
+-- randomize pallete using memory
+for i=0,15do pal(i,r(32)-16,1)end
+--?"\^!5f100"..r(-1)..r(-1)
+s=r(-1)cls()::_::
+x=r(32)+48y=r(32)+48for i=0,r(99)do
+pset(x,y,r(6))x+=r(4)-2y+=r(4)-2
+circ(x,y,r(1)+.5,pget(x,y)-1)end
+if(r()>.999)b(s)
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
