@@ -9,11 +9,6 @@ __lua__
 --   dt*=0.9 for each right answer
 --   use voght kompff test from blade runner
 
--- - a statue garden 
---  there is a hidden "emergency exit" page
---  exit takes you through an outdoor area
---  you eventually arrive back at the main entrance
-
 
 --!!
 debug_mode=false
@@ -822,7 +817,6 @@ p_mirror,
 "⬇️░█⬇️●🅾️⬇️\n⬅️☉ˇ░★"
 )
 lib[p_mirror].logo=ideocart_logo
-lib[p_mirror].seed=statue_seed
 add_text(p_mirror,
 "real lore hidden as\nreal coded msg."
 )
@@ -846,6 +840,46 @@ end
 end
 )
 add(statue_pages,p_mirror)
+
+-- do extra pages in statue garden
+p_exit="emergency exit"
+lib[p_exit] = new_page(
+p_exit,
+"whoa! an emergency exit?\nmaybe it's a way out.\n\nbe nice to touch grass again."
+)
+add_text(p_exit,
+"remember we own you in here."
+)
+lib[p_exit].choices[⬅️]=new_choice(
+"go back",
+lib[rnd(statue_pages)]
+)
+lib[p_exit].vfx=glitch
+
+p_hallway="a long hallway"
+lib[p_hallway]=new_page(
+p_hallway,
+"you're in a long winding\nhallway. the wallpaper is\npeeling. it smells faintly of\nmildew."
+)
+add_text(p_hallway,"all these twists and turns\nare messing with your\nsense of direction.")
+lib[p_hallway].ch_counter=0
+lib[p_hallway].choices[➡️]=new_choice(
+"keep going",
+lib[p_hallway],
+function()
+ lib[p_hallway].ch_counter+=1
+	seed_plus()
+	if(rnd()>.8and lib[p_hallway].ch_counter>3)lib[p_hallway].choices[➡️]=new_choice("uh oh",lib[title])
+end
+)
+lib[p_hallway].vfx=tear
+
+lib[p_exit].choices[➡️]=new_choice(
+"go out",
+lib[p_hallway]
+)
+add(statue_pages,p_exit)
+
 
 -- fill choices for default statues
 for i=1,n_statues do 
