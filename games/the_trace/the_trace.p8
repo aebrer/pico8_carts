@@ -1055,7 +1055,7 @@ nil,
 function()
  sfx(29, 3) --camera shutter sound
  doom_plus()
- -- todo, delete when too many vfx
+ extcmd("video")
  add(cam_vfx,curr_page.vfx)
  if(#cam_vfx>3)deli(cam_vfx,1)
 end
