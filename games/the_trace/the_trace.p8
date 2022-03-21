@@ -5,9 +5,6 @@ __lua__
 
 -- todo
 
--- - a mirror room (literally a mirror effect room)
-
-
 -- - "ignore it" path as good path to remove doom
 --   dt*=0.9 for each right answer
 --   use voght kompff test from blade runner
@@ -796,7 +793,8 @@ function get_statue()
 end
 
 -- statue pages (and odds):
-for i=1,25 do 
+n_statues=13
+for i=1,n_statues do 
  statue_pages[i]=get_statue()
 end
 -- note... sometimes no special pages possible?
@@ -816,7 +814,41 @@ end
 ch_statue = get_statue_choice()
 ch_statue.title = "statue garden?"
 
-for i=1,#statue_pages do 
+
+-- do extra pages in statue garden
+p_mirror="a mirror"
+lib[p_mirror] = new_page(
+p_mirror,
+"⬇️░█⬇️●🅾️⬇️\n⬅️☉ˇ░★"
+)
+lib[p_mirror].logo=ideocart_logo
+lib[p_mirror].seed=statue_seed
+add_text(p_mirror,
+"real lore hidden as\nreal coded msg."
+)
+lib[p_mirror].cb=function()
+poke(24364,5)
+end
+lib[p_mirror].leave_cb=function()
+poke(24364,0)
+end
+lib[p_mirror].choices[⬅️]=new_choice(
+"go back",
+lib[rnd(statue_pages)]
+)
+lib[p_mirror].choices[➡️]=new_choice(
+"go in",
+lib[title],
+function()
+lib[p_mirror].leave_cb=function()
+ poke(24364,129)
+end
+end
+)
+add(statue_pages,p_mirror)
+
+-- fill choices for default statues
+for i=1,n_statues do 
  for ch_i=0,3 do 
   lib[statue_pages[i]].choices[ch_i]=get_statue_choice()
  end
