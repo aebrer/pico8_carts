@@ -166,8 +166,6 @@ function _init()
 end
 
 
-
--->8
 -- update
 function _update60()
 -- srand(rnd(-1))
@@ -299,7 +297,6 @@ function dc_pal()
  if(curr_page.dc)for i=1,14do pal(i,rnd({8,-16,-15,-14,-11,2,-8,-8}),1)end
 end
 
--->8
 -- classes
 
 function new_page(title,text)
@@ -344,7 +341,7 @@ function new_choice(title,page,cb)
  choice.cb=cb
  return(choice)
 end
--->8
+
 -- utils
 function get_seed(w)
  s=1
@@ -364,7 +361,7 @@ function hcenter(s,c)
 end
 
 butt_key={[0]="⬅️","➡️","⬆️","⬇️"}
--->8
+
 -- draw
 function _draw()
  
@@ -535,7 +532,7 @@ function dg_newsy(page)
  dither_noise(page)
 end
 
--->8
+
 -- pages
 
 function add_text(p_name, text)
@@ -1137,11 +1134,6 @@ lib[p_g4u]
 
 lib[p_g4u].choices[⬇️]=ch_look_around
 
-
-
-
-
--->8
 -- music
 
 function music_start(_reset)
@@ -1215,11 +1207,6 @@ function swap_sfx(_a, _b)
 	memcpy(sfxaddr+_addr2,_tmp,_len)
 end
 
-
-
-
-
--->8
 -- containment breach
 
 function containment_breach()
