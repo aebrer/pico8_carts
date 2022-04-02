@@ -19,7 +19,7 @@ inventory={} -- player inventory
 inv_chs={}
 cursed=false
 curr_page=nil -- current page
-bkmk=nil -- bookmark a page
+bkmk=false -- bookmark a page
 debug={}  -- list of things to print for debug
 pressed=nil -- if a button was pressed
 pc=0  -- timer for button press
@@ -37,6 +37,12 @@ seed_reset_needed=true
 cam_vfx={}
 logos={}
 history={}
+
+fullscreen=false
+info=false
+
+menuitem(1,"+/- fullscreen",function()bkmk=false info=false fullscreen=(not fullscreen) end)
+menuitem(2,"+/- debug info",function()bkmk=false fullscreen=false info=(not info) end)
 
 -- logos
 v9_static = {}
@@ -237,11 +243,11 @@ function _update60()
   -- in history
   -- if exit history
   sfx(39, 3) -- remove bookmark sound
-  bkmk=nil
+  bkmk=false
 
   -- if goto page
   sfx(40, 3) -- goto bookmark sound
-  bkmk=nil
+  bkmk=false
   
  elseif btnp(❎) then
   -- not in history
@@ -358,16 +364,20 @@ function _draw()
  else
 	 if(curr_page.i)curr_page:dis_logo() 
 	 if(curr_page.vfx)curr_page:vfx()
-	 spr(1,120,0) -- bookmark
-	 sspr(18,7,11,15,110,-1,11,15)
+	 if not fullscreen then
+	  spr(1,120,0) -- bookmark
+	  sspr(18,7,11,15,110,-1,11,15)
+	 end
 	 if(cursed)glitch()
 	 for cvfx in all(cam_vfx) do
 	  cvfx(curr_page)
 	 end
 	
-	 curr_page:dis_title()
-	 curr_page:dis_text()
-	 curr_page:dis_choices()
+  if not fullscreen then
+ 	 curr_page:dis_title()
+ 	 curr_page:dis_text()
+	  curr_page:dis_choices()
+	 end
 	 
 	 -- debug
 	 for i=1,#debug do
@@ -383,8 +393,12 @@ function dis_title(page)
 end
 
 function dis_logo(page)
- clip(0,8,128,32)
- page.logo:draw(0,8,128,32)
+ if fullscreen then
+  page.logo:draw(0,0,128,128)
+ else
+  clip(0,8,128,32)
+  page.logo:draw(0,8,128,32)
+ end
  clip()
 end
 
