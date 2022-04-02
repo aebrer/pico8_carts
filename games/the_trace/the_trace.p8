@@ -19,7 +19,6 @@ inventory={} -- player inventory
 inv_chs={}
 cursed=false
 curr_page=nil -- current page
-prev_page=nil -- previous page
 bkmk=nil -- bookmark a page
 debug={}  -- list of things to print for debug
 pressed=nil -- if a button was pressed
@@ -29,6 +28,7 @@ butt_pos[⬆️]={60,104}
 butt_pos[⬇️]={60,116}
 butt_pos[⬅️]={54,110}
 butt_pos[➡️]={66,110}
+butt_key={[0]="⬅️","➡️","⬆️","⬇️"}
 dt=0 -- doom timer
 dtm=1024
 obutt_ani=0
@@ -36,6 +36,7 @@ side=0
 seed_reset_needed=true
 cam_vfx={}
 logos={}
+history={}
 
 -- logos
 v9_static = {}
@@ -158,11 +159,9 @@ function _init()
  cls()
  -- set current page to landing page
 	curr_page=lib[title]
+ inventory["open mind"]=true
  if(debug_mode)curr_page=lib[p_debug]music_stop()
- bkmk=lib[title]
-
-
-
+ 
 end
 
 
@@ -202,46 +201,32 @@ function _update60()
 
  -- do callbacks for curr_page
  if(curr_page.cb)curr_page:cb()
- if(bkmk and bkmk.cb)bkmk:cb()
-  
+   
  -- check inputs for choices
- for b in all({⬆️,⬇️,⬅️,➡️}) do
-	 if btnp(b) then
+ for b=0,3do
+	 if btnp(b)then
 	  pressed=b
 	  
-   if side%2==0 then -- choices
+   if side%2==0then -- choices
 
     if curr_page.choices[b] then
  				-- callback for this choice 
      if(curr_page.choices[b].cb)curr_page.choices[b]:cb()
-     -- callback for any choice
-     if(curr_page.leave_cb)curr_page:leave_cb()
  		  if curr_page.choices[b].page then
  		  	sfx(16, 3) -- select option sound
       local target=curr_page.choices[b].page
-      curr_page:on_leave()
- 		  	prev_page=curr_page
- 		  	curr_page=target
- 		  	curr_page.i=false
-
+      goto_page(target)
  		  end
  	  end
 
    else  -- inventory
     if inv_chs[b] then
      inv_chs[b]:cb()
-     if(curr_page.leave_cb)curr_page:leave_cb()
      if inv_chs[b].page then
       sfx(16, 3) -- select option sound
       local target=inv_chs[b].page
-      curr_page:on_leave()
-      prev_page=curr_page
-      curr_page=target
-      curr_page.i=false
+      goto_page(target)
      end
-    end
-    if (not (inv_chs[⬆️] or inv_chs[⬇️] or inv_chs[⬅️] or inv_chs[➡️])) then
-     goto_prev_page()
     end
    end
   end
@@ -249,21 +234,20 @@ function _update60()
  
  -- set bookmark
  if (bkmk and btnp(❎)) then 
-  if curr_page==bkmk then 
-   sfx(39, 3) -- remove bookmark sound
-   bkmk=nil
-  else
-   sfx(40, 3) -- goto bookmark sound
-   if(curr_page.leave_cb)curr_page:leave_cb()
-   curr_page:on_leave()
-   prev_page=curr_page
-   curr_page=bkmk
-   curr_page.i=false
-  end
+  -- in history
+  -- if exit history
+  sfx(39, 3) -- remove bookmark sound
+  bkmk=nil
+
+  -- if goto page
+  sfx(40, 3) -- goto bookmark sound
+  bkmk=nil
   
  elseif btnp(❎) then
+  -- not in history
+  -- goto history
   sfx(38, 3) -- place bookmark sound
-  bkmk=curr_page
+  bkmk=true
  end
 
  if btnp(🅾️) then
@@ -274,14 +258,13 @@ function _update60()
  end
 end
 
-function goto_prev_page()
- if prev_page then
+function goto_page(p)
+ if p then
   curr_page:on_leave()
-  old_page=curr_page
-  curr_page=prev_page
-  curr_page.i=false
-  prev_page=old_page
   if(curr_page.leave_cb)curr_page:leave_cb()
+  -- goto new page
+  curr_page=p
+  curr_page.i=false  
  end
 end
 
@@ -316,6 +299,8 @@ function new_page(title,text)
   obutt_ani=0
   side=0
   doom_plus()
+  add(history,pg)
+  if(#history>10)deli(history,1)
  end
 	page.choices = {}
  page.music=""
@@ -360,30 +345,36 @@ function hcenter(s,c)
   return c-#s*2
 end
 
-butt_key={[0]="⬅️","➡️","⬆️","⬇️"}
-
 -- draw
 function _draw()
  
- if(curr_page.i)curr_page:dis_logo() 
- if(curr_page.vfx)curr_page:vfx()
- if(bkmk and bkmk.vfx)bkmk:vfx() 
- if(bkmk)spr(2,120,0)
- if(curr_page==bkmk)spr(1,120,0)
- if(cursed)glitch()tear(lib[title])
-
- for cvfx in all(cam_vfx) do
-  cvfx(curr_page)
- end
-
- curr_page:dis_title()
- curr_page:dis_text()
- curr_page:dis_choices()
+ if bkmk then
+  --todo history ui
+  cls()
+  for i=#history,1,-1do
+   print(history[i].title)
+  end
  
- -- debug
- for i=1,#debug do
-  ?"\^#"..tostr(debug[i]),0,0+8*i,15
- end
+ else
+	 if(curr_page.i)curr_page:dis_logo() 
+	 if(curr_page.vfx)curr_page:vfx()
+	 spr(1,120,0) -- bookmark
+	 sspr(18,7,11,15,110,-1,11,15)
+	 if(cursed)glitch()
+	 for cvfx in all(cam_vfx) do
+	  cvfx(curr_page)
+	 end
+	
+	 curr_page:dis_title()
+	 curr_page:dis_text()
+	 curr_page:dis_choices()
+	 
+	 -- debug
+	 for i=1,#debug do
+	  ?"\^#"..tostr(debug[i]),0,0+8*i,15
+	 end
+	 
+	end
 end
 
 function dis_title(page)
@@ -437,9 +428,9 @@ function dis_choices(page)
 
   -- if there are no options, what do?
   if (not (c⬆️ or c⬇️ or c⬅️ or c➡️)) then
-   chk_poc_msg="press ❎/x to use bookmark"
+   chk_poc_msg="-press- ❎/x to trace your steps"
    ?chk_poc_msg,hcenter(chk_poc_msg,62),98,15
-   chk_poc_msg="hold 🅾️/c/z to check pockets"
+   chk_poc_msg="=hold= 🅾️/c/z for inventory"
    ?chk_poc_msg,hcenter(chk_poc_msg,62),122,15
   end
 
@@ -473,14 +464,8 @@ function dis_choices(page)
    ?"\^#"..inv_chs[⬅️].title,hcenter(inv_chs[⬅️].title,28),110,15
   end
 
-
   if inv_chs[pressed] then
    butt_press()
-  end
-
-  if (not (inv_chs[⬆️] or inv_chs[⬇️] or inv_chs[⬅️] or inv_chs[➡️])) then
-   chk_poc_msg="choose nothing to forget"
-   ?chk_poc_msg,hcenter(chk_poc_msg,62),122,15
   end
  end
 end
@@ -580,7 +565,6 @@ title,
 "you find yourself looking at the\nstrange digital cosmology of \nthe trace, once again.\n\nyou swore you would give up.\n"
 )
 lib[title].seed=1
-lib[title].vfx=function()sspr(18,7,11,15,110,-1,11,15)end
 -- lib[title].logo=dg_logo
 add_text(title,
 "a game by aebrer\n\nwith music/sfx by carson kompon"
@@ -813,12 +797,12 @@ lib[p_mirror] = new_page(
 p_mirror,
 "⬇️░█⬇️●🅾️⬇️\n⬅️☉ˇ░★"
 )
-lib[p_mirror].logo=ideocart_logo
 add_text(p_mirror,
 "real lore hidden as\nreal coded msg."
 )
 lib[p_mirror].cb=function()
 poke(24364,5)
+lib[p_mirror].logo=ideocart_logo
 end
 lib[p_mirror].leave_cb=function()
 poke(24364,0)
@@ -905,19 +889,11 @@ add_text(fuck_me,
 -- choices
 --------------------------------
 
-
-function no_trace()
- prev_page=nil
- -- bkmk=nil
-end
-
 ch_breach=new_choice(
  "containment_breach",
  lib[p_breach],
  function()
   d=rnd()
-  bkmk=nil
-  prev_page=nil
   if(lib[p_breach].text)lib[p_breach].text=lib[p_breach].text.."\ncontainment_breach "..d
   if(d>.88)containment_breach()
   doom_plus()
@@ -997,20 +973,22 @@ function()
  local chk=rnd()
  if chk>0.8 then
   if not inventory["blank card"] then 
-   curr_page.text = curr_page.text.."\n🅾️ you find a small blank card\nand pocket it. ➡️"
+   reset_text()
+   if(curr_page.text)curr_page.text = curr_page.text.."\n🅾️ you find a small blank card\nand pocket it. ➡️"
    inventory["blank card"]=true
   end
  end
- if chk<.03 then
-  if not inventory["open mind"] then
-  	inventory["open mind"]=true
-  	if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you're willing to look\nanywhere. but why?⬇️"
- 	end
+
+ if chk<0.01 then
+  local ch=get_statue_choice()
+  ch.title="statue garden?"
+  curr_page.choices[rnd({⬆️,⬇️,⬅️,➡️})]=ch
  end
  
  if chk<.66 and chk>=.6 then
   if not inventory["guided tour"] then
   	inventory["guided tour"]=true
+  	reset_text()
   	if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you suddenly realize you've\nbeen hearing a voice...\nsome kind of tour? ⬆️"
  	end
  end
@@ -1018,6 +996,7 @@ function()
  if chk<.44 and chk>=.4 then
   if not inventory["instant camera"] then
    inventory["instant camera"]=true
+   reset_text()
    if(curr_page.text)curr_page.text=curr_page.text.."\n🅾️ you just noticed an\ninstant film camera laying\non the ground! ⬅️"
   end
  end
@@ -1035,6 +1014,10 @@ lib[toc].choices[➡️]=new_choice(
 lib[engreg]
 )
 
+function reset_text()
+ curr_page.text=curr_page.texts[curr_page.text_i]
+end
+
 ch_gt=new_choice(
 "guided tour",
 nil,
@@ -1042,7 +1025,7 @@ function()
  sfx(49, 3) --page turn sound
  doom_plus()
  curr_page.text_i=(curr_page.text_i+1)%(#curr_page.texts+2)
- curr_page.text=curr_page.texts[curr_page.text_i]
+ reset_text()
 end
 )
 
