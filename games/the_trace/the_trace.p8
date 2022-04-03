@@ -8,7 +8,9 @@ __lua__
 -- - "ignore it" path as good path to remove doom
 --   dt*=0.9 for each right answer
 --   use voght kompff test from blade runner
-
+-- - info page
+-- - bkmk functional
+-- - fix drift away thing
 
 --!!
 debug_mode=false
