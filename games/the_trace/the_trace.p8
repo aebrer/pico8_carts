@@ -9,6 +9,7 @@ __lua__
 --   dt*=0.9 for each right answer
 --   use voght kompff test from blade runner
 -- - info page
+-- - achievements page that lists all secrets found
 
 --!!
 debug_mode=false
@@ -42,9 +43,13 @@ mirror_world=false
 
 fullscreen=false
 info=false
+secrets_pg=false
+secrets={}
 
-menuitem(1,"+/- fullscreen",function()bkmk=false info=false fullscreen=(not fullscreen) end)
-menuitem(2,"+/- debug info",function()bkmk=false fullscreen=false info=(not info) end)
+menuitem(1,"+/- fullscreen",function()secrets_pg=false bkmk=false info=false fullscreen=(not fullscreen) end)
+menuitem(2,"+/- debug info",function()secrets_pg=false bkmk=false fullscreen=false info=(not info) end)
+menuitem(3,"+/- achievements",function()info=false bkmk=false fullscreen=false secrets_pg=(not secrets_pg) end)
+
 
 -- logos
 v9_static = {}

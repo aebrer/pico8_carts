@@ -1,11 +1,11 @@
-- map in addition to bookmark
-- ideocartography only on mirror page
-- info page to show what the fuck is happening, use the menu
-- how to draw people in??
-- more changes to previously existing pages
-- statue garden other entrances? 
-- force HUD to be readible when fuckedup text fills screen
-- a label or something the shows whether you're looking at your inventory or choices, like a box border or something
-- a UI clue telling people to hold O button, like the UI clue for bookmark
-	- it goes away when guide is blank
-- pause menu option to hide HUD
+done - map in addition to bookmark
+done - ideocartography only on mirror page
+done - info page to show what the fuck is happening, use the menu
+doneish - how to draw people in??
+done - more changes to previously existing pages
+done - statue garden other entrances? 
+done - force HUD to be readible when fuckedup text fills screen
+done - a label or something the shows whether you're looking at your inventory or choices, like a box border or something
+done - a UI clue telling people to hold O button, like the UI clue for bookmark
+done 	- it goes away when guide is blank
+done - pause menu option to hide HUD
