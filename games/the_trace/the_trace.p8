@@ -454,6 +454,9 @@ function dis_choices(page)
 
  else -- display the inventory
 
+  rect(0,96,126,126,15)
+  rect(1,97,127,127,15)
+
   if inventory["open mind"] then
    inv_chs[⬇️]=ch_look_around
    ?butt_key[⬇️],butt_pos[⬇️][1],butt_pos[⬇️][2],15
@@ -515,7 +518,7 @@ function zoom()
 end
 
 function more_art(page)
- clip(0,37,128,64)
+ clip(0,37,128,60)
  if(not page.i)page.logo:init()
  page.logo:draw(0,37,128,64)
  clip()
