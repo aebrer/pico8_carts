@@ -687,7 +687,7 @@ read_card,
 "now you have to make a choice...\nwhat's 0n the card?"
 )
 lib[read_card].cb=function()
- if rnd()>0.995 or inventory["cursed"] then
+ if rnd()>0.995 then
   seed_rnd()
   lib[read_card].choices[⬅️]=ch_a_threat
   lib[read_card].choices[⬆️]=ch_just_art
@@ -1028,12 +1028,18 @@ ch_read_card=new_choice(
 )
 
 ch_dont_read=new_choice(
-    "don't read",
-    lib[p_curse],
-    function()
-    inventory["cursed"]=true
-    end
-   )
+ "don't read",
+ lib[p_curse],
+ function()
+  inventory["cursed"]=true
+  lib[read_card].choices[⬅️]=ch_a_threat
+  lib[read_card].choices[⬆️]=ch_just_art
+  lib[read_card].choices[➡️]=ch_news_report
+  if cursed then 
+   lib[read_card].choices[⬇️]=ch_dont_read
+  end
+ end
+)
 
 ch_look_around=new_choice(
 "look around",
@@ -1115,8 +1121,10 @@ ch_a_threat=new_choice(
 "a threat",
 lib[p_threat],
 function()
- for i in all({➡️,⬆️,⬇️}) do
- 	lib[read_card].choices[i]=nil
+ if not inventory["cursed"] then
+  for i in all({➡️,⬆️,⬇️}) do
+  	lib[read_card].choices[i]=nil
+  end
  end
 end
 )
@@ -1127,8 +1135,10 @@ ch_just_art=new_choice(
 "just art",
 lib[p_art],
 function()
- for i in all({➡️,⬅️,⬇️}) do
- 	lib[read_card].choices[i]=nil
+ if not inventory["cursed"] then
+  for i in all({➡️,⬅️,⬇️}) do
+  	lib[read_card].choices[i]=nil
+  end
  end
 end
 )
@@ -1139,8 +1149,10 @@ ch_news_report=new_choice(
 "news report",
 lib[p_news1],
 function()
- for i in all({⬆️,⬅️,⬇️}) do
-  lib[read_card].choices[i]=nil
+ if not inventory["cursed"] then
+  for i in all({⬆️,⬅️,⬇️}) do
+   lib[read_card].choices[i]=nil
+  end
  end
 end
 )
