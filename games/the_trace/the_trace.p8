@@ -39,6 +39,7 @@ cam_vfx={}
 logos={}
 history={}
 his_curr=10
+mirror_world=false
 
 fullscreen=false
 info=false
@@ -176,6 +177,7 @@ end
 
 -- update
 function _update60()
+
 -- srand(rnd(-1))
 
  -- if(curr_page.cls)cls()
@@ -288,11 +290,6 @@ function _update60()
    bkmk=true
   end
  end
-
-
-
-
-
 end
 
 function goto_page(p)
@@ -884,7 +881,12 @@ lib[p_mirror].choices[➡️]=new_choice(
 lib[title],
 function()
 lib[p_mirror].leave_cb=function()
- poke(24364,129)
+ mirror_world = not mirror_world
+ if mirror_world then
+  poke(24364,129)
+ else 
+  poke(24364,0)
+ end
 end
 end
 )
