@@ -75,7 +75,7 @@ add(logos,v9_static)
 
 dg_logo = {}
 function dg_logo.init(self)
- self.fillp({▥,█,▤})
+ self.fillp=({▥,█,▤})
  curr_page.cls=false
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
  dc_pal()
