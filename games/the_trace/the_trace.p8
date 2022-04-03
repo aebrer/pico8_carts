@@ -9,7 +9,6 @@ __lua__
 --   dt*=0.9 for each right answer
 --   use voght kompff test from blade runner
 -- - info page
--- - bkmk functional
 
 --!!
 debug_mode=false
