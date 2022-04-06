@@ -53,6 +53,7 @@ menuitem(3,"+/- achievements",function()info=false bkmk=false fullscreen=false s
 
 -- logos
 v9_static = {}
+v9_static.name="v9_static"
 function v9_static.init(self)
  self.fillp=rnd({▥,█,▤})
  curr_page.cls=true
@@ -74,6 +75,7 @@ end
 add(logos,v9_static)
 
 dg_logo = {}
+dg_logo.name = "ttc_s01t04"
 function dg_logo.init(self)
  self.fillp=({▥,█,▤})
  curr_page.cls=false
@@ -97,6 +99,7 @@ end
 add(logos,dg_logo)
 
 ideocart_logo = {}
+ideocart_logo.name="trace_ideocart"
 function ideocart_logo.init(self)
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
  dc_pal()
@@ -242,9 +245,14 @@ function _update60()
    sfx(40, 3) -- goto bookmark sound
    goto_page(history[his_curr])
    bkmk=false
+  end 
+ 
+ elseif info then
+  for b=0,5do
+   if btnp(b)then
+    info=false
+   end
   end
-
-
  else
   -- check inputs for choices
   for b=0,3do
@@ -387,7 +395,6 @@ end
 function _draw()
  
  if bkmk then
-  --todo history ui
   -- cls()
 
   local wx,wy,ww,wh=14,8,114,65
@@ -412,6 +419,12 @@ function _draw()
   spr(32,wx+11,wy+(wh-2-(his_curr*6)))
 
   clip()
+
+ elseif info then 
+
+  cls()
+  print("logo art: "..curr_page.logo.name,15)
+
 
  else
   if(curr_page.cls)cls()
@@ -817,6 +830,7 @@ function get_statue()
  "looks like some kind of statue\ngarden. they've even painted\nthe walls to look like grass.\n\njust kidding."
  )
  lib[p_statue].logo=ideocart_logo
+ lib[p_statue].i=false
  lib[p_statue].seed=statue_seed
  add_text(p_statue,
  "it's a bit of a maze."
