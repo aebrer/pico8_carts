@@ -58,7 +58,6 @@ v9_static = {}
 v9_static.name="v9_static"
 function v9_static.init(self)
  self.fillp=rnd({▥,█,▤})
- curr_page.cls=true
  self.p={1,3}
  self.g=rnd(5)-3
  self.a=-1
@@ -80,12 +79,19 @@ dg_logo = {}
 dg_logo.name = "ttc_s01t04"
 function dg_logo.init(self)
  self.fillp=({▥,█,▤})
- curr_page.cls=false
+ if curr_page.cls then 
+  curr_page.cls=false
+  self.seed_rate=0.99
+ else 
+  curr_page.cls=false
+  self.seed_rate=0.4
+ end
  for i=1,14do pal(i,flr(rnd(33)-17),1)end
  dc_pal()
 end
 
 function dg_logo.draw(self,x1,y1,w,h)
+ if(rnd()>self.seed_rate)srand(curr_page.seed)
  fillp(self.fillp)
  poke(0x5f54,0x60)
  palt(0,false)
@@ -187,9 +193,7 @@ end
 -- update
 function _update60()
 
--- srand(rnd(-1))
-
- -- if(curr_page.cls)cls()
+ if(curr_page.cls)cls()
  -- do the init for all pages
  if not curr_page.i then 
   curr_page.dc=dc()
@@ -312,7 +316,7 @@ function goto_page(p)
   if(curr_page.leave_cb)curr_page:leave_cb()
   -- goto new page
   curr_page=p
-  curr_page.i=false  
+  curr_page.i=false
  end
 end
 
@@ -423,9 +427,8 @@ function _draw()
   clip()
 
  elseif info then 
-
+ 
   cls()
-  
   local skips={}
   
   print("------logo art------------------------",15)
@@ -442,6 +445,7 @@ function _draw()
   end
   ?"----misc settings----------------------"
   ?"seed: "..curr_page.seed
+  ?"clear screen: "..tostr(curr_page.cls)
   ?"mirror status: "..@(24364)
   ?"you see it: "..tostr(cursed)
   ?"cursed: "..tostr(inventory["cursed"])
@@ -450,9 +454,9 @@ function _draw()
   
   
  else
-  if(curr_page.cls)cls()
+
   if(cursed)tear(curr_page)
-	 if(curr_page.i)curr_page:dis_logo() 
+	 if(curr_page.i)curr_page:dis_logo()
 	 if(curr_page.vfx)curr_page:vfx()
 	 if not fullscreen then
    spr(1,120,0) -- bookmark
@@ -813,7 +817,6 @@ add_text(p_news4,
 "we can't let it out...\nif that thing gets to the\nmainland, it's over for humanity."
 )
 
-
 p_stop_news="what the hell"
 lib[p_stop_news]=new_page(
 p_stop_news,
@@ -827,10 +830,13 @@ add_text(p_stop_news,
 -- art card
 p_art="...it matches the walls"
 lib[p_art]=new_page(
-p_art
+p_art,nil,
+function()
+ if(rnd()>0.3)srand(curr_page.seed)
+end
 )
 lib[p_art].vfx=more_art
--- lib[p_art].logo=dg_logo
+lib[p_art].logo=dg_logo
 
 -- good for you
 p_g4u="good for you"
