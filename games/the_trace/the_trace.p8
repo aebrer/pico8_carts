@@ -5,10 +5,17 @@ __lua__
 
 -- todo
 
--- - "ignore it" path as good path to remove doom
---   dt*=0.9 for each right answer
---   use voght kompff test from blade runner
--- - info page
+-- - "ignore it" path leads to a door
+--   door is locked until all secrets found
+--   when all secrets found, 
+--   door opens (literally write the page)
+--   otherwise adds "it's locked." text
+--
+-- - perhaps alternate page in mirror world
+--   a fountain that lowers doom... at a cost
+--   you get one less palette color each time
+--   until the whole screen is unusable
+--
 -- - achievements page that lists all secrets found
 
 --!!
@@ -198,7 +205,11 @@ function _update60()
  if not curr_page.i then 
   curr_page.dc=dc()
  	if curr_page.dc then
-  	pal(15,-8,1)
+   if mirror_world then 
+    pal(15,-14,1)
+   else 
+  	 pal(15,-8,1)
+   end
    music_state("dead god")
    if dc() then
     curr_page.logo=rnd(logos)
@@ -209,7 +220,11 @@ function _update60()
     end
  	 end
   else
- 		pal(15,7,1)
+   if mirror_world then 
+    pal(15,0,1)
+   else 
+  		pal(15,7,1)
+   end
    curr_page:music_reset()
 		end
  	srand(curr_page.seed)
@@ -937,8 +952,10 @@ lib[p_mirror].leave_cb=function()
  mirror_world = not mirror_world
  if mirror_world then
   poke(24364,129)
+  pal(0,7,1)
  else 
   poke(24364,0)
+  pal(0,0,1)
  end
 end
 end
