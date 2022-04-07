@@ -14,6 +14,7 @@ __lua__
 -- - perhaps alternate page in mirror world
 --   a fountain that lowers doom... at a cost
 --   you get one less palette color each time
+--   replaced by rnd({0,7})
 --   until the whole screen is unusable
 --
 -- - achievements page that lists all secrets found
@@ -48,6 +49,7 @@ history={}
 his_curr=10
 mirror_world=false
 vfx_names={}
+anti_doom=0
 
 
 fullscreen=false
@@ -199,6 +201,7 @@ end
 
 -- update
 function _update60()
+
 
  if(curr_page.cls)cls()
  -- do the init for all pages
@@ -466,6 +469,7 @@ function _draw()
   ?"cursed: "..tostr(inventory["cursed"])
   ?"dead god: "..tostr(curr_page.dc)
   ?"doom: "..dt
+  ?"anti_doom: "..anti_doom
   
   
  else
@@ -494,6 +498,12 @@ function _draw()
 	 end
 	 
 	end
+
+ for i=0,anti_doom do
+  pset(rnd(128),rnd(128),rnd({0,15}))
+ end
+
+
 end
 
 function dis_title(page)
@@ -649,6 +659,11 @@ function dg_newsy(page)
  dither_noise(page)
 end
 vfx_names[dg_newsy]="dg_newsy"
+
+function fount_fx()
+ pal(rnd(13)+1,rnd({0,7}),1)
+end
+vfx_names[fount_fx]="fount_fx"
 
 -- pages
 
