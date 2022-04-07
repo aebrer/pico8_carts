@@ -40,6 +40,8 @@ logos={}
 history={}
 his_curr=10
 mirror_world=false
+vfx_names={}
+
 
 fullscreen=false
 info=false
@@ -423,9 +425,30 @@ function _draw()
  elseif info then 
 
   cls()
-  print("logo art: "..curr_page.logo.name,15)
-
-
+  
+  local skips={}
+  
+  print("------logo art------------------------",15)
+  for key,val in pairs(curr_page.logo) do
+   if key!="draw"and key!="init"and key!="p"and key!="a"and key!="b"and key!="z" then 
+    ?key..": "..tostr(val)
+   end
+  end
+  ?"-----current vfx----------------------"
+  ?vfx_names[curr_page.vfx]
+  ?"----current photos----------------------"
+  for vfx in all(cam_vfx) do
+   ?vfx_names[vfx] 
+  end
+  ?"----misc settings----------------------"
+  ?"seed: "..curr_page.seed
+  ?"mirror status: "..@(24364)
+  ?"you see it: "..tostr(cursed)
+  ?"cursed: "..tostr(inventory["cursed"])
+  ?"dead god: "..tostr(curr_page.dc)
+  ?"doom: "..dt
+  
+  
  else
   if(curr_page.cls)cls()
   if(cursed)tear(curr_page)
@@ -562,6 +585,7 @@ function glitch()
  poke(a,peek(a+2),peek(a-1)+(rnd(3)))
  end
 end
+vfx_names[glitch]="glitch"
 
 function dither_noise(page)
  page.cls=false
@@ -569,6 +593,7 @@ function dither_noise(page)
   pset(rnd(128),rnd(128),0)
  end
 end
+vfx_names[dither_noise]="dither_noise"
 
 function tear(page)
  local x1=rnd(20)+70
@@ -577,12 +602,14 @@ function tear(page)
  page.logo:draw(x1,0,w,128)
  clip()
 end
+vfx_names[tear]="tear"
 
 function zoom()
  poke(0x5f54,0x60)
  sspr(0,8,128,32,1,9,126,30)
  poke(0x5f54,0x00)
 end
+vfx_names[zoom]="zoom"
 
 function more_art(page)
  clip(0,37,128,60)
@@ -590,17 +617,19 @@ function more_art(page)
  page.logo:draw(0,37,128,64)
  clip()
 end
+vfx_names[more_art]="more_art"
 
 function newsy(page)
  for i=1,14do pal(i,rnd({7,6,7,6,5,0}),1)end
  dither_noise(page)
 end
+vfx_names[newsy]="newsy"
 
 function dg_newsy(page)
  for i=1,14do pal(i,rnd({-8,8,-8,-8,2,-14,0}),1)end
  dither_noise(page)
 end
-
+vfx_names[dg_newsy]="dg_newsy"
 
 -- pages
 
