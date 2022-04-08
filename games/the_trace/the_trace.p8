@@ -234,7 +234,7 @@ function _update60()
  	curr_page.logo:init()
  	curr_page.i=true
  end
- if lib[title].seed%17==0 then
+ if lib[title].seed\1%17==0 then
   cursed=true
  else
   cursed=false
