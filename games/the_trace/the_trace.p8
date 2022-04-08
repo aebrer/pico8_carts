@@ -903,7 +903,7 @@ add_text(p_g4u,
 p_door="mysterious door"
 lib[p_door]=new_page(
 p_door,
-"i like you, but i can't let you\n in there...\n\nnot yet at least."
+"i like you, but i can't let you\ngo in there...\n\nnot yet at least."
 )
 add_text(p_door,
 "literally, you need to find all\nthe secrets first."
@@ -911,6 +911,27 @@ add_text(p_door,
 add_text(p_door,
 "they say there's something\ndifferent here if you\ncan read backwards."
 )
+
+-- the fountain
+p_fount="a fountain of liquid noise"
+lib[p_fount]=new_page(
+p_fount,
+"drink, and remove the corruption\nfrom your digital soul."
+)
+add_text(p_fount,
+"we hide this place from it."
+)
+add_text(p_fount,
+"there's only one thing more\nentropically favourable than\nits processes; that's\nthe price survival demands."
+)
+add_text(p_fount,
+"from the one, came two.\nfrom the two came three.\nfrom the three came everything.\n\nreturn to the way."
+)
+lib[p_fount].leave_cb=function()poke(24364,129)end
+lib[p_fount].cb=function()poke(24364,0)end
+lib[p_fount].vfx=fount_fx
+lib[p_fount].music="peaceful"
+
 
 ch_door=new_choice(
 "a door",
@@ -922,7 +943,15 @@ ch_fount=new_choice(
 lib[p_fount]
 )
 
-
+ch_drink=new_choice(
+"take drink",
+nil,
+function()
+	anti_doom+=dt
+	dt=0
+end
+)
+lib[p_fount].choices[⬆️]=ch_drink
 
 -- statue garden
 statue_pages={}
@@ -993,18 +1022,6 @@ poke(24364,5)
 lib[p_mirror].logo=ideocart_logo
 end
 lib[p_mirror].leave_cb=function()
-poke(24364,0)
-end
-lib[p_mirror].choices[⬅️]=new_choice(
-"go back",
-lib[rnd(statue_pages)]
-)
-lib[p_mirror].choices[➡️]=new_choice(
-"go in",
-lib[title],
-function()
-lib[p_mirror].leave_cb=function()
- mirror_world = not mirror_world
  if mirror_world then
   poke(24364,129)
   pal(0,7,1)
@@ -1013,6 +1030,14 @@ lib[p_mirror].leave_cb=function()
   pal(0,0,1)
  end
 end
+lib[p_mirror].choices[⬅️]=new_choice(
+"go back",
+lib[rnd(statue_pages)]
+)
+lib[p_mirror].choices[➡️]=new_choice(
+"go in",
+lib[title],
+function()mirror_world = not mirror_world
 end
 )
 add(statue_pages,p_mirror)
