@@ -277,6 +277,14 @@ function _update60()
     info=false
    end
   end
+
+ elseif secrets_pg then
+  for b=0,5do
+   if btnp(b)then
+    secrets_pg=false
+   end
+  end
+
  else
   -- check inputs for choices
   for b=0,3do
@@ -471,7 +479,11 @@ function _draw()
   ?"doom: "..dt
   ?"anti_doom: "..anti_doom
   
+ elseif secrets_pg then
   
+  cls()
+  ?"not yet implemented",(t()*10)%16
+
  else
 
   if(cursed)tear(curr_page)
@@ -499,7 +511,7 @@ function _draw()
 	 
 	end
 
- for i=0,anti_doom do
+ for i=1,anti_doom do
   pset(rnd(128),rnd(128),rnd({0,15}))
  end
 
@@ -860,13 +872,11 @@ add_text(p_stop_news,
 -- art card
 p_art="...it matches the walls"
 lib[p_art]=new_page(
-p_art,nil,
-function()
- if(rnd()>0.3)srand(curr_page.seed)
-end
-)
+p_art,nil)
+lib[p_art].cb=function()if(rnd()>0.3)srand(curr_page.seed)end
 lib[p_art].vfx=more_art
 lib[p_art].logo=dg_logo
+
 
 -- good for you
 p_g4u="good for you"
@@ -874,15 +884,45 @@ lib[p_g4u]=new_page(
 p_g4u,
 "maybe that was a test.\ndo you ever think that?\nbut there's no one watching.\n\nyou're alone here."
 )
-lib[p_g4u].music="peaceful"
-add_text(p_g4u,
-"come back any time :)"
-)
 lib[p_g4u].cb=function()
 if lib[p_g4u].seed\1%17==0 then
  lib[p_g4u].choices[⬆️]=ch_statue
 end
+if mirror_world then 
+ lib[p_g4u].choices[➡️]=ch_fount
+else 
+ lib[p_g4u].choices[➡️]=ch_door
 end
+end
+lib[p_g4u].music="peaceful"
+add_text(p_g4u,
+"come back any time :)"
+)
+
+-- the door
+p_door="mysterious door"
+lib[p_door]=new_page(
+p_door,
+"i like you, but i can't let you\n in there...\n\nnot yet at least."
+)
+add_text(p_door,
+"literally, you need to find all\nthe secrets first."
+)
+add_text(p_door,
+"they say there's something\ndifferent here if you\ncan read backwards."
+)
+
+ch_door=new_choice(
+"a door",
+lib[p_door]
+)
+
+ch_fount=new_choice(
+"a fountain",
+lib[p_fount]
+)
+
+
 
 -- statue garden
 statue_pages={}
@@ -1184,6 +1224,7 @@ ch_gt=new_choice(
 nil,
 function()
  sfx(49, 3) --page turn sound
+ cls()
  doom_plus()
  curr_page.text_i=(curr_page.text_i+1)%(#curr_page.texts+2)
  reset_text()
