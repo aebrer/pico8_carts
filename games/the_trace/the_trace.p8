@@ -56,6 +56,7 @@ fullscreen=false
 info=false
 secrets_pg=false
 secrets={}
+n_sec=0
 
 menuitem(1,"+/- fullscreen",function()secrets_pg=false bkmk=false info=false fullscreen=(not fullscreen) end)
 menuitem(2,"+/- debug info",function()secrets_pg=false bkmk=false fullscreen=false info=(not info) end)
@@ -201,9 +202,6 @@ end
 
 -- update
 function _update60()
-
-
- if(curr_page.cls)cls()
  -- do the init for all pages
  if not curr_page.i then 
   curr_page.dc=dc()
@@ -286,6 +284,26 @@ function _update60()
   end
 
  else
+  if btnp(🅾️) then
+   sfx(41+obutt_ani%8,3)
+   obutt_ani+=1
+   if(obutt_ani%8==0)side+=1cls()
+   doom_plus()
+  end
+  
+  if btnp(❎) then
+   -- not in history
+   -- goto history
+   sfx(38, 3) -- place bookmark sound
+   palt(0,false)
+   spr(2,120,0)  -- change bkmk logo
+   palt(0,true)
+   sspr(18,7,11,15,110,-1,11,15)
+   bkmk=true
+   return
+  end
+
+  if(curr_page.cls)cls()
   -- check inputs for choices
   for b=0,3do
  	 if btnp(b)then
@@ -314,25 +332,7 @@ function _update60()
      end
     end
    end
-  end
-  
-  if btnp(🅾️) then
-   sfx(41+obutt_ani%8,3)
-   obutt_ani+=1
-   if(obutt_ani%8==0)side+=1cls()
-   doom_plus()
-  end
-  
-  if btnp(❎) then
-   -- not in history
-   -- goto history
-   sfx(38, 3) -- place bookmark sound
-   palt(0,false)
-   spr(2,120,0)  -- change bkmk logo
-   palt(0,true)
-   sspr(18,7,11,15,110,-1,11,15)
-   bkmk=true
-  end
+  end  
  end
 end
 
@@ -423,11 +423,14 @@ function hcenter(s,c)
   return c-#s*2
 end
 
+n_sec+=1
+
 -- draw
 function _draw()
  
  if bkmk then
   -- cls()
+  secrets["used bookmark"]=true
 
   local wx,wy,ww,wh=14,8,114,65
   clip(wx,wy,ww,wh)
@@ -453,10 +456,11 @@ function _draw()
   clip()
 
  elseif info then 
+  secrets["debugged"]=true
  
   cls()
   local skips={}
-  
+   
   print("------logo art------------------------",15)
   for key,val in pairs(curr_page.logo) do
    if key!="draw"and key!="init"and key!="p"and key!="a"and key!="b"and key!="z" then 
@@ -482,7 +486,15 @@ function _draw()
  elseif secrets_pg then
   
   cls()
-  ?"not yet implemented",(t()*10)%16
+  local n=0
+  for i,j in pairs(secrets) do
+  	n+=1
+  end
+  
+  ?n.."/"..n_sec.." secrets found:",15
+  for key,val in pairs(secrets) do
+   ?key,t()*10%16
+  end
 
  else
 
@@ -517,6 +529,8 @@ function _draw()
 
 
 end
+
+n_sec+=1
 
 function dis_title(page)
 	?"\^#"..page.title,0,0,15
@@ -712,7 +726,9 @@ lib[p_breach].logo=dg_logo
 lib[p_breach].cb=function()
  inventory["cursed"]=true
  lib[p_breach].seed=rnd(-1)
+ secrets["containment_breach"]=true
 end
+n_sec+=1
 lib[p_breach].music="dead god"
 add_text(p_breach,"it's coming for you now.")
 add_text(p_breach, "remember: 127402")
