@@ -485,7 +485,7 @@ function _draw()
   
   ?n.."/"..n_sec.." secrets found:",15
   for key,val in pairs(secrets) do
-   ?key,t()*10%16
+   ?key,t()*2%16
   end
 
  else
