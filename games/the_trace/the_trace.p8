@@ -5,10 +5,9 @@ __lua__
 
 -- todo
 -- - finish door ending
--- - finish acheivements
 
 --!!
-debug_mode=false
+debug_mode=true
 --!!
 
 lib={} -- library of all pages: title,page
@@ -187,7 +186,7 @@ function _init()
  -- set current page to landing page
 	curr_page=lib[title]
  inventory["open mind"]=true
- if(debug_mode)curr_page=lib[p_debug]music_stop()
+ if(debug_mode)curr_page=lib[p_debug]music_stop()n_sec=1secrets["debug"]=true
 end
 
 
@@ -920,6 +919,34 @@ add_text(p_door,
 add_text(p_door,
 "they say there's something\ndifferent here if you\ncan read backwards."
 )
+
+p_ending1="you found me"
+lib[p_door].cb=function()
+ local n=0
+ for i,j in pairs(secrets) do
+  n+=1
+ end
+ if n>=n_sec then 
+  if not lib[p_door].cbi then 
+   lib[p_door].texts={
+    "you did it! go on in.",
+    "you really risked it all.\n\nagain.",
+    "good luck, hope you do better\nthan i did.",
+    ""
+   }
+   lib[p_door].text=lib[p_door].texts[1]
+   lib[p_door].choices[➡️]=new_choice(
+    "open door",
+    lib[p_ending1]
+   )
+   lib[p_door].cbi=true
+  end
+ end
+end
+
+-- todo: ending pages
+-- here
+
 
 -- the fountain
 p_fount="a fountain of liquid noise"
