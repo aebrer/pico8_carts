@@ -7,7 +7,7 @@ __lua__
 -- - finish door ending
 
 --!!
-debug_mode=true
+debug_mode=false
 --!!
 
 lib={} -- library of all pages: title,page
