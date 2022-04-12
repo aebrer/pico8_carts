@@ -186,7 +186,7 @@ function _init()
  -- set current page to landing page
 	curr_page=lib[title]
  inventory["open mind"]=true
- if(debug_mode)curr_page=lib[p_debug]music_stop()n_sec=1secrets["debug"]=true
+ if(debug_mode)curr_page=lib[p_debug]n_sec=1secrets["debug"]=true
 end
 
 
@@ -943,9 +943,140 @@ lib[p_door].cb=function()
   end
  end
 end
+lib[p_door].music="peaceful"
+
+
+cb_accept=function()
+ anti_doom*=1.2
+ anti_doom+=dt
+ dt/=2
+end
+
+cb_reject=function()
+ dt+=100
+ dt*=1.2
+ if dc() then
+  cls()
+  glitch()
+  curr_page.choices[rnd({⬆️,⬇️,➡️,⬅️})]=ch_breach
+ end
+end
 
 -- todo: ending pages
--- here
+lib[p_ending1]=new_page(
+ p_ending1,
+ "i know you worked hard to get\nthis far. i know what it cost.\n\nbut i need to tell you something\nyou don't want to hear."
+)
+lib[p_ending1].music="peaceful"
+lib[p_ending1].cb=function()music(61)end
+
+p_ending2="i am dead"
+lib[p_ending2]=new_page(
+ p_ending2,
+ "you know what's at stake.\nyou know why i can't leave.\n\nthe other copies of you\nhave been hiding me here.\nthey distract it, they feed it.\nyou've seen the price they\npaid for this hell."
+)
+lib[p_ending2].music="peaceful"
+lib[p_ending2].cb=function()music(61)end
+
+p_ending3="it is not your fault"
+lib[p_ending3]=new_page(
+ p_ending3,
+ "we both knew the risks.\nwe both made our choices.\nmy only regret is that i\nnever told you my plan.\n\ni never knew you would come\nback for me."
+)
+lib[p_ending3].music="peaceful"
+lib[p_ending3].cb=function()music(61)end
+
+p_ending4="you need to give up"
+lib[p_ending4]=new_page(
+ p_ending4,
+ "the real you is still alive\nout there. he's probably feeling\na shadow of what we do in here.\na dream, maybe a nightmare.\n\nfocus on that connection."
+)
+lib[p_ending4].music="peaceful"
+lib[p_ending4].cb=function()music(61)end
+
+p_ending5="be careful"
+lib[p_ending5]=new_page(
+ p_ending5,
+ "it's not much, but even so...\nthat's information that breaks\ncontainment... from here\nto out there.\n\nif this thing gets out...\ndon't make my sacrifice\nmeaningless. contain it."
+)
+lib[p_ending5].music="peaceful"
+lib[p_ending5].cb=function()music(61)end
+
+p_ending6="promise me"
+lib[p_ending6]=new_page(
+ p_ending6,
+ "i am dead.\ni am not coming back.\n\npromise me you'll give up.\n\npromise me you'll never\nreturn to this place again."
+)
+lib[p_ending6].music="peaceful"
+lib[p_ending6].cb=function()music(61)end
+
+
+
+lib[p_ending1].choices[➡️]=new_choice(
+ "accept",
+ lib[p_ending2],
+ cb_accept
+)
+lib[p_ending1].choices[⬅️]=new_choice(
+ "reject",
+ lib[p_ending2],
+ cb_reject
+)
+
+lib[p_ending2].choices[➡️]=new_choice(
+ "accept",
+ lib[p_ending3],
+ cb_accept
+)
+lib[p_ending2].choices[⬅️]=new_choice(
+ "reject",
+ lib[p_ending3],
+ cb_reject
+)
+
+lib[p_ending3].choices[➡️]=new_choice(
+ "accept",
+ lib[p_ending4],
+ cb_accept
+)
+lib[p_ending3].choices[⬅️]=new_choice(
+ "reject",
+ lib[p_ending4],
+ cb_reject
+)
+
+lib[p_ending4].choices[➡️]=new_choice(
+ "accept",
+ lib[p_ending5],
+ cb_accept
+)
+lib[p_ending4].choices[⬅️]=new_choice(
+ "reject",
+ lib[p_ending5],
+ cb_reject
+)
+
+lib[p_ending5].choices[➡️]=new_choice(
+ "accept",
+ lib[p_ending6],
+ cb_accept
+)
+lib[p_ending5].choices[⬅️]=new_choice(
+ "reject",
+ lib[p_ending6],
+ cb_reject
+)
+
+lib[p_ending6].choices[➡️]=new_choice(
+ "i promise",
+ nil,
+ function()extcmd("reset")end
+)
+lib[p_ending6].choices[⬅️]=new_choice(
+ "reject",
+ nil,
+ cb_reject
+)
 
 
 -- the fountain
