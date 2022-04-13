@@ -1,10 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 35
 __lua__
--- init
-
--- todo
--- - finish door ending
+-- the trace gallery
 
 --!!
 debug_mode=false
@@ -989,7 +986,7 @@ lib[p_ending3].cb=function()music(61)end
 p_ending4="you need to give up"
 lib[p_ending4]=new_page(
  p_ending4,
- "the real you is still alive\nout there. he's probably feeling\na shadow of what we do in here.\na dream, maybe a nightmare.\n\nfocus on that connection."
+ "the real you is still alive\nout there... probably feeling\na shadow of what we do in here.\na dream, maybe a nightmare.\n\nfocus on that connection."
 )
 lib[p_ending4].music="peaceful"
 lib[p_ending4].cb=function()music(61)end
