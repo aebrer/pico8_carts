@@ -12,17 +12,17 @@ end
 if(#w==0)seed=r(-1) 
 srand(seed)
 
-
-poke(24364,r({0,5,6,7}))
+--poke(24364,r({0,0,0,5,6,7}))
 fillp(r({▥,█,▤}))
 for i=0,15do 
 pal(i,r(32)-16,1)
 end
 cls()
 
-clip(16,16,96,96)
-
 ::_::
+
+ clip(16,16,96,96)
+
  srand(seed)
  x=r(64)+16
  y=r(64)+16
@@ -44,11 +44,25 @@ clip(16,16,96,96)
  poke(0x5f54,0x00)
  palt(0,true)
  
+ 
+ --blur boxes
+ for i=0,100do
+  a=96
+  b=16
+  pset(r(a)+b,r(a)+b,pget(r(a)+b,r(a)+b))
+ end 
+ 
+-- flip()
+ clip()
+ x=r(96)+16
+ y=r(96)+16
+ line(x,0,x,128,r(15))
+ line(0,y,128,y,r(15))
+ 
  if not rec then
   if(btnp(🅾️))extcmd("screen")rec=true
   if(btnp(❎))extcmd("video")rec=true
  end
-
  if(t()*100\1%500==0)rec=false
 
 goto _
