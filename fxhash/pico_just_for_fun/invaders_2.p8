@@ -13,7 +13,7 @@ if(#w==0)seed=r(-1)
 srand(seed)
 
 
-poke(24364,r({0,5,7}))
+poke(24364,r({0,5,6,7}))
 fillp(r({▥,█,▤}))
 for i=0,15do 
 pal(i,r(32)-16,1)
@@ -35,7 +35,7 @@ clip(16,16,96,96)
 
  poke(0x5f54,0x60)
  palt(0,false)
- if(rnd()>.1)sspr(0,0,128,128,2,2,128-4,128-4)
+ sspr(0,0,128,128,2,2,128-4,128-4)
  for i=0,15 do 
   circ(rnd(128),rnd(128),rnd(64)+64,rnd(8))
   sspr(0,rnd(128),128,rnd(5),rnd(128),0,rnd(5),128)
@@ -43,10 +43,14 @@ clip(16,16,96,96)
  end
  poke(0x5f54,0x00)
  palt(0,true)
-
- if(btnp(🅾️))extcmd("screen")
- if(btnp(❎))extcmd("video")
  
+ if not rec then
+  if(btnp(🅾️))extcmd("screen")rec=true
+  if(btnp(❎))extcmd("video")rec=true
+ end
+
+ if(t()*100\1%500==0)rec=false
+
 goto _
 
 __gfx__
