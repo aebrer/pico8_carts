@@ -12,6 +12,8 @@ end
 if(#w==0)seed=r(-1) 
 srand(seed)
 
+lines=r({-1,0,1})
+fp=r({true,false})
 --poke(24364,r({0,0,0,5,6,7}))
 fillp(r({▥,█,▤}))
 for i=0,15do 
@@ -46,18 +48,20 @@ cls()
  
  
  --blur boxes
- for i=0,100do
+ for i=0,40do
   a=96
   b=16
   pset(r(a)+b,r(a)+b,pget(r(a)+b,r(a)+b))
  end 
  
--- flip()
+ if(fp)flip()
  clip()
- x=r(96)+16
- y=r(96)+16
- line(x,0,x,128,r(15))
- line(0,y,128,y,r(15))
+ for i=0,lines do
+	 x=r(96)+16
+	 y=r(96)+16
+	 line(x,0,x,128,r(15))
+	 line(0,y,128,y,r(15))
+ end
  
  if not rec then
   if(btnp(🅾️))extcmd("screen")rec=true
