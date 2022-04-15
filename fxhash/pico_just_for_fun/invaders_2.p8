@@ -19,30 +19,35 @@ for i=0,15do
 pal(i,r(32)-16,1)
 end
 cls()
+
+clip(16,16,96,96)
+
 ::_::
-srand(seed)
-x=r(128)
-y=r(128)
-for i=0,10do
- line(x*r({1,-1}),y*r({1,-1}),y*r({1,-1}),x*r({1,-1}),r(6))
- x+=r(4)-2
- y+=r(4)-2
- circ(x,y,r(30)+.5,pget(x,y)-1)
-end
+ srand(seed)
+ x=r(64)+16
+ y=r(64)+16
+ for i=0,10do
+  line(x*r({1,-1}),y*r({1,-1}),y*r({1,-1}),x*r({1,-1}),r(6))
+  x+=r(4)-2
+  y+=r(4)-2
+  circ(x,y,r(30)+.5,pget(x,y)-1)
+ end
 
-poke(0x5f54,0x60)
-palt(0,false)
-if(rnd()>.1)sspr(0,0,128,128,2,2,128-4,128-4)
-for i=0,10 do 
- circ(rnd(128),rnd(128),rnd(64)+64,rnd(8))
- sspr(0,rnd(128),128,rnd(5),rnd(128),0,rnd(5),128)
- sspr(rnd(128),0,rnd(5),128,0,rnd(128),128,rnd(5))
-end
-poke(0x5f54,0x00)
-palt(0,true)
+ poke(0x5f54,0x60)
+ palt(0,false)
+ if(rnd()>.1)sspr(0,0,128,128,2,2,128-4,128-4)
+ for i=0,15 do 
+  circ(rnd(128),rnd(128),rnd(64)+64,rnd(8))
+  sspr(0,rnd(128),128,rnd(5),rnd(128),0,rnd(5),128)
+  sspr(rnd(128),0,rnd(5),128,0,rnd(128),128,rnd(5))
+ end
+ poke(0x5f54,0x00)
+ palt(0,true)
 
+ if(btnp(🅾️))extcmd("screen")
+ if(btnp(❎))extcmd("video")
+ 
 goto _
-
 
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
