@@ -630,7 +630,7 @@ if t() < 5 then
  goto _
 else
  while true do
- if need_screenshot then
+ if t()>10 and need_screenshot then
   extcmd('screen') need_screenshot=false
  end
 end
