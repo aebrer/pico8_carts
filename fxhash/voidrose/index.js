@@ -11,7 +11,6 @@ function randomChoice(arr) {
   return arr[Math.floor(random_num(0,1) * arr.length)];
 }
 
-// thanks to 
 //PGrahics object
 let pg;
 //Rotation angle
@@ -65,15 +64,23 @@ function setup() {
   ai = random_num(0.1,3)
   sch = random_num(0.3,1)
   seed_loop_rate = random_num(0.05,1)
-  console.log([wth,cdf,ai,sch])
+  seed_loop_rate=0.5
+  // console.log([wth,cdf,ai,sch])
+  window.$fxhashFeatures = {
+   "Base Resolution": wth
+  }
+  // console.table(window.$fxhashFeatures)
 
   if(isFxpreview){
-    ww=1024
+    ww=2048
+    createCanvas(2048, 2048);
   } else {
     ww=max(windowWidth, windowHeight)
+    createCanvas(windowWidth, windowHeight);
   }
-  createCanvas(windowWidth, windowHeight);
+  
   pg = createGraphics(wth, wth, WEBGL);
+  pg.pixelDensity(1);
   blendMode(DIFFERENCE);
   fov = PI / 2;
   cameraZ = wth;
