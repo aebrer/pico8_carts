@@ -20,12 +20,13 @@ let aa = 0;
 let fov;
 //Camera Z position
 let cameraZ;
-let sfs=[1,2,4,8,16]
+let sfs=[16,32,64,128,256,512]
 let sf = 0.0
 let cdf = 0.0
 let ai = 0.0
 let sch = 0
 let seed_loop_rate = 0
+let ww = 0
 
 // there are only six colors
 let redcol = [228,26,28,255]
@@ -55,16 +56,21 @@ pastelgreen = [190,18,80]
 let wth = 0;
 let circ_diam;
 
+let paused = false;
+
 function setup() {
-  sf = randomChoice(sfs)
-  cdf = random_num(0.7,0.9)
+  fxrand = sfc32(...hashes)
+  wth = randomChoice(sfs)
+  cdf = random_num(0.6,0.92)
   ai = random_num(0.1,3)
   sch = random_num(0.3,1)
   seed_loop_rate = random_num(0.05,1)
-  console.log([sf,cdf,ai,sch])
+  console.log([wth,cdf,ai,sch])
 
-  createCanvas(windowWidth, windowHeight);
-  wth=max(windowHeight,windowWidth)/sf
+  ww=max(windowWidth, windowHeight)
+  createCanvas(ww, ww);
+  // wth=max(windowHeight,windowWidth)/sf
+  // wth=256
   pg = createGraphics(wth, wth, WEBGL);
   blendMode(DIFFERENCE);
   fov = PI / 2;
@@ -77,10 +83,11 @@ function setup() {
 }
 
 function draw() {
+  if(paused){return}
   if(random_num(0,1)>seed_loop_rate){fxrand = sfc32(...hashes)}
   pg.background(0);
-  pg.camera(aa, aa, cameraZ, 0, 0, 0, 0, 1, 0);
-  pg.perspective(fov, windowWidth/windowHeight, 0.01, 1500);
+  pg.camera(0, 0, cameraZ, 0, 0, 0, 0, 1, 0);
+  pg.perspective(fov, 1.0, 0.01, 1500);
  
   pg.stroke(redcol)
   pg.fill(pastelred)
@@ -103,18 +110,30 @@ function draw() {
   pg.rotateX(aa);
   pg.box(circ_diam)
 
-  image(pg, 0, 0, windowWidth, windowHeight);
+  if(windowWidth>windowHeight){
+    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth);
+  } else if (windowHeight>windowWidth) {
+    image(pg, (windowWidth-windowHeight)/2, 0, ww, ww, 0, 0, wth, wth);
+  } else {
+    image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
+  }
 
   aa += ai
   circ_diam*=cdf
 
- // if (circ_diam<=0.01) {
- //  draw=NaN
- // }
+ if (circ_diam<=0.01) {
+  fxpreview()
+  paused=true
+ }
 
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  circ_diam = 10000
-}
+// function windowResized() {
+//   fxrand = sfc32(...hashes)
+//   paused=false
+//   // reset()
+//   pg.reset()
+//   setup()
+//   // resizeCanvas(windowWidth, windowHeight, true);
+//   circ_diam = max(windowWidth,windowHeight)
+// }
