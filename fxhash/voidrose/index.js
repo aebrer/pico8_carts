@@ -20,7 +20,7 @@ let aa = 0;
 let fov;
 //Camera Z position
 let cameraZ;
-let sfs=[16,32,64,128,256,512]
+let sfs=[64,128,256,512]
 let sf = 0.0
 let cdf = 0.0
 let ai = 0.0
@@ -67,7 +67,12 @@ function setup() {
   seed_loop_rate = random_num(0.05,1)
   console.log([wth,cdf,ai,sch])
 
-  ww=max(windowWidth, windowHeight)
+  if(isFxpreview){
+    ww=1024
+  } else {
+    ww=max(windowWidth, windowHeight)
+  }
+
   createCanvas(ww, ww);
   // wth=max(windowHeight,windowWidth)/sf
   // wth=256
@@ -77,7 +82,7 @@ function setup() {
   cameraZ = wth;
   noSmooth();
   pg.background(0);
-  pg.strokeWeight(wth/64)
+  pg.strokeWeight(1)
   circ_diam = 10000
 
 }
