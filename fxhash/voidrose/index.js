@@ -132,13 +132,3 @@ function draw() {
  }
 
 }
-
-// function windowResized() {
-//   fxrand = sfc32(...hashes)
-//   paused=false
-//   // reset()
-//   pg.reset()
-//   setup()
-//   // resizeCanvas(windowWidth, windowHeight, true);
-//   circ_diam = max(windowWidth,windowHeight)
-// }
