@@ -72,10 +72,7 @@ function setup() {
   } else {
     ww=max(windowWidth, windowHeight)
   }
-
-  createCanvas(ww, ww);
-  // wth=max(windowHeight,windowWidth)/sf
-  // wth=256
+  createCanvas(windowWidth, windowHeight);
   pg = createGraphics(wth, wth, WEBGL);
   blendMode(DIFFERENCE);
   fov = PI / 2;
@@ -90,6 +87,7 @@ function setup() {
 function draw() {
   if(paused){return}
   if(random_num(0,1)>seed_loop_rate){fxrand = sfc32(...hashes)}
+  background(0);
   pg.background(0);
   pg.camera(0, 0, cameraZ, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov, 1.0, 0.01, 1500);
