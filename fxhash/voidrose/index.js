@@ -26,6 +26,7 @@ let ai = 0.0
 let sch = 0
 let seed_loop_rate = 0
 let ww = 0
+window.$fxhashFeatures = {}
 
 // there are only six colors
 let redcol = [228,26,28,255]
@@ -43,14 +44,17 @@ let pastelgreen = [204,235,197,255]
 // pastelblue = [190,18,80]
 // pastelgreen = [190,18,80]
 
-// // 2-bits
-redcol = [255, 0, 77]
-bluecol = [255, 0, 77]
-greencol = [255, 0, 77]
-pastelred = [190,18,80]
-pastelblue = [190,18,80]
-pastelgreen = [190,18,80]
-
+if(fxrand()>1.0/69.0){
+  // // 2-bits
+  redcol = [255, 0, 77]
+  bluecol = [255, 0, 77]
+  greencol = [255, 0, 77]
+  pastelred = [190,18,80]
+  pastelblue = [190,18,80]
+  pastelgreen = [190,18,80]
+} else {
+  window.$fxhashFeatures["nice?"]="nice."
+}
 
 let wth = 0;
 let circ_diam;
@@ -66,9 +70,7 @@ function setup() {
   seed_loop_rate = random_num(0.05,1)
   seed_loop_rate=0.5
   // console.log([wth,cdf,ai,sch])
-  window.$fxhashFeatures = {
-   "Base Resolution": wth
-  }
+  window.$fxhashFeatures["Base Resolution"]=wth
   // console.table(window.$fxhashFeatures)
 
   if(isFxpreview){
