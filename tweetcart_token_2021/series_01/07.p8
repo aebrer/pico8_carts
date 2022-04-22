@@ -2,10 +2,10 @@ pico-8 cartridge // http://www.pico-8.com
 version 35
 __lua__
 r=rnd
-function p()for i=1,15do pal(i,r(32)-16,1)end end
-p()s=r()cls()poke(24364,7)x=r(96)y=r(96)for i=0,2^9/2do
+for i=0,15do pal(i,r(32)-16,1)end
+s=r(-1)cls()poke(24364,7)x=r(64)y=r(64)for i=0,2^9/2do
 x%=96y%=96u=r(8)+8if r()>.3then circ(x,y,u,r(8))else rect(x-u,y-u,x+u,y+u,r(8))end
-x+=r(9)-5y+=r(9)-5circfill(x,y,u-1,(pget(x,y)-1))if(r()>.8)srand(s)end
+x+=r(9)-5y+=r(9)-5circfill(x,y,u-1,(pget(x,y)-1))if(r()>.8)srand(s)flip()end
 ::_::goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
