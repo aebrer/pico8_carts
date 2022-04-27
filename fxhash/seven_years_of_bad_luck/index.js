@@ -36,26 +36,6 @@ let pastelred = [251,180,174,255]
 let pastelblue = [179,205,227,255]
 let pastelgreen = [204,235,197,255]
 
-// // monochrome (1-bit color)
-// redcol = [190,18,80]
-// bluecol = [190,18,80]
-// greencol = [190,18,80]
-// pastelred = [190,18,80]
-// pastelblue = [190,18,80]
-// pastelgreen = [190,18,80]
-
-if(fxrand()>1.0/69.0){
-  // // 2-bits
-  redcol = [255, 0, 77]
-  bluecol = [255, 0, 77]
-  greencol = [255, 0, 77]
-  pastelred = [190,18,80]
-  pastelblue = [190,18,80]
-  pastelgreen = [190,18,80]
-} else {
-  window.$fxhashFeatures["nice?"]="nice."
-}
-
 let wth = 0;
 let circ_diam;
 
@@ -63,7 +43,7 @@ let paused = false;
 
 function setup() {
   fxrand = sfc32(...hashes)
-  wth = randomChoice(sfs)
+  wth = 512
   cdf = random_num(0.6,0.92)
   ai = random_num(0.1,3)
   sch = random_num(0.3,1)
@@ -95,6 +75,7 @@ function setup() {
 
 function draw() {
   if(paused){return}
+  blendMode(DIFFERENCE)
   if(random_num(0,1)>seed_loop_rate){fxrand = sfc32(...hashes)}
   background(0);
   pg.background(0);
@@ -134,8 +115,27 @@ function draw() {
   circ_diam*=cdf
 
  if (circ_diam<=0.01) {
+  finish()
   fxpreview()
   paused=true
  }
+
+}
+
+function finish() {
+
+  //mirror
+  blendMode(REPLACE)
+  pg.fill([255,255,255,255])
+  pg.rect(wth/2,0,wth/2,wth)
+  blendMode(DIFFERENCE)
+  if(windowWidth>windowHeight){
+    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth);
+  } else if (windowHeight>windowWidth) {
+    image(pg, (windowWidth-windowHeight)/2, 0, ww, ww, 0, 0, wth, wth);
+  } else {
+    image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
+  }
+  copy(0,0,Math.floor(windowWidth/2),Math.floor(windowHeight), Math.floor(windowWidth/2), 0, Math.floor(windowWidth/2), windowHeight)
 
 }

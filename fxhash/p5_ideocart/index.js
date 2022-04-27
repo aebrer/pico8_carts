@@ -11,6 +11,10 @@ function randomChoice(arr) {
   return arr[Math.floor(random_num(0,1) * arr.length)];
 }
 
+function allEqual(arr) {
+  return new Set(arr).size == 1;
+}
+
 //PGrahics object
 let pg;
 //Rotation angle
@@ -37,6 +41,7 @@ let pastelblue = [179,205,227,255]
 let pastelgreen = [204,235,197,255]
 
 let colors = [redcol,bluecol,greencol,pastelred,pastelblue,pastelgreen,[0,0,0,255]]
+let shapes = ["box", "sphere"]
 
 // // monochrome (1-bit color)
 // redcol = [190,18,80]
@@ -62,17 +67,49 @@ let wth = 0;
 let circ_diam;
 
 let paused = false;
+let color_buff = [0,0]
+let shape_buff = [0,0,0]
+
+function c_get() {
+ let c = randomChoice(colors)
+ color_buff.push(c)
+ color_buff.shift()
+ console.log(color_buff)
+ console.log(allEqual(color_buff))
+ while (allEqual(color_buff)) {
+  c = randomChoice(colors)
+  color_buff.push(c)
+  color_buff.shift()
+ }
+ return(c)
+}
+
+function s_get() {
+ let s = randomChoice(shapes)
+ shape_buff.push(s)
+ shape_buff.shift()
+ console.log(shape_buff)
+ console.log(allEqual(shape_buff))
+ while (allEqual(shape_buff)) {
+  s = randomChoice(shapes)
+  shape_buff.push(s)
+  shape_buff.shift()
+ }
+ return(s)
+}
 
 function setup() {
   fxrand = sfc32(...hashes)
   // wth = randomChoice(sfs)
   wth = 512
   cdf = random_num(0.7,0.92)
+  cdf = 0.77
   ai = random_num(0.3,0.9)
-  sch = random_num(0.7,0.99)
+  ai = 0.54
   seed_loop_rate = random_num(0.7,1)
-  console.log([wth,cdf,ai,sch, seed_loop_rate])
-  window.$fxhashFeatures["Base Resolution"]=wth
+  seed_loop_rate = 0.831
+  console.log([wth,cdf,ai, seed_loop_rate])
+  // window.$fxhashFeatures["Base Resolution"]=wth
   // console.table(window.$fxhashFeatures)
 
   if(isFxpreview){
@@ -104,25 +141,27 @@ function draw() {
   pg.camera(aa, 0, cameraZ, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov*0.005, 1.0, 9, 1500000);
  
-  pg.stroke(randomChoice(colors))
-  pg.fill(randomChoice(colors))
+
+  pg.stroke(c_get())
+  pg.fill(c_get())
   pg.rotate(aa);
   pg.rotateX(aa);
   pg.box(circ_diam)
 
-  pg.stroke(randomChoice(colors))
-  pg.fill(randomChoice(colors))
+  pg.stroke(c_get())
+  pg.fill(c_get())
   pg.rotate(aa);
   pg.rotateX(aa);
   
-  if (random_num(0,1)>sch && circ_diam<=1.7) {
-    pg.sphere(circ_diam);
-  } else {
-    pg.box(circ_diam)
-  }
+  // let s = s_get()
+  // if (s=="sphere") {
+  pg.ellipsoid(random_num(0.5,circ_diam),random_num(0.5,circ_diam),random_num(0.5,circ_diam));
+  // } else if (s=="box"){
+  //   pg.box(circ_diam)
+  // }
 
-  pg.stroke(randomChoice(colors))
-  pg.fill(randomChoice(colors))
+  pg.stroke(c_get())
+  pg.fill(c_get())
   pg.rotate(aa);
   pg.rotateX(aa);
   pg.box(circ_diam)
