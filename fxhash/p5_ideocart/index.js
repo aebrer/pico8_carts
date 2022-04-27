@@ -74,8 +74,8 @@ function c_get() {
  let c = randomChoice(colors)
  color_buff.push(c)
  color_buff.shift()
- console.log(color_buff)
- console.log(allEqual(color_buff))
+ // console.log(color_buff)
+ // console.log(allEqual(color_buff))
  while (allEqual(color_buff)) {
   c = randomChoice(colors)
   color_buff.push(c)
@@ -88,8 +88,8 @@ function s_get() {
  let s = randomChoice(shapes)
  shape_buff.push(s)
  shape_buff.shift()
- console.log(shape_buff)
- console.log(allEqual(shape_buff))
+ // console.log(shape_buff)
+ // console.log(allEqual(shape_buff))
  while (allEqual(shape_buff)) {
   s = randomChoice(shapes)
   shape_buff.push(s)
@@ -102,12 +102,12 @@ function setup() {
   fxrand = sfc32(...hashes)
   // wth = randomChoice(sfs)
   wth = 512
-  cdf = random_num(0.7,0.92)
-  cdf = 0.77
-  ai = random_num(0.3,0.9)
-  ai = 0.54
+  cdf = random_num(0.7,0.85)
+  // cdf = 0.77
+  ai = random_num(0.3,0.6)
+  // ai = 0.54
   seed_loop_rate = random_num(0.7,1)
-  seed_loop_rate = 0.831
+  // seed_loop_rate = 0.831
   console.log([wth,cdf,ai, seed_loop_rate])
   // window.$fxhashFeatures["Base Resolution"]=wth
   // console.table(window.$fxhashFeatures)
@@ -153,12 +153,12 @@ function draw() {
   pg.rotate(aa);
   pg.rotateX(aa);
   
-  // let s = s_get()
-  // if (s=="sphere") {
-  pg.ellipsoid(random_num(0.5,circ_diam),random_num(0.5,circ_diam),random_num(0.5,circ_diam));
-  // } else if (s=="box"){
-  //   pg.box(circ_diam)
-  // }
+  let s = s_get()
+  if (s=="sphere") {
+    pg.ellipsoid(random_num(0.5,circ_diam),random_num(0.5,circ_diam),random_num(0.5,circ_diam));
+  } else if (s=="box"){
+    pg.box(circ_diam)
+  }
 
   pg.stroke(c_get())
   pg.fill(c_get())
