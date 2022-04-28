@@ -39,8 +39,23 @@ let greencol = [77,175,74,255]
 let pastelred = [251,180,174,255]
 let pastelblue = [179,205,227,255]
 let pastelgreen = [204,235,197,255]
+let black = [0,0,0,255]
+let white = [255,255,255,255]
+let gold = [230,171,2,255]
+let laven = [117,112,179,255]
+let fusc = [240,2,127,255]
+let navy = [56,108,176,255]
+let peach = [253,192,134,255]
+let pico_red = [255,0,77,255]
+let pico_red_sec = [190,18,80,255]
 
-let colors = [redcol,bluecol,greencol,pastelred,pastelblue,pastelgreen,[0,0,0,255]]
+let colors = [
+redcol,bluecol,greencol,
+pastelred,pastelblue,pastelgreen,
+black,white,
+gold,laven,fusc,navy,peach,
+pico_red,pico_red_sec
+]
 let shapes = ["box", "sphere"]
 
 // // monochrome (1-bit color)
@@ -102,6 +117,7 @@ function setup() {
   fxrand = sfc32(...hashes)
   // wth = randomChoice(sfs)
   wth = 512
+  aa = random_num(1,180)
   cdf = random_num(0.7,0.85)
   // cdf = 0.77
   ai = random_num(0.3,0.6)
@@ -128,7 +144,7 @@ function setup() {
   noSmooth();
   pg.background(0);
   pg.strokeWeight(1)
-  circ_diam = 2
+  circ_diam = random_num(2.0,3.0)
 
 }
 
@@ -138,9 +154,9 @@ function draw() {
   if(random_num(0,1)>seed_loop_rate){fxrand = sfc32(...hashes)}
   background(0);
   pg.background(0);
-  pg.camera(aa, 0, cameraZ, 0, 0, 0, 0, 1, 0);
-  pg.perspective(fov*0.005, 1.0, 9, 1500000);
- 
+  pg.camera(0, 0, cameraZ/50, 0, 0, 0, 0, 1, 0);
+  // pg.perspective(fov*0.005, 1.0, 9, 1500000);
+  pg.perspective(fov*0.5, 1.0, random_num(0.01,9), 1500000);
 
   pg.stroke(c_get())
   pg.fill(c_get())
@@ -187,6 +203,7 @@ function draw() {
     pop()
   } else {
     image(pg, 0, 0, ww/2, ww, 0, 0, wth/2, wth);
+    // revisiting this later 
     // for (let i=0;i<100;i++) {
     //   let x=random_int(ww*0.2,ww*0.8)
     //   let y=random_int(ww*0.2,ww*0.8)
