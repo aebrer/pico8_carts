@@ -82,6 +82,7 @@ let shapes = ["box", "sphere"]
 
 let wth = 0;
 let circ_diam = 1.39;
+let persp;
 
 let paused = false;
 let color_buff = [0,0]
@@ -119,6 +120,7 @@ function setup() {
   fxrand = sfc32(...hashes)
   // wth = randomChoice(sfs)
   bgcol=c_get()
+  // window.$fxhashFeatures["color subtraction"]=bgcol.toString()
   wth = 256
   aa = random_num(1,180)
   cdf = random_num(0.7,0.85)
@@ -148,9 +150,12 @@ function setup() {
   pg.strokeWeight(1)
   circ_diam = random_num(1.001,1.5)
   circ_diam = 1.39
+  persps = [4.25, 4.3, 4.35, 4.4, 4.45, 4.5, 4.55, 4.6, 5, 5.2, 5.8, 5.9]
+  persp = randomChoice(persps)
+  window.$fxhashFeatures["frustum near plane length"]=persp
 
-  console.log([bgcol, circ_diam,wth,cdf,ai, seed_loop_rate])
-  
+  // console.log([persp,bgcol, circ_diam,wth,cdf,ai, seed_loop_rate])
+  console.table(window.$fxhashFeatures)
 
   // Array(6) [ (4) […], 1.39, 256, 0.7622705889632925, 0.3105786747531965, 0.8702426065690816 ]
 
@@ -161,11 +166,13 @@ function draw() {
   if(paused){return}
   // colorMode(RGB,0/circ_diam)
   if(random_num(0,1)>seed_loop_rate){fxrand = sfc32(...hashes)}
-  background(255);
-  pg.background(255);
+  // background(255);
+  // pg.background(255);
+  background(bgcol);
+  pg.background(bgcol);
   pg.camera(0, 0, cameraZ/50, 0, 0, 0, 0, 1, 0);
   // pg.perspective(fov*0.005, 1.0, 9, 1500000);
-  pg.perspective(fov*0.5, 1.0, 5, 1500000);
+  pg.perspective(fov*0.5, 1.0, persp, 1500000);
 
   pg.stroke(c_get())
   pg.rotate(aa);
