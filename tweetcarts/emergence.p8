@@ -4,13 +4,14 @@ __lua__
 cls()
 a=360
 r=rnd
-s=2
+s=r(-1)
 srand(s)
 pal({-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4},1)
 ::_::
 	if(r()>.95)srand(s)
 	for i=0,a do
 	 pset(sin(i/a)*r(128)+54+r(20),cos(i/a)*sin(i/a)*r(64)+54+r(20),r(8))
+	 pset(-sin(i/a)*r(64)+54+r(20),-cos(i/a)*sin(i/a)*r(128)+54+r(20),r(8))
 	 x=r(128)y=r(128)
 	 pset(x,y,pget(x,y)-1)
 	end
