@@ -95,6 +95,8 @@ let wth = 0;
 let circ_diam = 1.39;
 let persp;
 
+let filename = ""
+
 let paused = false;
 let color_buff = [0,0]
 let shape_buff = [0,0,0]
@@ -133,14 +135,16 @@ function setup() {
   bgcol=c_get()
   // window.$fxhashFeatures["color subtraction"]=bgcol.toString()
   wth = 256
-  aa = random_num(1,180)
+  // aa = random_num(1,180)
+  aa = 178
+  filename+="_aa_"+aa.toString()
   // aa = 130
   // aa = 13.8
-  cdf = random_num(0.7,0.85)
+  // cdf = random_num(0.7,0.85)
   cdf = 0.7622705889632925
-  ai = random_num(0.3,0.6)
+  // ai = random_num(0.3,0.6)
   ai = 0.3105786747531965
-  seed_loop_rate = random_num(0.7,1)
+  // seed_loop_rate = random_num(0.7,1)
   seed_loop_rate = 0.8702426065690816
   // window.$fxhashFeatures["Base Resolution"]=wth
   // console.table(window.$fxhashFeatures)
@@ -161,14 +165,14 @@ function setup() {
   noSmooth();
   pg.background(0);
   pg.strokeWeight(1)
-  circ_diam = random_num(1.001,1.5)
+  // circ_diam = random_num(1.001,1.5)
   circ_diam = 1.39
   // persps = [4.25, 4.3, 4.35, 4.4, 4.45, 4.5, 4.55, 4.6, 5, 5.2, 5.8, 5.9]
   persp = 4.55
-  window.$fxhashFeatures["frustum near plane length"]=persp
+  // window.$fxhashFeatures["frustum near plane length"]=persp
 
   // console.log([persp,bgcol, circ_diam,wth,cdf,ai, seed_loop_rate])
-  console.table(window.$fxhashFeatures)
+  // console.table(window.$fxhashFeatures)
 
   // Array(6) [ (4) […], 1.39, 256, 0.7622705889632925, 0.3105786747531965, 0.8702426065690816 ]
 
@@ -180,7 +184,12 @@ function setup() {
 function draw() {
   if(paused){return}
   // colorMode(RGB,0/circ_diam)
-  if(random_num(0,1)>seed_loop_rate){fxrand = sfc32(...hashes)}
+  // if(random_num(0,1)>seed_loop_rate){
+  if(false){
+
+    fxrand = sfc32(...hashes)
+    filename+="_sr_"+lc.toString()+"_true"
+  }
   // background(255);
   // pg.background(255);
   background(bgcol);
@@ -283,7 +292,7 @@ function draw() {
     // for(let i=8;i>=0;i--) {
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/5), ww, ww, 0, 0, wth, wth/3+(wth/3));
       image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-      image(pg, 0, -ww-(windowHeight-windowWidth)/2+(ww/21.5)-(ww/wth), ww, ww, 0, 2*wth/3, wth, wth);
+      // image(pg, 0, (-9*ww/10)-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
 
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+300, 0, 0, wth, wth/3+(wth/3));
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+500, 0, 0, wth, wth/3+(wth/3));
@@ -316,16 +325,17 @@ function draw() {
   // mirror()
   // fxpreview()
   // paused=true
-  circ_diam=100
+  circ_diam=randomChoice([1.39,100])
   aa=random_num(1,180)
+  filename+="_aa_"+aa.toString()
   lc+=1
  }
 
  if (lc>=2){
   paused=true
   fxpreview()
- //  saveCanvas(aa.toString(),"png")
- //  for (let i=0;i<1000;i++){
+ //  saveCanvas(filename.toString(),"png")
+ //  for (let i=0;i<10000;i++){
  //    console.log()
  //  }
  //  location.reload()
