@@ -182,7 +182,7 @@ function draw() {
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww, ww, ww/2-(ww/8), 0, 0, wth, wth/3+(wth/3));
+    image(pg, 0, -ww-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
   }
 
