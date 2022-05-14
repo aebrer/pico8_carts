@@ -281,8 +281,9 @@ function draw() {
     // image(pg, 0, 0, ww, ww, 0, 0, wth, wth/3+(wth/3));
     // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww/8, ww/32, 0, 0, wth/8, wth/4+(wth/3));
     // for(let i=8;i>=0;i--) {
-      image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-      image(pg, 0, ww/2+(ww/8), ww, ww-(ww/2+(ww/8)), 0, 0, wth, wth/3+(wth/3));
+      // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+      // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/4), ww, ww/3, 0, 0, wth, wth/3+(wth/3));
+      image(pg, 0, -1*ww/3, ww, ww/3, 0, 0, wth, wth/4);
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+300, 0, 0, wth, wth/3+(wth/3));
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+500, 0, 0, wth, wth/3+(wth/3));
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+700, 0, 0, wth, wth/3+(wth/3));
