@@ -184,8 +184,8 @@ function setup() {
 function draw() {
   if(paused){return}
   // colorMode(RGB,0/circ_diam)
-  // if(random_num(0,1)>seed_loop_rate){
-  if(false){
+  if(random_num(0,1)>seed_loop_rate){
+  // if(false){
 
     fxrand = sfc32(...hashes)
     filename+="_sr_"+lc.toString()+"_true"
@@ -220,7 +220,6 @@ function draw() {
   pg.fill(c_get())
   pg.rotate(aa);
   pg.rotateX(aa);
-  pg.cone(circ_diam,5)
 
 
 
