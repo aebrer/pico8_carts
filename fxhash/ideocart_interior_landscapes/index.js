@@ -135,7 +135,7 @@ function setup() {
   wth = 256
   aa = random_num(1,180)
   // aa = 130
-  // aa = 13.8
+  aa = 13.8
   cdf = random_num(0.7,0.85)
   cdf = 0.7622705889632925
   ai = random_num(0.3,0.6)
@@ -273,22 +273,22 @@ function draw() {
 
 
   if(windowWidth>windowHeight){
-    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
+    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
     // image(pg, 0, 0, ww, ww, 0, 0, wth, wth/3+(wth/3));
     // image(pg, 0, 0, ww, ww, 0, 0, wth, wth/3+(wth/3));
     // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww/8, ww/32, 0, 0, wth/8, wth/4+(wth/3));
-    // for(let i=8;i>=0;i--) {
-      // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    for(let i=8;i>=0;i--) {
+      // image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth/3+(wth/3));
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/4), ww, ww/3, 0, 0, wth, wth/3+(wth/3));
-      image(pg, 0, -1*ww/3, ww, ww/3, 0, 0, wth, wth/4);
+      image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww*i, 0, 0, wth, wth/4);
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+300, 0, 0, wth, wth/3+(wth/3));
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+500, 0, 0, wth, wth/3+(wth/3));
       // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+700, 0, 0, wth, wth/3+(wth/3));
 
-    // }
+    }
     // image(pg, 0, (ww/8), ww, ww/3, 0, 0, wth, wth/3+(wth/3));
     pop()
   } else if (windowHeight>windowWidth) {
