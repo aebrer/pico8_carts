@@ -52,11 +52,21 @@ let pico_red = [255,0,77,255]
 let pico_red_sec = [190,18,80,255]
 
 let colors = [
-redcol,bluecol,greencol,
-pastelred,pastelblue,pastelgreen,
-black,white,
-gold,laven,fusc,navy,peach,
-pico_red,pico_red_sec
+redcol,
+bluecol,
+greencol,
+pastelred,
+pastelblue,
+pastelgreen,
+black,
+white,
+gold,
+laven,
+fusc,
+navy,
+peach,
+pico_red,
+pico_red_sec
 ]
 let bgcol = [0,0,0,255]
 let shapes = ["box", "sphere"]
@@ -71,12 +81,12 @@ let shapes = ["box", "sphere"]
 
 // if(fxrand()>1.0/69.0){
 //   // // 2-bits
-//   redcol = [255, 0, 77]
-//   bluecol = [255, 0, 77]
-//   greencol = [255, 0, 77]
-//   pastelred = [190,18,80]
-//   pastelblue = [190,18,80]
-//   pastelgreen = [190,18,80]
+  // redcol = [255, 0, 77]
+  // bluecol = [255, 0, 77]
+  // greencol = [255, 0, 77]
+  // pastelred = [190,18,80]
+  // pastelblue = [190,18,80]
+  // pastelgreen = [190,18,80]
 // } else {
 //   window.$fxhashFeatures["nice?"]="nice."
 // }
@@ -124,6 +134,8 @@ function setup() {
   // window.$fxhashFeatures["color subtraction"]=bgcol.toString()
   wth = 256
   aa = random_num(1,180)
+  // aa = 130
+  // aa = 13.8
   cdf = random_num(0.7,0.85)
   cdf = 0.7622705889632925
   ai = random_num(0.3,0.6)
@@ -174,7 +186,7 @@ function draw() {
   background(bgcol);
   pg.background(bgcol);
 
-  pg.camera(0, 0, cameraZ/50, 0, 0, 0, 0, 1, 0);
+  pg.camera(0, 0, 50, 0, 0, 0, 0, 1, 0);
   // pg.perspective(fov*0.005, 1.0, 9, 1500000);
   pg.perspective(fov*0.5, 1.0, persp, 1500000);
 
@@ -186,10 +198,20 @@ function draw() {
   // pg.ellipsoid(10,random_num(1.0,circ_diam),random_num(1.0,circ_diam));
   // pg.ellipsoid(random_num(1.0,circ_diam),10,random_num(1.0,circ_diam));
   // pg.ellipsoid(random_num(1.0,circ_diam),random_num(1.0,circ_diam),10);
-  pg.ellipsoid(0,random_num(1.0,circ_diam),10);
+  // if (lc<=1){
+    // pg.camera(5, 0, 0, 0, 0, 0, 0, 1, 0);
+    // pg.ellipsoid(0,random_num(1.0,circ_diam),10);
+    // pg.camera(-5, 0, 0, 0, 0, 0, 0, 1, 0);
+  // }
+
+  // pg.camera(0,-5,500)
+  pg.ellipsoid(100,0,100);
+  // pg.camera(0,5,500)
 
   pg.fill(c_get())
-  pg.box(circ_diam)
+  pg.rotate(aa);
+  pg.rotateX(aa);
+  pg.cone(circ_diam,5)
 
 
 
@@ -251,26 +273,32 @@ function draw() {
 
 
   if(windowWidth>windowHeight){
-    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth/2+(wth/3));
+    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww/2, 0, 0, wth, wth/2+(wth/3));
+    // image(pg, 0, 0, ww, ww, 0, 0, wth, wth/3+(wth/3));
+    // image(pg, 0, 0, ww, ww, 0, 0, wth, wth/3+(wth/3));
+    // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww/8, ww/32, 0, 0, wth/8, wth/4+(wth/3));
+    // for(let i=8;i>=0;i--) {
+      image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    // }
+    // image(pg, 0, (ww/8), ww, ww/3, 0, 0, wth, wth/3+(wth/3));
     pop()
   } else if (windowHeight>windowWidth) {
-    image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth/2+(wth/3));
+    image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/4), 0, 0, wth, wth/2+wth/3);
     //(-(windowHeight-windowWidth)/2)-(windowWidth-windowHeight)/2
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/8), ww, ww/2, 0, 0, wth, wth/2+(wth/3));
+    image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/4), ww, ww/2, 0, 0, wth, wth/2+(wth/3));
     pop()
   } else {
-    image(pg, 0, 0, ww, ww/2+(ww/8), 0, 0, wth, wth/2+(wth/3));
+    image(pg, 0, 0, ww, ww/2+(ww/4), 0, 0, wth, wth/2+(wth/3));
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww, ww, ww/2-(ww/8), 0, 0, wth, wth/2+(wth/3));
+    image(pg, 0, -ww, ww, ww/2-(ww/4), 0, 0, wth, wth/2+(wth/3));
     pop()
   }
 
@@ -288,9 +316,20 @@ function draw() {
 
  if (lc>=2){
   paused=true
+  fxpreview()
+ //  saveCanvas(aa.toString(),"png")
+ //  for (let i=0;i<1000;i++){
+ //    console.log()
+ //  }
+ //  location.reload()
  }
 
 }
+
+function mouseClicked() {
+  location.reload()
+}
+
 
 function mirror(){
     if(windowWidth>windowHeight){
