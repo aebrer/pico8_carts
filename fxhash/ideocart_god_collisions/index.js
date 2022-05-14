@@ -28,7 +28,6 @@ let cameraZ;
 let sfs=[64,128,256,512]
 let sf = 0.0
 let cdf = 0.0
-let ai = 0.0
 let sch = 0
 let seed_loop_rate = 0
 let ww = 0
@@ -96,11 +95,10 @@ function setup() {
   fxrand = sfc32(...hashes)
   bgcol=c_get()
   wth = 256
-  aa = 178
+  aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
-  cdf = 0.7622705889632925
-  ai = 0.3105786747531965
-  seed_loop_rate = 0.8702426065690816
+  cdf = 0.87
+  seed_loop_rate = 1.0
 
 
   if(isFxpreview){
@@ -123,13 +121,13 @@ function setup() {
   persp = 4.55
 }
 
-// hashes = "01001010100101001011111111001010011100000000000101010100101001001111110100101"
+// hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
 
 function draw() {
   if(paused){return}
   // colorMode(RGB,0/circ_diam)
-  // if(random_num(0,1)>seed_loop_rate){
-  if(false){
+  if(random_num(0,1)>seed_loop_rate){
+  // if(false){
   // if(true){
 
     fxrand = sfc32(...hashes)
@@ -147,7 +145,7 @@ function draw() {
   pg.rotateX(aa);
   pg.noFill()
   noFill()
-  pg.ellipsoid(100,0,100);
+  pg.ellipsoid(100,0,100,100);
   pg.fill(c_get())
   pg.rotate(aa);
   pg.rotateX(aa);
@@ -156,7 +154,9 @@ function draw() {
 
   for (i=0;i<8;i++){
     pg.stroke(c_get())
+    // pg.noStroke()
     pg.fill(c_get())
+    // pg.noFill()
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
@@ -168,7 +168,7 @@ function draw() {
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8)+random_num(-3,3), ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
   } else if (windowHeight>windowWidth) {
     image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
@@ -191,7 +191,9 @@ function draw() {
 
  if (circ_diam<=1) {
   circ_diam=randomChoice([1.39,100])
-  aa=random_num(1,180)
+  // circ_diam=100
+  // aa=random_num(1,180)
+  aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   lc+=1
  }
@@ -199,11 +201,11 @@ function draw() {
  if (lc>=5){
   paused=true
   fxpreview()
- //  saveCanvas(filename.toString(),"png")
- //  for (let i=0;i<10000;i++){
- //    console.log()
- //  }
- //  location.reload()
+  saveCanvas(filename.toString(),"png")
+  // for (let i=0;i<10000;i++){
+  //   console.log()
+  // }
+  // location.reload()
  }
 
 }
