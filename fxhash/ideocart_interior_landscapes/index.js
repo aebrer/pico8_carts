@@ -71,42 +71,18 @@ pico_red_sec
 let bgcol = [0,0,0,255]
 let shapes = ["box", "sphere"]
 
-// // monochrome (1-bit color)
-// redcol = [190,18,80]
-// bluecol = [190,18,80]
-// greencol = [190,18,80]
-// pastelred = [190,18,80]
-// pastelblue = [190,18,80]
-// pastelgreen = [190,18,80]
-
-// if(fxrand()>1.0/69.0){
-//   // // 2-bits
-  // redcol = [255, 0, 77]
-  // bluecol = [255, 0, 77]
-  // greencol = [255, 0, 77]
-  // pastelred = [190,18,80]
-  // pastelblue = [190,18,80]
-  // pastelgreen = [190,18,80]
-// } else {
-//   window.$fxhashFeatures["nice?"]="nice."
-// }
 
 let wth = 0;
 let circ_diam = 1.39;
 let persp;
-
 let filename = ""
-
 let paused = false;
 let color_buff = [0,0]
-let shape_buff = [0,0,0]
 
 function c_get() {
  let c = randomChoice(colors)
  color_buff.push(c)
  color_buff.shift()
- // console.log(color_buff)
- // console.log(allEqual(color_buff))
  while (allEqual(color_buff)) {
   c = randomChoice(colors)
   color_buff.push(c)
@@ -115,39 +91,17 @@ function c_get() {
  return(c)
 }
 
-function s_get() {
- let s = randomChoice(shapes)
- shape_buff.push(s)
- shape_buff.shift()
- // console.log(shape_buff)
- // console.log(allEqual(shape_buff))
- while (allEqual(shape_buff)) {
-  s = randomChoice(shapes)
-  shape_buff.push(s)
-  shape_buff.shift()
- }
- return(s)
-}
 
 function setup() {
   fxrand = sfc32(...hashes)
-  // wth = randomChoice(sfs)
   bgcol=c_get()
-  // window.$fxhashFeatures["color subtraction"]=bgcol.toString()
   wth = 256
-  // aa = random_num(1,180)
   aa = 178
   filename+="_aa_"+aa.toString()
-  // aa = 130
-  // aa = 13.8
-  // cdf = random_num(0.7,0.85)
   cdf = 0.7622705889632925
-  // ai = random_num(0.3,0.6)
   ai = 0.3105786747531965
-  // seed_loop_rate = random_num(0.7,1)
   seed_loop_rate = 0.8702426065690816
-  // window.$fxhashFeatures["Base Resolution"]=wth
-  // console.table(window.$fxhashFeatures)
+
 
   if(isFxpreview){
     ww=2048
@@ -165,18 +119,8 @@ function setup() {
   noSmooth();
   pg.background(0);
   pg.strokeWeight(1)
-  // circ_diam = random_num(1.001,1.5)
   circ_diam = 1.39
-  // persps = [4.25, 4.3, 4.35, 4.4, 4.45, 4.5, 4.55, 4.6, 5, 5.2, 5.8, 5.9]
   persp = 4.55
-  // window.$fxhashFeatures["frustum near plane length"]=persp
-
-  // console.log([persp,bgcol, circ_diam,wth,cdf,ai, seed_loop_rate])
-  // console.table(window.$fxhashFeatures)
-
-  // Array(6) [ (4) […], 1.39, 256, 0.7622705889632925, 0.3105786747531965, 0.8702426065690816 ]
-
-
 }
 
 // hashes = "01001010100101001011111111001010011100000000000101010100101001001111110100101"
@@ -184,19 +128,18 @@ function setup() {
 function draw() {
   if(paused){return}
   // colorMode(RGB,0/circ_diam)
-  if(random_num(0,1)>seed_loop_rate){
-  // if(false){
+  // if(random_num(0,1)>seed_loop_rate){
+  if(false){
+  // if(true){
 
     fxrand = sfc32(...hashes)
     filename+="_sr_"+lc.toString()+"_true"
   }
-  // background(255);
-  // pg.background(255);
+
   background(bgcol);
   pg.background(bgcol);
 
   pg.camera(0, 0, 50, 0, 0, 0, 0, 1, 0);
-  // pg.perspective(fov*0.005, 1.0, 9, 1500000);
   pg.perspective(fov*0.5, 1.0, persp, 1500000);
 
   pg.stroke(c_get())
@@ -204,80 +147,20 @@ function draw() {
   pg.rotateX(aa);
   pg.noFill()
   noFill()
-  // pg.ellipsoid(10,random_num(1.0,circ_diam),random_num(1.0,circ_diam));
-  // pg.ellipsoid(random_num(1.0,circ_diam),10,random_num(1.0,circ_diam));
-  // pg.ellipsoid(random_num(1.0,circ_diam),random_num(1.0,circ_diam),10);
-  // if (lc<=1){
-    // pg.camera(5, 0, 0, 0, 0, 0, 0, 1, 0);
-    // pg.ellipsoid(0,random_num(1.0,circ_diam),10);
-    // pg.camera(-5, 0, 0, 0, 0, 0, 0, 1, 0);
-  // }
-
-  // pg.camera(0,-5,500)
   pg.ellipsoid(100,0,100);
-  // pg.camera(0,5,500)
-
   pg.fill(c_get())
   pg.rotate(aa);
   pg.rotateX(aa);
 
 
 
-  
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-  pg.stroke(c_get())
-  pg.fill(c_get())
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.box(circ_diam)
-
-  // pg.stroke([0,0,0])
-  // pg.fill([0,0,0])
-  // pg.rotate(aa);
-  // pg.rotateX(aa);
-  // pg.box(circ_diam)
+  for (i=0;i<8;i++){
+    pg.stroke(c_get())
+    pg.fill(c_get())
+    pg.rotate(aa);
+    pg.rotateX(aa);
+    pg.box(circ_diam)
+  }
 
 
   if(windowWidth>windowHeight){
@@ -285,35 +168,21 @@ function draw() {
     splay(splay_n)
     push()
     scale(1,-1)
-    // image(pg, 0, 0, ww, ww, 0, 0, wth, wth/3+(wth/3));
-    // image(pg, 0, 0, ww, ww, 0, 0, wth, wth/3+(wth/3));
-    // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww/8, ww/32, 0, 0, wth/8, wth/4+(wth/3));
-    // for(let i=8;i>=0;i--) {
-      // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/5), ww, ww, 0, 0, wth, wth/3+(wth/3));
-      image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-      // image(pg, 0, (-9*ww/10)-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-
-      // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+300, 0, 0, wth, wth/3+(wth/3));
-      // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+500, 0, 0, wth, wth/3+(wth/3));
-      // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww+700, 0, 0, wth, wth/3+(wth/3));
-
-    // }
-    // image(pg, 0, (ww/8), ww, ww/3, 0, 0, wth, wth/3+(wth/3));
+    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
   } else if (windowHeight>windowWidth) {
-    image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/4), 0, 0, wth, wth/2+wth/3);
-    //(-(windowHeight-windowWidth)/2)-(windowWidth-windowHeight)/2
+    image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/4), ww, ww/2, 0, 0, wth, wth/2+(wth/3));
+    image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
   } else {
-    image(pg, 0, 0, ww, ww/2+(ww/4), 0, 0, wth, wth/2+(wth/3));
+    image(pg, 0, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww, ww, ww/2-(ww/4), 0, 0, wth, wth/2+(wth/3));
+    image(pg, 0, -ww, ww, ww/2-(ww/8), 0, 0, wth, wth/3+(wth/3));
     pop()
   }
 
@@ -321,16 +190,13 @@ function draw() {
   circ_diam*=cdf
 
  if (circ_diam<=1) {
-  // mirror()
-  // fxpreview()
-  // paused=true
   circ_diam=randomChoice([1.39,100])
   aa=random_num(1,180)
   filename+="_aa_"+aa.toString()
   lc+=1
  }
 
- if (lc>=2){
+ if (lc>=5){
   paused=true
   fxpreview()
  //  saveCanvas(filename.toString(),"png")
@@ -342,29 +208,9 @@ function draw() {
 
 }
 
-function mouseClicked() {
-  location.reload()
-}
-
-
-function mirror(){
-    if(windowWidth>windowHeight){
-    push()
-    scale(-1,1)
-    image(pg, -ww, (windowHeight-windowWidth)/2, ww/2, ww, 0, 0, wth/2, wth);
-    pop()
-  } else if (windowHeight>windowWidth) {
-    push()
-    scale(-1,1)
-    image(pg, -ww - (windowWidth-windowHeight)/2, 0, ww/2, ww, 0, 0, wth/2, wth);
-    pop()
-  } else {
-    push()
-    scale(-1,1)
-    image(pg, -ww, 0, ww/2, ww, 0, 0, wth/2, wth);
-    pop()
-  }
-}
+// function mouseClicked() {
+//   location.reload()
+// }
 
 function splay(n){
   // revisiting this later 
