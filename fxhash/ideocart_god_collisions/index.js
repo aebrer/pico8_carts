@@ -49,7 +49,12 @@ let fusc = [240,2,127,255]
 let navy = [56,108,176,255]
 let peach = [253,192,134,255]
 let pico_red = [255,0,77,255]
+let pico_red_green = [0,255,77,255]
 let pico_red_sec = [190,18,80,255]
+let pico_red_green_sec = [19,180,80,255]
+let lakewater = [80,19,180,255]
+let lakesky = [30,80,230,255]
+
 
 let night_pine = [6,18,5,255]
 let granite_sunset = [255, 203, 164, 255]
@@ -101,7 +106,6 @@ function setup() {
   filename+="_aa_"+aa.toString()
   cdf = 0.7622705889632925
 
-
   if(isFxpreview){
     ww=2048
     createCanvas(2048, 2048);
@@ -132,7 +136,7 @@ function draw() {
 
   
 
-  pg.camera(0, 0, 50, 0, 0, 0, 0, 1, 0);
+  pg.camera(0, 0, 32, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov*0.5, 1.0, persp, 1500000);
 
   pg.stroke(pico_red)
@@ -157,6 +161,7 @@ function draw() {
 
 
 
+ 
   if(windowWidth>windowHeight){
     image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
     splay(splay_n)
@@ -183,20 +188,27 @@ function draw() {
   // pg.erase()
 
   for (i=0;i<2;i++){
-    pg.stroke(black)
-    pg.fill(white)
+    pg.stroke(pico_red)
+    pg.fill(pico_red_sec)
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
   }
+  
+  // pg.push()
+  // pg.translate(-wth/2,0,0)
 
-  for (i=0;i<8;i++){
-    pg.stroke(pico_red)
-    pg.fill(pico_red_sec)
+  for (i=0;i<10;i++){
+    // push()
+    // pg.translate(0.1,0,0)
+    pg.stroke(lakesky)
+    pg.fill(lakewater)
     pg.rotate(0);
-    pg.rotateX(15);
+    pg.rotateX(0.1);
     pg.box(12)
+    // pop()
   }
+  // pg.pop()
 
 
   if(windowWidth>windowHeight){
@@ -233,7 +245,7 @@ function draw() {
   lc+=1
  }
 
- if (lc>=1){
+ if (lc>=3){
   paused=true
   fxpreview()
   // saveCanvas(filename.toString(),"png")
