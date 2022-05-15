@@ -28,6 +28,7 @@ let cameraZ;
 let sfs=[64,128,256,512]
 let sf = 0.0
 let cdf = 0.0
+let ai = 0.0
 let sch = 0
 let seed_loop_rate = 0
 let ww = 0
@@ -97,8 +98,7 @@ function setup() {
   wth = 256
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
-  cdf = 0.87
-  seed_loop_rate = 1.0
+  cdf = 0.7622705889632925
 
 
   if(isFxpreview){
@@ -125,14 +125,6 @@ function setup() {
 
 function draw() {
   if(paused){return}
-  // colorMode(RGB,0/circ_diam)
-  if(random_num(0,1)>seed_loop_rate){
-  // if(false){
-  // if(true){
-
-    fxrand = sfc32(...hashes)
-    filename+="_sr_"+lc.toString()+"_true"
-  }
 
   background(bgcol);
   pg.background(bgcol);
@@ -145,7 +137,7 @@ function draw() {
   pg.rotateX(aa);
   pg.noFill()
   noFill()
-  pg.ellipsoid(100,0,100,100);
+  pg.ellipsoid(100,0,100);
   pg.fill(c_get())
   pg.rotate(aa);
   pg.rotateX(aa);
@@ -154,9 +146,7 @@ function draw() {
 
   for (i=0;i<8;i++){
     pg.stroke(c_get())
-    // pg.noStroke()
     pg.fill(c_get())
-    // pg.noFill()
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
@@ -168,7 +158,7 @@ function draw() {
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8)+random_num(-3,3), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
   } else if (windowHeight>windowWidth) {
     image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
@@ -189,11 +179,10 @@ function draw() {
   aa *= 0.9
   circ_diam*=cdf
 
- if (circ_diam<=1) {
+ if (circ_diam<=0.1) {
   circ_diam=randomChoice([1.39,100])
-  // circ_diam=100
-  // aa=random_num(1,180)
-  aa=random_num(177,179)
+  aa=random_num(1,180)
+  // aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   lc+=1
  }
