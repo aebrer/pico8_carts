@@ -101,8 +101,8 @@ function c_get() {
 function setup() {
   fxrand = sfc32(...hashes)
   bgcol=c_get()
-  wth = 256
   wth = 128
+  // wth = 64
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   cdf = 0.7622705889632925
@@ -118,13 +118,13 @@ function setup() {
   pg = createGraphics(wth, wth, WEBGL);
   pg.pixelDensity(1);
   blendMode(DIFFERENCE);
-  fov = PI / 12;
+  fov = PI / 8;
   cameraZ = wth;
   noSmooth();
   pg.background(0);
   pg.strokeWeight(2)
   circ_diam = 100
-  persp = 40
+  persp = 12
 }
 
 // hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
@@ -137,7 +137,7 @@ function draw() {
 
   
 
-  pg.camera(0, 0, 32, 0, 0, 0, 0, 1, 0);
+  pg.camera(0, 0, 3, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov, 1.0, persp, 1500000);
 
   pg.stroke(pico_red)
@@ -160,40 +160,6 @@ function draw() {
     pg.box(circ_diam)
   }
 
-
-
- 
-  if(windowWidth>windowHeight){
-    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
-    splay(splay_n)
-    push()
-    scale(1,-1)
-    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-    pop()
-
-    // image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth/2);
-    // splay(splay_n)
-    // push()
-    // scale(1,-1)
-    // image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth/2);
-    // pop()
-
-  } else if (windowHeight>windowWidth) {
-    image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
-    splay(splay_n)
-    push()
-    scale(1,-1)
-    image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-    pop()
-  } else {
-    image(pg, 0, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
-    splay(splay_n)
-    push()
-    scale(1,-1)
-    image(pg, 0, -ww-(ww/8), ww, ww, 0, 0, 0, 2*wth/3);
-    pop()
-  }
-
   // pg.erase()
 
   for (i=0;i<2;i++){
@@ -213,7 +179,7 @@ function draw() {
     pg.stroke(lakesky)
     pg.fill(lakewater)
     pg.rotate(0);
-    pg.rotateX(0.1);
+    pg.rotateX(99);
     pg.box(12)
     // pop()
   }
@@ -226,11 +192,19 @@ function draw() {
   // }
 
   if(windowWidth>windowHeight){
-    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
+    // image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
+    // splay(splay_n)
+    // push()
+    // scale(1,-1)
+    // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    // // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3);
+    // pop()
+
+    image(pg, 0, (windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth/3+(wth/3));
     // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3);
     pop()
 
@@ -243,26 +217,46 @@ function draw() {
 
 
   } else if (windowHeight>windowWidth) {
-    image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
+    // image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
+    // splay(splay_n)
+    // push()
+    // scale(1,-1)
+    // image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    // pop()
+
+    image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww, 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    image(pg, -(windowHeight-windowWidth)/2, -ww, ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
+
+
+
   } else {
-    image(pg, 0, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
+    // image(pg, 0, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
+    // splay(splay_n)
+    // push()
+    // scale(1,-1)
+    // image(pg, 0, -ww-(ww/8), ww, ww, 0, 0, 0, 2*wth/3);
+    // pop()
+
+    image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
-    image(pg, 0, -ww-(ww/8), ww, ww, 0, 0, 0, 2*wth/3);
+    image(pg, 0, -ww, ww, ww, 0, 0, 0, 2*wth/3);
     pop()
+
   }
 
   aa *= 0.9
   circ_diam*=cdf
 
- if (circ_diam<=0.5) {
+ if (circ_diam<=8) {
   circ_diam=13.9
+  circ_diam=100
+
   // aa=random_num(1,180)
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
