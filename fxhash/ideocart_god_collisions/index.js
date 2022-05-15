@@ -108,7 +108,6 @@ function setup() {
   fxrand = sfc32(...hashes)
   bgcol=c_get()
   wth = 128
-  // wth = 64
   aa=random_num(177,179)
   aa=random_num(1,180)
   filename+="_aa_"+aa.toString()
@@ -139,11 +138,8 @@ function setup() {
 
 function draw() {
   if(paused){return}
-  // pg.noErase()
   background(night_pine);
   pg.background(black);
-
-  
 
   pg.camera(0, 0, 250, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov, 1.0, persp, 1500000);
@@ -159,17 +155,6 @@ function draw() {
   pg.rotateX(aa);
 
 
-
-  // for (i=0;i<1;i++){
-  //   pg.stroke(night_pine)
-  //   pg.fill(night_pine)
-  //   pg.rotate(aa);
-  //   pg.rotateX(aa);
-  //   pg.box(circ_diam)
-  // }
-
-  // pg.erase()
-
   for (i=0;i<2;i++){
     pg.stroke(lakesky)
     pg.fill(lakewater)
@@ -179,71 +164,33 @@ function draw() {
   }
   
   for (i=0;i<10;i++){
-    // push()
-    // pg.translate(0.1,0,0)
     pg.stroke(black)
     pg.fill(black)
-    // pg.rotate(0);
-    // pg.rotateX(15);
     pg.ellipsoid(50,50,30,2)
-    // pop()
   }
 
-
-  // pg.push()
-  // pg.translate(-wth/2,0,0)
-
   for (i=0;i<5;i++){
-    // push()
-    // pg.translate(0.1,0,0)
+
     pg.stroke(pico_red)
     pg.fill(randomChoice(colors))
     pg.rotate(0);
     pg.rotateX(15);
     pg.box(10/i+random_num(0.1,3))
-    // pop()
   }
-  // pg.pop()
-
-  
-  // pg.fill(255)
-  // for (let i=0;i<10;i++){
-  //   pg.rect(ww/2,ww/3,ww/5,ww/5)
-  // }
 
   if(windowWidth>windowHeight){
-    // image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
-    // splay(splay_n)
-    // push()
-    // scale(1,-1)
-    // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-    // // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3);
-    // pop()
 
     image(pg, 0, (windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth);
     splay(splay_n)
     push()
     scale(1,-1)
     image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth/3+(wth/3));
-    // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3);
     pop()
 
     water_vfx(50,45*ww/112+(windowHeight-windowWidth)/2,ww)
-    // image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth/2);
-    // splay(splay_n)
-    // push()
-    // scale(1,-1)
-    // image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth/2);
-    // pop()
 
 
   } else if (windowHeight>windowWidth) {
-    // image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
-    // splay(splay_n)
-    // push()
-    // scale(1,-1)
-    // image(pg, -(windowHeight-windowWidth)/2, (-(windowHeight-windowWidth)/2)-ww - (windowWidth-windowHeight)/2 - (ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
-    // pop()
 
     image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww, 0, 0, wth, wth);
     splay(splay_n)
@@ -255,12 +202,6 @@ function draw() {
     water_vfx(50,45*ww/112,ww)
 
   } else {
-    // image(pg, 0, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
-    // splay(splay_n)
-    // push()
-    // scale(1,-1)
-    // image(pg, 0, -ww-(ww/8), ww, ww, 0, 0, 0, 2*wth/3);
-    // pop()
 
     image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
     splay(splay_n)
@@ -310,7 +251,6 @@ function splay(n){
 
 
 function water_vfx(n,y1,y2){
-  // revisiting this later 
   for (let i=0;i<n;i++) {
     let y=random_int(y1,y2)
     copy(
