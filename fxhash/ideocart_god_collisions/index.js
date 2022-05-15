@@ -100,7 +100,6 @@ function setup() {
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   cdf = 0.7622705889632925
-  cdf = 0.99
 
 
   if(isFxpreview){
@@ -142,7 +141,7 @@ function draw() {
   pg.noFill()
   noFill()
   pg.ellipsoid(100,0,100,50);
-  pg.fill(pico_red_sec)
+  pg.fill(pastelgreen)
   pg.rotate(aa);
   pg.rotateX(aa);
 
@@ -185,16 +184,16 @@ function draw() {
 
   for (i=0;i<2;i++){
     pg.stroke(black)
-    pg.fill(granite_sunset)
+    pg.fill(white)
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
   }
 
   for (i=0;i<8;i++){
-    pg.stroke(bluecol)
+    pg.stroke(pico_red)
     pg.fill(pico_red_sec)
-    pg.rotate(15);
+    pg.rotate(0);
     pg.rotateX(15);
     pg.box(12)
   }
@@ -226,8 +225,8 @@ function draw() {
   aa *= 0.9
   circ_diam*=cdf
 
- if (circ_diam<=50) {
-  circ_diam=139
+ if (circ_diam<=0.1) {
+  circ_diam=13.9
   aa=random_num(1,180)
   // aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
