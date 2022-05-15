@@ -178,6 +178,18 @@ function draw() {
     pg.box(circ_diam)
   }
   
+  for (i=0;i<10;i++){
+    // push()
+    // pg.translate(0.1,0,0)
+    pg.stroke(black)
+    pg.fill(black)
+    // pg.rotate(0);
+    // pg.rotateX(15);
+    pg.ellipsoid(50,50,30,2)
+    // pop()
+  }
+
+
   // pg.push()
   // pg.translate(-wth/2,0,0)
 
@@ -188,7 +200,7 @@ function draw() {
     pg.fill(randomChoice(colors))
     pg.rotate(0);
     pg.rotateX(15);
-    pg.box(12/i+random_num(0.1,5))
+    pg.box(10/i+random_num(0.1,3))
     // pop()
   }
   // pg.pop()
@@ -216,6 +228,7 @@ function draw() {
     // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3);
     pop()
 
+    water_vfx(50,45*ww/112+(windowHeight-windowWidth)/2,ww)
     // image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth/2);
     // splay(splay_n)
     // push()
@@ -239,7 +252,7 @@ function draw() {
     image(pg, -(windowHeight-windowWidth)/2, -ww, ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
 
-
+    water_vfx(50,45*ww/112,ww)
 
   } else {
     // image(pg, 0, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
@@ -255,6 +268,7 @@ function draw() {
     scale(1,-1)
     image(pg, 0, -ww, ww, ww, 0, 0, 0, 2*wth/3);
     pop()
+    water_vfx(50,45*ww/112,ww)
 
   }
 
@@ -262,9 +276,7 @@ function draw() {
   circ_diam*=cdf
 
  if (circ_diam<=8) {
-  circ_diam=13.9
   circ_diam=100
-
   // aa=random_num(1,180)
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
@@ -290,8 +302,26 @@ function draw() {
 function splay(n){
   // revisiting this later 
   for (let i=0;i<n;i++) {
-    let x=random_int(ww*0.2,ww*0.8)
-    let y=random_int(ww*0.2,ww*0.8)
+    let x=random_int(0,ww)
+    let y=random_int(0,ww)
     copy(x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),random_num(ww/32,ww/20),random_num(ww/32,ww/20))
+  }
+}
+
+
+function water_vfx(n,y1,y2){
+  // revisiting this later 
+  for (let i=0;i<n;i++) {
+    let y=random_int(y1,y2)
+    copy(
+      0,
+      y,
+      ww,
+      1, 
+      random_int(-5,5),
+      y,
+      ww,
+      1
+      )
   }
 }
