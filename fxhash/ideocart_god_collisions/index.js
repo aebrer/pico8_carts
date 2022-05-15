@@ -102,6 +102,7 @@ function setup() {
   fxrand = sfc32(...hashes)
   bgcol=c_get()
   wth = 256
+  wth = 128
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   cdf = 0.7622705889632925
@@ -117,7 +118,7 @@ function setup() {
   pg = createGraphics(wth, wth, WEBGL);
   pg.pixelDensity(1);
   blendMode(DIFFERENCE);
-  fov = PI / 2;
+  fov = PI / 12;
   cameraZ = wth;
   noSmooth();
   pg.background(0);
@@ -137,7 +138,7 @@ function draw() {
   
 
   pg.camera(0, 0, 32, 0, 0, 0, 0, 1, 0);
-  pg.perspective(fov*0.5, 1.0, persp, 1500000);
+  pg.perspective(fov, 1.0, persp, 1500000);
 
   pg.stroke(pico_red)
   pg.rotate(aa);
@@ -169,6 +170,14 @@ function draw() {
     scale(1,-1)
     image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
+
+    // image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth/2);
+    // splay(splay_n)
+    // push()
+    // scale(1,-1)
+    // image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth/2);
+    // pop()
+
   } else if (windowHeight>windowWidth) {
     image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
     splay(splay_n)
@@ -210,6 +219,11 @@ function draw() {
   }
   // pg.pop()
 
+  
+  // pg.fill(255)
+  // for (let i=0;i<10;i++){
+  //   pg.rect(ww/2,ww/3,ww/5,ww/5)
+  // }
 
   if(windowWidth>windowHeight){
     image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2+(ww/8), 0, 0, wth, wth);
@@ -217,7 +231,17 @@ function draw() {
     push()
     scale(1,-1)
     image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3+(wth/3));
+    // image(pg, 0, -ww-(windowHeight-windowWidth)/2-(ww/8), ww, ww, 0, 0, wth, wth/3);
     pop()
+
+    // image(pg, 0, (windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth/2);
+    // splay(splay_n)
+    // push()
+    // scale(1,-1)
+    // image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww/2, 0, 0, wth, wth/2);
+    // pop()
+
+
   } else if (windowHeight>windowWidth) {
     image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww/2+(ww/8), 0, 0, wth, wth);
     splay(splay_n)
@@ -237,15 +261,15 @@ function draw() {
   aa *= 0.9
   circ_diam*=cdf
 
- if (circ_diam<=0.1) {
+ if (circ_diam<=0.5) {
   circ_diam=13.9
-  aa=random_num(1,180)
-  // aa=random_num(177,179)
+  // aa=random_num(1,180)
+  aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   lc+=1
  }
 
- if (lc>=3){
+ if (lc>=5){
   paused=true
   fxpreview()
   // saveCanvas(filename.toString(),"png")
