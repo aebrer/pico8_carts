@@ -60,21 +60,27 @@ let night_pine = [6,18,5,255]
 let granite_sunset = [255, 203, 164, 255]
 
 let colors = [
-// redcol,
+redcol,
 bluecol,
 greencol,
-// pastelred,
-// pastelblue,
-// pastelgreen,
+pastelred,
+pastelblue,
+pastelgreen,
 black,
-// white,
-// gold,
-// laven,
-// fusc,
-// navy,
-// peach,
-// pico_red,
-// pico_red_sec
+white,
+gold,
+laven,
+fusc,
+navy,
+peach,
+pico_red,
+pico_red_sec,
+pico_red_green,
+pico_red_green_sec,
+lakesky,
+lakewater,
+night_pine,
+granite_sunset
 ]
 let bgcol = [0,0,0,255]
 
@@ -104,8 +110,10 @@ function setup() {
   wth = 128
   // wth = 64
   aa=random_num(177,179)
+  aa=random_num(1,180)
   filename+="_aa_"+aa.toString()
   cdf = 0.7622705889632925
+  cdf = 0.9
 
   if(isFxpreview){
     ww=2048
@@ -137,7 +145,7 @@ function draw() {
 
   
 
-  pg.camera(0, 0, 3, 0, 0, 0, 0, 1, 0);
+  pg.camera(0, 0, 250, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov, 1.0, persp, 1500000);
 
   pg.stroke(pico_red)
@@ -145,26 +153,26 @@ function draw() {
   pg.rotateX(aa);
   pg.noFill()
   noFill()
-  pg.ellipsoid(100,0,100,50);
+  pg.ellipsoid(100,500,100,50);
   pg.fill(pastelgreen)
   pg.rotate(aa);
   pg.rotateX(aa);
 
 
 
-  for (i=0;i<8;i++){
-    pg.stroke(night_pine)
-    pg.fill(night_pine)
-    pg.rotate(aa);
-    pg.rotateX(aa);
-    pg.box(circ_diam)
-  }
+  // for (i=0;i<1;i++){
+  //   pg.stroke(night_pine)
+  //   pg.fill(night_pine)
+  //   pg.rotate(aa);
+  //   pg.rotateX(aa);
+  //   pg.box(circ_diam)
+  // }
 
   // pg.erase()
 
   for (i=0;i<2;i++){
-    pg.stroke(pico_red)
-    pg.fill(pico_red_sec)
+    pg.stroke(lakesky)
+    pg.fill(lakewater)
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
@@ -173,14 +181,14 @@ function draw() {
   // pg.push()
   // pg.translate(-wth/2,0,0)
 
-  for (i=0;i<10;i++){
+  for (i=0;i<5;i++){
     // push()
     // pg.translate(0.1,0,0)
-    pg.stroke(lakesky)
-    pg.fill(lakewater)
+    pg.stroke(pico_red)
+    pg.fill(randomChoice(colors))
     pg.rotate(0);
-    pg.rotateX(99);
-    pg.box(12)
+    pg.rotateX(15);
+    pg.box(12/i+random_num(0.1,5))
     // pop()
   }
   // pg.pop()
@@ -250,7 +258,7 @@ function draw() {
 
   }
 
-  aa *= 0.9
+  aa *= 0.99
   circ_diam*=cdf
 
  if (circ_diam<=8) {
@@ -263,7 +271,7 @@ function draw() {
   lc+=1
  }
 
- if (lc>=5){
+ if (lc>=1){
   paused=true
   fxpreview()
   // saveCanvas(filename.toString(),"png")
