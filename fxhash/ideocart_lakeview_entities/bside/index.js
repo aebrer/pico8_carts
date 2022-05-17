@@ -32,7 +32,8 @@ let ai = 0.0
 let sch = 0
 let seed_loop_rate = 0
 let ww = 0
-let splay_n = 0
+let splay_n = 25
+let water_n = 15
 window.$fxhashFeatures = {}
 
 let redcol = [228,26,28,255]
@@ -60,14 +61,14 @@ let night_pine = [6,18,5,255]
 let granite_sunset = [255, 203, 164, 255]
 
 let colors = [
-redcol,
-bluecol,
-greencol,
-pastelred,
-pastelblue,
-pastelgreen,
-black,
-white,
+// redcol,
+// bluecol,
+// greencol,
+// pastelred,
+// pastelblue,
+// pastelgreen,
+// black,
+// white,
 gold,
 laven,
 fusc,
@@ -130,9 +131,9 @@ function setup() {
   cameraZ = wth;
   noSmooth();
   pg.background(0);
-  pg.strokeWeight(2)
-  circ_diam = 100
-  persp = 12
+  pg.strokeWeight(1)
+  circ_diam = 1000
+  persp = 1
 }
 
 hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
@@ -140,7 +141,7 @@ hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
 function draw() {
   // seed looping
   // fxrand = sfc32(...hashes)
-  
+
   // stop render
   if(paused){return}
   
@@ -148,19 +149,8 @@ function draw() {
   background(night_pine);
   pg.background(black);
 
-  pg.camera(0, 0, 250, 0, 0, 0, 0, 1, 0);
+  pg.camera(0, 0, 500, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov, 1.0, persp, 1500000);
-
-  pg.stroke(pico_red)
-  pg.rotate(aa);
-  pg.rotateX(aa);
-  pg.noFill()
-  noFill()
-  pg.ellipsoid(100,500,100,50);
-  pg.fill(pastelgreen)
-  pg.rotate(aa);
-  pg.rotateX(aa);
-
 
   for (i=0;i<2;i++){
     pg.stroke(lakesky)
@@ -168,6 +158,8 @@ function draw() {
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
+    pg.cone(circ_diam,random_num(1,100))
+
   }
   
   for (i=0;i<10;i++){
@@ -176,49 +168,68 @@ function draw() {
     pg.ellipsoid(50,50,30,2)
   }
 
-  for (i=0;i<5;i++){
-
+  for (i=0;i<15;i++){
     pg.stroke(pico_red)
     pg.fill(randomChoice(colors))
     pg.rotate(0);
     pg.rotateX(15);
-    pg.box(10/i+random_num(0.1,3))
+    pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3))
   }
 
   if(windowWidth>windowHeight){
 
     image(pg, 0, (windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth);
-    splay(splay_n)
+
+    //splay effect
+    for (let i=0;i<splay_n;i++) {
+      let x=random_int(0,ww)
+      let y=random_int(0,ww)
+      image(pg, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32)+(windowHeight-windowWidth)/2,ww/32,ww/32, x*(wth/ww)+random_num(-wth/32,wth/32),(y+(windowHeight-windowWidth)/2)*(wth/ww)+random_num(-wth/32,wth/32),random_num(wth/32,wth/20),random_num(wth/32,wth/20))
+    }
+
     push()
     scale(1,-1)
     image(pg, 0, -ww-(windowHeight-windowWidth)/2, ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
     // water vfx
-    for (let i=0;i<50;i++) {
+    for (let i=0;i<water_n;i++) {
       let y=random_int(45*ww/112+(windowHeight-windowWidth)/2,ww)
-      image(pg, 0, y, ww, 1, random_int(-5,5), y*(wth/(ww+(windowHeight-windowWidth))), wth, 1)
+      image(pg, 0, y, ww, 1, random_int(-5,5), y*(wth/(ww+(windowHeight-windowWidth))), wth/5, 1)
     }
 
   } else if (windowHeight>windowWidth) {
 
     image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww, 0, 0, wth, wth);
-    splay(splay_n)
+
+    //splay effect
+    for (let i=0;i<splay_n;i++) {
+      let x=random_int(0,ww)
+      let y=random_int(0,ww)
+      image(pg, x+random_num(-ww/32,ww/32)-(windowHeight-windowWidth)/2,y+random_num(-ww/32,ww/32),ww/32,ww/32, (x-(windowHeight-windowWidth)/2)*(wth/ww)+random_num(-wth/32,wth/32),y*(wth/ww)+random_num(-wth/32,wth/32),random_num(wth/32,wth/20),random_num(wth/32,wth/20))
+    }
+
     push()
     scale(1,-1)
     image(pg, -(windowHeight-windowWidth)/2, -ww, ww, ww, 0, 0, wth, wth/3+(wth/3));
     pop()
 
     // water vfx
-    for (let i=0;i<50;i++) {
+    for (let i=0;i<water_n;i++) {
       let y=random_int(45*ww/112,ww)
-      image(pg, -(windowHeight-windowWidth)/2, y, ww, 1, random_int(-5,5), y*(wth/ww), wth, 1)
+      image(pg, -(windowHeight-windowWidth)/2, y, ww, 1, random_int(-5,5), y*(wth/ww), wth/5, 1)
     }
 
   } else {
     // square
 
     image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
-    splay(splay_n)
+
+    //splay effect
+    for (let i=0;i<splay_n;i++) {
+      let x=random_int(0,ww)
+      let y=random_int(0,ww)
+      image(pg, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x*(wth/ww)+random_num(-wth/32,wth/32),y*(wth/ww)+random_num(-wth/32,wth/32),random_num(wth/32,wth/20),random_num(wth/32,wth/20))
+    }
     
     // mirror vfx
     push()
@@ -227,20 +238,24 @@ function draw() {
     pop()
 
     // water vfx
-    for (let i=0;i<50;i++) {
+    for (let i=0;i<water_n;i++) {
       let y=random_int(45*ww/112,ww)
-      image(pg, 0, y, ww, 1, random_int(-5,5), y*(wth/ww), wth, 1)
+      let x=random_int(0,ww)
+
+      image(pg, 0, y, ww, 1, 0*(wth/ww)+random_int(-5,5), y*(wth/ww), wth, 1)
     }
+    // water_vfx(water_n,45*ww/112,ww)
 
   }
 
 
 
   aa *= 0.99
-  circ_diam*=cdf
+  // circ_diam*=cdf
+  circ_diam*=random_num(0.7,0.999)
 
  if (circ_diam<=8) {
-  circ_diam=100
+  circ_diam=1000
   // aa=random_num(1,180)
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
@@ -263,28 +278,3 @@ function draw() {
 //   location.reload()
 // }
 
-function splay(n){
-  // revisiting this later 
-  for (let i=0;i<n;i++) {
-    let x=random_int(0,ww)
-    let y=random_int(0,ww)
-    copy(x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),random_num(ww/32,ww/20),random_num(ww/32,ww/20))
-  }
-}
-
-
-function water_vfx(n,y1,y2){
-  for (let i=0;i<n;i++) {
-    let y=random_int(y1,y2)
-    copy(
-      0,
-      y,
-      ww,
-      1, 
-      random_int(-5,5),
-      y,
-      ww,
-      1
-      )
-  }
-}
