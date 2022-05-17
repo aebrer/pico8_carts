@@ -32,7 +32,7 @@ let ai = 0.0
 let sch = 0
 let seed_loop_rate = 0
 let ww = 0
-let splay_n = 25
+let splay_n = 0
 let water_n = 15
 window.$fxhashFeatures = {}
 
@@ -197,6 +197,12 @@ function draw() {
       image(pg, 0, y, ww, 1, random_int(-5,5), y*(wth/(ww+(windowHeight-windowWidth))), wth/5, 1)
     }
 
+    // drip water vfx
+    for (let i=0;i<water_n;i++) {
+      let x=random_int(0,ww)
+      image(pg, x, (windowHeight-windowWidth)/2, 1, 45*ww/112, x*(wth/ww), random_int(-5,5), 1, wth/5)
+    }
+
   } else if (windowHeight>windowWidth) {
 
     image(pg, -(windowHeight-windowWidth)/2, 0, ww, ww, 0, 0, wth, wth);
@@ -218,6 +224,14 @@ function draw() {
       let y=random_int(45*ww/112,ww)
       image(pg, -(windowHeight-windowWidth)/2, y, ww, 1, random_int(-5,5), y*(wth/ww), wth/5, 1)
     }
+
+    // drip water vfx
+    for (let i=0;i<water_n;i++) {
+      let x=random_int(0,ww)
+      image(pg, x-(windowHeight-windowWidth)/2, 0, 1, 45*ww/112, (x-(windowHeight-windowWidth)/2)*(wth/ww), random_int(-5,5), 1, wth/5)
+    }
+
+
 
   } else {
     // square
@@ -244,8 +258,11 @@ function draw() {
 
       image(pg, 0, y, ww, 1, 0*(wth/ww)+random_int(-5,5), y*(wth/ww), wth, 1)
     }
-    // water_vfx(water_n,45*ww/112,ww)
-
+    // drip water vfx
+    for (let i=0;i<water_n;i++) {
+      let x=random_int(0,ww)
+      image(pg, x, 0, 1, 45*ww/112, x*(wth/ww), random_int(-5,5), 1, wth/5)
+    }
   }
 
 
@@ -253,6 +270,7 @@ function draw() {
   aa *= 0.99
   // circ_diam*=cdf
   circ_diam*=random_num(0.7,0.999)
+
 
  if (circ_diam<=8) {
   circ_diam=1000
