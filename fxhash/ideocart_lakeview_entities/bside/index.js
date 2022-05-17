@@ -194,13 +194,13 @@ function draw() {
     // water vfx
     for (let i=0;i<water_n;i++) {
       let y=random_int(45*ww/112+(windowHeight-windowWidth)/2,ww)
-      image(pg, 0, y, ww, 1, random_int(-5,5), y*(wth/(ww+(windowHeight-windowWidth))), wth/5, 1)
+      image(pg, 0, y, ww, 50, random_int(-5,5), y*(wth/(ww+(windowHeight-windowWidth))), wth, 50)
     }
 
     // drip water vfx
     for (let i=0;i<water_n;i++) {
       let x=random_int(0,ww)
-      image(pg, x, (windowHeight-windowWidth)/2, 1, 45*ww/112, x*(wth/ww), random_int(-5,5), 1, wth/5)
+      image(pg, x, (windowHeight-windowWidth)/2, 1, 45*ww/112, x*(wth/ww), random_int(-5,5), 1, 45*wth/112+((windowHeight-windowWidth)/2)*(wth/ww))
     }
 
   } else if (windowHeight>windowWidth) {
@@ -222,13 +222,13 @@ function draw() {
     // water vfx
     for (let i=0;i<water_n;i++) {
       let y=random_int(45*ww/112,ww)
-      image(pg, -(windowHeight-windowWidth)/2, y, ww, 1, random_int(-5,5), y*(wth/ww), wth/5, 1)
+      image(pg, -(windowHeight-windowWidth)/2, y, ww, 1, random_int(-5,5), y*(wth/ww), wth, 1)
     }
 
     // drip water vfx
     for (let i=0;i<water_n;i++) {
       let x=random_int(0,ww)
-      image(pg, x-(windowHeight-windowWidth)/2, 0, 1, 45*ww/112, (x-(windowHeight-windowWidth)/2)*(wth/ww), random_int(-5,5), 1, wth/5)
+      image(pg, x-(windowHeight-windowWidth)/2, 0, 1, 45*ww/112, (x-(windowHeight-windowWidth)/2)*(wth/ww), random_int(-5,5), 1, wth)
     }
 
 
@@ -261,7 +261,7 @@ function draw() {
     // drip water vfx
     for (let i=0;i<water_n;i++) {
       let x=random_int(0,ww)
-      image(pg, x, 0, 1, 45*ww/112, x*(wth/ww), random_int(-5,5), 1, wth/5)
+      image(pg, x, 0, 1, 45*ww/112, x*(wth/ww), random_int(-5,5), 1, wth)
     }
   }
 
