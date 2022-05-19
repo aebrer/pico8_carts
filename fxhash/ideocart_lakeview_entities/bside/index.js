@@ -33,7 +33,7 @@ let sch = 0
 let seed_loop_rate = 0
 let ww = 0
 let splay_n = 5000
-let water_n = 15
+let water_n = 1500
 window.$fxhashFeatures = {}
 
 let redcol = [228,26,28,255]
@@ -113,8 +113,6 @@ function setup() {
   aa=random_num(177,179)
   aa=random_num(1,180)
   filename+="_aa_"+aa.toString()
-  cdf = 0.7622705889632925
-  cdf = 0.9
 
   if(isFxpreview){
     ww=2048
@@ -140,7 +138,7 @@ function setup() {
 
 function draw() {
   // seed looping
-  // fxrand = sfc32(...hashes)
+  if(random_num(0,1)>0.1){fxrand = sfc32(...hashes)}
 
   // stop render
   if(paused){return}
@@ -156,22 +154,35 @@ function draw() {
       image(this, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),random_num(ww/32,ww/32),random_num(ww/32,ww/32))
     }
     
-
-    // water vfx
-    for (let i=0;i<water_n;i++) {
-      let y=random_int(0,ww)
-      let x=random_int(0,ww)
-
-      image(pg, 0, y, ww, 1, 0*(wth/ww)+random_int(-5,5), y*(wth/ww), wth, 1)
+    for (i=0;i<15;i++){
+      pg.stroke(pico_red)
+      pg.fill(randomChoice(colors))
+      pg.rotate(0);
+      pg.rotateX(15);
+      pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3))
     }
+    image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
+
     
+    // mirror vfx
     push()
     scale(1,-1)
-    // image(this, 0, 45*ww/112, ww, -ww);
-    image(this, 0, 22*ww/112, ww, -ww-(22*ww/112));
-
+    image(pg, 0, -ww, ww, ww, 0, 0, 0, wth);
     pop()
 
+    push()
+    scale(1,-1)
+    image(this, 0, 22*ww/112, ww, -ww-(22*ww/112));
+    pop()
+    // water vfx
+    for (let i=0;i<water_n;i++) {
+      let y=random_int(102*ww/224,ww)
+      let x=random_int(0,ww)
+
+      // image(this, 0, y, ww, 1, random_int(-5,5), y*(wth/ww), ww, 1)
+      image(this, 0, y, ww, 1, random_int(-5,5), y, ww, 5)
+
+    }
     fxpreview()
     // saveCanvas(filename.toString(),"png")
     // for (let i=0;i<10000;i++){
@@ -189,8 +200,6 @@ function draw() {
   pg.perspective(fov, 1.0, persp, 1500000);
 
   for (i=0;i<2;i++){
-    // pg.stroke(pico_red_sec)
-    // pg.fill(pico_red)
     pg.stroke(randomChoice(colors))
     pg.fill(randomChoice(colors))
     pg.rotate(aa);
@@ -212,52 +221,32 @@ function draw() {
     pg.rotate(0);
     pg.rotateX(15);
     pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3))
+
   }
 
-
-
   image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
-
-  // //splay effect
-  // for (let i=0;i<splay_n;i++) {
-  //   let x=random_int(0,ww)
-  //   let y=random_int(0,ww)
-  //   image(pg, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x*(wth/ww)+random_num(-wth/32,wth/32),y*(wth/ww)+random_num(-wth/32,wth/32),random_num(wth/32,wth/20),random_num(wth/32,wth/20))
-  // }
-  
   // mirror vfx
   push()
   scale(1,-1)
   image(pg, 0, -ww, ww, ww, 0, 0, 0, wth);
   pop()
 
-  // water vfx
-  for (let i=0;i<water_n;i++) {
-    // let y=random_int(45*ww/112,ww)
-    let y=random_int(ww/2,ww)
-
-    let x=random_int(0,ww)
-
-    image(pg, 0, y, ww, 1, 0*(wth/ww)+random_int(-5,5), y*(wth/ww), wth, 1)
-  }
-  // // drip water vfx
+  // // water vfx
   // for (let i=0;i<water_n;i++) {
+  //   // let y=random_int(45*ww/112,ww)
+  //   let y=random_int(ww/2,ww)
+
   //   let x=random_int(0,ww)
-  //   image(pg, x, 0, 1, 45*ww/112, x*(wth/ww), random_int(-5,5), 1, wth)
+
+  //   image(pg, 0, y, ww, 1, 0*(wth/ww)+random_int(-5,5), y*(wth/ww), wth, 1)
   // }
-  
-
-
 
   aa *= 0.99
-  // circ_diam*=cdf
-  // circ_diam*=random_num(0.7,0.999)
   circ_diam*=random_num(0.3,0.6)
 
 
  if (circ_diam<=8) {
   circ_diam=1000
-  // aa=random_num(1,180)
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   lc+=1
@@ -265,8 +254,4 @@ function draw() {
 
  
 }
-
-// function mouseClicked() {
-//   location.reload()
-// }
 
