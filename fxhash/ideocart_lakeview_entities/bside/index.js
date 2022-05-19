@@ -61,14 +61,14 @@ let night_pine = [6,18,5,255]
 let granite_sunset = [255, 203, 164, 255]
 
 let colors = [
-// redcol,
-// bluecol,
-// greencol,
-// pastelred,
-// pastelblue,
-// pastelgreen,
-// black,
-// white,
+redcol,
+bluecol,
+greencol,
+pastelred,
+pastelblue,
+pastelgreen,
+black,
+white,
 gold,
 laven,
 fusc,
@@ -84,12 +84,6 @@ night_pine,
 granite_sunset
 ]
 let bgcol = [0,0,0,255]
-
-let wth = 0;
-let circ_diam = 100;
-let persp;
-let filename = ""
-let paused = false;
 let color_buff = [0,0]
 
 function c_get() {
@@ -103,6 +97,19 @@ function c_get() {
  }
  return(c)
 }
+
+
+let skystroke = c_get()
+let skyfill = c_get()
+let entfill = c_get()
+let entstroke = c_get()
+
+
+let wth = 0;
+let circ_diam = 100;
+let persp;
+let filename = ""
+let paused = false;
 
 
 function setup() {
@@ -200,8 +207,8 @@ function draw() {
   pg.perspective(fov, 1.0, persp, 1500000);
 
   for (i=0;i<2;i++){
-    pg.stroke(randomChoice(colors))
-    pg.fill(randomChoice(colors))
+    pg.stroke(skystroke)
+    pg.fill(skyfill)
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
@@ -216,8 +223,8 @@ function draw() {
   }
 
   for (i=0;i<15;i++){
-    pg.stroke(pico_red)
-    pg.fill(randomChoice(colors))
+    pg.stroke(entstroke)
+    pg.fill(entfill)
     pg.rotate(0);
     pg.rotateX(15);
     pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3))
