@@ -143,22 +143,7 @@ function draw() {
   // fxrand = sfc32(...hashes)
 
   // stop render
-  if(paused){
-
-    // if (random_num(0,1)>0.99){
-    //   fxrand = sfc32(...hashes)
-    // }
-    //     //splay effect
-    // for (let i=0;i<splay_n;i++) {
-    //   // let x=random_int(ww*0.4,ww*0.6)
-    //   let y=random_int(0,ww)
-    //   let x=random_int(ww*0.15,ww*0.65)
-
-    //   image(pg, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32)+(windowHeight-windowWidth)/2,ww/32,ww/32, x*(wth/ww)+random_num(-wth/32,wth/32),(y+(windowHeight-windowWidth)/2)*(wth/ww)+random_num(-wth/32,wth/32),random_num(wth/32,wth/20),random_num(wth/32,wth/20))
-    // }
-
-    return
-  }
+  if(paused){return}
   
   if (lc>=1){
     paused=true
@@ -168,7 +153,7 @@ function draw() {
     for (let i=0;i<splay_n;i++) {
       let x=random_int(0,ww)
       let y=random_int(0,ww)
-      image(this, x+random_num(-ww/32,ww/32),max(y+random_num(-ww/32,ww/32),ww/2),ww/32,ww/32, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),random_num(ww/32,ww/32),random_num(ww/32,ww/32))
+      image(this, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),random_num(ww/32,ww/32),random_num(ww/32,ww/32))
     }
     
 
@@ -183,7 +168,7 @@ function draw() {
     push()
     scale(1,-1)
     // image(this, 0, 45*ww/112, ww, -ww);
-    image(this, 0, 22*ww/112, ww, -ww);
+    image(this, 0, 22*ww/112, ww, -ww-(22*ww/112));
 
     pop()
 
@@ -207,7 +192,7 @@ function draw() {
     // pg.stroke(pico_red_sec)
     // pg.fill(pico_red)
     pg.stroke(randomChoice(colors))
-    pg.fill(pico_red)
+    pg.fill(randomChoice(colors))
     pg.rotate(aa);
     pg.rotateX(aa);
     pg.box(circ_diam)
