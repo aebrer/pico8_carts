@@ -14,9 +14,9 @@ y+=r(8)-4
 c+=r(.005)+0.001
 x%=128
 y%=128
-circfill(x,y,r(4),c)
+circfill(x,y,r(3),c)
 end
-if(r()>.9)flip()
+if(r()>.93)flip()
 end
 goto _
 __gfx__
