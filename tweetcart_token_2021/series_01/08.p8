@@ -16,7 +16,7 @@ x%=128
 y%=128
 circfill(x,y,r(3),c)
 end
-if(r()>.93)flip()
+if(r()>.85)flip()
 end
 goto _
 __gfx__
