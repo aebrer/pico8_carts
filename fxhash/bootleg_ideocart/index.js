@@ -193,15 +193,15 @@ function draw() {
       shred_count+=1
     } else {
       
-      pg.strokeWeight(0.1)
-      for (i=1;i<15;i++){
-        pg.stroke(entstroke)
-        pg.fill(entfill)
-        pg.rotate(0);
-        pg.rotateX(15);
-        pg.cone(1/i+random_int(1,3), 1/i+random_int(1,3), 1)
+      // pg.strokeWeight(0.1)
+      // for (i=1;i<15;i++){
+      //   pg.stroke(entstroke)
+      //   pg.fill(entfill)
+      //   pg.rotate(0);
+      //   pg.rotateX(15);
+      //   pg.cone(1/i+random_int(1,3), 1/i+random_int(1,3))
 
-      }
+      // }
 
 
       // draw entity again
