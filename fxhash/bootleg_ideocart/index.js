@@ -115,8 +115,8 @@ let paused = false;
 let mycan;
 let shred_count = 0;
 let splay_n = 6
-let shred_lim = 300;
-let water_n = 3
+let shred_lim = 600;
+let water_n = 2
 
 let fin = false;
 
@@ -179,28 +179,32 @@ function draw() {
       }
       shred_count+=1
     } else {
-    
+      
+      pg.strokeWeight(0.1)
       for (i=0;i<15;i++){
         pg.stroke(entstroke)
         pg.fill(entfill)
         pg.rotate(0);
         pg.rotateX(15);
-        pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3))
+        pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3), 10)
 
       }
-      image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
 
-      
+      // // mirror everything
+      push()
+      scale(-1,1)
+      image(this, -ww/2,0,ww,ww);
+      pop()
+
+      // draw entity again
+      image(pg, ww/2, 0, ww, ww, wth/2, 0, wth, wth);
       // mirror vfx
       push()
       scale(-1,1)
       image(pg, -ww,0,ww,ww, 0,0,wth,wth);
       pop()
 
-      push()
-      scale(-1,1)
-      image(this, -ww,0,ww,ww);
-      pop()
+
 
       fxpreview()
       // saveCanvas(filename.toString(),"png")
@@ -218,7 +222,7 @@ function draw() {
   }
 
 
-  background(night_pine);
+  // background(night_pine);
   pg.background(black);
 
   pg.camera(0, 0, 256, 0, 0, 0, 0, 1, 0);
@@ -258,11 +262,15 @@ function draw() {
   pop()
 
   aa *= 0.99
-  circ_diam*=random_num(0.3,0.6)
+  // circ_diam*=random_num(0.3,0.6)
+  circ_diam*=random_num(0.8,0.99)
+
 
   //shrink image
-  // image(this, 0,0,ww,ww, ww/random_num(256,1024),ww/random_num(256,1024),ww-(ww/random_num(256,1024)),ww-(ww/random_num(256,1024)));
-  scale(0.9,0.9)
+  let xs = ww/random_num(256,1024)
+  let ys = ww/random_num(256,1024)
+  image(this, 0,0,ww,ww, xs,ys,ww-xs*2,ww-ys*2);
+  scale(-0.9,-0.9)
 
  if (circ_diam<=8) {
   circ_diam=1000
