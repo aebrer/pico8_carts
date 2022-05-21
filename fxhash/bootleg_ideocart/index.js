@@ -128,7 +128,7 @@ let paused = false;
 let mycan;
 let shred_count = 0;
 let splay_n = 7
-let shred_lim = 400;
+let shred_lim = 800;
 let water_n = 1
 
 let fin = false;
@@ -203,24 +203,14 @@ function draw() {
 
       }
 
-      // // mirror everything
+
+      // draw entity again
+      image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
+      // mirror vfx
       push()
       scale(-1,1)
-      image(this, -ww,0,ww,ww);
+      image(pg, 0,0,-ww,ww, 0,0,-wth,wth);
       pop()
-
-      // // draw entity again
-      // image(pg, ww/2, ww/2, ww, ww, wth/2, wth/2, wth, wth);
-      // // mirror vfx
-      // push()
-      // scale(-1,1)
-      // image(pg, ww/2,0,-ww,ww/2, wth/2,0,-wth,wth/2);
-      // pop()
-      // push()
-      // scale(1,-1)
-      // image(pg, 0,ww/2,ww,-ww, 0,wth/2,wth,-wth);
-      // pop()
-
 
 
       fxpreview()
@@ -283,8 +273,8 @@ function draw() {
   // circ_diam*=random_num(0.8,0.99)
   
   //shrink image
-  let xs = ww/random_num(128,2048)
-  let ys = ww/random_num(128,2048)
+  let xs = ww/random_num(128,128)
+  let ys = ww/random_num(128,128)
   image(this, 0,0,ww,ww, xs,ys,ww-xs*2,ww-ys*2);
 
 
