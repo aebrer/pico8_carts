@@ -32,7 +32,6 @@ let ai = 0.0
 let sch = 0
 let seed_loop_rate = 0
 let ww = 0
-let splay_n = 5000
 let water_n = 1500
 window.$fxhashFeatures = {}
 
@@ -110,9 +109,14 @@ let circ_diam = 100;
 let persp;
 let filename = ""
 let paused = false;
-
+let mycan;
+let shred_count = 0;
+let splay_n = 5
+let shred_lim = 1000;
+let fin = false;
 
 function setup() {
+  
   fxrand = sfc32(...hashes)
   bgcol=c_get()
   // wth = 128
@@ -123,12 +127,12 @@ function setup() {
 
   if(isFxpreview){
     ww=2048
-    let mycan = createCanvas(2048, 2048);
+    mycan = createCanvas(2048, 2048);
   } else {
     ww=min(windowWidth, windowHeight)
-    let mycan = createCanvas(ww, ww);
+    mycan = createCanvas(ww, ww);
   }
-  
+
   pg = createGraphics(wth, wth, WEBGL);
   pg.pixelDensity(1);
   blendMode(DIFFERENCE);
@@ -145,57 +149,63 @@ function setup() {
 
 function draw() {
   // seed looping
-  if(random_num(0,1)>0.1){fxrand = sfc32(...hashes)}
+  // if(random_num(0,1)>0.1){fxrand = sfc32(...hashes)}
+
+  if(fin){return}
 
   // stop render
-  if(paused){return}
-  
-  if (lc>=1){
-    paused=true
-
-    // square
+  if(paused){
+    if(shred_count<shred_lim){
     //splay effect
     for (let i=0;i<splay_n;i++) {
       let x=random_int(0,ww)
       let y=random_int(0,ww)
       image(this, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),random_num(ww/32,ww/32),random_num(ww/32,ww/32))
     }
+      shred_count+=1
+    } else {
     
-    for (i=0;i<15;i++){
-      pg.stroke(pico_red)
-      pg.fill(randomChoice(colors))
-      pg.rotate(0);
-      pg.rotateX(15);
-      pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3))
-    }
-    image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
+      for (i=0;i<15;i++){
+        pg.stroke(pico_red)
+        pg.fill(randomChoice(colors))
+        pg.rotate(0);
+        pg.rotateX(15);
+        pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3))
+      }
+      image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
 
-    
-    // mirror vfx
-    push()
-    scale(1,-1)
-    image(pg, 0, -ww, ww, ww, 0, 0, 0, wth);
-    pop()
+      
+      // mirror vfx
+      push()
+      scale(1,-1)
+      image(pg, 0, -ww, ww, ww, 0, 0, 0, wth);
+      pop()
 
-    push()
-    scale(1,-1)
-    image(this, 0, 22*ww/112, ww, -ww-(22*ww/112));
-    pop()
-    // water vfx
-    for (let i=0;i<water_n;i++) {
-      let y=random_int(102*ww/224,ww)
-      let x=random_int(0,ww)
+      push()
+      scale(1,-1)
+      image(this, 0, 22*ww/112, ww, -ww-(22*ww/112));
+      pop()
+      // water vfx
+      for (let i=0;i<water_n;i++) {
+        let y=random_int(102*ww/224,ww)
+        let x=random_int(0,ww)
 
-      // image(this, 0, y, ww, 1, random_int(-5,5), y*(wth/ww), ww, 1)
-      image(this, 0, y, ww, 1, random_int(-5,5), y, ww, 5)
+        // image(this, 0, y, ww, 1, random_int(-5,5), y*(wth/ww), ww, 1)
+        image(this, 0, y, ww, 1, random_int(-5,5), y, ww, 5)
 
-    }
-    fxpreview()
-    // saveCanvas(filename.toString(),"png")
-    // for (let i=0;i<10000;i++){
-    //   console.log()
-    // }
-    // location.reload()
+      }
+      fxpreview()
+      // saveCanvas(filename.toString(),"png")
+      // for (let i=0;i<10000;i++){
+      //   console.log()
+      // }
+      // location.reload()
+      fin=true
+    } 
+  }
+  
+  if (lc>=1){
+    paused=true
     return
   }
 
