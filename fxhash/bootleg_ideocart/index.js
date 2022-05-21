@@ -68,31 +68,44 @@ greencol,
 pastelred,
 pastelblue,
 pastelgreen,
-black,
+// black,
 white,
 gold,
 laven,
 fusc,
 navy,
-peach,
+// peach,
 pico_red,
-pico_red_sec,
+// pico_red_sec,
 pico_red_green,
-pico_red_green_sec,
+// pico_red_green_sec,
 lakesky,
 lakewater,
-night_pine,
-granite_sunset
+// night_pine,
+// granite_sunset
 ]
-let bgcol = [0,0,0,255]
+
+let bright_cols = [
+ redcol,
+ bluecol,
+ greencol,
+ pastelgreen,
+ pastelblue,
+ pastelred,
+ white,
+ gold,
+ granite_sunset,
+]
+
 let color_buff = [0,0,0]
 
-function c_get() {
- let c = randomChoice(colors)
+function c_get(cols) {
+ console.log(cols)
+ let c = randomChoice(cols)
  color_buff.push(c)
  color_buff.shift()
  while (allEqual(color_buff)) {
-  c = randomChoice(colors)
+  c = randomChoice(cols)
   color_buff.push(c)
   color_buff.shift()
  }
@@ -100,11 +113,11 @@ function c_get() {
 }
 
 
-let skystroke = c_get()
-let skyfill = c_get()
-let entfill = c_get()
-let entstroke = c_get()
-let accent = c_get()
+let skystroke = c_get(colors)
+let skyfill = c_get(bright_cols)
+let entfill = c_get(bright_cols)
+let entstroke = c_get(colors)
+let accent = c_get(colors)
 
 
 let wth = 0;
@@ -114,9 +127,9 @@ let filename = ""
 let paused = false;
 let mycan;
 let shred_count = 0;
-let splay_n = 6
-let shred_lim = 600;
-let water_n = 2
+let splay_n = 7
+let shred_lim = 400;
+let water_n = 1
 
 let fin = false;
 
@@ -125,7 +138,7 @@ let fin = false;
 function setup() {
   
   fxrand = sfc32(...hashes)
-  bgcol=c_get()
+  bgcol=c_get(colors)
   // wth = 128
   wth = 256
   aa=random_num(177,179)
@@ -181,28 +194,32 @@ function draw() {
     } else {
       
       pg.strokeWeight(0.1)
-      for (i=0;i<15;i++){
+      for (i=1;i<15;i++){
         pg.stroke(entstroke)
         pg.fill(entfill)
         pg.rotate(0);
         pg.rotateX(15);
-        pg.cone(10/i+random_num(0.1,3),10/i+random_num(0.1,3), 10)
+        pg.cone(1/i+random_int(1,3), 1/i+random_int(1,3), 1)
 
       }
 
       // // mirror everything
       push()
       scale(-1,1)
-      image(this, -ww/2,0,ww,ww);
+      image(this, -ww,0,ww,ww);
       pop()
 
-      // draw entity again
-      image(pg, ww/2, 0, ww, ww, wth/2, 0, wth, wth);
-      // mirror vfx
-      push()
-      scale(-1,1)
-      image(pg, -ww,0,ww,ww, 0,0,wth,wth);
-      pop()
+      // // draw entity again
+      // image(pg, ww/2, ww/2, ww, ww, wth/2, wth/2, wth, wth);
+      // // mirror vfx
+      // push()
+      // scale(-1,1)
+      // image(pg, ww/2,0,-ww,ww/2, wth/2,0,-wth,wth/2);
+      // pop()
+      // push()
+      // scale(1,-1)
+      // image(pg, 0,ww/2,ww,-ww, 0,wth/2,wth,-wth);
+      // pop()
 
 
 
@@ -223,7 +240,7 @@ function draw() {
 
 
   // background(night_pine);
-  pg.background(black);
+  pg.background(bgcol);
 
   pg.camera(0, 0, 256, 0, 0, 0, 0, 1, 0);
   pg.perspective(fov, 1.0, persp, 1500000);
@@ -262,18 +279,18 @@ function draw() {
   pop()
 
   aa *= 0.99
-  // circ_diam*=random_num(0.3,0.6)
-  circ_diam*=random_num(0.8,0.99)
-
-
+  circ_diam*=random_num(0.4,0.7)
+  // circ_diam*=random_num(0.8,0.99)
+  
   //shrink image
-  let xs = ww/random_num(256,1024)
-  let ys = ww/random_num(256,1024)
+  let xs = ww/random_num(128,2048)
+  let ys = ww/random_num(128,2048)
   image(this, 0,0,ww,ww, xs,ys,ww-xs*2,ww-ys*2);
-  scale(-0.9,-0.9)
+
+
 
  if (circ_diam<=8) {
-  circ_diam=1000
+  circ_diam=100
   aa=random_num(177,179)
   filename+="_aa_"+aa.toString()
   lc+=1
