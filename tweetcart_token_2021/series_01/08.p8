@@ -1,14 +1,14 @@
 pico-8 cartridge // http://www.pico-8.com
-version 35
+version 36
 __lua__
 r=rnd
 p=srand
-pal({-8,8,9,10,11,12,2},1)cls()s=r(-1)p(s)b=0c=1x=-8y=-8poke(0x5f3d,0x1)::_::
+pal({-8,8,9,10,11,12,2},1)cls()s=r(-1)p(s)b=0c=1x=-8y=-8poke(0x5f2d,1)::_::
 if(r()>.5)p(s)
 if(r()>.9)p(s)
-x+=r(8)y+=r(8)b-=.1c+=r(.2)+.001x%=136y%=136line(x,y,x+r(6)-6,y+r(6)-6,c%8)
-if(stat(34)==1and 0>b)s+=1cls()b=10
-if(stat(34)==2and 0>b)extcmd("video")
+x+=r(8)y+=r(8)b-=.0005c+=r(.2)x%=136y%=136line(x,y,x+r(6)-6,y+r(6)-6,c%8)
+if(stat(34)==1and 0>b)s+=1cls()b=9
+if(stat(34)==2and 0>b)extcmd("video")b=9
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
