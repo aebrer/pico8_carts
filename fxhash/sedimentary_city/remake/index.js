@@ -38,7 +38,7 @@ let c12 = [254,178,76,255]
 let c13 = [254,217,118,255]
 let c14 = [255,237,160,255]
 let c15 = [255,255,204,255]
-let c16 = [255,255,255,255]
+let c16 = [16,16,16,255]
 
 colors = [
  c1,
@@ -84,20 +84,17 @@ function setup() {
   pg.background(0);
   pg.strokeWeight(1)  
 
-  pg.camera(128, 128, 256, 128, 128, 0, 0,1,0);
+  pg.camera(64, 128, 244, 128, 128, 0, 0,1,0);
 
 }
 
 function draw() {
-  // seed looping
-  // if(random_num(0,1)>0.9){fxrand = sfc32(...hashes)}
-
   if(lc>3000){
     fxpreview()
     return
   }
-  
-  // if(c>12){fxrand = sfc32(...hashes)}
+  if(c>=13.8){pg.camera(128, 128, 244, 128, 128, 0, 0,1,0);}
+  // if(c>14){fxrand = sfc32(...hashes)}
   for (i=0;i<30;i++) {
    col = colors[Math.floor(c)]
    pg.noStroke()
@@ -105,20 +102,13 @@ function draw() {
    x+=10
    y+=random_num(0.05,0.1)
    c+=random_num(0,0.01)
-   x%=272
+   x%=350
    y%=272
    c%=15
    if(c<=12){pg.ellipse(x, y, random_num(-12*c/2,12*c/2), random_num(-12*c/2,12*c/2));}
-   if(c>12){pg.rect(x, y, random_num(-12*c/4,12*c/4), random_num(-12*c/4,12*c/4));}
+   if(c>13){pg.rect(x, y, random_num(-12*c/8,12*c/4), random_num(-12*c/8,12*c/4));}
    image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
    lc+=1
   }
-  
-  //shrink image
-  // if(random_num(0,1)>.1){
-    // let xs = ww/random_num(256,256)
-    // let ys = ww/random_num(256,256)
-    // image(this, 0,0,ww,ww, xs,ys,ww-xs*2,ww-ys*2);
-  // }
 }
 
