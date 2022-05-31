@@ -3,10 +3,15 @@ version 36
 __lua__
 r=rnd
 p=srand
-for i=0,15do pal(i,r(33)-17,1)end
 cls()
-s=r(-1)
+w=stat(6)
+s=1
+for i=1,#w do
+ch=ord(sub(w,i,i))s+=s*31+ch
+end
+if(#w==0)s=rnd(-1)
 p(s)
+for i=0,15do pal(i,r(33)-17,1)end
 c=1
 x=-8
 y=-8
