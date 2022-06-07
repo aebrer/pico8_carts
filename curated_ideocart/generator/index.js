@@ -127,9 +127,9 @@ let filename = ""
 let paused = false;
 let mycan;
 let shred_count = 0;
-let splay_n = 7
-let shred_lim = 800;
-let water_n = 1
+let splay_n = 50
+let shred_lim = 100;
+let water_n = 8
 
 let fin = false;
 
