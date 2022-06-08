@@ -150,11 +150,13 @@ function setup() {
     mycan = createCanvas(2048, 2048);
   } else {
     ww=min(windowWidth, windowHeight)
+    ww=1024
     mycan = createCanvas(ww, ww);
   }
 
   pg = createGraphics(wth, wth, WEBGL);
   pg.pixelDensity(1);
+  pixelDensity(6);
   blendMode(DIFFERENCE);
   fov = PI / 8;
   cameraZ = wth;
@@ -206,12 +208,27 @@ function draw() {
 
       // draw entity again
       image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
-      // mirror vfx
-      push()
-      scale(-1,1)
-      image(pg, 0,0,-ww,ww, 0,0,-wth,wth);
-      pop()
 
+      //shrink image
+      let xs = ww/random_num(128,128)
+      let ys = ww/random_num(128,128)
+      image(this, 0,0,ww,ww, xs,ys,ww-xs*2,ww-ys*2);
+
+      // // mirror vfx
+      // push()
+      // scale(-1,1)
+      // image(pg, 0,0,-ww,ww, 0,0,-wth,wth);
+      // pop()
+
+      for (i=0;i<10;i++){
+        // mirror vfx
+        push()
+        let xf=randomChoice([-1,1])
+        let yf=randomChoice([-1,1])
+        scale(xf,yf)
+        image(pg, 0,0,ww*xf,ww*yf, 0,0,wth*xf,wth*yf);
+        pop()
+      }
 
       fxpreview()
       // saveCanvas(filename.toString(),"png")
