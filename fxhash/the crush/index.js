@@ -23,6 +23,7 @@ let pg;
 
 let wth;
 let hgt;
+let hc;
 let ww;
 let wh;
 let x=-16;
@@ -35,6 +36,7 @@ let shred_count;
 let shred_lim;
 let splay_n;
 let water_n;
+let pd=2;
 
 function setup() {
   
@@ -50,35 +52,38 @@ function setup() {
   c = [random_int(0,360),100,100,1]
 
 
-  wth = 512
-  hgt = 0.5625 * wth
   if(isFxpreview){
     ww=1920
     wh=1080
     mycan = createCanvas(ww, wh);
   } else {
     ww=windowWidth
-    wh=0.5625*ww
+    wh=windowHeight
     mycan = createCanvas(ww, wh);
   }
 
+  wth = 512
+  hgt = wth * (wh/ww)
+  hc= -hgt/2
+  console.log(hc)
   pg = createGraphics(wth, hgt, WEBGL);
   pg.colorMode(HSL)
 
   pg.pixelDensity(1);
-  pixelDensity(1);
+  pixelDensity(pd);
   // blendMode(DIFFERENCE);
   noSmooth();
   pg.background(0);
   pg.strokeWeight(1)  
 
-  pg.camera(wth/2, hgt/2, wth/2, wth/2, hgt/2, 0, 0,1,0);
-
+  // pg.camera(wth/2, hgt/2, max(wth,hgt)/2, wth/2, hgt/2, 0, 0,1,0);
+  //pg.camera(0, 0, (hgt/2) / tan(PI/6), wth/2, hgt/2, (hgt/2) / tan(PI/6)/2, 0, 1, 0)
 }
 
-let hc=-10
+
+
 function draw() {
-  if(hc>hgt+10){
+  if(hc>hgt+25){
 
     blendMode(DIFFERENCE)
 
@@ -96,8 +101,8 @@ function draw() {
 
       // // water vfx
       for (let i=0;i<water_n;i++) {
-        let y=random_int(0,ww)
-        image(this, 0, y, ww, ww/1024, random_int(-5,5), y, ww, ww/1024)
+        let y=random_int(0,wh)
+        image(this, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
       }
       // for (let i=0;i<water_n/23;i++) {
       //   let x=random_int(0,ww)
@@ -109,7 +114,8 @@ function draw() {
       return
    }
   }
-  x=-wth/10
+
+  x=-wth/2-25
   for (i=0;i<=wth/8.5;i++) {
    pg.noStroke()
    pg.fill(c)
@@ -123,8 +129,11 @@ function draw() {
 
   }
   image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
-  c = [c[0],c[1]*random_num(0.99,0.999),c[2]*random_num(0.99,0.999),c[3]]
+  c = [c[0],c[1]*random_num(0.999,0.9999),c[2]*random_num(0.993,0.999),c[3]]
 
   hc += random_num(1,2)
 }
 
+
+
+// function keyPressed(){var e;"e"==key?save("Yo_automata_"+fxhash+".png"):"h"==key&&(pixelDensity(8),snew=800,e=snew/size,resizeCanvas(snew*iratio,snew),pg.scale(e),save("Yo_automata_highRes_"+fxhash+".png"))}
