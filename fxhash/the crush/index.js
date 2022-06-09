@@ -15,7 +15,7 @@ function allEqual(arr) {
   return new Set(arr).size == 1;
 }
 
-hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
+// hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
 fxrand = sfc32(...hashes)
 
 //PGrahics object
@@ -77,14 +77,12 @@ function setup() {
   pg.background(0);
   pg.strokeWeight(1)  
 
-  // pg.camera(wth/2, hgt/2, max(wth,hgt)/2, wth/2, hgt/2, 0, 0,1,0);
-  //pg.camera(0, 0, (hgt/2) / tan(PI/6), wth/2, hgt/2, (hgt/2) / tan(PI/6)/2, 0, 1, 0)
 }
 
 
 
 function draw() {
-  if(hc>hgt+25){
+  if(hc>hgt+10){
 
     blendMode(DIFFERENCE)
 
@@ -108,11 +106,11 @@ function draw() {
       //   image(this, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
       // }
 
-      // // water vfx
-      for (let i=0;i<water_n;i++) {
-        let x=random_int(0,ww)
-        image(this, x, 0, ww/1024, wh, x, random_int(-5,5), ww/1024, wh)
-      }
+      // // // water vfx
+      // for (let i=0;i<water_n;i++) {
+      //   let x=random_int(0,ww)
+      //   image(this, x, 0, ww/1024, wh, x, random_int(-5,5), ww/1024, wh)
+      // }
 
       shred_count+=1
 
