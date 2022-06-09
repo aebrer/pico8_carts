@@ -15,7 +15,7 @@ function allEqual(arr) {
   return new Set(arr).size == 1;
 }
 
-// hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
+hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
 fxrand = sfc32(...hashes)
 
 //PGrahics object
@@ -37,6 +37,7 @@ let shred_lim;
 let splay_n;
 let water_n;
 let pd=2;
+let calt;
 
 function setup() {
   
@@ -50,7 +51,8 @@ function setup() {
 
   // tweak the palette for a bit of variation
   c = [random_int(0,360),100,100,1]
-
+  calt = randomChoice([0,90,120,180])
+  console.log(calt)
 
   if(isFxpreview){
     ww=1920
@@ -64,8 +66,7 @@ function setup() {
 
   wth = 512
   hgt = wth * (wh/ww)
-  hc= -hgt/2
-  console.log(hc)
+  hc= -hgt/2-10
   pg = createGraphics(wth, hgt, WEBGL);
   pg.colorMode(HSL)
 
@@ -88,6 +89,8 @@ function draw() {
     blendMode(DIFFERENCE)
 
     if(shred_count<shred_lim){
+      image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
+
       if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
       if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
 
@@ -99,32 +102,40 @@ function draw() {
       }
       // splay_n*=0.99
 
+      // // // water vfx
+      // for (let i=0;i<water_n;i++) {
+      //   let y=random_int(0,wh)
+      //   image(this, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
+      // }
+
       // // water vfx
       for (let i=0;i<water_n;i++) {
-        let y=random_int(0,wh)
-        image(this, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
+        let x=random_int(0,ww)
+        image(this, x, 0, ww/1024, wh, x, random_int(-5,5), ww/1024, wh)
       }
-      // for (let i=0;i<water_n/23;i++) {
-      //   let x=random_int(0,ww)
-      //   image(this, x,0,ww/1024,ww, x,random_int(-5,5),ww/1024,ww)
-      // }
+
       shred_count+=1
+
+      return
     } else {
       fxpreview()
       return
    }
   }
 
-  x=-wth/2-25
+  x=0
   for (i=0;i<=wth/8.5;i++) {
    pg.noStroke()
-   pg.fill(c)
-   x+=random_num(2,10)
-   y=hc+random_num(0.05,0.1)
-   x%=wth+wth/10
+   let col = randomChoice(
+      [c, [(c[0]+calt)%360, c[1], c[2], c[3]]]
+    )
+   pg.fill(col)
+   x+=random_num(-10,10)
+   y=hc+random_num(-0.1,0.1)
+   x%=wth
    
-   pg.ellipse(x, y, random_num(1,5), random_num(1,5))
-   pg.rect(x, y, random_num(1,5), random_num(1,5))
+   pg.ellipse(x, y, random_num(-5,5), random_num(-5,5))
+   pg.rect(x, y, random_num(-5,5), random_num(-5,5))
    
 
   }
