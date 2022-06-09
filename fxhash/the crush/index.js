@@ -15,7 +15,7 @@ function allEqual(arr) {
   return new Set(arr).size == 1;
 }
 
-hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
+// hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
 fxrand = sfc32(...hashes)
 
 //PGrahics object
