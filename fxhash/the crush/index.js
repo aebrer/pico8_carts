@@ -292,3 +292,7 @@ function keyTyped() {
     setup()
   }
 }
+
+function windowResized() {
+  setup()
+}
