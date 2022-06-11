@@ -144,8 +144,8 @@ function setup() {
 
   wth = 512
   hgt = wth * (wh/ww)
-  hc= -hgt/2-10
-  pg = createGraphics(wth, hgt, WEBGL);
+  hc=0
+  pg = createGraphics(wth, hgt);
   pg.colorMode(HSL)
 
   pg.pixelDensity(1);
@@ -211,8 +211,8 @@ function draw() {
    }
   }
 
-  x=0
-  if (fullscreen) {x=-wth;xfac=1}
+  x=wth/2
+  if (fullscreen) {x=0;xfac=1}
   for (i=0;i<=wth/xfac;i++) {
    pg.noStroke()
 
@@ -290,7 +290,7 @@ function keyTyped() {
     console.log(bgc)
     initial_run=false
     setup()
-  }
+  } 
 }
 
 function windowResized() {
