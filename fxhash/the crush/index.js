@@ -50,6 +50,8 @@ let sec_col_dir;
 let fullscreen;
 let xfac;
 let noaa;
+let nostroke;
+
 
 function setup() {
   
@@ -89,7 +91,6 @@ function setup() {
   calt = randomChoice([0,10,15,25,45,90,120,180,225,270])
   window.$fxhashFeatures["Primary Hue"] = c[0]
   window.$fxhashFeatures["Hue Offset"] = calt
-  console.log(calt)
 
   // color direction
   if (random_num(0,1)>.5){
@@ -132,6 +133,13 @@ function setup() {
       }
   }
 
+  if (random_num(0,1)>0.3) {
+    nostroke=true
+  } else {
+    nostroke=false
+  }
+  window.$fxhashFeatures["Edges"] = nostroke
+
   if(isFxpreview){
     ww=1920
     wh=1080
@@ -153,7 +161,14 @@ function setup() {
   blendMode(BLEND);
   noSmooth();
   pg.background(bgc);
-  pg.strokeWeight(1)  
+  
+  if (nostroke) {
+    pg.noStroke()
+  } else {
+    pg.stroke(bgc)
+  }
+
+  pg.strokeWeight(wth/256)  
 
   console.table(window.$fxhashFeatures)
 
@@ -214,25 +229,27 @@ function draw() {
   x=wth/2
   if (fullscreen) {x=0;xfac=1}
   for (i=0;i<=wth/xfac;i++) {
-   pg.noStroke()
+
 
    let col;
-   if (sec_col_dir){
-     col = randomChoice(
-        [c, [(c[0]+calt)%360, c[1], c[2], c[3]]]
-      )
-    } else {
-      col = randomChoice(
-        [c, [(c[0]+calt)%360, 100-c[1], 100-c[2], c[3]]]
-      )
+   if(random_num(0,1)>0.5){
+     if (sec_col_dir){
+       col = randomChoice(
+          [c, [(c[0]+calt)%360, c[1], c[2], c[3]]]
+        )
+      } else {
+        col = randomChoice(
+          [c, [(c[0]+calt)%360, 100-c[1], 100-c[2], c[3]]]
+        )
+      }
+     pg.fill(col)
     }
-   pg.fill(col)
-   x+=random_num(-10,10)
-   y=hc+random_num(-0.1,0.1)
+   x+=random_int(-10,10)
+   y=hc+random_int(-1,1)
    x%=wth
    
-   pg.ellipse(x, y, random_num(-5,5), random_num(-5,5))
-   pg.rect(x, y, random_num(-5,5), random_num(-5,5))
+   pg.ellipse(x, y, random_int(-5,5), random_int(-5,5))
+   pg.rect(x, y, random_int(-5,5), random_int(-5,5))
    
   }
   image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
@@ -243,12 +260,13 @@ function draw() {
   }
   
 
-  hc += random_num(1,2)
+  hc += random_int(1,6)
+  return
 }
 
 function keyTyped() {
   if (key === 's') {
-    save(mycan, "ELSRRFFGTS_DTB.png")
+    save(mycan, "ELSRRFFGTS_DTB_.png")
   } else if (key === "1") {
     pd=1
     setup()
