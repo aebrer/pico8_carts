@@ -152,7 +152,7 @@ function setup() {
 
   dd=displayDensity()
   // pg.pixelDensity(1);
-  pixelDensity(Math.ceil(pd/dd));
+  pixelDensity(Math.max(Math.ceil(pd/dd),1));
   blendMode(BLEND);
   noSmooth();
   pg.background(bgc);
@@ -166,8 +166,6 @@ function setup() {
   pg.strokeWeight(1)  
 
   console.table(window.$fxhashFeatures)
-  console.log([wth,hgt,ww,wh])
-  console.log([displayDensity(),pixelDensity()])
 
 }
 
@@ -310,6 +308,6 @@ function keyTyped() {
   } 
 }
 
-function windowResized() {
-  setup()
-}
+// function windowResized() {
+//   setup()
+// }
