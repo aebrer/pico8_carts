@@ -34,6 +34,7 @@ let shred_lim;
 let splay_n;
 let water_n;
 let pd=2;
+let dd;
 let need_preview;
 let bgc;
 let initial_run=true;
@@ -133,13 +134,6 @@ function setup() {
       }
   }
 
-  if (random_num(0,1)>0.3) {
-    nostroke=true
-  } else {
-    nostroke=false
-  }
-  window.$fxhashFeatures["Edges"] = nostroke
-
   if(isFxpreview){
     ww=1920
     wh=1080
@@ -151,13 +145,14 @@ function setup() {
   }
 
   wth = 512
-  hgt = wth * (wh/ww)
+  hgt = Math.ceil(wth * (wh/ww))
   hc=0
   pg = createGraphics(wth, hgt);
   pg.colorMode(HSL)
 
-  pg.pixelDensity(1);
-  pixelDensity(pd);
+  dd=displayDensity()
+  // pg.pixelDensity(1);
+  pixelDensity(Math.ceil(pd/dd));
   blendMode(BLEND);
   noSmooth();
   pg.background(bgc);
@@ -168,9 +163,11 @@ function setup() {
     pg.stroke(bgc)
   }
 
-  pg.strokeWeight(wth/256)  
+  pg.strokeWeight(1)  
 
   console.table(window.$fxhashFeatures)
+  console.log([wth,hgt,ww,wh])
+  console.log([displayDensity(),pixelDensity()])
 
 }
 
@@ -183,6 +180,7 @@ function draw() {
     blendMode(DIFFERENCE)
 
     if(shred_count<shred_lim){
+
       image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
 
       if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
@@ -194,7 +192,7 @@ function draw() {
         for (let i=0;i<splay_n;i++) {
           x=random_int(0,ww)
           y=random_int(0,wh)
-          image(this, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),random_num(ww/32,ww/32),random_num(wh/32,wh/32))
+          image(mycan, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),random_num(ww/32,ww/32),random_num(wh/32,wh/32))
         }
       }
       // splay_n*=0.99
@@ -203,14 +201,14 @@ function draw() {
       if (hori_tear){
         for (let i=0;i<water_n;i++) {
           let y=random_int(0,wh)
-          image(this, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
+          image(mycan, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
         }
       }
       if (vert_tear) {
         // // // water vfx
         for (let i=0;i<water_n;i++) {
           let x=random_int(0,ww)
-          image(this, x, 0, ww/1024, wh, x, random_int(-5,5), ww/1024, wh)
+          image(mycan, x, 0, ww/1024, wh, x, random_int(-5,5), ww/1024, wh)
         }
       }
 
@@ -218,6 +216,7 @@ function draw() {
 
       return
     } else {
+      console.log("done")
       if(need_preview){
         fxpreview()
         need_preview=false
@@ -260,7 +259,7 @@ function draw() {
   }
   
 
-  hc += random_int(1,6)
+  hc += random_int(1,7)
   return
 }
 
