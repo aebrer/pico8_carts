@@ -16,6 +16,7 @@ function allEqual(arr) {
 }
 
 // hashes = "asldkfja:lskdjbpoiasjdblkasjzdb"
+if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
 
 //PGrahics object
