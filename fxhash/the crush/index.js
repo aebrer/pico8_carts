@@ -203,14 +203,14 @@ function draw() {
       if (hori_tear){
         for (let i=0;i<water_n;i++) {
           y=random_int(0,wh)
-          image(mycan, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
+          image(mycan, 0, y, ww, max(wh/1024,dd), random_int(-5,5), y, ww, max(wh/1024,dd))
         }
       }
       if (vert_tear) {
         // // // water vfx
         for (let i=0;i<water_n;i++) {
           x=random_int(0,ww)
-          image(mycan, x, 0, ww/1024, wh, x, random_int(-5,5), ww/1024, wh)
+          image(mycan, x, 0, max(ww/1024,dd), wh, x, random_int(-5,5), max(ww/1024,dd), wh)
         }
       }
 
@@ -251,7 +251,7 @@ function draw() {
      pg.rect(x, y, random_int(-5,5), random_int(-5,5))
      
     }
-    if(frameCount%5==0)image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
+    if(frameCount%10==0)image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
     console.log("rendering initial pixelart: " + hc/(hgt+10)*100 + " % done")
     if (prim_col_dir) {
       c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
@@ -262,6 +262,7 @@ function draw() {
     hc += random_int(1,7)
     return
   }
+
 }
 
 function keyTyped() {
