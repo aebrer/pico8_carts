@@ -16,7 +16,7 @@ function allEqual(arr) {
 }
 
 // hashes = "asldkfja:lskdjbpoiasjdblkasjzdb"
-if(hashes==="debug"){hashes=random_num(0,1000000)}
+// if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
 
 //PGrahics object
@@ -154,7 +154,8 @@ function setup() {
   dd=displayDensity()
   // pg.pixelDensity(1);
 
-  let df = dd * pd
+  let df = Math.ceil(dd * pd * 0.5)
+  console.log([dd,pd,df,ww,wh,wth,hgt])
   pixelDensity(df);
   blendMode(BLEND);
   noSmooth();
