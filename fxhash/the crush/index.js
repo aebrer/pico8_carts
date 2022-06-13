@@ -36,7 +36,6 @@ let splay_n;
 let water_n;
 let pd=2;
 let dd;
-let need_preview;
 let bgc;
 let initial_run=true;
 window.$fxhashFeatures = {}
@@ -152,8 +151,6 @@ function setup() {
   pg.colorMode(HSL)
 
   dd=displayDensity()
-  // pg.pixelDensity(1);
-
   let df = Math.ceil(dd * pd * 0.5)
   console.log([dd,pd,df,ww,wh,wth,hgt])
   pixelDensity(df);
@@ -170,12 +167,13 @@ function setup() {
   pg.strokeWeight(1)  
 
   console.table(window.$fxhashFeatures)
-
+  loop();
 }
 
 
 
 function draw() {
+  
   background(bgc[0],bgc[1],bgc[2],0)
   if(hc>hgt+10){
 
@@ -183,6 +181,8 @@ function draw() {
 
     if(shred_count<shred_lim){
 
+      let x;
+      let y;
       image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
 
       if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
@@ -202,67 +202,66 @@ function draw() {
       // // // water vfx
       if (hori_tear){
         for (let i=0;i<water_n;i++) {
-          let y=random_int(0,wh)
+          y=random_int(0,wh)
           image(mycan, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
         }
       }
       if (vert_tear) {
         // // // water vfx
         for (let i=0;i<water_n;i++) {
-          let x=random_int(0,ww)
+          x=random_int(0,ww)
           image(mycan, x, 0, ww/1024, wh, x, random_int(-5,5), ww/1024, wh)
         }
       }
 
       shred_count+=1
+      console.log("rendering shredding: " + shred_count/(shred_lim)*100 + " % done")
 
       return
     } else {
       console.log("done")
-      if(need_preview){
-        fxpreview()
-        need_preview=false
-      }
+      fxpreview()
+      noLoop()
       return
    }
-  }
-
-  x=wth/2
-  if (fullscreen) {x=0;xfac=1}
-  for (i=0;i<=wth/xfac;i++) {
-
-
-   let col;
-   if(random_num(0,1)>0.5){
-     if (sec_col_dir){
-       col = randomChoice(
-          [c, [(c[0]+calt)%360, c[1], c[2], c[3]]]
-        )
-      } else {
-        col = randomChoice(
-          [c, [(c[0]+calt)%360, 100-c[1], 100-c[2], c[3]]]
-        )
-      }
-     pg.fill(col)
-    }
-   x+=random_int(-10,10)
-   y=hc+random_int(-1,1)
-   x%=wth
-   
-   pg.ellipse(x, y, random_int(-5,5), random_int(-5,5))
-   pg.rect(x, y, random_int(-5,5), random_int(-5,5))
-   
-  }
-  image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
-  if (prim_col_dir) {
-    c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
   } else {
-    c = [c[0],c[1]*random_num(0.999,0.9999),c[2]*random_num(0.993,0.999),c[3]]
-  }
-  
+    x=wth/2
+    if (fullscreen) {x=wth/8;xfac=1}
+    for (i=0;i<=wth/xfac;i++) {
 
-  hc += random_int(1,7)
-  return
+
+     let col;
+     if(random_num(0,1)>0.5){
+       if (sec_col_dir){
+         col = randomChoice(
+            [c, [(c[0]+calt)%360, c[1], c[2], c[3]]]
+          )
+        } else {
+          col = randomChoice(
+            [c, [(c[0]+calt)%360, 100-c[1], 100-c[2], c[3]]]
+          )
+        }
+       pg.fill(col)
+      }
+     x+=random_int(-10,10)
+     y=hc+random_int(-1,1)
+     x%=wth
+     
+     pg.ellipse(x, y, random_int(-5,5), random_int(-5,5))
+     pg.rect(x, y, random_int(-5,5), random_int(-5,5))
+     
+    }
+    if(frameCount%5==0)image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
+    console.log("rendering initial pixelart: " + hc/(hgt+10)*100 + " % done")
+    if (prim_col_dir) {
+      c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
+    } else {
+      c = [c[0],c[1]*random_num(0.999,0.9999),c[2]*random_num(0.993,0.999),c[3]]
+    }
+    
+    hc += random_int(1,7)
+    return
+  }
 }
 
 function keyTyped() {
