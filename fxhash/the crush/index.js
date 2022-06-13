@@ -15,7 +15,7 @@ function allEqual(arr) {
   return new Set(arr).size == 1;
 }
 
-// hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
+hashes = "asldkfja:lskdjbpoiasjdblkasjzdb"
 fxrand = sfc32(...hashes)
 
 //PGrahics object
@@ -152,7 +152,9 @@ function setup() {
 
   dd=displayDensity()
   // pg.pixelDensity(1);
-  pixelDensity(Math.max(Math.ceil(pd/dd),1));
+
+  let df = dd * pd
+  pixelDensity(df);
   blendMode(BLEND);
   noSmooth();
   pg.background(bgc);
