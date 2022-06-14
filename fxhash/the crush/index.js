@@ -15,6 +15,8 @@ function allEqual(arr) {
   return new Set(arr).size == 1;
 }
 
+let is_mobile = window.matchMedia("(any-hover: none)").matches
+
 // hashes = "asldkfja:lskdjbpoiasjdblkasjzdb"
 // if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
@@ -152,6 +154,7 @@ function setup() {
 
   dd=displayDensity()
   let df = Math.ceil(dd * pd * 0.5)
+  if(is_mobile){df/=3}
   console.log([dd,pd,df,ww,wh,wth,hgt])
   pixelDensity(df);
   blendMode(BLEND);
@@ -194,7 +197,12 @@ function draw() {
         for (let i=0;i<splay_n;i++) {
           x=random_int(0,ww)
           y=random_int(0,wh)
-          image(mycan, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),random_num(ww/32,ww/32),random_num(wh/32,wh/32))
+          
+          if (is_mobile) {
+            blend(Math.ceil(x+random_num(-ww/32,ww/32)),Math.ceil(y+random_num(-wh/32,wh/32)),Math.ceil(random_num(ww/32,ww/32)),Math.ceil(random_num(wh/32,wh/32)), Math.ceil(x+random_num(-ww/32,ww/32)),Math.ceil(y+random_num(-wh/32,wh/32)),Math.ceil(ww/32),Math.ceil(wh/32), DIFFERENCE)
+          } else {
+            image(mycan, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),random_num(ww/32,ww/32),random_num(wh/32,wh/32))
+          }
         }
       }
       // splay_n*=0.99
@@ -203,14 +211,26 @@ function draw() {
       if (hori_tear){
         for (let i=0;i<water_n;i++) {
           y=random_int(0,wh)
-          image(mycan, 0, y, ww, max(wh/1024,dd), random_int(-5,5), y, ww, max(wh/1024,dd))
+
+          if(is_mobile) {  //mobile device
+            blend(0, y, ww, Math.ceil(max(wh/1024,dd)), random_int(-5,5), y, ww, Math.ceil(max(wh/1024,dd)),DIFFERENCE)
+          } else {
+            image(mycan, 0, y, ww, max(wh/1024,dd), random_int(-5,5), y, ww, max(wh/1024,dd))
+          }
+          
+
         }
       }
       if (vert_tear) {
         // // // water vfx
         for (let i=0;i<water_n;i++) {
           x=random_int(0,ww)
-          image(mycan, x, 0, max(ww/1024,dd), wh, x, random_int(-5,5), max(ww/1024,dd), wh)
+
+          if (is_mobile) {
+            blend(x, 0, Math.ceil(max(ww/1024,dd)), wh, x, random_int(-5,5), Math.ceil(max(ww/1024,dd)), wh, DIFFERENCE)
+          } else {
+            image(mycan, x, 0, max(ww/1024,dd), wh, x, random_int(-5,5), max(ww/1024,dd), wh)
+          }
         }
       }
 
