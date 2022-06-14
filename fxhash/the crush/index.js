@@ -17,7 +17,7 @@ function allEqual(arr) {
 
 let is_mobile = window.matchMedia("(any-hover: none)").matches
 
-// hashes = "asldkfja:lskdjbpoiasjdblkasjzdb"
+// hashes = "hriirieiririiiritiififiviviifj"
 // if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
 
@@ -42,6 +42,9 @@ let bgc;
 let initial_run=true;
 window.$fxhashFeatures = {}
 
+let mycan;
+let tx;
+
 //fxhash features
 let recursive_shred;
 let hori_tear;
@@ -54,7 +57,6 @@ let fullscreen;
 let xfac;
 let noaa;
 let nostroke;
-
 
 function setup() {
   
@@ -139,12 +141,12 @@ function setup() {
   if(isFxpreview){
     ww=1920
     wh=1080
-    mycan = createCanvas(ww, wh);
   } else {
     ww=windowWidth
     wh=windowHeight
-    mycan = createCanvas(ww, wh);
   }
+
+  mycan = createCanvas(ww, wh);
 
   wth = 512
   hgt = Math.ceil(wth * (wh/ww))
@@ -171,12 +173,13 @@ function setup() {
 
   console.table(window.$fxhashFeatures)
   loop();
+
 }
 
 
 
 function draw() {
-  
+
   background(bgc[0],bgc[1],bgc[2],0)
   if(hc>hgt+10){
 
@@ -235,11 +238,13 @@ function draw() {
       }
 
       shred_count+=1
-      console.log("rendering shredding: " + shred_count/(shred_lim)*100 + " % done")
+      tx="rendering shredding: " + shred_count/(shred_lim)*100 + " % done"
+      console.log(tx)
 
       return
     } else {
       console.log("done")
+      tx=""
       fxpreview()
       noLoop()
       return
@@ -272,7 +277,10 @@ function draw() {
      
     }
     if(frameCount%10==0)image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
-    console.log("rendering initial pixelart: " + hc/(hgt+10)*100 + " % done")
+
+    tx="rendering initial pixelart: " + hc/(hgt+10)*100 + " % done"
+    console.log(tx)
+
     if (prim_col_dir) {
       c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
     } else {
@@ -329,8 +337,13 @@ function keyTyped() {
     console.log(bgc)
     initial_run=false
     setup()
+  } else if (key === "m") {
+    is_mobile=!is_mobile
+    initial_run=false
+    setup()
   } 
 }
+
 
 // function windowResized() {
 //   setup()
