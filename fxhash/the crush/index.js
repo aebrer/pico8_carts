@@ -1,4 +1,49 @@
-//thanks to anthonymg for sharing a p5.js template for pixel rendering with me :)
+// Entropy-Locked Recursive Glitch Textures
+
+/*
+Controls:
+
+F11 -> fullscreen mode (alternatively you should be able to do this from your browser menu)
+s -> save a png of the image
+1-8 -> set the pixel density and re-render (default is 2, higher means higher resolution final image; the preview image is generated with a value of 5, at 1080x1080px)
+m -> toggle mobile/compatibility mode and re-render
+w -> re-render with a white background
+b -> re-render with a black background
+t -> re-render with a transparent background
+r -> re-render with a random background
+
+------------------
+
+Everything in this sketch is primarily driven by the use of uniform random noise. Entropy locking refers to a technique used to limit the sampling space of this random noise, artificially constraining it to a restricted set of still totally random values, in an unpredictable way. Specifically, these two lines are used for this in this sketch:
+
+```
+if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
+if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
+```
+
+Basically, if a certain random condition is met (3/1000 odds), the pseudorandom number generator will have its seed reset. The combination of the bog standard technique of controlling randomness via resetting the random seed, and the decision to do it at random, in a way controlled by the random seed, creates interesting recursive structures in the "entropy-space" of the sketch. Sometimes these will be extremely short loops, sometimes they remain unstable and never repeat. Sometimes, they get trapped in a loop, only for something to change in the drawing, reaching some mysterious threshold of difference that causes a new random number to be generated, breaking free from the temporary loop and becoming "more random" again. 
+
+More recursion and self-reference is included throughout the sketch. A recursive "shredding" process is used to render small samples of the image back onto itself, either smaller or larger. A similar technique is used to create the horizontal or vertical "tears" that slice up the screen. These create feed-forward loops where pixel information stored on the screen is used to generate the next change to the image. When the pixel density is high enough (controllable via buttons 1-8 on the keyboard), immense and complicated structures arise in the minute details. An almost fractal-like pattern arises due to the intersection of the recursive nature of these feed-forward loops, and the recursive nature of the seed-loops created by entropy locking. Additionally, the textures are allowed to propagate in an interesting way, due to the use of transparent backgrounds.
+
+Similarly, the color and positioning of the underlying pixelart is also controlled strictly through randomization and self-reference.
+
+The image is rendered in the flat 2D engine, rather than WEBGL, because the weird pixel artifacts it creates (especially at ultra-high resolution) are very satisfying to me visually, even though I don't yet fully understand them.
+
+
+I HIGHLY encourage you to increase the pixel density, and export an ultra-high render of your output, if you have a PC capable of it.
+
+
+
+Thanks for reading :)
+find my social links, projects, newsletter, roadmap, and more, at aebrer.xyz
+or 
+minted on Teia.art by tz1ZBMhTa7gxSpaeXoqyc6bTCrxEHfZYSpPt
+
+license: CC0 -> go nuts; citations not required but definitely appreciated
+
+*/
+
+
 //thanks @Yazid for these two helper functions
 function random_num(a, b) {
     return a+(b-a)*fxrand()
@@ -7,14 +52,13 @@ function random_int(a, b) {
   return Math.floor(random_num(a, b+1))
 }
 
+
 function randomChoice(arr) {
   return arr[Math.floor(random_num(0,1) * arr.length)];
 }
 
-function allEqual(arr) {
-  return new Set(arr).size == 1;
-}
 
+// will decide on mobile mode unless there is a pointer device with hover capability attached
 let is_mobile = window.matchMedia("(any-hover: none)").matches
 
 // hashes = "hriirieiririiiritiififiviviifj"
@@ -139,8 +183,10 @@ function setup() {
   }
 
   if(isFxpreview){
-    ww=1920
+    ww=1080
     wh=1080
+    is_mobile=false
+    pd=5
   } else {
     ww=windowWidth
     wh=windowHeight
@@ -189,28 +235,31 @@ function draw() {
 
       let x;
       let y;
+
+      // load the pixelart image every frame
       image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
 
+      // entropy locking
       if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
       if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
 
 
       if (recursive_shred){
-        //splay effect
         for (let i=0;i<splay_n;i++) {
           x=random_int(0,ww)
           y=random_int(0,wh)
           
           if (is_mobile) {
+            // compatibility mode
             blend(Math.ceil(x+random_num(-ww/32,ww/32)),Math.ceil(y+random_num(-wh/32,wh/32)),Math.ceil(random_num(ww/32,ww/32)),Math.ceil(random_num(wh/32,wh/32)), Math.ceil(x+random_num(-ww/32,ww/32)),Math.ceil(y+random_num(-wh/32,wh/32)),Math.ceil(ww/32),Math.ceil(wh/32), DIFFERENCE)
           } else {
+            // some sort of hack
             image(mycan, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),random_num(ww/32,ww/32),random_num(wh/32,wh/32))
           }
         }
       }
-      // splay_n*=0.99
 
-      // // // water vfx
+      // tearing effect
       if (hori_tear){
         for (let i=0;i<water_n;i++) {
           y=random_int(0,wh)
@@ -220,8 +269,6 @@ function draw() {
           } else {
             image(mycan, 0, y, ww, max(wh/1024,dd), random_int(-5,5), y, ww, max(wh/1024,dd))
           }
-          
-
         }
       }
       if (vert_tear) {
@@ -243,6 +290,7 @@ function draw() {
 
       return
     } else {
+      // done rendering fully
       tx=""
       document.getElementById('log').innerText = tx;
       fxpreview()
@@ -250,10 +298,12 @@ function draw() {
       return
    }
   } else {
+
+    // initial pixelart rendering 
+
     x=wth/2
     if (fullscreen) {x=wth/8;xfac=1}
     for (i=0;i<=wth/xfac;i++) {
-
 
      let col;
      if(random_num(0,1)>0.5){
@@ -278,9 +328,10 @@ function draw() {
     }
     if(frameCount%10==0)image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
 
-    tx="rendering initial pixelart: " + Math.round(hc/(hgt+10)*100) + " % done"
+    tx="Rendering Initial Pixelart: " + Math.round(hc/(hgt+10)*100) + " % done"
     document.getElementById('log').innerText = tx;
 
+    // more layers of randomization, susceptible to entropy locking
     if (prim_col_dir) {
       c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
     } else {
@@ -293,6 +344,8 @@ function draw() {
 
 }
 
+
+// ux
 function keyTyped() {
   if (key === 's') {
     save(mycan, "ELSRRFFGTS_DTB_.png")
@@ -345,6 +398,7 @@ function keyTyped() {
 }
 
 
+// I now think it is a bad idea to do this... creates a bad experience on mobile
 // function windowResized() {
 //   setup()
 // }
