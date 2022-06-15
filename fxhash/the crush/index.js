@@ -238,13 +238,13 @@ function draw() {
       }
 
       shred_count+=1
-      tx="rendering shredding: " + shred_count/(shred_lim)*100 + " % done"
-      console.log(tx)
+      tx="Rendering Shredding: " + Math.round(shred_count/(shred_lim)*100) + " % done"
+      document.getElementById('log').innerText = tx;
 
       return
     } else {
-      console.log("done")
       tx=""
+      document.getElementById('log').innerText = tx;
       fxpreview()
       noLoop()
       return
@@ -278,8 +278,8 @@ function draw() {
     }
     if(frameCount%10==0)image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
 
-    tx="rendering initial pixelart: " + hc/(hgt+10)*100 + " % done"
-    console.log(tx)
+    tx="rendering initial pixelart: " + Math.round(hc/(hgt+10)*100) + " % done"
+    document.getElementById('log').innerText = tx;
 
     if (prim_col_dir) {
       c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
