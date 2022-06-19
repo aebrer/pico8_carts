@@ -6,7 +6,6 @@ r=rnd
 s=r(-1)
 p=srand
 p(s)
-
 poke(0x5f54,0x60)
 poke(24364,7)
 a=r(32)+60b=r(32)+60
