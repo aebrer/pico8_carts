@@ -6,18 +6,20 @@ r=rnd
 s=r(-1)
 p=srand
 p(s)
-
+poke(24364,7)
+a=r(32)+64b=r(32)+64
+--?"\^!5f10"..rnd(-1)
 c=1
 ::_::
 l=t()/10
 
 for i=0,2^8do
-x=sin(l)+r()*(20+r(108))
-y=sin(l)*cos(l)+r()*(20+r(108))
+x=sin(l)+r()*r(a)
+y=sin(l)*cos(l)+r()*r(b)
 c+=r(.1)
-pset(x,y,c%4)
+pset(x,y,c)
 end
-if(r()>.9or r()>.9)p(s)flip()
+if(r()>.96or r()>.96)p(s)flip()
 --flip()
 goto _
 __gfx__
