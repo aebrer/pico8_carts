@@ -16,6 +16,7 @@ function allEqual(arr) {
 }
 
 // hashes = "oo3R2a4RtW9LuXp6VtjJgTszc5BFf2fHyUF8YLHqk4z6SmnYpaK"
+hashes = "andrewbreretonsideocartextravaganza"
 fxrand = sfc32(...hashes)
 
 //PGrahics object
@@ -158,6 +159,7 @@ function setup() {
 
   pg = createGraphics(wth, wth, WEBGL);
   pg.pixelDensity(1);
+  pixelDensity(1);
   blendMode(DIFFERENCE);
   fov = PI / 8;
   cameraZ = wth;
@@ -186,11 +188,11 @@ function draw() {
       // water vfx
       for (let i=0;i<water_n;i++) {
         let y=random_int(0,ww)
-        image(tex, 0, y, ww, ww/1024, random_int(-5,5), y, ww, ww/1024)
+        image(this, 0, y, ww, ww/1024, random_int(-5,5), y, ww, ww/1024)
       }
       for (let i=0;i<water_n;i++) {
         let x=random_int(0,ww)
-        image(tex, x,0,ww/1024,ww, x,random_int(-5,5),ww/1024,ww)
+        image(this, x,0,ww/1024,ww, x,random_int(-5,5),ww/1024,ww)
       }
       shred_count+=1
     } else {
