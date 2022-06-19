@@ -1,6 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
-version 34
+version 36
 __lua__
+_set_fps(60)
 poke(0x5f54,0x60)
 r=rnd
 s=r(-1)
@@ -50,10 +51,10 @@ x=rnd(128)
 y=rnd(128)
 sspr(x,y,1,1,x+r({-1,0,1}),y+r({-1,0,1}),r({-1,-1,-2,-4,0,1,1,2,4}),r({-1,-1,-2,-4,0,1,1,2,4}))
 end
-if(r()>0.99)srand(s)
+if(r()>.99 or r()>.99)srand(s)
 flip()
-if(btnp(4))extcmd("screen")
-if(btnp(5))extcmd("video")
+if(btnp(🅾️))extcmd("video")
+if(btnp(❎))srand(s)
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
