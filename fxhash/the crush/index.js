@@ -223,7 +223,6 @@ function setup() {
 }
 
 
-
 function draw() {
 
   background(bgc[0],bgc[1],bgc[2],0)
