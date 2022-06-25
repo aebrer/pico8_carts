@@ -3,7 +3,7 @@ version 36
 __lua__
 r=rnd
 p=srand
-s=r(-1)p(s)poke(0x5f54,0x60)poke(24364,7)a=r(32)+58b=r(32)+58c=1poke(0x5f2d,1)::_::l=t()
+s=r(-1)p(s)poke(0x5f54,0x60)poke(24364,7)a=r(32)+58b=r(32)+58c=1poke(0x5f2d,1)::_::_set_fps(60)l=t
 for i=0,2^8do
 x=sin(l)+r()*r(a)y=sin(l)*cos(l)+r()*r(b)c+=r(1)pset(x,y,c)end
 if(r()>.96)p(s)sspr(r(3),r(3),122,122,0,0,128,128)
