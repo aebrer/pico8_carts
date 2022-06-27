@@ -16,7 +16,7 @@ end
 for i=0,16do
 circ(64,64,64+r(i),0)
 end
-if(r(f)>16)f=0
+if(r(f)>32)f=0
 f+=1flip()
 goto _
 __gfx__
