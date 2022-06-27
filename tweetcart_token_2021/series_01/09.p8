@@ -5,10 +5,10 @@ r=rnd
 s=r(-1)
 palt(0,false)
 cls()
-pal({5,6,7,134,-8},1)
+pal({5,6,7,6,5},1)
 f=0
 ::_::
-if(r()>.9and f>16)srand(s)f=0
+if(r()>.9and f>16)srand(s)
 for i=0,64do
 circ(63+r(2),63+r(2),i,(r(5)+r(5)+2)/2)
 if(r()>.9and f>16)srand(s)
@@ -16,6 +16,7 @@ end
 for i=0,16do
 circ(64,64,64+r(i),0)
 end
+if(r(f)>16)f=0
 f+=1flip()
 goto _
 __gfx__
