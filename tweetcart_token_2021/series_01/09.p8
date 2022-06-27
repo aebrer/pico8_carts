@@ -5,12 +5,15 @@ r=rnd
 s=r(-1)
 palt(0,false)
 cls()
-pal({6,7,-8},1)
+pal({5,6,7,134,-8},1)
 ::_::
+--if(r()>.9)srand(s)
+for i=0,64do
+circ(63+r(2),63+r(2),i,(r(5)+r(5)+2)/2)
 if(r()>.99)srand(s)
-circfill(64,64,46+r(4),1)
+end
 for i=0,16do
-circ(64,64,48+r(i),0)
+circ(64,64,64+r(i),0)
 end
 flip()
 goto _
