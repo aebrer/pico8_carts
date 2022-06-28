@@ -7,6 +7,10 @@ palt(0,false)
 cls()
 pal({5,6,7,6,5},1)
 f=0
+
+j=●-웃
+
+
 ::_::
 if(r()>.9and f>16)srand(s)
 for i=0,64do
@@ -15,6 +19,10 @@ if(r()>.9and f>16)srand(s)
 end
 for i=0,16do
 circ(64,64,64+r(i),0)
+end
+for i=0,64do
+p=j+r(8192)q=j+r(8192)
+memcpy(q,p,1)
 end
 if(r(f)>32)f=0
 f+=1flip()
