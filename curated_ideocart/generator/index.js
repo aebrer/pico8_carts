@@ -133,30 +133,28 @@ let water_n = 8
 
 let fin = false;
 
-
+function preload() {
+  tex = loadImage('textures/library2.png');
+}
 
 function setup() {
   
   fxrand = sfc32(...hashes)
   bgcol=c_get(colors)
   // wth = 128
-  wth = 256
+  wth =  426
+  hgt = 240
   aa=random_num(177,179)
   aa=random_num(1,180)
   filename+="_aa_"+aa.toString()
 
-  if(isFxpreview){
-    ww=2048
-    mycan = createCanvas(2048, 2048);
-  } else {
-    ww=min(windowWidth, windowHeight)
-    ww=1024
-    mycan = createCanvas(ww, ww);
-  }
-
-  pg = createGraphics(wth, wth, WEBGL);
+  ww=wth*2
+  wh=hgt*2
+  mycan = createCanvas(ww, wh);
+  pg = createGraphics(wth, hgt, WEBGL);
+  
   pg.pixelDensity(1);
-  pixelDensity(6);
+  pixelDensity(5);
   blendMode(DIFFERENCE);
   fov = PI / 8;
   cameraZ = wth;
@@ -171,7 +169,12 @@ function draw() {
   // seed looping
   // if(random_num(0,1)>0.9){fxrand = sfc32(...hashes)}
 
+
+
   if(fin){return}
+
+  // overlay texture image
+  image(tex,0,0, ww,wh, 0,0, wth*random_num(0.8,1.2),hgt*random_num(0.8,1.2))
 
   // stop render
   if(paused){
@@ -179,18 +182,24 @@ function draw() {
       //splay effect
       for (let i=0;i<splay_n;i++) {
         let x=random_int(0,ww)
-        let y=random_int(0,ww)
-        image(this, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),ww/32,ww/32, x+random_num(-ww/32,ww/32),y+random_num(-ww/32,ww/32),random_num(ww/32,ww/32),random_num(ww/32,ww/32))
+        let y=random_int(0,wh)
+        let tx = random_int(0,wth)
+        let ty = random_int(0,hgt)
+        if(random_num(0,100)>50){
+          image(tex, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, tx+random_num(-wth/32,wth/32),ty+random_num(-hgt/32,hgt/32),random_num(wth/32,wth/32),random_num(hgt/32,hgt/32))
+        } else {
+          image(this, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),random_num(ww/32,ww/32),random_num(wh/32,wh/32))
+        }
       }
 
       // water vfx
       for (let i=0;i<water_n;i++) {
-        let y=random_int(0,ww)
-        image(this, 0, y, ww, ww/1024, random_int(-5,5), y, ww, ww/1024)
+        let y=random_int(0,wh)
+        image(this, 0, y, ww, wh/1024, random_int(-5,5), y, ww, wh/1024)
       }
       for (let i=0;i<water_n;i++) {
         let x=random_int(0,ww)
-        image(this, x,0,ww/1024,ww, x,random_int(-5,5),ww/1024,ww)
+        image(this, x,0,ww/1024,wh, x,random_int(-5,5),ww/1024,wh)
       }
       shred_count+=1
     } else {
@@ -207,11 +216,11 @@ function draw() {
 
 
       // draw entity again
-      image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
+      // image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
 
       //shrink image
       let xs = ww/random_num(128,128)
-      let ys = ww/random_num(128,128)
+      let ys = wh/random_num(128,128)
       image(this, 0,0,ww,ww, xs,ys,ww-xs*2,ww-ys*2);
 
       // // mirror vfx
@@ -219,16 +228,6 @@ function draw() {
       // scale(-1,1)
       // image(pg, 0,0,-ww,ww, 0,0,-wth,wth);
       // pop()
-
-      for (i=0;i<10;i++){
-        // mirror vfx
-        push()
-        let xf=randomChoice([-1,1])
-        let yf=randomChoice([-1,1])
-        scale(xf,yf)
-        image(pg, 0,0,ww*xf,ww*yf, 0,0,wth*xf,wth*yf);
-        pop()
-      }
 
       fxpreview()
       // saveCanvas(filename.toString(),"png")
@@ -277,12 +276,12 @@ function draw() {
 
   }
 
-  image(pg, 0, 0, ww, ww, 0, 0, wth, wth);
+  image(tex, 0, 0, ww, wh, 0, 0, wth, hgt);
   
   // mirror vfx
   push()
   scale(-1,1)
-  image(pg, -ww,0,ww,ww, 0,0,wth,0);
+  image(pg, -ww,0,ww,wh, 0,0,wth,0);
   pop()
 
   aa *= 0.99
