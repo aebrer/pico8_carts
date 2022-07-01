@@ -134,7 +134,7 @@ let water_n = 8
 let fin = false;
 
 function preload() {
-  tex = loadImage('textures/library2.png');
+  tex = loadImage('textures/library3.png');
 }
 
 function setup() {
@@ -185,7 +185,7 @@ function draw() {
         let y=random_int(0,wh)
         let tx = random_int(0,wth)
         let ty = random_int(0,hgt)
-        if(random_num(0,100)>50){
+        if(random_num(0,100)>100){
           image(tex, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, tx+random_num(-wth/32,wth/32),ty+random_num(-hgt/32,hgt/32),random_num(wth/32,wth/32),random_num(hgt/32,hgt/32))
         } else {
           image(this, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),ww/32,wh/32, x+random_num(-ww/32,ww/32),y+random_num(-wh/32,wh/32),random_num(ww/32,ww/32),random_num(wh/32,wh/32))
@@ -228,6 +228,10 @@ function draw() {
       // scale(-1,1)
       // image(pg, 0,0,-ww,ww, 0,0,-wth,wth);
       // pop()
+
+  // overlay texture image
+  image(tex,0,0, ww,wh, 0,0, wth*random_num(0.8,1.2),hgt*random_num(0.8,1.2))
+
 
       fxpreview()
       // saveCanvas(filename.toString(),"png")
