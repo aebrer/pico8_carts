@@ -1,0 +1,79 @@
+What is a Tweetcart Relay?:
+
+Basically we receive a tweetcart as a 1/1 (or whatever tbh) from a friend, and we modify it to make our own tweetcart, which we then send to someone else, to continue the process. Eventually it's our hope to have many relay chains going on with many people, anyone at all who likes to make tweetcarts or wants to learn how :) . Tweetcarts must have their source code fit within one tweet.
+
+Relay Information:
+-> inspiration tweetcart: Breathing Star Gate objkt#756961 https://teia.art/objkt/756961
+-> inspiration tweetcart author: alexthescott; tz1St3n29AbYXZXV8W1BG41qYzz86J2CFAW7
+-> destination tweetcart author: carson; tz1XqJ9e6NdouxdGvm2V3aknwFnGL6Kinu6A
+
+Pico-8 Source Code:
+-> 141 Tokens, 272 Characters;
+```
+_set_fps(60)
+r=rnd
+p=srand
+q=poke
+f=0g=0v=128
+s=r(-1)p(s)c=r(12)%1+4q(0x5f54,0x60)cls()for i=0,16do pal(i,r(17)-33,1)end
+::_::
+for i=0,80do
+x=64+cos(g/v+i/80)*64y=64+sin(i/80-g/v)*60
+?line(x-r(6),y+r(6),f%c)
+end
+g+=r(.3)
+if(r()>.4)f+=.5p(s)sspr(1,1,126,126,0,0,v,v)
+goto _
+```
+
+Explanation:
+```
+_set_fps(60)
+-- set some functions to save chars
+r=rnd
+p=srand
+q=poke
+-- global context needed
+f=0g=0v=128
+-- set seed, r(-1) is random from all possible numbers
+s=r(-1)p(s)
+-- how many colors to use in this piece
+c=r(12)%1+4
+-- enable sspr to read the display
+q(0x5f54,0x60)
+cls()  -- clear screen
+for i=0,16do pal(i,r(17)-33,1)end  -- randomize palette
+::_::  -- start loop
+for i=0,80do  -- 80 gets us a nice circle, 800 is a THICK circle
+x=64+cos(g/v+i/80)*64y=64+sin(i/80-g/v)*60  -- set x and y, this is mostly Alex's doing
+?line(x-r(6),y+r(6),f%c)  -- use a line, from last line call to this one, which makes a wiggly circle
+end
+g+=r(.3)  -- increase g by a random (entropy locked) amount
+if(r()>.4)f+=.5p(s)sspr(1,1,126,126,0,0,v,v)  -- lazy entropy locking calibrated to trigger often, tied to the color cycling and the sspr call
+goto _  -- draw loop
+```
+
+To Friends and Creators:
+Want to change the code, or make a relay Tweetcart of yourself based on this one? No problem! You can find the official education edition of the Pico-8 here, for free, usable in the browser, thanks to the Pico-8 Creators lexaloffle & co: https://www.pico-8-edu.com/ . Simply press escape to get to the code editor, copy and paste the source code here into there, and press ctrl+r to run the pico8. 
+
+You can find my social ids, newsletter, and links to tutorials at aebrer.xyz . Please feel welcome to join our Neoretro Creative Coding discord, and learn together :)
+
+License:
+```
+ANTI-CAPITALIST SOFTWARE LICENSE (v 1.4)
+Copyright © 2022 aebrer
+This is anti-capitalist software, released for free use by individuals and organizations that do not operate by capitalist principles.
+Permission is hereby granted, free of charge, to any person or organization (the "User") obtaining a copy of this software and associated documentation files (the "Software"), to use, copy, modify, merge, distribute, and/or sell copies of the Software, subject to the following conditions:
+1. The above copyright notice and this permission notice shall be included in all copies or modified versions of the Software.
+2. The User is one of the following:
+a. An individual person, laboring for themselves
+b. A non-profit organization
+c. An educational institution
+d. An organization that seeks shared profit for all of its members, and allows non-members to set the cost of their labor
+3. If the User is an organization with owners, then all owners are workers and all workers are owners with equal equity and/or equal vote.
+4. If the User is an organization, then the User is not law enforcement or military, or working for or under either.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT EXPRESS OR IMPLIED WARRANTY OF ANY KIND, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+
+pico8, pico-8, tweetcart_relay, tweetcart relay, opensource, entropylocking, tweetcart, neoretro, pixelart, anticap, lofi
