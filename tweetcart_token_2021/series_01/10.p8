@@ -1,26 +1,21 @@
 pico-8 cartridge // http://www.pico-8.com
 version 36
 __lua__
-_set_fps(60)
 r=rnd
-p=srand
-q=poke
-
+g=pget
 s=r(-1)
-p(s)
+srand(s)
 cls()
 pal(0,r(16)*-1,1)
 pal(1,r(16),1)
 line(0,0,128,0,1)
-
-
 for z=0,4^6do
 for i=0,200do
 x=r(128)y=r(128)u=y+1
-v=pget(x,y)b=pget(x,u)
+v=g(x,y)b=g(x,u)
 if v!=b and v!=0 then 
 f=r(1)-.5
-if(pget(x+f,u)==0)circ(x+f,u,1,v)
+if(g(x+f,u)==0)circ(x+f,u,1,v)
 end
 end
 end
