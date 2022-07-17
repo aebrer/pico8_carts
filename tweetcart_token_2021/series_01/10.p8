@@ -6,6 +6,7 @@ g=pget
 s=r(-1)
 srand(s)
 cls()
+-- figure out better colors
 pal(0,r(16)*-1,1)
 pal(1,r(16),1)
 line(0,0,128,0,1)
