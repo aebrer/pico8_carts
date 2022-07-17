@@ -7,9 +7,12 @@ s=r(-1)
 srand(s)
 cls()
 -- figure out better colors
-pal(0,r(16)*-1,1)
-pal(1,r(16),1)
+pal(0,r(16),1)
+pal(1,r(16)*-1,1)
+pal(2,r(16),1)
 line(0,0,128,0,1)
+z=r(99)
+line(z,0,z+r(32),0,2)
 for z=0,4^6do
 for i=0,200do
 x=r(128)y=r(128)u=y+1
