@@ -8,29 +8,19 @@ q=poke
 
 s=r(-1)
 p(s)
-
-c=r(6)\1+10
-q(0x5f54,0x60)
 cls()
-for i=0,16do pal(i,r(17)-33,1)end
+pal(0,r(16)*-1,1)
+pal(1,r(16),1)
+line(0,0,128,0,1)
 
-p(s)
-for j=8,112,8do
-for n=1,112/(j+1) do
-x=r(112)y=j+r(4)-2
-rectfill(x,0,x+(y/4),y,r(c)+1)
-end
-end
 
-for z=0,1000do
-if(r()>.99)p(s)
+for z=0,4^6do
 for i=0,200do
 x=r(128)y=r(128)u=y+1
 v=pget(x,y)b=pget(x,u)
 if v!=b and v!=0 then 
-f=r(4)-2
+f=r(1)-.5
 if(pget(x+f,u)==0)circ(x+f,u,1,v)
---if(r()>.9)circfill(x+f,u,r(4),0)
 end
 end
 end
