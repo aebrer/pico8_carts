@@ -18,10 +18,14 @@ c=0
 n=r(2)
 m=r(1)
 
+-- cell width and height (/2)
+w=r(1.5)
+h=r(1.5)
+
 ::_::
 
 -- simple entropy lock
-if(r()>.94)srand(s)
+if(r()>.99)srand(s)
 
 -- slide top row to the right
 for x=128,1,-1 do
@@ -41,7 +45,7 @@ u=y+1
 v=g(x,y)
 b=g(x,u)
 if v!=b and v!=0 then f=r(n)-m
-if(g(x+f,u)==0)circ(x+f,u,1,v)end
+if(g(x+f,u)==0)oval(x+f-w,u-h,x+f+w,v+h,v)end
 end
 goto _
 __gfx__
