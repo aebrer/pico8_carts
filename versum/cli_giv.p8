@@ -1,6 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 36
 __lua__
+_set_fps(60)
 r=rnd
 g=pget
 poke(24364,7)
@@ -18,10 +19,6 @@ c=0
 n=r(2)
 m=r(1)
 
--- cell width and height (/2)
-w=r(1.5)
-h=r(1.5)
-
 ::_::
 
 -- simple entropy lock
@@ -38,15 +35,16 @@ c+=r(.01)
 -- set a seed pixel randomly
 pset(0,0,r(16))
 
-for i=0,200do
-x=r(128)
-y=r(128)
+for x=0,128do
+for y=0,128do
 u=y+1
 v=g(x,y)
 b=g(x,u)
 if v!=b and v!=0 then f=r(n)-m
-if(g(x+f,u)==0)oval(x+f-w,u-h,x+f+w,v+h,v)end
+if(g(x+f,u)==0)circ(x+f,u,1,v)end
 end
+end
+flip()
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
