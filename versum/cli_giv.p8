@@ -1,16 +1,25 @@
 pico-8 cartridge // http://www.pico-8.com
 version 36
 __lua__
+-- duh 60 fps > 30 fps
 _set_fps(60)
+
+-- lazy function redclarations
 r=rnd
 g=pget
+
+-- four way mirror
 poke(24364,7)
+
+-- get and set random seed
 s=r(-1)
 srand(s)
+
+-- randomize palette all p8 cols
 for i=0,15do pal(i,r(32)-16,1)end
+
+-- clear screen
 cls()
---poke(0x5f54,0x60)
---palt(0,false)
 
 -- color of seed pixel
 c=0
@@ -19,32 +28,47 @@ c=0
 n=r(2)
 m=r(1)
 
+-- draw loop start
 ::_::
+	-- simple entropy lock
+	if(r()>.9)srand(s)
+	
+	-- slide top row to the right
+	for x=128,1,-1 do
+		pset(x,0,g(x-1,0))
+	end
+	
+	-- increment colors
+	c+=r(.01)
+	
+	-- set a seed pixel randomly
+	pset(0,0,r(16))
+	
+	-- non-random grid sampling
+	-- would prob be nicer as a
+	-- shader
+	for x=0,128do
+		for y=0,128,2do			
+			-- interested in the color of
+			-- the pixel above
+			u=y+1
+			v=g(x,y)
+			b=g(x,u)
+			
+			-- execute cellular automata
+			if v!=b and v!=0 then 
+			 f=r(n)-m
+			 -- one pixel radius circle
+			 -- creates grid
+			 if(g(x+f,u)==0)circ(x+f,u,1,v)
+			end
+		end
+	end
+	
+	-- draw graphics buffer
+	flip()
 
--- simple entropy lock
-if(r()>.99)srand(s)
-
--- slide top row to the right
-for x=128,1,-1 do
-	pset(x,0,g(x-1,0))
-end
-
--- increment colors
-c+=r(.01)
-
--- set a seed pixel randomly
-pset(0,0,r(16))
-
-for x=0,128do
-for y=0,128do
-u=y+1
-v=g(x,y)
-b=g(x,u)
-if v!=b and v!=0 then f=r(n)-m
-if(g(x+f,u)==0)circ(x+f,u,1,v)end
-end
-end
-flip()
+-- draw loop end	
 goto _
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
