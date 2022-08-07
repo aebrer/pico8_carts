@@ -127,14 +127,14 @@ let filename = ""
 let paused = false;
 let mycan;
 let shred_count = 0;
-let splay_n = 50
-let shred_lim = 100;
-let water_n = 8
+let splay_n = 100
+let shred_lim = 200;
+let water_n = 32
 
 let fin = false;
 
 function preload() {
-  tex = loadImage('textures/library3.png');
+  tex = loadImage('textures/library_tv_4.png');
 }
 
 function setup() {
@@ -142,8 +142,8 @@ function setup() {
   fxrand = sfc32(...hashes)
   bgcol=c_get(colors)
   // wth = 128
-  wth =  426
-  hgt = 240
+  wth =  448
+  hgt = 256
   aa=random_num(177,179)
   aa=random_num(1,180)
   filename+="_aa_"+aa.toString()
@@ -223,7 +223,7 @@ function draw() {
       let ys = wh/random_num(128,128)
       image(this, 0,0,ww,ww, xs,ys,ww-xs*2,ww-ys*2);
 
-      // // mirror vfx
+      // // // mirror vfx
       // push()
       // scale(-1,1)
       // image(pg, 0,0,-ww,ww, 0,0,-wth,wth);
@@ -282,7 +282,7 @@ function draw() {
 
   image(tex, 0, 0, ww, wh, 0, 0, wth, hgt);
   
-  // mirror vfx
+  // // mirror vfx
   push()
   scale(-1,1)
   image(pg, -ww,0,ww,wh, 0,0,wth,0);
