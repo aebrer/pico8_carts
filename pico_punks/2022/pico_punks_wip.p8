@@ -119,9 +119,9 @@ function init()
  pal(fg,bgfg[2],1)
 
  main_skin = q()
- while main_skin == bgfg[1] do 
-  main_skin = q()
- end
+ -- while main_skin == bgfg[1] do 
+ --  main_skin = q()
+ -- end
  pal(skin1,main_skin,1)
  pal(skin2,bgfg[2],1)
  blemish_prob = rnd(0.2)
@@ -135,16 +135,16 @@ function init()
  
 
  main_hair = q()
- while (main_hair == main_skin or
-  main_hair == bgfg[1]) do 
-  main_hair = q()
- end
+ -- while (main_hair == main_skin or
+ --  main_hair == bgfg[1]) do 
+ --  main_hair = q()
+ -- end
  pal(hair_c,main_hair,1)
 
  main_mouth = q()
- while main_mouth == main_skin do 
-  main_mouth = q()
- end
+ -- while main_mouth == main_skin do 
+ --  main_mouth = q()
+ -- end
  pal(mouth1,main_mouth,1)
  pal(mouth2,q(),1)
 
