@@ -14,6 +14,54 @@ seed = r(-1)
 function q()return flr(rnd(32)-16)end
 
 
+-- noise
+function noise()
+ local amt = rnd(5)
+ if amt >= 1 then
+  for i=0,amt*amt do
+   poke(
+       0x6000+rnd(0x2000),
+       peek(rnd(0x7fff)))
+   poke(
+       0x6000+rnd(0x2000),
+       rnd(0xff))
+  end
+ end
+end
+
+-- memory fuckery
+function mem_fuck()
+ screen_mem_start=●-웃
+ for i=0,rnd(1000)+500 do
+  d=rnd(8191)
+  poke(
+   screen_mem_start+d+(rnd()*rnd_sign()), -- write to this position, if the button is pressed shift by -0.5
+   @(screen_mem_start+d-64*(mid(1,(rnd()-.5)/0)*2-1)+(rnd()*rnd_sign()))  -- peek @ this position, last part is to get 1 or -1
+  )  
+ end
+end
+
+-- glitch
+function glitch()
+ local gr = rnd(2)
+ if gr >= 1 then 
+  local on=(t()*4.0)%gr<0.1
+  local gso=on and 0 or rnd(0x1fff)\1
+  local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
+  for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
+   poke(a,peek(a+2),peek(a-1)+(rnd(3)))
+  end
+ end
+end
+
+vfxs = {
+ noise,
+ mem_fuck,
+ glitch
+}
+
+
+
 function rnd_sign()
  if rnd(1) >= 0.5 then
   return(-1)
@@ -98,10 +146,15 @@ blemish_prob = 0.2
 fc = 0
 fclim = 2^4
 
+-- vfx
+vfx = nil
+
 
 function init()
 
  srand(seed)
+
+ vfx = r(vfxs)
 
  fc=0
 
@@ -167,7 +220,7 @@ cls()
 
 ::_::
 
-if(rnd()>.9)srand(seed)
+if(rnd()>.8)srand(seed)
 
 
 -- hair bg
@@ -232,7 +285,7 @@ end
 
 
 -- head
-for i=0,10 do 
+for i=0,5 do 
  if (rnd() > blemish_prob) c=skin1 else c=skin2
  x = 57 + rnd(18) * rnd_sign()
  y = 69 + rnd(25) * rnd_sign()
@@ -240,7 +293,7 @@ for i=0,10 do
 end
 
 -- neck
-for i=0,10 do 
+for i=0,4 do 
  if (rnd() > blemish_prob) c=skin1 else c=skin2
  x = 44 + rnd(6) * rnd_sign()
  y = 112 + rnd(17) * rnd_sign()
@@ -274,7 +327,7 @@ end
 
 -- eyepatch
 if rnd() < eyepatch_prob then
- for i=0,10 do 
+ for i=0,3 do 
   x = 48 + rnd(3) * rnd_sign()
   y = 60 + rnd(5) * rnd_sign()
   ?"\^i"..chr(rnd(240)\1+16),x,y,0
@@ -290,46 +343,46 @@ if not bald then
  -- hairstyle 1
  -- hair bg
  if hair_type < 20 then
-  for i=0,30 do 
+  for i=0,r(3) do 
   x = 57 + rnd(20) * rnd_sign()
   y = 29 + rnd(15) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif hair_type < 40 then
-  for i=0,15 do 
+  for i=0,r(3) do 
   x = 55 + rnd(18) * rnd_sign()
   y = 37 + rnd(2) * rnd_sign()
   ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,5 do 
+  for i=0,r(3) do 
   x = 55 + rnd(29)
   y = 44 - rnd(3) - (x*0.1)
   ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif hair_type < 50 then
-  for i=0,15 do 
+  for i=0,r(3) do 
   x = 55 + rnd(20) * rnd_sign()
   y = 39 + rnd(2) * rnd_sign()
   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,10 do 
+  for i=0,r(3) do 
   x = 30 + rnd(4)
   y = 39 + rnd(70)
   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif hair_type < 55 then
-  for i=0,15 do 
+  for i=0,r(3) do 
   x = 55 + rnd(20) * rnd_sign()
   y = 37 + rnd(2) * rnd_sign()
   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,10 do 
+  for i=0,r(3) do 
   x = 30 + rnd(4)
   y = 36 + rnd(70)
   ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif hair_type < 60 then
-  for i=0,1 do 
+  for i=0,r(3) do 
   y = 47 - rnd(30)
   x = 30 + rnd(3) + (y*0.2)
   ?chr(rnd(240)\1+16),x,y,hair_c
@@ -343,97 +396,97 @@ if not bald then
   if (rnd() > 0.7) hair_style = "\^i"
 
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 40 - rnd(10)
   x = 15 + rnd(1) + (y*0.55)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 40 - rnd(15)
   x = 20 + rnd(1) + (y*0.5)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 40 - rnd(20)
   x = 25 + rnd(1) + (y*0.45)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 40 - rnd(25)
   x = 30 + rnd(1) + (y*0.4)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 35 + rnd(1) + (y*0.35)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 40 + rnd(1) + (y*0.3)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
   
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 45 + rnd(1) + (y*0.25)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 50 + rnd(1) + (y*0.20)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 55 + rnd(1) + (y*0.15)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 60 + rnd(1) + (y*0.1)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 65 + rnd(3) + (y*0.05)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 70 + rnd(3) + (y*0.00)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 75 + rnd(3) - (y*0.05)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 80 + rnd(3) - (y*0.1)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
 
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 85 + rnd(3) - (y*0.2)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
   end
   
-  for i=0,3 do 
+  for i=0,r(2) do 
   y = 42 - rnd(30)
   x = 90 + rnd(2) - (y*0.3)
   ?hair_style..chr(rnd(240)\1+16),x,y,hair_c
@@ -441,13 +494,13 @@ if not bald then
 
  elseif hair_type <= 100 then
   -- head
-  for i=0,50 do 
+  for i=0,r(3) do 
    x = 57 + rnd(18) * rnd_sign()
    y = 69 + rnd(25) * rnd_sign()
    ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
   end
   -- neck
-  for i=0,20 do 
+  for i=0,r(3) do 
    x = 44 + rnd(6) * rnd_sign()
    y = 112 + rnd(17) * rnd_sign()
    ?"\^i"..chr(rnd(240)\1+16),x,y,hair_c
@@ -460,46 +513,46 @@ if rnd() < beard_prob then
  beard_type = rnd(5)\1+1
  -- beard_type = 4
  if beard_type == 1 then
-  for i=0,5 do 
+  for i=0,r(3) do 
   x = 57 + rnd(25) * rnd_sign()
   y = 88 + rnd(10) * rnd_sign()
   ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 2 then
-  for i=0,5 do 
+  for i=0,r(3) do 
   x = 50 + rnd(25)
   y = 77 
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 3 then
-  for i=0,3 do 
+  for i=0,r(3) do 
   x = 57 + rnd(8) * rnd_sign()
   y = 77 + rnd(1) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,2 do 
+  for i=0,r(3) do 
   x = 50 + rnd(1) * rnd_sign()
   y = 83 + rnd(7) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,2 do 
+  for i=0,r(3) do 
   x = 70 + rnd(1) * rnd_sign()
   y = 83 + rnd(7) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 4 then
-  for i=0,3 do 
+  for i=0,r(3) do 
   y = 99 + rnd(5) * rnd_sign()
   x = 34 + rnd(3) * rnd_sign() + (0.33*y)
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 5 then
-  for i=0,2 do 
+  for i=0,r(3) do 
   x = 57 + rnd(20) * rnd_sign()
   y = 88 + rnd(10) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,2 do 
+  for i=0,r(3) do 
   y = 100 + rnd(20) * rnd_sign()
   x = 40 + rnd(15) * rnd_sign() + (0.29*y)
   ?chr(rnd(240)\1+16),x,y,hair_c
@@ -509,41 +562,8 @@ if rnd() < beard_prob then
 end
 
 
--- noise
-
-local amt = rnd(5)
-if amt >= 1 then
- for i=0,amt*amt do
-  poke(
-      0x6000+rnd(0x2000),
-      peek(rnd(0x7fff)))
-  poke(
-      0x6000+rnd(0x2000),
-      rnd(0xff))
- end
-end
-
--- memory fuckery
-screen_mem_start=●-웃
-for i=0,rnd(1000)+500 do
- d=rnd(8191)
- poke(
-  screen_mem_start+d+(rnd()*rnd_sign()), -- write to this position, if the button is pressed shift by -0.5
-  @(screen_mem_start+d-64*(mid(1,(rnd()-.5)/0)*2-1)+(rnd()*rnd_sign()))  -- peek @ this position, last part is to get 1 or -1
- )  
-end
-
--- glitch
-
-local gr = rnd(2)
-if gr >= 1 then 
- local on=(t()*4.0)%gr<0.1
- local gso=on and 0 or rnd(0x1fff)\1
- local gln=on and 0x1ffe or rnd(0x1fff-gso)\16
- for a=0x6000+gso,0x6000+gso+gln,rnd(16)\1 do
-  poke(a,peek(a+2),peek(a-1)+(rnd(3)))
- end
-end
+-- do the vfx for this punk
+vfx()
 
 
 if (fc < fclim)fc+=1 goto _
