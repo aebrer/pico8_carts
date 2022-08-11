@@ -550,11 +550,12 @@ if (fc < fclim)fc+=1 goto _
 
 -- listen for inputs
 while true do
- if(btnp(⬆️))seed+=.001init()goto _
- if(btnp(⬇️))seed-=.001init()goto _
- if(btnp(⬅️))seed+=1init()goto _
- if(btnp(➡️))seed-=1init()goto _
+ if(btnp(⬆️))seed+=.0001init()goto _
+ if(btnp(⬇️))seed-=.0001init()goto _
+ if(btnp(⬅️))seed-=1init()goto _
+ if(btnp(➡️))seed+=1init()goto _
  if(btnp(❎))extcmd("screen")flip()goto _
+ if(btnp(🅾️))cls()init() goto _
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
