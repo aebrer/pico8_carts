@@ -32,7 +32,7 @@ end
 -- memory fuckery
 function mem_fuck()
  screen_mem_start=●-웃
- for i=0,rnd(1000)+500 do
+ for i=0,rnd(5000)+500 do
   d=rnd(8191)
   poke(
    screen_mem_start+d+(rnd()*rnd_sign()), -- write to this position, if the button is pressed shift by -0.5
@@ -220,7 +220,7 @@ cls()
 
 ::_::
 
-if(rnd()>.8)srand(seed)
+if(rnd()>.99)srand(seed)
 
 
 -- hair bg
