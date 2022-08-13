@@ -13,6 +13,20 @@ seed = r(-1)
 
 function q()return flr(rnd(32)-16)end
 
+function g()return r(4)-r(4)end
+
+function ideocart()
+	poke(0x5f54,0x60)
+	for i=0,2^4do
+	 x=r(88)+20y=r(88)+20
+	 if r()>0.5 then
+	  sspr(x+g(),y+g(),8,8,y+g(),x+g(),r(4)+7,r(4)+7)
+	 else
+	  sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),r(4)+7,r(4)+7)
+	 end
+	end
+	poke(0x5f54,0x00)
+end
 
 -- noise
 function noise()
@@ -57,19 +71,31 @@ end
 -- shrink screen
 function shrink()
  poke(0x5f54,0x60)
- for i=0,r(2^2) do
-  if(r()>.1)sspr(0,0,128,128,2,2,124,124)
-  sspr(r(128),0,r(5),128,0,r(128),128,r(5))
- end
+ if(r()>.2)sspr(0,0,128,128,2,2,124-r(2),124+r(2)-r(2))
+ --sspr(r(128),0,r(5),128,0,r(128),128,r(5))
+ poke(0x5f54,0x00)
 end
 
-
+function expand()
+ poke(0x5f54,0x60)
+ if(r()>.9)sspr(2,2,124+r(2)-r(2),124+r(2)-r(2),0,0,128,128)
+ poke(0x5f54,0x00)
+end
 
 vfxs = {
  noise,
+ noise,
+ mem_fuck,
+ mem_fuck,
  mem_fuck,
  glitch,
- shrink
+ glitch,
+ glitch,
+ glitch,
+ glitch,
+ shrink,
+-- expand,
+ ideocart
 }
 
 
@@ -167,7 +193,6 @@ function init()
  srand(seed)
 
  vfx = r(vfxs)
-
  fc=0
 
  red_check = r()>0.999
@@ -234,6 +259,8 @@ cls()
 
 if(rnd()>.99)srand(seed)
 
+-- do the vfx for this punk
+vfx()
 
 -- hair bg
 if not bald then
@@ -572,11 +599,6 @@ if rnd() < beard_prob then
  end
 
 end
-
-
--- do the vfx for this punk
-vfx()
-
 
 if (fc < fclim)fc+=1 goto _
 
