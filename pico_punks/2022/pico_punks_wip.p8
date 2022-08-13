@@ -32,7 +32,7 @@ end
 -- memory fuckery
 function mem_fuck()
  screen_mem_start=●-웃
- for i=0,rnd(5000)+500 do
+ for i=0,rnd(2000)+500 do
   d=rnd(8191)
   poke(
    screen_mem_start+d+(rnd()*rnd_sign()), -- write to this position, if the button is pressed shift by -0.5
@@ -54,10 +54,22 @@ function glitch()
  end
 end
 
+-- shrink screen
+function shrink()
+ poke(0x5f54,0x60)
+ for i=0,r(2^2) do
+  if(r()>.1)sspr(0,0,128,128,2,2,124,124)
+  sspr(r(128),0,r(5),128,0,r(128),128,r(5))
+ end
+end
+
+
+
 vfxs = {
  noise,
  mem_fuck,
- glitch
+ glitch,
+ shrink
 }
 
 
