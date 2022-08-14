@@ -184,6 +184,19 @@ blemish_prob = 0.2
 fc = 0
 fclim = 2^4
 
+-- demo mode
+demo_mode=false
+demo_count=0
+
+function toggle_demo_mode()
+ demo_mode = not demo_mode
+ seed += 1
+ cls()
+ init()
+ flip()
+ return false
+end
+
 -- vfx
 vfx = nil
 
@@ -198,6 +211,7 @@ function init()
  red_check = r()>0.999
 
  menuitem(1,"seed: "..seed)
+ menuitem(2,"demo_mode: "..tostr(demo_mode),toggle_demo_mode)
 
  bgfg = {q(),q()}
  while bgfg[1]==bgfg[2] do 
@@ -256,6 +270,7 @@ init()
 cls()
 
 ::_::
+
 
 if(rnd()>.99)srand(seed)
 
@@ -604,12 +619,25 @@ if (fc < fclim)fc+=1 goto _
 
 -- listen for inputs
 while true do
- if(btnp(⬆️))seed+=.0001init()goto _
- if(btnp(⬇️))seed-=.0001init()goto _
- if(btnp(⬅️))seed-=1init()goto _
- if(btnp(➡️))seed+=1init()goto _
- if(btnp(❎))extcmd("screen")flip()goto _
- if(btnp(🅾️))cls()init() goto _
+ 
+ if demo_mode then
+  if (t()*100\1)%1000==0 then
+   demo_count += 1
+   if(demo_count>=10)extcmd("screen")demo_count=0cls()
+   seed+=1
+   init()
+   flip()
+   goto _
+  end
+ end
+
+ if(btnp(⬆️))seed+=.0001init()demo_mode=false flip()goto _
+ if(btnp(⬇️))seed-=.0001init()demo_mode=false flip()goto _
+ if(btnp(⬅️))seed-=1init()demo_mode=false flip()goto _
+ if(btnp(➡️))seed+=1init()demo_mode=false flip()goto _
+ if(btnp(❎))extcmd("screen")demo_mode=false flip()goto _
+ if(btnp(🅾️))cls()init()demo_mode=false flip()goto _
+ 
 end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
