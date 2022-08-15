@@ -188,6 +188,9 @@ fclim = 2^4
 demo_mode=false
 demo_count=0
 
+-- help screen
+need_help = true
+
 function toggle_demo_mode()
  demo_mode = not demo_mode
  seed += 1
@@ -270,6 +273,42 @@ init()
 cls()
 
 ::_::
+
+if need_help then
+ 
+ cls()
+
+ print("controls and guide:")
+ print("\n")
+ print("pico_punk_compositions.p8 is all")
+ print("about layers. each pico_punk you")
+ print("visit, adds another layer.")
+ print("\n")
+ print("each pico_punk has a unique seed")
+ print("each change is irreversable.")
+ print("explore and have fun!")
+ print("\n")
+ print("⬆️: seed += 0.0001")
+ print("⬇️: seed -= 0.0001")
+ print("➡️: seed += 1.0000")
+ print("⬅️: seed -= 1.0000")
+ print("❎: take a screenshot")
+ print("🅾️: clear the screen")
+ print("\n")
+
+ print("press any button to begin")
+ -- press any button to leave help page
+ if btnp(⬆️) or btnp(⬇️) or btnp(⬅️) or btnp(➡️) or btnp(❎) or btnp(🅾️) then
+  need_help = false
+  cls()
+  flip()
+ end
+
+ flip()
+ 
+
+ goto _
+end
 
 
 if(rnd()>.99)srand(seed)
