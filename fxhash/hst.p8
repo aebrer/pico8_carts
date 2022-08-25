@@ -6,7 +6,8 @@ s=1
 for i=1,#w do
 ch=ord(sub(w,i,i))s+=s*31+ch
 end
-if(#w==0)s=rnd(-1)srand(s)
+if(#w==0)s=rnd(-1)
+srand(s)
 _set_fps(60)
 poke(0x5f54,0x60)r=rnd
 c=cos
