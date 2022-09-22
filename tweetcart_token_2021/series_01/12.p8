@@ -3,13 +3,21 @@ version 37
 __lua__
 cls()
 r=rnd
+s=r(-1)
+srand(s)
+for i=0,15do pal(i,r(32)-16,1)end
 for i=0,99do
 x=r(128)y=r(128)
 circfill(x,y,r(4))
 circ(64,64,sin(x)*cos(y)*r(x))
 line(64,64,x,y)
 for j=0,9do
+if(r()>.99)srand()
 a=●-웃+r(8192)memcpy(a,a+r(10)-5,r(10))
+end
+for i=0,999do
+x=r(128)y=r(128)
+pset(x-2+r(4),y-2+r(4),pget(x,y)-1)
 end
 end
 ::_::goto _
