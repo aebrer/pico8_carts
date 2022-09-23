@@ -1,17 +1,17 @@
 pico-8 cartridge // http://www.pico-8.com
-version 37
+version 38
 __lua__
 cls()
 r=rnd
-poke(24364,5)
+poke(24364,r({5,6,7}))
 for i=0,15,2do a=r(32)-16pal(i,a,1)pal(i+1,-a,1)end
 for i=0,99do
-x=r(128)y=r(128)
-circfill(x,y,r(4))
+x=8+r(112)y=8+r(112)
+circfill(x,y,r(8),r(16))
 circ(64,64,sin(x)*cos(y)*r(x))
 line(64,64,x,y)
 end
-for i=0,2^14do
+for i=0,7000do
 x=r(128)y=r(128)
 pset(x-2+r(4),y-2+r(4),pget(x,y)-1)
 end
