@@ -97,7 +97,6 @@ let c;
 let calt;
 let prim_col_dir;
 let sec_col_dir;
-let xfac;
 let noaa;
 let nostroke;
 let loop_count=0;
@@ -111,7 +110,6 @@ function setup() {
 
   prim_col_dir=false;
   sec_col_dir=false;
-  xfac=8.5
   noaa=true
 
   fxrand = sfc32(...hashes)
@@ -143,12 +141,8 @@ function setup() {
   
   if (initial_run) {
 
-        // bgc=[random_int(0,360),random_int(0,100),random_int(0,100),random_num(0,1)]
-        // window.$fxhashFeatures["Background"]="Random"
-        bgc=[0,100,100,1]
-        window.$fxhashFeatures["Background"]="White"
-      //   bgc=[0,0,0,1]
-      //   window.$fxhashFeatures["Background"]="Black"
+    bgc=[random_int(0,360),random_int(0,100),random_int(0,100),random_num(0,1)]
+    //bgc=[0,0,0,1]
       
   }
 
@@ -176,7 +170,7 @@ function setup() {
   console.log([dd,pd,df,ww,wh,wth,hgt])
   pixelDensity(df);
   blendMode(DIFFERENCE);
-  noSmooth(false);
+  noSmooth();
   pg.background(bgc);
   
   if (nostroke) {
@@ -195,7 +189,7 @@ function setup() {
 
 function draw() {
 
-  // background(bgc[0],bgc[1],bgc[2],0)
+  background(bgc[0],bgc[1],bgc[2],0)
   
   // entropy locking
   // if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
@@ -206,17 +200,18 @@ function draw() {
   if(hc>hgt+10){
     hc = -wth
     loop_count += 1
-    hashes = (random_num(0,1) + loop_count).toString(36).substring(7);
+    hashes = (random_num(0,1) + loop_count).toString(36).substring(2);
     console.log(hashes)
     // blendMode(randomChoice([DIFFERENCE, BLEND]))
     prim_col_dir = !prim_col_dir
     sec_col_dir = !sec_col_dir
   }
 
+  if(loop_count>15){fxpreview()}
+
   // initial pixelart rendering 
 
   x=0
-  xfac=7
   for (i=-wth-(wth/10);i<=2*wth+(wth+10);i++) {
 
    let col;
@@ -243,7 +238,6 @@ function draw() {
 
    
   }
-  // if(frameCount%10==0)image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
   image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
 
   // tx="Rendering Initial Pixelart: " + Math.round(hc/(hgt+10)*100) + " % done"
@@ -253,7 +247,7 @@ function draw() {
   if (prim_col_dir) {
     c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
   } else {
-    c = [c[0],c[1]*random_num(0.999,0.9999),c[2]*random_num(0.993,0.999),c[3]]
+    c = [c[0],c[1]*random_num(0.999,0.9999),c[2]*random_num(0.995,0.999),c[3]]
   }
   
   hc += random_int(1,7)
