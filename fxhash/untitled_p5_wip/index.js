@@ -7,10 +7,6 @@ F11 -> fullscreen mode (alternatively you should be able to do this from your br
 s -> save a png of the image
 1-8 -> set the pixel density and re-render (default is 2, higher means higher resolution final image; the preview image is generated with a value of 5, at 1080x1080px)
 m -> toggle mobile/compatibility mode and re-render
-w -> re-render with a white background
-b -> re-render with a black background
-t -> re-render with a transparent background
-r -> re-render with a random background
 
 ------------------
 
@@ -80,7 +76,7 @@ let shred_count;
 let shred_lim;
 let splay_n;
 let water_n;
-let pd=2;
+let pd=5;
 let dd;
 let bgc;
 let initial_run=true;
@@ -90,9 +86,6 @@ let mycan;
 let tx;
 
 //fxhash features
-let recursive_shred;
-let hori_tear;
-let vert_tear;
 let c;
 let calt;
 let prim_col_dir;
@@ -116,19 +109,14 @@ function setup() {
   
 
   // tweak the palette for a bit of variation
-  c = [random_int(0,360),100,100,1]
+  c = [random_int(0,360),random_num(25,100),100,1]
   calt = randomChoice([0,10,15,25,45,90,120,180,225,270])
-  window.$fxhashFeatures["Primary Hue"] = c[0]
-  window.$fxhashFeatures["Hue Offset"] = calt
 
   // color direction
   if (random_num(0,1)>.5){
     prim_col_dir=true
-    window.$fxhashFeatures["Primary Color Direction"] = "Increasing"
-    c[1]=25
-    c[2]=50
-  } else {
-    window.$fxhashFeatures["Primary Color Direction"] = "Decreasing"
+    // c[1]=25
+    // c[2]=50
   }
 
     // color direction
@@ -166,7 +154,7 @@ function setup() {
 
   dd=displayDensity()
   let df = Math.ceil(dd * pd * 0.5)
-  if(is_mobile){df/=3}
+  //if(is_mobile){df/=3}
   console.log([dd,pd,df,ww,wh,wth,hgt])
   pixelDensity(df);
   blendMode(DIFFERENCE);
@@ -233,8 +221,8 @@ function draw() {
    x%=wth
    
    // pg.ellipse(x, y, random_int(-5,5), random_int(-5,5))
-   pg.rect(x, y, random_int(-1,1), random_int(-5,5))
-   pg.rect(x, y, random_int(-5,5), random_int(-1,1))
+   pg.rect(x, y, random_int(-1,1)*randomChoice([0,0.5,1,1,2,5]), random_int(-5,5)*randomChoice([0,0.5,1,1,2,5]))
+   pg.rect(x, y, random_int(-5,5)*randomChoice([0,0.5,1,1,2,5]), random_int(-1,1)*randomChoice([0,0.5,1,1,2,5]))
 
    
   }
@@ -259,7 +247,7 @@ function draw() {
 // ux
 function keyTyped() {
   if (key === 's') {
-    save(mycan, "ELSRRFFGTS_DTB_.png")
+    save(mycan, "export_.png")
   } else if (key === "1") {
     pd=1
     setup()
@@ -283,27 +271,6 @@ function keyTyped() {
     setup()
   } else if (key === "8") {
     pd=8
-    setup()
-  } else if (key === "t") {
-    initial_run=false
-    bgc=[0,0,0,0]
-    setup()
-  } else if (key === "w") {
-    initial_run=false
-    bgc=[0,100,100,1]
-    setup()
-  } else if (key === "b") {
-    bgc=[0,0,0,1]
-    initial_run=false
-    setup()
-  } else if (key === "r") {
-    bgc=[random_int(0,360),random_int(0,100),random_int(0,100),random_num(0,1)]
-    console.log(bgc)
-    initial_run=false
-    setup()
-  } else if (key === "m") {
-    is_mobile=!is_mobile
-    initial_run=false
     setup()
   } 
 }
