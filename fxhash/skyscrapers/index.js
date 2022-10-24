@@ -127,7 +127,7 @@ function setup() {
 
   dd=displayDensity()
   let df = Math.ceil(dd * pd * 0.5)
-  //if(is_mobile){df/=3}
+  if(is_mobile){df/=3}
   console.log([dd,pd,df,ww,wh,wth,hgt])
   pixelDensity(df);
   blendMode(DIFFERENCE);
