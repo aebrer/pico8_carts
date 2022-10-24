@@ -188,7 +188,12 @@ function draw() {
   if(hc>hgt+10){
     hc = -wth
     loop_count += 1
-    hashes = (random_num(0,1) + loop_count).toString(36).substring(2);
+
+    fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
+    b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
+    fxhashTrunc = fxhash.slice(2)
+    regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
+    hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
     console.log(hashes)
     // blendMode(randomChoice([DIFFERENCE, BLEND]))
     prim_col_dir = !prim_col_dir
