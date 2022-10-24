@@ -38,6 +38,7 @@ let is_mobile = window.matchMedia("(any-hover: none)").matches
 // hashes = "hriirieiririiiritiififiviviifj"
 // if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
+window.$fxhashFeatures = {}
 
 //PGrahics object
 let pg;
@@ -50,10 +51,6 @@ let wh;
 let x;
 let y;
 let col;
-let shred_count;
-let shred_lim;
-let splay_n;
-let water_n;
 let pd=5;
 let dd;
 let bgc;
@@ -67,9 +64,9 @@ let c;
 let calt;
 let prim_col_dir;
 let sec_col_dir;
-let noaa;
 let nostroke;
 let loop_count=0;
+let locking_method;
 
 function setup() {
   
@@ -79,7 +76,6 @@ function setup() {
 
   prim_col_dir=false;
   sec_col_dir=false;
-  noaa=true
 
   fxrand = sfc32(...hashes)
   
@@ -104,7 +100,8 @@ function setup() {
 
     bgc=[random_int(0,360),random_int(0,100),random_int(0,100),random_num(0,1)]
     //bgc=[0,0,0,1]
-      
+    locking_method = randomChoice(["Random Chance", "Consistent by Frame Count", "None"])
+    window.$fxhashFeatures["Entropy Locking Method"] = locking_method
   }
 
   if(isFxpreview){
@@ -133,16 +130,10 @@ function setup() {
   blendMode(DIFFERENCE);
   noSmooth();
   pg.background(bgc);
-  
-  if (nostroke) {
-    pg.noStroke()
-  } else {
-    pg.stroke(bgc)
-  }
-
   pg.strokeWeight(1)  
 
   loop();
+  console.table(window.$fxhashFeatures)
 
 }
 
@@ -152,10 +143,14 @@ function draw() {
   background(bgc[0],bgc[1],bgc[2],0)
   
   // entropy locking
-  // if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
-  // if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
-  if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
 
+  if (locking_method == "Random Chance") {
+    if (random_int(1,1000)>800){fxrand=sfc32(...hashes);pg.clear()}
+  } else if (locking_method == "Consistent by Frame Count") {
+    if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
+  } else if (locking_method == "None") {
+    if(frameCount%5==0){pg.clear()}
+  }
 
   if(hc>hgt+10){
     hc = -wth
@@ -172,7 +167,7 @@ function draw() {
     sec_col_dir = !sec_col_dir
   }
 
-  if(loop_count>15){fxpreview()}
+  if(loop_count>16){fxpreview()}
 
   // initial pixelart rendering 
 
