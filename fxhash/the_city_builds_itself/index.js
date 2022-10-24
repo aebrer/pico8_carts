@@ -6,34 +6,12 @@ Controls:
 F11 -> fullscreen mode (alternatively you should be able to do this from your browser menu)
 s -> save a png of the image
 1-8 -> set the pixel density and re-render (default is 2, higher means higher resolution final image; the preview image is generated with a value of 5, at 1080x1080px)
-m -> toggle mobile/compatibility mode and re-render
 
 ------------------
 
-Everything in this sketch is primarily driven by the use of uniform random noise. Entropy locking refers to a technique used to limit the sampling space of this random noise, artificially constraining it to a restricted set of still totally random values, in an unpredictable way. Specifically, these two lines are used for this in this sketch:
-
-```
-if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
-if (random_int(1,1000)>997)fxrand=sfc32(...hashes)
-```
-
-Basically, if a certain random condition is met (3/1000 odds), the pseudorandom number generator will have its seed reset. The combination of the bog standard technique of controlling randomness via resetting the random seed, and the decision to do it at random, in a way controlled by the random seed, creates interesting recursive structures in the "entropy-space" of the sketch. Sometimes these will be extremely short loops, sometimes they remain unstable and never repeat. Sometimes, they get trapped in a loop, only for something to change in the drawing, reaching some mysterious threshold of difference that causes a new random number to be generated, breaking free from the temporary loop and becoming "more random" again. 
-
-More recursion and self-reference is included throughout the sketch. A recursive "shredding" process is used to render small samples of the image back onto itself, either smaller or larger. A similar technique is used to create the horizontal or vertical "tears" that slice up the screen. These create feed-forward loops where pixel information stored on the screen is used to generate the next change to the image. When the pixel density is high enough (controllable via buttons 1-8 on the keyboard), immense and complicated structures arise in the minute details. An almost fractal-like pattern arises due to the intersection of the recursive nature of these feed-forward loops, and the recursive nature of the seed-loops created by entropy locking. Additionally, the textures are allowed to propagate in an interesting way, due to the use of transparent backgrounds.
-
-Similarly, the color and positioning of the underlying pixelart is also controlled strictly through randomization and self-reference.
-
-The image is rendered in the flat 2D engine, rather than WEBGL, because the weird pixel artifacts it creates (especially at ultra-high resolution) are very satisfying to me visually, even though I don't yet fully understand them.
-
-
-I HIGHLY encourage you to increase the pixel density, and export an ultra-high render of your output, if you have a PC capable of it.
-
-
-
-Thanks for reading :)
 find my social links, projects, newsletter, roadmap, and more, at aebrer.xyz
 or 
-minted on Teia.art by tz1ZBMhTa7gxSpaeXoqyc6bTCrxEHfZYSpPt
+minted by tz1ZBMhTa7gxSpaeXoqyc6bTCrxEHfZYSpPt
 
 license: CC0 -> go nuts; citations not required but definitely appreciated
 
@@ -80,7 +58,6 @@ let pd=5;
 let dd;
 let bgc;
 let initial_run=true;
-window.$fxhashFeatures = {}
 
 let mycan;
 let tx;
@@ -99,7 +76,6 @@ function setup() {
   x=-16;
   y=-16;
   need_preview=true;
-  window.$fxhashFeatures = {}
 
   prim_col_dir=false;
   sec_col_dir=false;
@@ -122,9 +98,6 @@ function setup() {
     // color direction
   if (random_num(0,1)>.5){
     sec_col_dir=true
-    window.$fxhashFeatures["Secondary Color Direction"] = "Same"
-  } else {
-    window.$fxhashFeatures["Secondary Color Direction"] = "Different"
   }
   
   if (initial_run) {
@@ -169,7 +142,6 @@ function setup() {
 
   pg.strokeWeight(1)  
 
-  console.table(window.$fxhashFeatures)
   loop();
 
 }
@@ -205,7 +177,7 @@ function draw() {
   // initial pixelart rendering 
 
   x=0
-  for (i=-wth-(wth/10);i<=2*wth+(wth+10);i++) {
+  for (i=-wth-(wth/10);i<=2*wth+(wth+10);i=i+3) {
 
    let col;
    if(random_num(0,1)>0.5){
@@ -238,9 +210,9 @@ function draw() {
 
   // more layers of randomization, susceptible to entropy locking
   if (prim_col_dir) {
-    c = [c[0],c[1]*random_num(1.0001,1.001),c[2]*random_num(1.0005,1.001),c[3]]
+    c = [c[0],min(c[1]*random_num(1.0001,1.001), 100),min(c[2]*random_num(1.0005,1.001), 100),c[3]]
   } else {
-    c = [c[0],c[1]*random_num(0.999,0.9999),c[2]*random_num(0.995,0.999),c[3]]
+    c = [c[0],max(c[1]*random_num(0.999,0.9999),15),max(c[2]*random_num(0.995,0.999),15),c[3]]
   }
   
   hc += random_int(1,7)
