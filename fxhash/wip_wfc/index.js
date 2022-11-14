@@ -37,7 +37,6 @@ function get_new_hashes() {
   fxhashTrunc = fxhash.slice(2)
   regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
   hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
-  console.log(hashes)
   return hashes
 }
 
@@ -114,13 +113,26 @@ function get_possible_colors(col) {
 
   let possible_colors = []
   // hue transformations modulo 360
-  let possible_hue_transforms = [5,10,15,20,180]
+  let possible_hue_transforms = [1,2,3]
   // add a negative version for each hue transformation
   possible_hue_transforms = possible_hue_transforms.concat(possible_hue_transforms.map(x => -x))
   // for each hue transformation, add the transformed hue to the possible_hues
   let possible_hues = possible_hue_transforms.map(x => (h+x+360)%360)
-  let possible_saturations = [s, s+1, s-1, s+2, s-2, s+3, s-3]
-  let possible_brightnesses = [b, b+1, b-1, b+2, b-2, b+3, b-3]
+
+
+  // hue transformations modulo 100
+  let possible_saturation_transforms = [1,2,3]
+  // add a negative version for each hue transformation
+  possible_saturation_transforms = possible_saturation_transforms.concat(possible_saturation_transforms.map(x => -x))
+  // for each saturation transformation, add the transformed saturation to the possible_saturations
+  let possible_saturations = possible_saturation_transforms.map(x => (s+x+100)%100)
+
+  // brightness transformations modulo 100
+  let possible_brightness_transforms = [1,2,3]
+  // add a negative version for each brightness transformation
+  possible_brightness_transforms = possible_brightness_transforms.concat(possible_brightness_transforms.map(x => -x))
+  // for each brightness transformation, add the transformed brightness to the possible_brightnesss
+  let possible_brightnesses = possible_brightness_transforms.map(x => (b+x+100)%100)
 
   // for each possible hue, saturation, and brightness, create a color and add it to the possible_colors array
   possible_hues.forEach(hue => {
@@ -154,7 +166,7 @@ function set_pixel_color(x, y, col) {
     let neighbor = neighbors[i]
     if (neighbor[0] >= 0 && neighbor[0] < wth && neighbor[1] >= 0 && neighbor[1] < hgt) {
       // if the neighbor is in bounds, check if it is not settled
-      if (pixeldata[neighbor[0]][neighbor[1]].state !== "settled") {
+      if (pixeldata[neighbor[0]][neighbor[1]].state == "unseen") {
         // if the neighbor is not settled, add to it's possible colors based on this pixels color
         pixeldata[neighbor[0]][neighbor[1]].colors.push(...get_possible_colors(col))
         // there may be duplicates, for now I will not collapse them, as they may increase the chances of being selected
@@ -192,7 +204,7 @@ function setup() {
 
   mycan = createCanvas(ww, wh);
 
-  wth = 32
+  wth = 64
   hgt = Math.ceil(wth * (wh/ww))
   hc=-wth
   pg = createGraphics(wth, hgt);
@@ -201,7 +213,6 @@ function setup() {
   dd=displayDensity()
   let df = Math.ceil(dd * pd * 0.5)
   if(is_mobile){df/=3}
-  console.log([dd,pd,df,ww,wh,wth,hgt])
   pixelDensity(df);
   // blendMode(DIFFERENCE);
   noSmooth();
@@ -224,9 +235,6 @@ function setup() {
       pixeldata[i][j] = {x: i, y: j, state: "unseen", colors: [], color: color(0,0,0)}
     }
   }
-
-  console.debug("pixeldata", pixeldata)
-  console.debug("pixeldata[0]", pixeldata[0])
 
 }
 
@@ -252,20 +260,14 @@ function draw() {
 
   // get all the waiting pixels
   let waiting_pixels = get_all_pixels_by_state("waiting")
-  console.debug("waiting_pixels", waiting_pixels)
   // if there are no waiting pixels, get a random unseen pixel
-  if (waiting_pixels.length === 0) {
+  if (waiting_pixels.length === 0 || frameCount%5==0) {
     let random_pixel = get_random_pixel_by_state("unseen")
-    console.log("no waiting pixels, getting random unseen pixel")
-    console.log(random_pixel)
     // set the random pixel to a random color
     set_pixel_color(random_pixel.x, random_pixel.y, color(random_int(0,360), random_int(25,100), random_int(25,100)))
   } else {
-    console.log("there are waiting pixels")
-    console.log(waiting_pixels)
     // if there are waiting pixels, get a random waiting pixel
     let random_pixel = randomChoice(waiting_pixels)
-    console.debug("random waiting pixel: ", random_pixel)
     // get a random color from the pixel's possible colors
     let random_color = randomChoice(random_pixel.colors)
     // set the pixel to the random color
