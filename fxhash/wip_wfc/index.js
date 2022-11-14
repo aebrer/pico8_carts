@@ -81,6 +81,22 @@ let xdata;
 let ydata;
 let pixeldata;
 
+// function, given a list of colors, return the average color (according to rgb)
+function average_color(colors) {
+  let h = 0;
+  let s = 0;
+  let l = 0;
+  for (let i = 0; i < colors.length; i++) {
+    h += hue(colors[i]);
+    s += saturation(colors[i]);
+    l += brightness(colors[i]);
+  }
+  h /= colors.length;
+  s /= colors.length;
+  l /= colors.length;
+  return color([h, s, l]);
+}
+
 
 // this function will return a random pixel from the given state
 function get_random_pixel_by_state(state) {
@@ -114,39 +130,40 @@ function get_possible_colors(col) {
 
   let possible_colors = []
   // hue transformations modulo 360
-  let possible_hue_transforms = [1,2,3,180]
-  // let possible_hue_transforms = [0]
+  // let possible_hue_transforms = [10,20,30,180]
+  let possible_hue_transforms = [0]
   // add a negative version for each hue transformation
-  possible_hue_transforms = possible_hue_transforms.concat(possible_hue_transforms.map(x => -x))
+  // possible_hue_transforms = possible_hue_transforms.concat(possible_hue_transforms.map(x => -x))
   // for each hue transformation, add the transformed hue to the possible_hues
-  let possible_hues = possible_hue_transforms.map(x => (h+x+360)%360)
+  let possible_hues = possible_hue_transforms.map(x => Math.floor((h+x+360)%360))
 
 
   // hue transformations modulo 100
-  // let possible_saturation_transforms = [1,2,3]
-  let possible_saturation_transforms = [0]
+  let possible_saturation_transforms = [1,2,3]
+  // let possible_saturation_transforms = [0]
   // add a negative version for each hue transformation
   possible_saturation_transforms = possible_saturation_transforms.concat(possible_saturation_transforms.map(x => -x))
-  // for each saturation transformation, add the transformed saturation to the possible_saturations
-  let possible_saturations = possible_saturation_transforms.map(x => (s+x+100)%100)
+  // for each saturation transformation, add the transformed saturation to the possible_saturations, min 0, max 100
+  let possible_saturations = possible_saturation_transforms.map(x => Math.floor(Math.max(0, Math.min(100, s+x))))
 
   // brightness transformations modulo 100
-  let possible_brightness_transforms = [1,2,3]
-  // let possible_brightness_transforms = [0]
+  // let possible_brightness_transforms = [1,2,3]
+  let possible_brightness_transforms = [0]
   // add a negative version for each brightness transformation
   possible_brightness_transforms = possible_brightness_transforms.concat(possible_brightness_transforms.map(x => -x))
-  // for each brightness transformation, add the transformed brightness to the possible_brightnesss
-  let possible_brightnesses = possible_brightness_transforms.map(x => (b+x+100)%100)
+  // for each brightness transformation, add the transformed brightness to the possible_brightnesss, min 0, max 100
+  let possible_brightnesses = possible_brightness_transforms.map(x => Math.floor(Math.max(0, Math.min(100, b+x))))
 
   // for each possible hue, saturation, and brightness, create a color and add it to the possible_colors array
   possible_hues.forEach(hue => {
     possible_saturations.forEach(saturation => {
       possible_brightnesses.forEach(brightness => {
-        possible_colors.push(color(hue, saturation, brightness))
+        possible_colors.push(color([hue, saturation, brightness]))
       })
     })
   })
 
+  console.debug("possible colors", possible_colors)
 
   // return the possible colors
   return possible_colors
@@ -166,10 +183,10 @@ function set_pixel_color(x, y, col) {
 
   // calculate the x and y coordinates of the pixel's neighbors using vectorized math
   let neighbors = [
-    // [(x-1+wth)%wth, y], 
-    // [(x+1+wth)%wth, y], 
-    // [x, (y-1+hgt)%hgt], 
-    // [x, (y+1+hgt)%hgt], 
+    [(x-1+wth)%wth, y], 
+    [(x+1+wth)%wth, y], 
+    [x, (y-1+hgt)%hgt], 
+    [x, (y+1+hgt)%hgt], 
     [(x+1+wth)%wth, (y+1+hgt)%hgt], 
     [(x-1+wth)%wth, (y-1+hgt)%hgt], 
     [(x+1+wth)%wth, (y-1+hgt)%hgt], 
@@ -183,7 +200,9 @@ function set_pixel_color(x, y, col) {
       if (pixeldata[neighbor[0]][neighbor[1]].state != "settled") {
         // if the neighbor is not settled, add to it's possible colors based on this pixels color
         pixeldata[neighbor[0]][neighbor[1]].colors.push(...get_possible_colors(col))
-        // there may be duplicates, for now I will not collapse them, as they may increase the chances of being selected
+        // // drop duplicates
+        // pixeldata[neighbor[0]][neighbor[1]].colors = [...new Set(pixeldata[neighbor[0]][neighbor[1]].colors)]
+
         // set the neighbor's state to waiting
         pixeldata[neighbor[0]][neighbor[1]].state = "waiting"
       }
@@ -276,15 +295,17 @@ function draw() {
   // get all the waiting pixels
   let waiting_pixels = get_all_pixels_by_state("waiting")
   // if there are no waiting pixels, get a random unseen pixel
-  if (waiting_pixels.length === 0 || (random_num()>0.99)) {
+  if (waiting_pixels.length === 0 || (frameCount%5==0 & frameCount<100)) {
+    console.log("no waiting pixels, seeding")
     let random_pixel = get_random_pixel_by_state("unseen")
     // set the random pixel to a random color
-    set_pixel_color(random_pixel.x, random_pixel.y, color(random_int(0,359), random_int(25,100), random_int(25,100)))
+    set_pixel_color(random_pixel.x, random_pixel.y, color(random_int(0,359), 100, 100))
   } else {
     // if there are waiting pixels, get a random waiting pixel
     let random_pixel = randomChoice(waiting_pixels)
     // get a random color from the pixel's possible colors
-    let random_color = randomChoice(random_pixel.colors)
+    // let random_color = randomChoice(random_pixel.colors)
+    let random_color = average_color(random_pixel.colors)
     // console.debug(random_color)
     // set the pixel to the random color
     set_pixel_color(random_pixel.x, random_pixel.y, random_color)
