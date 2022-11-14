@@ -183,10 +183,10 @@ function set_pixel_color(x, y, col) {
 
   // calculate the x and y coordinates of the pixel's neighbors using vectorized math
   let neighbors = [
-    [(x-1+wth)%wth, y], 
-    [(x+1+wth)%wth, y], 
-    [x, (y-1+hgt)%hgt], 
-    [x, (y+1+hgt)%hgt], 
+    // [(x-1+wth)%wth, y], 
+    // [(x+1+wth)%wth, y], 
+    // [x, (y-1+hgt)%hgt], 
+    // [x, (y+1+hgt)%hgt], 
     [(x+1+wth)%wth, (y+1+hgt)%hgt], 
     [(x-1+wth)%wth, (y-1+hgt)%hgt], 
     [(x+1+wth)%wth, (y-1+hgt)%hgt], 
