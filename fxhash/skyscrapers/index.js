@@ -53,7 +53,7 @@ let y;
 let col;
 let pd=5;
 let dd;
-let bgc;
+
 let initial_run=true;
 
 let mycan;
@@ -213,8 +213,6 @@ function draw() {
   hc += random_int(1,7)
   return
 }
-
-
 
 // ux
 function keyTyped() {
