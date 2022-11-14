@@ -114,8 +114,8 @@ function get_possible_colors(col) {
 
   let possible_colors = []
   // hue transformations modulo 360
-  // let possible_hue_transforms = [1,2,3,180]
-  let possible_hue_transforms = [0]
+  let possible_hue_transforms = [1,2,3,180]
+  // let possible_hue_transforms = [0]
   // add a negative version for each hue transformation
   possible_hue_transforms = possible_hue_transforms.concat(possible_hue_transforms.map(x => -x))
   // for each hue transformation, add the transformed hue to the possible_hues
@@ -166,10 +166,10 @@ function set_pixel_color(x, y, col) {
 
   // calculate the x and y coordinates of the pixel's neighbors using vectorized math
   let neighbors = [
-    [(x-1+wth)%wth, y], 
-    [(x+1+wth)%wth, y], 
-    [x, (y-1+hgt)%hgt], 
-    [x, (y+1+hgt)%hgt], 
+    // [(x-1+wth)%wth, y], 
+    // [(x+1+wth)%wth, y], 
+    // [x, (y-1+hgt)%hgt], 
+    // [x, (y+1+hgt)%hgt], 
     [(x+1+wth)%wth, (y+1+hgt)%hgt], 
     [(x-1+wth)%wth, (y-1+hgt)%hgt], 
     [(x+1+wth)%wth, (y-1+hgt)%hgt], 
@@ -180,7 +180,7 @@ function set_pixel_color(x, y, col) {
     let neighbor = neighbors[i]
     if (neighbor[0] >= 0 && neighbor[0] < wth && neighbor[1] >= 0 && neighbor[1] < hgt) {
       // if the neighbor is in bounds, check if it is not settled
-      if (pixeldata[neighbor[0]][neighbor[1]].state == "unseen") {
+      if (pixeldata[neighbor[0]][neighbor[1]].state != "settled") {
         // if the neighbor is not settled, add to it's possible colors based on this pixels color
         pixeldata[neighbor[0]][neighbor[1]].colors.push(...get_possible_colors(col))
         // there may be duplicates, for now I will not collapse them, as they may increase the chances of being selected
@@ -218,8 +218,8 @@ function setup() {
 
   mycan = createCanvas(ww, wh);
 
-  wth = random_int(16,128)
-  // wth = 32
+  // wth = random_int(16,128)
+  wth = 32
   hgt = Math.ceil(wth * (wh/ww))
   hc=-wth
   pg = createGraphics(wth, hgt);
@@ -279,7 +279,7 @@ function draw() {
   if (waiting_pixels.length === 0 || (random_num()>0.99)) {
     let random_pixel = get_random_pixel_by_state("unseen")
     // set the random pixel to a random color
-    set_pixel_color(random_pixel.x, random_pixel.y, color(80, 75, 90))
+    set_pixel_color(random_pixel.x, random_pixel.y, color(random_int(0,359), random_int(25,100), random_int(25,100)))
   } else {
     // if there are waiting pixels, get a random waiting pixel
     let random_pixel = randomChoice(waiting_pixels)
