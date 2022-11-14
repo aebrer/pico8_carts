@@ -88,6 +88,7 @@ function get_random_pixel_by_state(state) {
   return randomChoice(good_pixels)
 }
 
+
 // this function will return x,y coords of ALL pixels of a given state
 function get_all_pixels_by_state(state) {
   let good_pixels = []
@@ -113,7 +114,8 @@ function get_possible_colors(col) {
 
   let possible_colors = []
   // hue transformations modulo 360
-  let possible_hue_transforms = [1,2,3]
+  // let possible_hue_transforms = [1,2,3,180]
+  let possible_hue_transforms = [0]
   // add a negative version for each hue transformation
   possible_hue_transforms = possible_hue_transforms.concat(possible_hue_transforms.map(x => -x))
   // for each hue transformation, add the transformed hue to the possible_hues
@@ -121,7 +123,8 @@ function get_possible_colors(col) {
 
 
   // hue transformations modulo 100
-  let possible_saturation_transforms = [1,2,3]
+  // let possible_saturation_transforms = [1,2,3]
+  let possible_saturation_transforms = [0]
   // add a negative version for each hue transformation
   possible_saturation_transforms = possible_saturation_transforms.concat(possible_saturation_transforms.map(x => -x))
   // for each saturation transformation, add the transformed saturation to the possible_saturations
@@ -129,6 +132,7 @@ function get_possible_colors(col) {
 
   // brightness transformations modulo 100
   let possible_brightness_transforms = [1,2,3]
+  // let possible_brightness_transforms = [0]
   // add a negative version for each brightness transformation
   possible_brightness_transforms = possible_brightness_transforms.concat(possible_brightness_transforms.map(x => -x))
   // for each brightness transformation, add the transformed brightness to the possible_brightnesss
@@ -142,6 +146,7 @@ function get_possible_colors(col) {
       })
     })
   })
+
 
   // return the possible colors
   return possible_colors
@@ -160,7 +165,16 @@ function set_pixel_color(x, y, col) {
 
 
   // calculate the x and y coordinates of the pixel's neighbors using vectorized math
-  let neighbors = [[x-1, y], [x+1, y], [x, y-1], [x, y+1]]
+  let neighbors = [
+    [(x-1+wth)%wth, y], 
+    [(x+1+wth)%wth, y], 
+    [x, (y-1+hgt)%hgt], 
+    [x, (y+1+hgt)%hgt], 
+    [(x+1+wth)%wth, (y+1+hgt)%hgt], 
+    [(x-1+wth)%wth, (y-1+hgt)%hgt], 
+    [(x+1+wth)%wth, (y-1+hgt)%hgt], 
+    [(x-1+wth)%wth, (y+1+hgt)%hgt]
+  ]
   // for each neighbor, check if it is in bounds
   for (let i = 0; i < neighbors.length; i++) {
     let neighbor = neighbors[i]
@@ -204,7 +218,8 @@ function setup() {
 
   mycan = createCanvas(ww, wh);
 
-  wth = 64
+  wth = random_int(16,128)
+  // wth = 32
   hgt = Math.ceil(wth * (wh/ww))
   hc=-wth
   pg = createGraphics(wth, hgt);
@@ -261,15 +276,16 @@ function draw() {
   // get all the waiting pixels
   let waiting_pixels = get_all_pixels_by_state("waiting")
   // if there are no waiting pixels, get a random unseen pixel
-  if (waiting_pixels.length === 0 || frameCount%5==0) {
+  if (waiting_pixels.length === 0 || (random_num()>0.99)) {
     let random_pixel = get_random_pixel_by_state("unseen")
     // set the random pixel to a random color
-    set_pixel_color(random_pixel.x, random_pixel.y, color(random_int(0,360), random_int(25,100), random_int(25,100)))
+    set_pixel_color(random_pixel.x, random_pixel.y, color(80, 75, 90))
   } else {
     // if there are waiting pixels, get a random waiting pixel
     let random_pixel = randomChoice(waiting_pixels)
     // get a random color from the pixel's possible colors
     let random_color = randomChoice(random_pixel.colors)
+    // console.debug(random_color)
     // set the pixel to the random color
     set_pixel_color(random_pixel.x, random_pixel.y, random_color)
   }
