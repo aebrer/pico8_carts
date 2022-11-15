@@ -1,4 +1,4 @@
-// untitled WIP
+// Entropy Locked Wave Function Collapse
 
 /*
 Controls:
@@ -214,7 +214,7 @@ function setup() {
 
   mycan = createCanvas(ww, wh);
 
-  wth = random_int(16,128)
+  wth = random_int(16,64)
   window.$fxhashFeatures["Pixel Width"] = wth
   // wth = 32
   hgt = Math.ceil(wth * (wh/ww))
