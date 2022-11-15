@@ -71,8 +71,6 @@ let tx;
 //fxhash features
 let c;
 let calt;
-let prim_col_dir;
-let sec_col_dir;
 let nostroke;
 let loop_count=0;
 let locking_method;
@@ -80,21 +78,12 @@ let locking_method;
 let xdata;
 let ydata;
 let pixeldata;
+let seed_freq;
 
-// function, given a list of colors, return the average color (according to rgb)
-function average_color(colors) {
-  let h = 0;
-  let s = 0;
-  let l = 0;
-  for (let i = 0; i < colors.length; i++) {
-    h += hue(colors[i]);
-    s += saturation(colors[i]);
-    l += brightness(colors[i]);
-  }
-  h /= colors.length;
-  s /= colors.length;
-  l /= colors.length;
-  return color([h, s, l]);
+
+// function get hsb color string
+function get_hsb(h, s, b) {
+  return "hsb(" + h + "," + s + "%," + b + "%)";
 }
 
 
@@ -130,8 +119,8 @@ function get_possible_colors(col) {
 
   let possible_colors = []
   // hue transformations modulo 360
-  // let possible_hue_transforms = [10,20,30,180]
-  let possible_hue_transforms = [0]
+  let possible_hue_transforms = [1,2,3,5,10]
+  // let possible_hue_transforms = [0]
   // add a negative version for each hue transformation
   // possible_hue_transforms = possible_hue_transforms.concat(possible_hue_transforms.map(x => -x))
   // for each hue transformation, add the transformed hue to the possible_hues
@@ -147,8 +136,8 @@ function get_possible_colors(col) {
   let possible_saturations = possible_saturation_transforms.map(x => Math.floor(Math.max(0, Math.min(100, s+x))))
 
   // brightness transformations modulo 100
-  // let possible_brightness_transforms = [1,2,3]
-  let possible_brightness_transforms = [0]
+  let possible_brightness_transforms = [1,2,3]
+  // let possible_brightness_transforms = [0]
   // add a negative version for each brightness transformation
   possible_brightness_transforms = possible_brightness_transforms.concat(possible_brightness_transforms.map(x => -x))
   // for each brightness transformation, add the transformed brightness to the possible_brightnesss, min 0, max 100
@@ -158,12 +147,10 @@ function get_possible_colors(col) {
   possible_hues.forEach(hue => {
     possible_saturations.forEach(saturation => {
       possible_brightnesses.forEach(brightness => {
-        possible_colors.push(color([hue, saturation, brightness]))
+        possible_colors.push(color(get_hsb(hue, saturation, brightness)))
       })
     })
   })
-
-  console.debug("possible colors", possible_colors)
 
   // return the possible colors
   return possible_colors
@@ -172,21 +159,21 @@ function get_possible_colors(col) {
 
 // this function will set the color of a given pixel
 function set_pixel_color(x, y, col) {
+
   // set the pixel's color
   pixeldata[x][y].color = col
   // set the pixel's state to settled
   pixeldata[x][y].state = "settled"
 
   // update the pixels on the graphics object
-  pg.set(x, y, col)
-
+  pg.set(x,y,col)
 
   // calculate the x and y coordinates of the pixel's neighbors using vectorized math
   let neighbors = [
-    // [(x-1+wth)%wth, y], 
-    // [(x+1+wth)%wth, y], 
-    // [x, (y-1+hgt)%hgt], 
-    // [x, (y+1+hgt)%hgt], 
+    [(x-1+wth)%wth, y], 
+    [(x+1+wth)%wth, y], 
+    [x, (y-1+hgt)%hgt], 
+    [x, (y+1+hgt)%hgt], 
     [(x+1+wth)%wth, (y+1+hgt)%hgt], 
     [(x-1+wth)%wth, (y-1+hgt)%hgt], 
     [(x+1+wth)%wth, (y-1+hgt)%hgt], 
@@ -195,17 +182,13 @@ function set_pixel_color(x, y, col) {
   // for each neighbor, check if it is in bounds
   for (let i = 0; i < neighbors.length; i++) {
     let neighbor = neighbors[i]
-    if (neighbor[0] >= 0 && neighbor[0] < wth && neighbor[1] >= 0 && neighbor[1] < hgt) {
-      // if the neighbor is in bounds, check if it is not settled
-      if (pixeldata[neighbor[0]][neighbor[1]].state != "settled") {
-        // if the neighbor is not settled, add to it's possible colors based on this pixels color
-        pixeldata[neighbor[0]][neighbor[1]].colors.push(...get_possible_colors(col))
-        // // drop duplicates
-        // pixeldata[neighbor[0]][neighbor[1]].colors = [...new Set(pixeldata[neighbor[0]][neighbor[1]].colors)]
-
-        // set the neighbor's state to waiting
-        pixeldata[neighbor[0]][neighbor[1]].state = "waiting"
-      }
+    if (pixeldata[neighbor[0]][neighbor[1]].state != "settled") {
+      // if the neighbor is not settled, add to it's possible colors based on this pixels color
+      pixeldata[neighbor[0]][neighbor[1]].colors.push(...get_possible_colors(col))
+      // // drop duplicates
+      // pixeldata[neighbor[0]][neighbor[1]].colors = [...new Set(pixeldata[neighbor[0]][neighbor[1]].colors)]
+      // set the neighbor's state to waiting
+      pixeldata[neighbor[0]][neighbor[1]].state = "waiting"
     }
   }
 
@@ -215,12 +198,6 @@ function set_pixel_color(x, y, col) {
 
 function setup() {
   
-  x=-16;
-  y=-16;
-  need_preview=true;
-
-  prim_col_dir=false;
-  sec_col_dir=false;
 
   fxrand = sfc32(...hashes)
   
@@ -237,8 +214,9 @@ function setup() {
 
   mycan = createCanvas(ww, wh);
 
-  // wth = random_int(16,128)
-  wth = 32
+  wth = random_int(16,128)
+  window.$fxhashFeatures["Pixel Width"] = wth
+  // wth = 32
   hgt = Math.ceil(wth * (wh/ww))
   hc=-wth
   pg = createGraphics(wth, hgt);
@@ -253,6 +231,13 @@ function setup() {
   pg.background(0);
   pg.strokeWeight(1)  
 
+  // get a seed frequency, higher is fewer seeds
+
+  let seed_freq = random_int(5, 100)
+  // window.$fxhashFeatures["seed_freq"] = seed_freq
+
+  locking_method = randomChoice(["Random Chance", "Consistent by Frame Count", "None"])
+  window.$fxhashFeatures["Entropy Locking Method"] = locking_method
 
 
   // pixeldata
@@ -266,10 +251,11 @@ function setup() {
   for (let i = 0; i < wth; i++) {
     pixeldata[i] = new Array(hgt)
     for (let j = 0; j < hgt; j++) {
-      pixeldata[i][j] = {x: i, y: j, state: "unseen", colors: [], color: color(0,0,0)}
+      pixeldata[i][j] = {x: i, y: j, state: "unseen", colors: [], color: color(get_hsb(calt,0,0))}
     }
   }
 
+  console.table(window.$fxhashFeatures)
 }
 
 
@@ -277,13 +263,13 @@ function draw() {
   
   // entropy locking
 
-  // if (locking_method == "Random Chance") {
-  //   if (random_int(1,1000)>800){fxrand=sfc32(...hashes);pg.clear()}
-  // } else if (locking_method == "Consistent by Frame Count") {
-  //   if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
-  // } else if (locking_method == "None") {
-  //   if(frameCount%5==0){pg.clear()}
-  // }
+  if (locking_method == "Random Chance") {
+    if (random_int(1,1000)>800){fxrand=sfc32(...hashes);pg.clear()}
+  } else if (locking_method == "Consistent by Frame Count") {
+    if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
+  } else if (locking_method == "None") {
+    if(frameCount%5==0){pg.clear()}
+  }
 
   // // call fxpreview when the drawing is finished, and stop rendering
   // if(loop_count>16){fxpreview();noLoop();}
@@ -295,17 +281,19 @@ function draw() {
   // get all the waiting pixels
   let waiting_pixels = get_all_pixels_by_state("waiting")
   // if there are no waiting pixels, get a random unseen pixel
-  if (waiting_pixels.length === 0 || (frameCount%5==0 & frameCount<100)) {
+  if (waiting_pixels.length === 0 || (frameCount%seed_freq==0 & frameCount<100)) {
+  // if (waiting_pixels.length === 0) {
+
     console.log("no waiting pixels, seeding")
     let random_pixel = get_random_pixel_by_state("unseen")
     // set the random pixel to a random color
-    set_pixel_color(random_pixel.x, random_pixel.y, color(random_int(0,359), 100, 100))
+    set_pixel_color(random_pixel.x, random_pixel.y, color(get_hsb(random_int(0,359), random_int(75,100), random_int(75,100))))
   } else {
     // if there are waiting pixels, get a random waiting pixel
     let random_pixel = randomChoice(waiting_pixels)
     // get a random color from the pixel's possible colors
     // let random_color = randomChoice(random_pixel.colors)
-    let random_color = average_color(random_pixel.colors)
+    let random_color = randomChoice(random_pixel.colors)
     // console.debug(random_color)
     // set the pixel to the random color
     set_pixel_color(random_pixel.x, random_pixel.y, random_color)
