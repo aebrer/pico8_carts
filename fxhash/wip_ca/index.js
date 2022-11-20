@@ -80,7 +80,8 @@ let ydata;
 let pixeldata;
 let seed_freq;
 // let ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"]
-let ent_lock_methods = ["Consistent by Frame Count"]
+let ent_lock_methods = ["Random Chance", "Consistent by Frame Count"]
+// let ent_lock_methods = ["Consistent by Frame Count"]
 
 // function get hsb color string
 function get_hsb(h, s, b) {
@@ -218,7 +219,7 @@ function setup() {
 
   wth = random_int(16,64)
   // wth=16
-  // window.$fxhashFeatures["Pixel Width"] = wth
+  window.$fxhashFeatures["Pixel Width"] = wth
   // wth = 32
   hgt = Math.ceil(wth * (wh/ww))
   hc=-wth
