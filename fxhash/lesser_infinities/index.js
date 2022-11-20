@@ -217,7 +217,7 @@ function setup() {
 
   mycan = createCanvas(ww, wh);
 
-  wth = random_int(16,64)
+  wth = random_int(16,32)
   // wth=16
   window.$fxhashFeatures["Pixel Width"] = wth
   // wth = 32
@@ -334,7 +334,7 @@ function draw() {
   // if all pixels are settled, stop rendering
   if (get_all_pixels_by_state("settled").length === wth * hgt) {
     loop_count+=1;
-    if(loop_count>3){fxpreview();}
+    if(loop_count==2){fxpreview();}
     renew_pixels();
 }
 
