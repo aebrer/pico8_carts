@@ -7,7 +7,6 @@ poke(▒|▤,웃/●)
 r=rnd
 s=r(-1)
 srand(s)
-
 function reset()
 cls()
 g=r(5)-3
@@ -18,38 +17,27 @@ w=r({1,3})
 c=r(3)+2
 while(g+a)%b==g do a=r(5)end
 end
-
 reset()
 col_offset = 0
-
 -- define the palettes
 pal({[0]=12,140,1,129,14,8,2,3,11,141,7,10,6,8,141,140},1,4)
 pal({[0]=140,1,129,130,2,136,130,132,131,139,130,0,138,5,136,130,129},2)
-
-
 cls()::_::
-
 -- entropy locking
 if(r()>.6)srand(s)
-
 for x=g,130,z do for y=g,130,w do
 circ(x,y,r(2),(x*y%c)+col_offset)end end
-
 -- activate second palette
 memset(0x5f78,0xfff,8)
 -- set right side of screen to second palette
 poke(0x5f2c,132) 
-
 -- every 2 seconds, change the palette
 if(t()%1==0)then
  col_offset += 1
  if(r()>.8 or t()%5==0)s+=1reset()
 end
-
 flip()
-
 goto _
-
 
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
