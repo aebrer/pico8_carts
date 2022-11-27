@@ -44,7 +44,7 @@ function get_new_hashes() {
 // will decide on mobile mode unless there is a pointer device with hover capability attached
 let is_mobile = window.matchMedia("(any-hover: none)").matches
 
-// hashes = "hriirieiririiiritiififiviviifj"
+// hashes = "aebrerandrewbrereton"
 // if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
 window.$fxhashFeatures = {}
@@ -102,14 +102,11 @@ function setup() {
     wh=windowHeight
   }
 
-  max_wdim = Math.max(ww,wh)
   mycan = createCanvas(ww, wh);
 
   wth = 64
+  hgt = wth
   window.$fxhashFeatures["Pixel Width"] = wth
-  // wth = 32
-  hgt = Math.ceil(wth * (wh/ww))
-  max_pdim = Math.max(wth, hgt)
 
   pg = createGraphics(wth, hgt);
   // pg.colorMode(HSL)
@@ -154,14 +151,14 @@ function draw() {
   // if(loop_count>16){fxpreview();noLoop();}
 
   // console.log(pg.pixels)
-  for (let i=0;i<Math.ceil((wth+hgt)/5);i++){
+  for (let i=0;i<wth;i++){
 
     // load the pixels from the graphics object
     pg.loadPixels();
     // change which pixel we are updating
-    px += random_int(0,5)
+    px += random_int(0,3)
     px = (px+wth)%wth
-    py += random_int(0,5)
+    py += random_int(1,5)
     py = (py+hgt)%hgt
 
     // get the color values from a random neighbor, including self
@@ -183,7 +180,22 @@ function draw() {
   }
   
   // render the graphics buffer to the display canvas
-  image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
+  if (ww>wh) {
+    image(
+      pg,
+      0,0,ww,wh,
+      0,0,wth,wh*wth/ww
+    )
+  } else if (ww<wh) {
+    image(
+      pg,
+      0,0,ww,wh,
+      0,0,ww*hgt/wh,hgt
+    )
+  } else {
+    image(pg,0,0,ww,wh,0,0,wth,wth)
+
+  }
 
   return
 }
