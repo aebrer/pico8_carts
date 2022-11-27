@@ -168,35 +168,14 @@ function draw() {
     const px2 = (px+random_int(-1,0)+wth)%wth
     const py2 = (py+random_int(-1,0)+hgt)%hgt
 
-    // console.debug(px, py, px2, py2)
-
-    // const i2 = (py2 * wth + px2) * df * 4;
-    // const i = 4 * (py * wth + px);
-    // const i2 = 4 * (py2 * wth + px2);
-
-    // console.debug("px,py,i",px,py,i)
-    // console.debug("px2,py2,i2",px2,py2,i2)
-    // console.debug("pg.pixels[i]",pg.pixels[i])
-
-    // let r2 = pg.pixels[i2]
-    // let g2 = pg.pixels[i2 + 1]
-    // let b2 = pg.pixels[i2 + 2]
 
     const col = pg.get(px2,py2)
     const [r2, g2, b2] = [red(col), green(col), blue(col)]; // get colors
 
-    // log r2, g2, b2 to debug
-    // console.debug(`px2: ${px2}, py2: ${py2}, r2: ${r2}, g2: ${g2}, b2: ${b2}`)
-
     const r = (r2+random_int(0,rfac)+255)%255
     const g = (g2+random_int(0,gfac)+255)%255
     const b = (b2+random_int(0,bfac)+255)%255
-    // console.debug(`r: ${r}, g: ${g}, b: ${b}`)
     
-    // // set the pixel color
-    // pg.pixels[i] = r;
-    // pg.pixels[i + 1] = g;
-    // pg.pixels[i + 2] = b;
 
     pg.set(px, py, color(r, g, b));
     // now update the graphics object with the new pixel values
