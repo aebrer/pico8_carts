@@ -147,7 +147,7 @@ function draw() {
 
   // entropy locking
   if (locking_method == "Random Chance") {
-    if (random_int(1,1000)>800 && random_int(1,1000)>800){fxrand=sfc32(...hashes)}
+    if (random_int(1,1000)>800 && frameCount>600){fxrand=sfc32(...hashes)}
   } else if (locking_method == "Consistent by Frame Count") {
     if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
   } else if (locking_method == "None") {
@@ -162,9 +162,9 @@ function draw() {
     // load the pixels from the graphics object
     pg.loadPixels();
     // change which pixel we are updating
-    px += random_int(0,5)
+    px += random_int(-5,5)
     px = (px+wth)%wth
-    py += random_int(0,5)
+    py += random_int(-5,5)
     py = (py+hgt)%hgt
 
     // get the color values from a random neighbor, including self
