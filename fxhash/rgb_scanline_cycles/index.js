@@ -86,6 +86,12 @@ let xdata;
 let ydata;
 let seed_freq;
 
+function mp(){
+  console.debug("old hash: " + hashes)
+  hashes = get_new_hashes()
+  console.debug("new hash: " + hashes)
+}
+
 function setup() {
   
 
@@ -103,6 +109,7 @@ function setup() {
   }
 
   mycan = createCanvas(ww, wh);
+  mycan.mousePressed(mp)
 
   wth = 64
   hgt = wth
@@ -136,12 +143,11 @@ function setup() {
   console.table(window.$fxhashFeatures)
 }
 
-
 function draw() {
-  
+
   // entropy locking
   if (locking_method == "Random Chance") {
-    if (random_int(1,1000)>900){fxrand=sfc32(...hashes)}
+    if (random_int(1,1000)>800 && random_int(1,1000)>800){fxrand=sfc32(...hashes)}
   } else if (locking_method == "Consistent by Frame Count") {
     if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
   } else if (locking_method == "None") {
@@ -151,14 +157,14 @@ function draw() {
   // if(loop_count>16){fxpreview();noLoop();}
 
   // console.log(pg.pixels)
-  for (let i=0;i<wth;i++){
+  for (let i=0;i<Math.ceil((wth+hgt)/5);i++){
 
     // load the pixels from the graphics object
     pg.loadPixels();
     // change which pixel we are updating
-    px += random_int(0,3)
+    px += random_int(0,5)
     px = (px+wth)%wth
-    py += random_int(1,5)
+    py += random_int(0,5)
     py = (py+hgt)%hgt
 
     // get the color values from a random neighbor, including self
@@ -197,6 +203,7 @@ function draw() {
 
   }
 
+  loop_count += 1
   return
 }
 
