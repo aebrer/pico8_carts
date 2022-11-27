@@ -54,9 +54,11 @@ let pg;
 let aspect = 0.71
 let wth;
 let hgt;
+let max_pdim;
 let hc;
 let ww;
 let wh;
+let max_wdim;
 let px = 0;
 let py = 0;
 let col;
@@ -100,17 +102,15 @@ function setup() {
     wh=windowHeight
   }
 
-  ww = 1065
-  wh = 1500
-
-
+  max_wdim = Math.max(ww,wh)
   mycan = createCanvas(ww, wh);
 
   wth = 64
   window.$fxhashFeatures["Pixel Width"] = wth
   // wth = 32
-  hgt = Math.ceil(wth / 0.71)
-  hc=-wth
+  hgt = Math.ceil(wth * (wh/ww))
+  max_pdim = Math.max(wth, hgt)
+
   pg = createGraphics(wth, hgt);
   // pg.colorMode(HSL)
 
