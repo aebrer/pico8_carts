@@ -86,11 +86,9 @@ let xdata;
 let ydata;
 let seed_freq;
 
-function mp(){
-  console.debug("old hash: " + hashes)
-  hashes = get_new_hashes()
-  console.debug("new hash: " + hashes)
-}
+let pixel_buffer = [];
+
+let base_color = [0, 0, 0]
 
 function setup() {
   
@@ -109,7 +107,6 @@ function setup() {
   }
 
   mycan = createCanvas(ww, wh);
-  mycan.mousePressed(mp)
 
   wth = 64
   hgt = wth
@@ -141,6 +138,10 @@ function setup() {
   locking_method = randomChoice(["Random Chance"])
   window.$fxhashFeatures["Entropy Locking Method"] = locking_method
   console.table(window.$fxhashFeatures)
+
+  base_color = [random_int(0, 360), random_int(0, 360), random_int(0, 360)]
+
+
 }
 
 function draw() {
@@ -162,24 +163,50 @@ function draw() {
     // load the pixels from the graphics object
     pg.loadPixels();
     // change which pixel we are updating
-    px += random_int(-5,5)
+    px += random_int(-2,2)
     px = (px+wth)%wth
-    py += random_int(-5,5)
+    py += random_int(-2,2)
     py = (py+hgt)%hgt
 
+    // push px and py to the pixel_buffer
+    pixel_buffer.push([px, py])
+
+    // if pixel_buffer longer than 500, pop the oldest value
+    if (pixel_buffer.length > (wth*hgt)) {
+      pixel_buffer.shift()
+    }
+
+    // get the number of unique values in pixel_buffer, check if less than X
+    seed_check = new Set(pixel_buffer.map(JSON.stringify)).size < (wth*hgt)/2
+    // get a new random seed
+    if (seed_check) {
+      hashes = get_new_hashes()
+    }
+
+
     // get the color values from a random neighbor, including self
-    const px2 = (px+random_int(-1,0)+wth)%wth
-    const py2 = (py+random_int(-1,0)+hgt)%hgt
+    const px2 = (px+random_int(-1,1)+wth)%wth
+    const py2 = (py+random_int(-1,1)+hgt)%hgt
 
 
     const col = pg.get(px2,py2)
     const [r2, g2, b2] = [red(col), green(col), blue(col)]; // get colors
 
-    const r = (r2+random_int(0,rfac)+255)%255
-    const g = (g2+random_int(0,gfac)+255)%255
-    const b = (b2+random_int(0,bfac)+255)%255
+    let r = (r2+random_int(0,rfac)+255)%255
+    let g = (g2+random_int(0,gfac)+255)%255
+    let b = (b2+random_int(0,bfac)+255)%255
     
-
+    // if the right mouse button is pressed, set the color to the base color
+    if ((mouseIsPressed && mouseButton == RIGHT) || frameCount < 600) {
+      r = (base_color[0]+random_int(0,rfac)+255)%255
+      g = (base_color[1]+random_int(0,gfac)+255)%255
+      b = (base_color[2]+random_int(0,bfac)+255)%255    
+    } else if (mouseIsPressed && mouseButton == LEFT) {
+      r = (base_color[0]+random_int(0,rfac)+255)%255
+      g = (base_color[1]+random_int(0,gfac)+255)%255
+      b = (base_color[2]+random_int(0,bfac)+255)%255
+      hashes = get_new_hashes()
+    }
     pg.set(px, py, color(r, g, b));
     // now update the graphics object with the new pixel values
     pg.updatePixels();
