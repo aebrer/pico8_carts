@@ -31,23 +31,31 @@ function randomChoice(arr) {
   return arr[Math.floor(random_num(0,1) * arr.length)];
 }
 
+// function get_new_hashes() {
+//   fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
+//   b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
+//   fxhashTrunc = fxhash.slice(2)
+//   regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
+//   hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
+//   console.log("new hashes: ", hashes)
+//   return hashes
+// }
+
 function get_new_hashes() {
-  fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
-  b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
-  fxhashTrunc = fxhash.slice(2)
-  regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
-  hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
+  console.log("old hashes: ", hashes)
+  // for each element in hashes, increase it's value by 1
+  hashes = hashes.map(h => h+1)
+  console.log("new hashes: ", hashes)
   return hashes
 }
-
 
 // will decide on mobile mode unless there is a pointer device with hover capability attached
 let is_mobile = window.matchMedia("(any-hover: none)").matches
 
-// hashes = "aebrerandrewbrereton"
+hashes = [9182734.182734,4128374.1723,14278937.938]
 // if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
-window.$fxhashFeatures = {}
+// window.$fxhashFeatures = {}
 
 //PGrahics object
 let pg;
@@ -87,6 +95,8 @@ let ydata;
 let seed_freq;
 
 let pixel_buffer = [];
+let buffer_full = false;
+let seed_check_frame = 0;
 
 let base_color = [0, 0, 0]
 
@@ -100,7 +110,7 @@ function setup() {
     ww=1080
     wh=1080
     is_mobile=false
-    pd=5
+    pd=3
   } else {
     ww=windowWidth
     wh=windowHeight
@@ -110,7 +120,7 @@ function setup() {
 
   wth = 64
   hgt = wth
-  window.$fxhashFeatures["Pixel Width"] = wth
+  // window.$fxhashFeatures["Pixel Width"] = wth
 
   pg = createGraphics(wth, hgt);
   // pg.colorMode(HSL)
@@ -136,8 +146,8 @@ function setup() {
   }
 
   locking_method = randomChoice(["Random Chance"])
-  window.$fxhashFeatures["Entropy Locking Method"] = locking_method
-  console.table(window.$fxhashFeatures)
+  // window.$fxhashFeatures["Entropy Locking Method"] = locking_method
+  // console.table(window.$fxhashFeatures)
 
   base_color = [random_int(0, 360), random_int(0, 360), random_int(0, 360)]
 
@@ -174,13 +184,16 @@ function draw() {
     // if pixel_buffer longer than 500, pop the oldest value
     if (pixel_buffer.length > (wth*hgt)) {
       pixel_buffer.shift()
+      buffer_full = true
     }
 
     // get the number of unique values in pixel_buffer, check if less than X
-    seed_check = new Set(pixel_buffer.map(JSON.stringify)).size < (wth*hgt)/2
+    seed_check = new Set(pixel_buffer.map(JSON.stringify)).size < (wth*hgt)/2 && buffer_full
     // get a new random seed
-    if (seed_check) {
+    if (seed_check && frameCount - seed_check_frame > 60) {
+      fxrand = sfc32(...hashes) // need to make sure to reseed right before getting the new hash
       hashes = get_new_hashes()
+      seed_check_frame = frameCount
     }
 
 
