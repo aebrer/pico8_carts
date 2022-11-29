@@ -52,7 +52,7 @@ function get_new_hashes() {
 // will decide on mobile mode unless there is a pointer device with hover capability attached
 let is_mobile = window.matchMedia("(any-hover: none)").matches
 
-hashes = [9182734.182734,4128374.1723,14278937.938]
+// hashes = [9182734.182734,4128374.1723,14278937.938]
 // if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
 // window.$fxhashFeatures = {}
@@ -135,14 +135,15 @@ function setup() {
   pg.background(0);
   pg.strokeWeight(1)  
 
-  rfac = random_int(10, 25) * randomChoice([1, -1])
-  gfac = random_int(10, 25) * randomChoice([1, -1])
-  bfac = random_int(10, 25) * randomChoice([1, -1])
+  rfac = random_int(5, 25) * randomChoice([1, -1])
+  gfac = random_int(5, 25) * randomChoice([1, -1])
+  bfac = random_int(5, 25) * randomChoice([1, -1])
   // if rfac==gfac==bfac, then we need to change one of them
-  while (rfac == gfac && gfac == bfac) {
-    rfac = random_int(10, 25) * randomChoice([1, -1])
-    gfac = random_int(10, 25) * randomChoice([1, -1])
-    bfac = random_int(10, 25) * randomChoice([1, -1])
+  // or if the sum of the absolute values of rfac, gfac, bfac is > than 60, then we need to change them
+  while (rfac == gfac && gfac == bfac || Math.abs(rfac) + Math.abs(gfac) + Math.abs(bfac) > 60) {
+    rfac = random_int(5, 25) * randomChoice([1, -1])
+    gfac = random_int(5, 25) * randomChoice([1, -1])
+    bfac = random_int(5, 25) * randomChoice([1, -1])
   }
 
   locking_method = randomChoice(["Random Chance"])
