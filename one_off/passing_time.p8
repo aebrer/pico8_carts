@@ -95,10 +95,10 @@ for i=0,200 do
 			ty=(y+k)%128
 			tc=pget(tx,ty)
 			diff = abs(tc-c)
-			if(r(diff)>nd or nd==0)nd=diff;nx=tx;ny=ty;nc=tc
+			if(r(diff)>nd)nd=diff;nx=tx;ny=ty;nc=tc
 		end
 	end
- pset(nx,ny,c)
+ if(nd!=0)pset(nx,ny,c)
 end
 
 flip() -- draw graphics buffer to screen
