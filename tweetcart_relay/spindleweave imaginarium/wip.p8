@@ -5,6 +5,7 @@ cls()v=128
 r=rnd
 n=cos
 s=r(-1)srand(s)g=98j=●-웃
+e=r(32)+1f=r(32)+1
 poke(24364,7)
 for i=1,15 do pal (i,(r(16)-17),1)end
 ::_::g+=r(.01)
@@ -14,7 +15,7 @@ m=1+n(g/v)\2
 a=n(n(g/8-i/g))*32*m
 b=n(n(g/v-i/v))*32*m
 line(64+a,32+b,i)
-z=j+2000+r(8192)memcpy(z,z+16,16)
+z=j+2000+r(8192)memcpy(z,z+e,f)
 end
 goto _
 __gfx__
