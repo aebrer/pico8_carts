@@ -32,14 +32,12 @@ function randomChoice(arr) {
 }
 
 function get_new_hashes() {
-  fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
-  b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
-  fxhashTrunc = fxhash.slice(2)
-  regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
-  hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
+  console.log("old hashes: ", hashes)
+  // for each element in hashes, increase it's value by 1
+  hashes = hashes.map(h => h+1)
+  console.log("new hashes: ", hashes)
   return hashes
 }
-
 
 // will decide on mobile mode unless there is a pointer device with hover capability attached
 let is_mobile = window.matchMedia("(any-hover: none)").matches
@@ -63,6 +61,9 @@ let col;
 let pd=3;
 let dd;
 let df;
+let dx;
+let dy;
+let steps = [1,2,3,4,5,-1,-2,-3,-4,-5]
 
 let rfac = 0;
 let gfac = 0;
@@ -84,6 +85,11 @@ let xdata;
 let ydata;
 let seed_freq;
 
+let pixel_buffer = [];
+let buffer_full = false;
+let seed_check_frame = 0;
+
+
 function setup() {
   
 
@@ -103,10 +109,16 @@ function setup() {
   ww = 1065
   wh = 1500
 
+  // shrink dimensions to fit the full image in the display dynamically
+  if(windowHeight<wh){
+    wh=windowHeight
+    ww = wh*aspect
+  }
+
 
   mycan = createCanvas(ww, wh);
 
-  wth = 64
+  wth = 32
   window.$fxhashFeatures["Pixel Width"] = wth
   // wth = 32
   hgt = Math.ceil(wth / 0.71)
@@ -134,7 +146,10 @@ function setup() {
     bfac = random_int(10, 25) * randomChoice([1, -1])
   }
 
-  locking_method = randomChoice(["Random Chance"])
+  dx = randomChoice(steps)
+  dy = randomChoice(steps)
+
+  locking_method = randomChoice(["every"])
   window.$fxhashFeatures["Entropy Locking Method"] = locking_method
   console.table(window.$fxhashFeatures)
 }
@@ -149,6 +164,8 @@ function draw() {
     if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
   } else if (locking_method == "None") {
     if(frameCount%5==0){pg.clear()}
+  } else if (locking_method == "every") {
+    fxrand=sfc32(...hashes)
   }
   // // call fxpreview when the drawing is finished, and stop rendering
   // if(loop_count>16){fxpreview();noLoop();}
@@ -159,10 +176,45 @@ function draw() {
     // load the pixels from the graphics object
     pg.loadPixels();
     // change which pixel we are updating
-    px += random_int(0,5)
+    px += dx
     px = (px+wth)%wth
-    py += random_int(0,5)
+    py += dy
     py = (py+hgt)%hgt
+
+    px = Math.floor(px)
+    py = Math.floor(py)
+
+    // push px and py to the pixel_buffer
+    pixel_buffer.push([px, py])
+
+    // if pixel_buffer longer than ?, pop the oldest value
+    if (pixel_buffer.length > (wth*hgt*4)) {
+      pixel_buffer.shift()
+      buffer_full = true
+    }
+
+    // get the number of unique values in pixel_buffer, check if less than X
+    seed_check = new Set(pixel_buffer.map(JSON.stringify)).size < (wth*hgt) && buffer_full
+    // get a new random seed
+    if (seed_check && frameCount - seed_check_frame > 300) {
+      console.log("getting new hash")
+      fxrand = sfc32(...hashes) // need to make sure to reseed right before getting the new hash
+      hashes = get_new_hashes()
+      seed_check_frame = frameCount
+    }
+
+    // spiral logic
+    if (random_int(1,1000)>900){
+      dx = randomChoice(steps)
+    } else {
+      dx *= 0.99
+    }
+
+    if (random_int(1,1000)>900){
+      dy = randomChoice(steps)
+    } else {
+      dy *= 0.99
+    }
 
     // get the color values from a random neighbor, including self
     const px2 = (px+random_int(-1,0)+wth)%wth
