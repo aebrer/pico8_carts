@@ -94,17 +94,6 @@ function setup() {
   
 
   fxrand = sfc32(...hashes)
-  
-
-  if(isFxpreview){
-    ww=1080
-    wh=1080
-    is_mobile=false
-    pd=5
-  } else {
-    ww=windowWidth
-    wh=windowHeight
-  }
 
   ww = 1065
   wh = 1500
