@@ -45,7 +45,7 @@ let is_mobile = window.matchMedia("(any-hover: none)").matches
 // hashes = "hriirieiririiiritiififiviviifj"
 // if(hashes==="debug"){hashes=random_num(0,1000000)}
 fxrand = sfc32(...hashes)
-window.$fxhashFeatures = {}
+// window.$fxhashFeatures = {}
 
 //PGrahics object
 let pg;
@@ -108,7 +108,7 @@ function setup() {
   mycan = createCanvas(ww, wh);
 
   wth = 32
-  window.$fxhashFeatures["Pixel Width"] = wth
+  // window.$fxhashFeatures["Pixel Width"] = wth
   // wth = 32
   hgt = Math.ceil(wth / 0.71)
   hc=-wth
@@ -139,8 +139,8 @@ function setup() {
   dy = randomChoice(steps)
 
   locking_method = randomChoice(["every"])
-  window.$fxhashFeatures["Entropy Locking Method"] = locking_method
-  console.table(window.$fxhashFeatures)
+  // window.$fxhashFeatures["Entropy Locking Method"] = locking_method
+  // console.table(window.$fxhashFeatures)
 }
 
 
@@ -206,8 +206,8 @@ function draw() {
     }
 
     // get the color values from a random neighbor, including self
-    const px2 = (px+random_int(-1,0)+wth)%wth
-    const py2 = (py+random_int(-1,0)+hgt)%hgt
+    const px2 = (px+random_int(-1,1)+wth)%wth
+    const py2 = (py+random_int(-1,1)+hgt)%hgt
 
     // console.debug(px, py, px2, py2)
 
