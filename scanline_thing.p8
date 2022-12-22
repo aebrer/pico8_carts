@@ -1,6 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 38
 __lua__
+poke(14-😐,1)
 _set_fps(60)
 r=rnd
 s=r(-1)
@@ -9,16 +10,19 @@ cls()
 y=0
 srand(s)
 --colors
+--pal({-8,8,9,10,11,12,2,-8,8,9,10,11,12,2},1)
+function pc()for i=0,16do pal(i,r(32)-16,1)end end
 --loopsize
-z=r(32)\1+1
+u=r(32)\1+1
 ::_::
  srand(s)
-	for z=0,16do
+	for z=0,u do
 		for x=0,128do
-		 y=(y+r({1,2,3,4,5}))%127
-		 pset(x,y,pget(x,(y+1)%127)-1)
+		 y=(y+r({1,2,3,4,5}))%128
+		 pset(x,y,pget(x,(y+1)%128)-1)
 		end
 		flip()
+		if(stat(34)==1)pc()
  end	
 goto _
 __gfx__
