@@ -4,7 +4,14 @@ __lua__
 _set_fps(60)
 r=rnd
 p=srand
-d=.9f=.9s=r(-1)p(s)
+s=1
+w=stat(6)
+for i=1,#w do
+ch=ord(sub(w,i,i))s+=s*31+ch
+end
+if(#w==0)s=rnd(-1)
+p(s)
+d=.9f=.9
 pal({-8,8,9,10,11,12,2},1)poke(24364,r({0,5,6,7}))cls()b=0c=1x=-8y=-8poke(0x5f2d,1)::_::
 if(r()>d and r()>f)p(s)
 x+=r(4)-2

@@ -195,14 +195,10 @@ function draw() {
     // spiral logic
     if (random_int(1,1000)>900){
       dx = randomChoice(steps)
-    } else {
-      dx *= 0.99
     }
 
     if (random_int(1,1000)>900){
       dy = randomChoice(steps)
-    } else {
-      dy *= 0.99
     }
 
     // get the color values from a random neighbor, including self
