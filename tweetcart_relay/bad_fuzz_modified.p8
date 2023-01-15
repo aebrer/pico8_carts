@@ -4,13 +4,13 @@ __lua__
 cls()
 r=rnd
 s=r(-1)srand(s)
-z=r(.0004)p=.5+r(2)+5e=r(9)+1g=8f=128n=cos
+z=r(.0001)+.0002p=.5+r(2)+5e=r(9)+1g=8f=128n=cos
 pal({0,0,-15,1,-4,12,6,7,-9,10,9,-7,-2,8,-8},1)
 ::♥::
 g+=z
 for i=0,768do
-if(r()>.99 and r()>.999)srand(s)
 if(r()>.999 and r()>.999)s+=1
+if(r()>.99 and r()>.999)srand(s)
 x=r(f)y=r(f)pset(x-n(x),y-n(y),max(pget(x,y)-1,0))end
 for i=0,32do
 m=(p+n(g))*64
