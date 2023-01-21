@@ -1,21 +1,14 @@
 pico-8 cartridge // http://www.pico-8.com
 version 38
 __lua__
-cls()
 r=rnd
-s=r(-1)srand(s)
-z=r(.0001)+.0002p=.5+r(2)+5e=r(9)+1g=8f=128n=cos
-pal({0,0,-15,1,-4,12,6,7,-9,10,9,-7,-2,8,-8},1)
-::♥::
-g+=z
+s=r(-1)srand(s)z=r(.0001)+.0002p=.5+r(2)+5e=r(9)+1g=8f=128n=cos
+for i=0,16do pal(i,r(32)-17,1)end::_::g+=z
 for i=0,768do
-if(r()>.999 and r()>.999)s+=1
-if(r()>.99 and r()>.999)srand(s)
-x=r(f)y=r(f)pset(x-n(x),y-n(y),max(pget(x,y)-1,0))end
+srand(s)x=r(f)y=r(f)pset(x-n(x),y-n(y),max(pget(x,y)-1,0))end
 for i=0,32do
-m=(p+n(g))*64
-line(n(n(g/p-i/32))*m+64,n(n(g/7-i/7))*m+64,i)end
-goto ♥
+m=(p+n(g))*64line(n(n(g/p-i/32))*m+64,n(n(g/7-i/7))*m+64,i/8)end
+goto _
 
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
