@@ -1,5 +1,3 @@
-// Entropy Locked Wave Function Collapse
-
 /*
 Controls:
 
