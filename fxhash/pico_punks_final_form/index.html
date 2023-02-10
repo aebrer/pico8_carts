@@ -1,0 +1,4449 @@
+﻿<html manifest="game.manifest" style="background: #101010;">                                           <!-- <= LINK TO MANIFEST (to cache files for offline-access= -->
+
+
+
+
+
+
+
+<head>
+
+  <script id="fxhash-snippet">
+    //---- do not edit the following code (you can indent as you wish)
+    let search = new URLSearchParams(window.location.search)
+    let alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+    var fxhash = search.get('fxhash') || "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
+    let b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
+    let fxhashTrunc = fxhash.slice(2)
+    let regex = new RegExp(".{" + ((fxhash.length/4)|0) + "}", 'g')
+    let hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
+    let sfc32 = (a, b, c, d) => {
+      return () => {
+        a |= 0; b |= 0; c |= 0; d |= 0
+        var t = (a + b | 0) + d | 0
+        d = d + 1 | 0
+        a = b ^ b >>> 9
+        b = c + (c << 3) | 0
+        c = c << 21 | c >>> 11
+        c = c + t | 0
+        return (t >>> 0) / 4294967296
+      }
+    }
+    var fxrand = sfc32(...hashes)
+    // true if preview mode active, false otherwise
+    // you can append preview=1 to the URL to simulate preview active
+    var isFxpreview = search.get('preview') === "1"
+    // call this method to trigger the preview
+    function fxpreview() {
+      console.log("fxhash: TRIGGER PREVIEW")
+    }
+
+    //
+    // NEW: v2 of the fxhash SDK lol
+    //
+    // get the byte params from the URL
+    let fxparams = search.get('fxparams')
+    fxparams = fxparams ? fxparams.replace("0x", "") : fxparams
+
+    // the parameter processor, used to parse fxparams
+    const processors = {
+      number: {
+        deserialize: (input) => {
+          const view = new DataView(new ArrayBuffer(8))
+          for (let i = 0; i < 8; i++) {
+            view.setUint8(i, parseInt(input.substring(i * 2, i * 2 + 2), 16))
+          }
+          return view.getFloat64(0)
+        },
+        bytesLength: () => 8,
+      },
+      boolean: {
+        // if value is "00" -> 0 -> false, otherwise we consider it's 1
+        deserialize: (input) => {
+          return input === "00" ? false : true
+        },
+        bytesLength: () => 1,
+      },
+      color: {
+        deserialize: (input) => input,
+        bytesLength: () => 4,
+        transform: (input) => {
+          const r = parseInt(input.slice(0,2), 16)
+          const g = parseInt(input.slice(2,4), 16)
+          const b = parseInt(input.slice(4,6), 16)
+          const a = parseInt(input.slice(6,8), 16)
+          return {
+            hex: {
+              rgb: '#' + input.slice(0,6),
+              rgba: '#' + input,
+            },
+            obj: {
+              rgb: { r, g, b},
+              rgba: { r, g, b, a},
+            },
+            arr: {
+              rgb: [r,g,b],
+              rgba: [r,g,b,a],
+            }
+          }
+        },
+      },
+      string: {
+        deserialize: (input) => {
+          const hx = input.match(/.{1,4}/g) || []
+          let rtn = ""
+          for (let i = 0; i < hx.length; i++) {
+            const int = parseInt(hx[i], 16)
+            if (int === 0) break
+            rtn += String.fromCharCode(int)
+          }
+          return rtn
+        },
+        bytesLength: () => 64 * 2,
+      },
+      select: {
+        deserialize: (input, definition) => {
+          return definition.options.options[parseInt(input, 16)] || definition.default
+        },
+        bytesLength: () => 1,
+      }
+    }
+
+    // takes the parameters as bytes and outputs an object with the
+    // deserialized parameters, identified by their id in an object
+    const deserializeParams = (bytes, definition) => {
+      const params = {}
+      for (const def of definition) {
+        // if we don't have any parameters defined in the URL, set the 
+        // default value and move on
+        if (!bytes) {
+          params[def.id] = def.default
+          continue
+        }
+        const processor = processors[def.type]
+        // extract the length from the bytes & shift the initial bytes string
+        const valueBytes = bytes.substring(0, processor.bytesLength() * 2)
+        bytes = bytes.substring(processor.bytesLength() * 2)
+        // deserialize the bytes into the params
+        params[def.id] = processor.deserialize(valueBytes, def)
+        // todo: make sure the value is correct based on constraints
+      }
+      return params
+    }
+
+    const transformParamValues = (values, definitions) => {
+      const paramValues = {}
+      for (const def of definitions) {
+        const processor = processors[def.type]
+        const value = values[def.id]
+        // deserialize the bytes into the params
+        paramValues[def.id] = processor.transform ? processor.transform(value) : value;
+      }
+      return paramValues; 
+    }
+
+    window.$fx = {
+      // where params def & features will be stored
+      _params: undefined,
+      _features: undefined,
+      // where the parameter values are stored
+      _paramValues: {},
+
+      hash: fxhash,
+      rand: fxrand,
+      preview: fxpreview,
+      isPreview: isFxpreview,
+      params: function(definition) {
+        // todo: maybe do some validation on the dev side ?
+        // or maybe not ?
+        this._params = definition
+        this._rawValues = deserializeParams(fxparams, definition)
+        this._paramValues = transformParamValues(this._rawValues, definition)
+      },
+      features: function(features) {
+        this._features = features
+      },
+      getFeature: function(id) {
+        return this._features[id]
+      },
+      getFeatures: function() {
+        return this._features
+      },
+      getParam: function(id) {
+        return this._paramValues[id]
+      },
+      getParams: function() {
+        return this._paramValues
+      },
+      getRawParam: function(id) {
+        return this._rawValues[id]
+      },
+      getRawParams: function() {
+        return this._rawValues
+      },
+      getDefinitions: function() {
+        return this._params
+      }
+    }
+    window.addEventListener("message", (event) => {
+      if (event.data === "fxhash_getHash") {
+        parent.postMessage({
+          id: "fxhash_getHash",
+          data: window.$fx.hash
+        }, "*")
+      }
+      
+      if (event.data === "fxhash_getFeatures") {
+        parent.postMessage({
+          id: "fxhash_getFeatures",
+          data: window.$fx.getFeatures()
+        }, "*")
+      }
+
+      if (event.data === "fxhash_getParams") {
+        parent.postMessage({
+          id: "fxhash_getParams",
+          data: window.$fx.getDefinitions()
+        }, "*")
+      }
+    })
+    // END NEW
+
+    //---- /do not edit the following code
+  </script>
+
+
+  <script type="text/javascript" src="params.js"></script> 
+
+
+  <meta charset="utf-8">
+
+
+
+
+
+
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+
+
+
+
+  <!--
+
+
+
+
+
+
+
+    Based on https://github.com/headjump/pico8_html_template
+
+
+
+
+
+
+
+    You are free to remove this comment or leave it here so others may find and use the repo as well :)
+
+
+
+
+
+
+
+  -->
+
+
+
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+
+
+
+
+
+
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+
+
+
+
+
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+
+
+
+
+
+
+
+
+
+
+  <!--
+
+
+
+
+
+
+
+    Icon info:
+
+
+
+
+
+
+
+    ----------
+
+
+
+
+
+
+
+    There are many different resolutions for different devices supported or recommended,
+
+
+
+
+
+
+
+    but I wanted this template to be easy to use "manually" and for me it works fine
+
+
+
+
+
+
+
+    to have a single PNG icon at 200x200. (200x200 is the minimum for facebok-sharing to use the og:image as thumbnail)
+
+
+
+
+
+
+
+  -->
+
+
+
+
+
+
+
+  <title>aebrer.xyz</title>                                               <!-- <= WEBSITE TITLE -->
+
+
+
+
+
+
+
+  <meta name="description" content="twitter.com/aebrer">                    <!-- <= SITE DESCRIPTION as seen by web-search-engines -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Info as seen by sharing apps like WhatsApp or Facebook, so they can show a preview-image and description when you share the URL -->
+
+
+
+
+
+
+
+  <meta property="og:type"        content="game" />
+
+
+
+
+
+
+
+  <meta property="og:description" content="twitter.com/aebrer" />                                         <!-- <= GAME DESCRIPTION -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  <style TYPE="text/css">
+
+
+
+
+
+
+
+    /* ------- DEFINE BUTTON COLORS ------- */
+
+
+
+
+
+
+
+    :root {
+
+
+
+
+
+
+
+      --btn: #1288D1;
+
+
+
+
+
+
+
+      --btn--pressed: #29ADFF;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      --btnIcon: #ffffff;
+
+
+
+
+
+
+
+      --btnIcon--pressed: #d6d6d6;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      --btn__analogBg: #232f37;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    body {padding: 0; margin: 0; outline: none; background: 0; overflow: hidden; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* ------ POSITION GAME-CANVAS ------ */
+
+
+
+
+
+
+
+    #canvas {
+
+
+
+
+
+
+      /* if is_touch_device() , set width and height to min(80vh,80vw), otherwise to 100*/
+      
+/*      @media (pointer: coarse) {
+        width: min(80vh,80vw);
+        height: min(80vh,80vw);
+      } @media (pointer: fine) {
+        width: min(100vh,100vw);
+        height: min(100vh,100vw);
+      }*/
+
+      /* width: min(80vh,80vw); height: min(80vh,80vw) */
+
+
+
+
+
+
+
+      image-rendering: optimizeSpeed;
+
+
+
+
+
+
+
+      image-rendering: -moz-crisp-edges;
+
+
+
+
+
+
+
+      image-rendering: -webkit-optimize-contrast;
+
+
+
+
+
+
+
+      image-rendering: optimize-contrast;
+
+
+
+
+
+
+
+      image-rendering: pixelated;
+
+
+
+
+
+
+
+      -ms-interpolation-mode: nearest-neighbor;
+
+
+
+
+
+
+
+      border: 0;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .canvas-wrapper {
+
+
+
+
+
+
+
+		text-align: center; 
+
+
+
+
+
+
+
+		display: grid;
+
+
+
+
+
+
+
+		justify-content: space-around;
+
+
+
+
+
+
+
+		align-items: center;
+
+
+
+
+
+
+
+		justify-items: center;
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+    .canvas-wrapper canvas { margin: 0 auto; }    /* center game */
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+	.btns{
+
+
+
+
+
+
+
+		margin-top: 24px;
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="canvas-wrapper">
+
+
+
+
+
+
+
+  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+
+
+
+
+
+
+  <div id="btns-markUsedButtonset"><!-- Gets class for used buttonset
+
+
+
+
+
+
+
+                                    (don't add other classes here, they'll get overridden! -->
+
+
+
+
+
+
+
+    <div id="btns-markPressed" style="top: -15; position: relative;">   <!-- Gets classes for all pressed buttons:
+
+
+
+
+
+
+
+                                    'pressed_L', 'pressed_R', 'pressed_U', 'pressed_D', 'pressed_X', 'pressed_O'
+
+
+
+
+
+
+
+                                    (don't add other classes here, they'll get overridden! -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!------- BUTTONSET 1 - buttons only ----------
+
+
+
+
+
+
+
+             
+
+
+
+
+
+
+
+                O  X
+
+
+
+
+
+
+
+             
+
+
+
+
+
+
+
+      -------------------------------->
+
+
+
+
+
+
+
+      <div class="btns buttonset buttonset-1">
+
+
+
+
+
+
+
+		  <div class="buttonset-dpad">
+
+
+
+
+
+
+
+			<div class="dpad-spacer"></div>
+
+
+
+
+
+
+
+			<div class="btn-fire-u btn">
+
+
+
+
+
+
+
+			  <svg width="min(5vh,5vw)" height="min(5vh,5vw)" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="11.253" style="fill:#ffffff;"></circle>
+
+
+
+
+
+
+
+				<polygon points="8,20 22,20 15,8" style="fill:#000000;stroke:#000000;"></polygon>
+
+
+
+
+
+
+
+			  </svg>
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+			<div class="dpad-spacer"></div>
+
+
+
+
+
+
+
+			<div class="btn-fire-l btn">
+
+
+
+
+
+
+
+			  <svg width="min(5vh,5vw)" height="min(5vh,5vw)" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="11.253" style="fill:#ffffff;"></circle>
+
+
+
+
+
+
+
+				<polygon points="8,15 20,8 20,22" style="fill:#000000;stroke:#000000;"></polygon>
+
+
+
+
+
+
+
+			  </svg>
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+			<div class="dpad-spacer"></div>
+
+
+
+
+
+
+
+			<div class="btn-fire-r btn">
+
+
+
+
+
+
+
+			  <svg width="min(5vh,5vw)" height="min(5vh,5vw)" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="11.253" style="fill:#ffffff;"></circle>
+
+
+
+
+
+
+
+				<polygon points="22,15 9,8 9,22" style="fill:#000000;stroke:#000000;"></polygon>
+
+
+
+
+
+
+
+			  </svg>
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+			<div class="dpad-spacer"></div>
+
+
+
+
+
+
+
+			<div class="btn-fire-d btn">
+
+
+
+
+
+
+
+			  <svg width="min(5vh,5vw)" height="min(5vh,5vw)" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="11.253" style="fill:#ffffff;"></circle>
+
+
+
+
+
+
+
+				<polygon points="8,9 22,9 15,23" style="fill:#000000;stroke:#000000;"></polygon>
+
+
+
+
+
+
+
+			  </svg>
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+			<div class="dpad-spacer"></div>
+
+
+
+
+
+
+
+		  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		  <div class="buttonset-menu">
+
+
+
+      <div class="dpad-spacer"></div>
+
+
+
+			<div class="pico8_el" onclick="Module.pico8TogglePaused();">
+
+
+
+      <img
+
+
+
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAPUlEQVR4Ae3doQ0AIAxEUWABLPtPh2WCq26DwFSU/JPNT166QSu/Hg86W9dwLte+diP7AwAAAAAAgD+A+jM2ZAgo84I0PgAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+
+
+
+        alt="Pause" width=12 height=12/></div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+      <div class="buttonset-action">
+
+
+
+			
+
+
+
+      <div class="btn-fire-x btn">
+
+
+
+
+
+
+
+			  <svg width="min(5vh,5vw)" height="min(5vh,5vw)" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="11.253" style="fill:#ffffff;"></circle>
+
+
+
+
+
+
+
+				<path d="M 11 10 L 15 15 L 19 10 L 19 10 L 15 15 L 19 20 L 19 20 L 15 15 L 11 20 L 11 20 L 15 15 L 11 10 L 11 10 Z" style="fill:#000000;stroke:#000000;"></path>
+
+
+
+
+
+
+
+			  </svg>
+
+
+
+
+
+
+
+			</div>
+
+
+
+      <div class="dpad-spacer"></div>
+
+
+
+      <div class="dpad-spacer"></div>
+
+
+
+
+
+
+
+			<div class="btn-fire-o btn">
+
+
+
+
+
+
+
+			  <svg width="min(5vh,5vw)" height="min(5vh,5vw)" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="11.253" style="fill:#ffffff;"></circle>
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="6" style="fill:#000000;"></circle>
+
+
+
+
+
+
+
+				<circle cx="15" cy="15" r="5" style="fill:#ffffff;"></circle>
+
+
+
+
+
+
+
+			  </svg>
+
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+		  </div>
+
+
+
+
+
+
+
+		</div>
+
+
+
+
+
+
+
+        <div class="clear"></div>
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+
+
+
+
+
+
+
+	var invertString = function (str) {
+
+
+
+
+
+
+
+		var s = '';
+
+
+
+
+
+
+
+		var i = 0;
+
+
+
+
+
+
+
+		while (i < str.length) {
+
+
+
+
+
+
+
+			var n = str.charAt(i);
+
+
+
+
+
+
+
+			if (n == n.toUpperCase()) {
+
+
+
+
+
+
+
+				// *Call* toLowerCase
+
+
+
+
+
+
+
+				n = n.toLowerCase();
+
+
+
+
+
+
+
+			} else {
+
+
+
+
+
+
+
+				// *Call* toUpperCase
+
+
+
+
+
+
+
+				n = n.toUpperCase();
+
+
+
+
+
+
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			i += 1;
+
+
+
+
+
+
+
+			s += n; 
+
+
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+		return s;
+
+
+
+
+
+
+
+	};
+
+
+
+
+
+
+
+	let hashedAddr;
+
+
+
+
+
+
+
+	let viewerAddress;
+
+
+
+
+
+
+
+	let params = new URLSearchParams(window.location.search);
+
+
+
+
+
+
+
+	const viewer = params.get("viewer");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	if (params.has('viewer')) {
+
+
+
+
+
+
+
+		viewerAddress = invertString(viewer);
+
+
+
+
+
+
+
+	} else {
+
+
+
+
+
+
+
+		viewerAddress = "unsynced";
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+
+	console.log("Viewer Address: "+ viewerAddress);
+
+
+
+
+
+
+
+	  
+
+
+
+
+
+
+
+    // ------ SETUP USED FOR PICO8 CART ------
+
+
+
+
+
+
+
+    var
+
+
+
+
+
+
+
+      canvas = document.getElementById("canvas")
+
+
+      pico8_col_dict = {
+        "black":0, 
+        "dark-blue":1, 
+        "dark-purple":2, 
+        "dark-green":3, 
+        "brown":4, 
+        "dark-gray":5, 
+        "light-gray":6, 
+        "white":7, 
+        "red":8, 
+        "orange":9, 
+        "yellow":10,
+        "green":11,
+        "blue":12,
+        "lavender":13, 
+        "pink":14, 
+        "light-peach":15,
+        "brownish-black":-16,
+        "darker-blue":-15,
+        "darker-purple":-14,
+        "blue-green":-13,
+        "dark-brown":-12,
+        "darker-gray":-11,
+        "medium-gray":-10,
+        "light-yellow":-9,
+        "dark-red":-8,
+        "dark-orange":-7,
+        "lime-green":-6,
+        "medium-green":-5,
+        "true-blue":-4,
+        "mauve":-3,
+        "dark-peach":-2,
+        "peach":-1
+      },
+
+
+
+      param_string = ""
+
+
+      bg_color = pico8_col_dict[$fx.getParam("bg_color")]
+
+      // now we append the bg_color to the param_string
+      // first use the dictionary to get the pico8 color number
+      // then convert to string and append to param_string, and append a comma
+      param_string=param_string.concat(",",bg_color)
+
+      // same for skin2_color
+      skin2_color = pico8_col_dict[$fx.getParam("skin2_color")]
+      param_string=param_string.concat(",",skin2_color)
+
+      // now skin1_color
+      skin1_color = pico8_col_dict[$fx.getParam("skin1_color")]
+      param_string=param_string.concat(",",skin1_color)
+
+      // eye_color
+      eye_color = pico8_col_dict[$fx.getParam("eye_color")]
+      param_string=param_string.concat(",",eye_color)
+
+      // eye_alt_color
+      eye_alt_color = pico8_col_dict[$fx.getParam("eye_alt_color")]
+      param_string=param_string.concat(",",eye_alt_color)
+
+
+      //end string
+      param_string=param_string.concat("",",")
+      console.log("YOYOYO: "+param_string)
+      Module = {canvas: canvas, arguments: ["-gif_len", "16", "-screenshot_scale", "8", "-p", param_string]};
+
+
+      // now define all the features
+      $fx.features({
+        "Background Color": $fx.getParam("bg_color"),
+        "Main Skin Color": $fx.getParam("skin1_color"),
+        "Skin Accent Color": $fx.getParam("skin2_color"),
+        "Eye Color": $fx.getParam("eye_color"),
+        "Eye Alt Color": $fx.getParam("eye_alt_color"),
+      })
+
+
+
+
+    
+
+
+
+
+
+
+
+    function is_touch_device() {
+
+
+
+
+
+
+
+    return 'ontouchstart' in window // works on most browsers 
+
+
+
+
+
+
+
+        || 'onmsgesturechange' in window; // works on ie10
+
+
+
+
+
+
+
+    }
+
+
+
+
+      // @media (pointer: coarse) {
+      //   canvas.style.width = "min(80vh,80vw)";
+      //   canvas.style.height = "min(80vh,80vw)";
+      //   canvas.style["padding-top"] = "10px"
+      // } else {
+      //   canvas.style.width = "min(100vh,100vw)";
+      //   canvas.style.height = "min(100vh,100vw)";
+      //   canvas.style["padding-top"] = "0px"
+      // }
+      
+
+
+
+
+
+    // ------ BLOCK CURSOR-KEYS FROM SCROLLING ------
+
+
+
+
+
+
+
+    var onKeyDown_blocker= function(event) {
+
+
+
+
+
+
+
+      event = event || window.event;
+
+
+
+
+
+
+
+      var o = document.activeElement;
+
+
+
+
+
+
+
+      if (!o || o == document.body || o.tagName == "canvas") {
+
+
+
+
+
+
+
+        if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+
+
+
+
+
+
+
+          if (event.preventDefault) event.preventDefault();
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+      }
+
+
+
+
+
+
+
+    };
+
+
+
+
+
+
+
+    document.addEventListener('keydown', onKeyDown_blocker, false);
+
+
+
+
+
+
+
+  </script>
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="index.js"></script> 
+
+  <script type="text/javascript">
+
+
+
+
+
+
+
+        // ------ SETUP USED FOR PICO8 CART ------
+
+
+
+
+
+
+
+    var canvas = document.getElementById("canvas")
+
+    function is_touch_device() {
+    return 'ontouchstart' in window // works on most browsers 
+        || 'onmsgesturechange' in window; // works on ie10
+    }
+
+
+
+  if (!isFxpreview) {
+    canvas.style.width = "min(80vh,80vw)";
+    canvas.style.height = "min(80vh,80vw)";
+    canvas.style["padding-top"] = "10px"
+  } else {
+    canvas.style.width = "min(100vh,100vw)";
+    canvas.style.height = "min(100vh,100vw)";
+    canvas.style["padding-top"] = "0px"
+  }
+  
+  console.log(canvas.width)
+
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+
+
+
+
+
+
+
+  .pressed_X .btn-fire-x,
+
+
+
+
+
+
+
+  .pressed_O .btn-fire-o,
+
+
+
+
+
+
+
+  .pressed_U .btn-fire-u,
+
+
+
+
+
+
+
+  .pressed_D .btn-fire-d,
+
+
+
+
+
+
+
+  .pressed_L .btn-fire-l,
+
+
+
+
+
+
+
+  .pressed_R .btn-fire-r {
+
+
+
+
+
+
+
+    background-color: var(--btn--pressed); /* change color when pressed */
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+  .pressed_X .btn-fire-x svg path,
+
+
+
+
+
+
+
+  .pressed_O .btn-fire-o svg path,
+
+
+
+
+
+
+
+  .pressed_U .btn-fire-u svg path,
+
+
+
+
+
+
+
+  .pressed_D .btn-fire-d svg path,
+
+
+
+
+
+
+
+  .pressed_L .btn-fire-l svg path,
+
+
+
+
+
+
+
+  .pressed_R .btn-fire-r svg path {
+
+
+
+
+
+
+
+    fill: var(--btnIcon--pressed) !important; /* change color when pressed */
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+    .pico8_el { width:min(5vh,5vw); display:inline-block; text-align: center; color:#fff; background-color:#101010; font-size: 9pt; cursor: pointer; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.buttonset {
+
+
+
+
+
+
+
+  width: min(60vw,60vh);
+
+
+
+
+
+
+
+  display: grid;
+
+
+
+
+
+
+
+  grid-template-columns: repeat(3, 1fr);
+
+
+
+
+
+
+
+  align-items: center;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+.buttonset-dpad {
+
+
+
+
+
+
+
+  width: min(20vw,20vh);
+
+
+
+
+
+
+
+  display: grid;
+
+
+
+
+
+
+
+  grid-template-columns: repeat(3, 1fr)
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+.buttonset-menu {
+
+
+
+
+
+
+
+  width: min(20vw,20vh);
+
+
+
+
+
+
+
+  display: grid;
+
+
+
+
+
+
+
+  grid-template-columns: repeat(3, 1fr);
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+.buttonset-action {
+
+
+
+
+
+
+
+  width: min(20vw,20vh);
+
+
+
+
+
+
+
+  display: grid;
+
+
+
+
+
+
+
+  grid-template-columns: repeat(2, 1fr);
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+.btn-fire-x {
+
+
+
+
+
+
+
+  position: relative;
+
+
+
+
+
+
+
+  //top: -15px;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+.btn-fire-o {
+
+
+
+
+
+
+
+  position: relative;
+
+
+
+
+
+
+
+  //top: 15px;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+  // --------- HANDLE TOUCH-EVENTS ON BUTTONS ---------
+
+
+
+
+
+
+
+  //
+
+
+
+
+
+
+
+  // IMPORTANT FOR TESTING:
+
+
+
+
+
+
+
+  //   The buttons ONLY work with touch-events, so you can't test them
+
+
+
+
+
+
+
+  //   on a regular browser with your mouse.
+
+
+
+
+
+
+
+  //   Chrome allows for simulating touch-events in the developer-tools:
+
+
+
+
+
+
+
+  //   -> https://developers.google.com/web/tools/chrome-devtools/device-mode/
+
+
+
+
+
+
+
+  if(true) {
+
+
+
+
+
+
+
+    var
+
+
+
+
+
+
+
+      GPIO_BUTTONSET_INDEX=0,
+
+
+
+
+
+
+
+      GPIO_ANALOG_X_INDEX=1,
+
+
+
+
+
+
+
+      GPIO_ANALOG_Y_INDEX=2,
+
+
+
+
+
+
+
+      pico8_buttons = [0, 0, 0, 0, 0, 0, 0, 0], // <= the first element in this array will be updated by the touch-buttons
+
+
+
+
+
+
+
+      pico8_gpio = new Array(128),              // <= used to let pico8-cart change buttonset
+
+
+
+
+
+
+
+      changeButtonset;                          // usage: changeButtonset(2) to activates .buttonset-2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    (function(){ // locally scoped
+
+
+
+
+
+
+
+      var
+
+
+
+
+
+
+
+        allAnalogSticks=document.querySelectorAll(".axis-analog .btn__stick");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      var setAnalogAxis=function(x,y){
+
+
+
+
+
+
+
+        pico8_gpio[GPIO_ANALOG_X_INDEX]=x;
+
+
+
+
+
+
+
+        pico8_gpio[GPIO_ANALOG_Y_INDEX]=y;
+
+
+
+
+
+
+
+      };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      var resetAnalogSticks = function(sticks_or_null) {
+
+
+
+
+
+
+
+        setAnalogAxis(100,100);
+
+
+
+
+
+
+
+        sticks_or_null || (sticks_or_null=allAnalogSticks);
+
+
+
+
+
+
+
+        var st;
+
+
+
+
+
+
+
+        for(var i=0; i<sticks_or_null.length; i++){
+
+
+
+
+
+
+
+          st=allAnalogSticks[i];
+
+
+
+
+
+
+
+          st.style.left="50%"; st.style.top="50%";
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+      };
+
+
+
+
+
+
+
+      resetAnalogSticks();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      changeButtonset=(function(){
+
+
+
+
+
+
+
+        classHolder=document.getElementById("btns-markUsedButtonset");
+
+
+
+
+
+
+
+        var current=-1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // poll for pico8_gpio to check if PICO8-game wants a buttonset-change
+
+
+
+
+
+
+
+        window.setInterval(function(){
+
+
+
+
+
+
+
+          var from_pico8 = pico8_gpio[GPIO_BUTTONSET_INDEX];
+
+
+
+
+
+
+
+          if(!!from_pico8) changeButtonset(from_pico8);
+
+
+
+
+
+
+
+        },100);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return function(buttonset_number){
+
+
+
+
+
+
+
+          if(current!==buttonset_number) {
+
+
+
+
+
+
+
+            pico8_buttons[0] = 0; // reset pico btns
+
+
+
+
+
+
+
+            if(pico8_gpio[GPIO_BUTTONSET_INDEX]!==buttonset_number){
+
+
+
+
+
+
+
+              pico8_gpio[GPIO_BUTTONSET_INDEX]=buttonset_number;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            analogs=[0,0];        // reset analog stick
+
+
+
+
+
+
+
+            classHolder.className = "buttonset-use-" + buttonset_number;
+
+
+
+
+
+
+
+            resetAnalogSticks();
+
+
+
+
+
+
+
+            current=buttonset_number;
+
+
+
+
+
+
+
+          }
+
+
+
+
+
+
+
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      }());
+
+
+
+
+
+
+
+      changeButtonset(1); // set starting buttonset!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      var
+
+
+
+
+
+
+
+        updatePressedClasses = (function() {
+
+
+
+
+
+
+
+          var target = document.getElementById("btns-markPressed");
+
+
+
+
+
+
+
+          return function() {
+
+
+
+
+
+
+
+            var classes="",pressed=pico8_buttons[0];
+
+
+
+
+
+
+
+            for(var key_string in KEY) {
+
+
+
+
+
+
+
+              if(KEY.hasOwnProperty(key_string) && ((pressed & KEY[key_string]) > 0)) classes+= " pressed_" + key_string;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            target.className = classes;
+
+
+
+
+
+
+
+          };
+
+
+
+
+
+
+
+        }()),
+
+
+
+
+
+
+
+        KEY = { L: 1, R: 2, U: 4, D: 8, O: 16, X: 32 },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        btnDown = function(key) { pico8_buttons[0] |= key; updatePressedClasses(); },
+
+
+
+
+
+
+
+        btnUp   = function(key) { pico8_buttons[0] &= ~key; updatePressedClasses(); },
+
+
+
+
+
+
+
+        btnAxis = function(active_keys) {
+
+
+
+
+
+
+
+          pico8_buttons[0] &= ~(KEY.U | KEY.D | KEY.L | KEY.R); // clear all axes
+
+
+
+
+
+
+
+          for(var i=0; i<active_keys.length;i++) { pico8_buttons[0] |= active_keys[i]; }
+
+
+
+
+
+
+
+          updatePressedClasses();
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        relTouchPosInEl = function(el, touch) {
+
+
+
+
+
+
+
+          var rect = el.getBoundingClientRect();
+
+
+
+
+
+
+
+          if(rect.width === 0 || rect.height === 0) return {x: 0, y: 0};
+
+
+
+
+
+
+
+          return {
+
+
+
+
+
+
+
+            x: Math.min(1, Math.max(0, (touch.clientX - rect.left) / rect.width)),
+
+
+
+
+
+
+
+            y: Math.min(1, Math.max(0, (touch.clientY - rect.top) / rect.height))
+
+
+
+
+
+
+
+          };
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        xAxisUpdate = function(el, touch) {
+
+
+
+
+
+
+
+          if(!touch) return; // can occur when switching buttonsets
+
+
+
+
+
+
+
+          var
+
+
+
+
+
+
+
+            pos = relTouchPosInEl(el, touch),
+
+
+
+
+
+
+
+            x_axis = 0, y_axis = 0;
+
+
+
+
+
+
+
+          if(pos.x < .4) x_axis = KEY.L;
+
+
+
+
+
+
+
+          if(pos.x > .6) x_axis = KEY.R;
+
+
+
+
+
+
+
+          btnAxis([x_axis, y_axis]);
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        yAxisUpdate = function(el, touch) {
+
+
+
+
+
+
+
+          if(!touch) return; // can occur when switching buttonsets
+
+
+
+
+
+
+
+          var
+
+
+
+
+
+
+
+            pos = relTouchPosInEl(el, touch),
+
+
+
+
+
+
+
+            x_axis = 0, y_axis = 0;
+
+
+
+
+
+
+
+          if(pos.y < .4) y_axis = KEY.U;
+
+
+
+
+
+
+
+          if(pos.y > .6) y_axis = KEY.D;
+
+
+
+
+
+
+
+          btnAxis([x_axis, y_axis]);
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        xyAxisUpdate = function(el, touch) {
+
+
+
+
+
+
+
+          if(!touch) return; // can occur when switching buttonsets
+
+
+
+
+
+
+
+          var
+
+
+
+
+
+
+
+            pos = relTouchPosInEl(el, touch),
+
+
+
+
+
+
+
+            x_axis = 0, y_axis = 0,
+
+
+
+
+
+
+
+            x_range = .3, y_range = .3;
+
+
+
+
+
+
+
+          if(pos.x < x_range) x_axis = KEY.L;
+
+
+
+
+
+
+
+          if(pos.x > 1-x_range) x_axis = KEY.R;
+
+
+
+
+
+
+
+          if(pos.y < y_range) y_axis = KEY.U;
+
+
+
+
+
+
+
+          if(pos.y > 1-y_range) y_axis = KEY.D;
+
+
+
+
+
+
+
+          btnAxis([x_axis, y_axis]);
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        analogAxisUpdate = function(el, stick, touch) {
+
+
+
+
+
+
+
+          if(!touch) return; // can occur when switching buttonsets
+
+
+
+
+
+
+
+          var
+
+
+
+
+
+
+
+            pos = relTouchPosInEl(el, touch),
+
+
+
+
+
+
+
+            x_border=.15, y_border=.15,
+
+
+
+
+
+
+
+            x_val=pos.x-.5,y_val=pos.y-.5, // both for axis-value calculation
+
+
+
+
+
+
+
+            x_stick=pos.x,y_stick=pos.y;   // both for Stick-graphic placement
+
+
+
+
+
+
+
+          if(x_val<-.5+x_border)x_val=-.5+x_border;
+
+
+
+
+
+
+
+          if(x_val>.5-x_border)x_val=.5-x_border;
+
+
+
+
+
+
+
+          if(y_val<-.5+y_border)y_val=-.5+y_border;
+
+
+
+
+
+
+
+          if(y_val>.5-y_border)y_val=.5-y_border;
+
+
+
+
+
+
+
+          if(x_stick<x_border)x_stick=x_border;
+
+
+
+
+
+
+
+          if(x_stick>1-x_border)x_stick=1-x_border;
+
+
+
+
+
+
+
+          if(y_stick<y_border)y_stick=y_border;
+
+
+
+
+
+
+
+          if(y_stick>1-y_border)y_stick=1-y_border;
+
+
+
+
+
+
+
+          stick.style.left=""+Math.round(x_stick*100)+"%";
+
+
+
+
+
+
+
+          stick.style.top=""+Math.round(y_stick*100)+"%";
+
+
+
+
+
+
+
+          setAnalogAxis(Math.floor(x_val/(.5-x_border)*50+100) , Math.floor(y_val/(.5-y_border)*50+100));
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        axisEnd = function() { btnAxis([]); },
+
+
+
+
+
+
+
+        killEvt = function(evt) { evt.preventDefault(); evt.stopPropagation(); },
+
+
+
+
+
+
+
+        touchfinder=function(){
+
+
+
+
+
+
+
+          var touchid=null;
+
+
+
+
+
+
+
+          return {
+
+
+
+
+
+
+
+            fillFromTouchStart:function(evt,el){
+
+
+
+
+
+
+
+              var
+
+
+
+
+
+
+
+                touches, touch,
+
+
+
+
+
+
+
+                toucharea = el.getBoundingClientRect();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              console.log(toucharea.left, toucharea.right);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              if(touches = evt.changedTouches){
+
+
+
+
+
+
+
+                for(var i=0; i<touches.length; i++){
+
+
+
+
+
+
+
+                  touch=touches[i];
+
+
+
+
+
+
+
+                  console.log(touch.clientX);
+
+
+
+
+
+
+
+                  if( // is correct touchpoint?
+
+
+
+
+
+
+
+                    (touch.clientX > toucharea.left - 10) &&
+
+
+
+
+
+
+
+                    (touch.clientX < toucharea.right + 10) &&
+
+
+
+
+
+
+
+                    (touch.clientY > toucharea.top - 10) &&
+
+
+
+
+
+
+
+                    (touch.clientY < toucharea.bottom + 10)
+
+
+
+
+
+
+
+                  ) {
+
+
+
+
+
+
+
+                    touchid=touch.identifier;
+
+
+
+
+
+
+
+                    return touch;
+
+
+
+
+
+
+
+                  }
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+              }
+
+
+
+
+
+
+
+              touchid=null;
+
+
+
+
+
+
+
+              return null;
+
+
+
+
+
+
+
+            },
+
+
+
+
+
+
+
+            findFromTouchMove:function(evt){
+
+
+
+
+
+
+
+              if(touchid === null) return null;
+
+
+
+
+
+
+
+              var touches,touch;
+
+
+
+
+
+
+
+              if(touches=evt.changedTouches) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                for(var i=0; i<touches.length; i++){
+
+
+
+
+
+
+
+                  touch=touches[i];
+
+
+
+
+
+
+
+                  if(touch.identifier===touchid) { return touch; }
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+              }
+
+
+
+
+
+
+
+              return null;
+
+
+
+
+
+
+
+            },
+
+
+
+
+
+
+
+            clear:function(){ touchid = null; }
+
+
+
+
+
+
+
+          };
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        addAnalogAxis = function(el) {
+
+
+
+
+
+
+
+          var
+
+
+
+
+
+
+
+            stick=el.querySelector('.btn__stick'),
+
+
+
+
+
+
+
+            find_my_touch=touchfinder();
+
+
+
+
+
+
+
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, find_my_touch.fillFromTouchStart(evt,el)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, find_my_touch.findFromTouchMove(evt)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); resetAnalogSticks([stick]); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); resetAnalogSticks([stick]); }, false);
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        addXAxis = function(el) {
+
+
+
+
+
+
+
+          var find_my_touch=touchfinder();
+
+
+
+
+
+
+
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); xAxisUpdate(el, find_my_touch.fillFromTouchStart(evt,el)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); xAxisUpdate(el, find_my_touch.findFromTouchMove(evt)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        addYAxis = function(el) {
+
+
+
+
+
+
+
+          var find_my_touch=touchfinder();
+
+
+
+
+
+
+
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); yAxisUpdate(el, find_my_touch.fillFromTouchStart(evt,el)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); yAxisUpdate(el, find_my_touch.findFromTouchMove(evt)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        addXYAxis = function(el) {
+
+
+
+
+
+
+
+          var find_my_touch=touchfinder();
+
+
+
+
+
+
+
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); xyAxisUpdate(el, find_my_touch.fillFromTouchStart(evt,el)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); xyAxisUpdate(el, find_my_touch.findFromTouchMove(evt)); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+
+
+
+
+
+
+
+        },
+
+
+
+
+
+
+
+        addButton = function(el, key) {
+
+
+
+
+
+
+
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); btnDown(key); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("mousedown", function(evt){ killEvt(evt); btnDown(key); }, false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          el.addEventListener("touchmove", killEvt, false);
+
+
+
+
+
+
+
+          el.addEventListener("mousemove", killEvt, false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          el.addEventListener("touchend", function(evt){ killEvt(evt); btnUp(key); }, false);
+
+
+
+
+
+
+
+          el.addEventListener("mouseup", function(evt){ killEvt(evt); btnUp(key); }, false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          el.addEventListener("touchcancel", function(evt){ killEvt(evt); btnUp(key); }, false);
+
+
+
+
+
+
+
+        };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      var
+
+
+
+
+
+
+
+        axisXs=document.getElementsByClassName("axis-leftRight"),
+
+
+
+
+
+
+
+        axisXYs=document.getElementsByClassName("axis-upDownLeftRight"),
+
+
+
+
+
+
+
+        axisYs=document.getElementsByClassName("axis-upDown"),
+
+
+
+
+
+
+
+        axisAnalogs=document.getElementsByClassName("axis-analog"),
+
+
+
+
+
+
+
+        xBtns=document.getElementsByClassName("btn-fire-x"),
+
+
+
+
+
+
+
+        oBtns=document.getElementsByClassName("btn-fire-o"),
+
+
+
+
+
+
+
+        lBtns=document.getElementsByClassName("btn-fire-l"),
+
+
+
+
+
+
+
+        rBtns=document.getElementsByClassName("btn-fire-r"),
+
+
+
+
+
+
+
+        dBtns=document.getElementsByClassName("btn-fire-d"),
+
+
+
+
+
+
+
+        uBtns=document.getElementsByClassName("btn-fire-u"),
+
+
+
+
+
+
+
+        i;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      for(i=0; i<axisXs.length; i++){ addXAxis(axisXs[i]); }
+
+
+
+
+
+
+
+      for(i=0; i<axisXYs.length; i++){ addXYAxis(axisXYs[i]); }
+
+
+
+
+
+
+
+      for(i=0; i<axisYs.length; i++){ addYAxis(axisYs[i]); }
+
+
+
+
+
+
+
+      for(i=0; i<axisAnalogs.length; i++){ addAnalogAxis(axisAnalogs[i]); }
+
+
+
+
+
+
+
+      for(i=0; i<xBtns.length; i++){ addButton(xBtns[i], KEY.X); }
+
+
+
+
+
+
+
+      for(i=0; i<oBtns.length; i++){ addButton(oBtns[i], KEY.O); }
+
+
+
+
+
+
+
+      for(i=0; i<lBtns.length; i++){ addButton(lBtns[i], KEY.L); }
+
+
+
+
+
+
+
+      for(i=0; i<rBtns.length; i++){ addButton(rBtns[i], KEY.R); }
+
+
+
+
+
+
+
+      for(i=0; i<dBtns.length; i++){ addButton(dBtns[i], KEY.D); }
+
+
+
+
+
+
+
+      for(i=0; i<uBtns.length; i++){ addButton(uBtns[i], KEY.U); }
+
+
+
+
+
+
+
+      // prevent "tilt-zooming" when accidentally touching between the buttons
+
+
+
+      //document.getElementById("btns-wrapper").addEventListener("touchstart", function(evt){ evt.preventDefault(); }, false);
+
+
+
+
+
+
+
+    })();
+
+
+
+
+
+
+
+    document.onkeydown = function(evt) {
+
+
+
+
+
+
+
+    evt = evt || window.event;
+
+
+
+
+
+
+
+    var keyCode = evt.keyCode;
+
+
+
+
+
+
+
+    if (keyCode >= 37 && keyCode <= 40) {
+
+
+
+
+
+
+
+        return false;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+};
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body></html>
