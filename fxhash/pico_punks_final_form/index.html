@@ -1711,6 +1711,17 @@
       eye_alt_color = pico8_col_dict[$fx.getParam("eye_alt_color")]
       param_string=param_string.concat(",",eye_alt_color)
 
+      // hair_color
+      hair_color = pico8_col_dict[$fx.getParam("hair_color")]
+      param_string=param_string.concat(",",hair_color)
+
+      // mouth_color
+      mouth_color = pico8_col_dict[$fx.getParam("mouth_color")]
+      param_string=param_string.concat(",",mouth_color)
+
+      // mouth_alt_color
+      mouth_alt_color = pico8_col_dict[$fx.getParam("mouth_alt_color")]
+      param_string=param_string.concat(",",mouth_alt_color)
 
       //end string
       param_string=param_string.concat("",",")
@@ -1724,7 +1735,10 @@
         "Main Skin Color": $fx.getParam("skin1_color"),
         "Skin Accent Color": $fx.getParam("skin2_color"),
         "Eye Color": $fx.getParam("eye_color"),
-        "Eye Alt Color": $fx.getParam("eye_alt_color"),
+        "Eye Accent Color": $fx.getParam("eye_alt_color"),
+        "Hair Color": $fx.getParam("hair_color"),
+        "Mouth Color": $fx.getParam("mouth_color"),
+        "Mouth Accent Color": $fx.getParam("mouth_alt_color"),
       })
 
 

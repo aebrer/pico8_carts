@@ -224,7 +224,6 @@ function init()
  vfx = r(vfxs)
  fc=0
 
- red_check = r()>0.999
 
  menuitem(1,"seed: "..seed)
  menuitem(2,"demo_mode: "..tostr(demo_mode),toggle_demo_mode)
@@ -232,7 +231,6 @@ function init()
  bgfg = {rng_vals[1],rng_vals[2]}
 
  pal(bg,bgfg[1],1)
- if (red_check) pal(bg,8,1)
  pal(fg,bgfg[2],1)
 
  main_skin = rng_vals[3]
@@ -243,32 +241,21 @@ function init()
 
  main_eye = rng_vals[4]
  secondary_eye = rng_vals[5]
- 
+
  pal(eye1,main_eye,1)
  pal(eye2,secondary_eye,1)
  
 
- main_hair = q()
- -- while (main_hair == main_skin or
- --  main_hair == bgfg[1]) do 
- --  main_hair = q()
- -- end
+ main_hair = rng_vals[6]
  pal(hair_c,main_hair,1)
 
- main_mouth = q()
+ main_mouth = rng_vals[7]
+ alt_mouth = rng_vals[8]
  -- while main_mouth == main_skin do 
  --  main_mouth = q()
  -- end
  pal(mouth1,main_mouth,1)
- pal(mouth2,q(),1)
-
- if (bw) pal({7,rnd({7,0}),0,7,0,0,7,0,7,0,7,0,7,0,7},1)
- if (bw and bgfg[1] == 0) bgfg[1] = -14 pal(bg,bgfg[1],1)
-
- if red_check then 
-  pal({7,rnd({0}),0,7,0,0,7,0,7,0,7,0,7,0,7},1)
-  if (bgfg[1] == 0) bgfg[1] = -14 pal(bg,bgfg[1],1)
- end
+ pal(mouth2,alt_mouth,1)
 
  eyestyle1 = r(eye_styles)
  eyestyle2 = r(eye_styles)

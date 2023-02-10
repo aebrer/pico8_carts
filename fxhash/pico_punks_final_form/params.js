@@ -121,7 +121,34 @@ $fx.params([
     },
     {
         id: "eye_alt_color",
-        name: "Eye Alt Color",
+        name: "Eye Accent Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "hair_color",
+        name: "Hair Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "mouth_color",
+        name: "Mouth Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "mouth_alt_color",
+        name: "Mouth Accent Color",
         type: "select",
         default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
         options: {
