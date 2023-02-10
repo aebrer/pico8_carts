@@ -189,6 +189,11 @@ hair_c = 6
 mouth1 = 7 
 mouth2 = 8
 
+-- now we randomize the colors after 8 so the palette is more interesting when glitched
+for i=9,15 do
+ pal(i,r(17)-33,1)
+end
+
 -- bonus features
 eyepatch_prob = 0.03
 bald_prob = 0.05
