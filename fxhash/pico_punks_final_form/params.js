@@ -44,6 +44,9 @@
 //   },
 // ]);
 
+
+const sp = new URLSearchParams(window.location.search);
+
 pico8_cols = [
     "black",
     "dark-blue",
@@ -81,7 +84,7 @@ pico8_cols = [
 
 
 // boilerplate 
-$fx.params([
+window.$fx.params([
     {
         id: "bg_color",
         name: "Background Color",
@@ -154,5 +157,16 @@ $fx.params([
         options: {
             options: pico8_cols,
         },
+    },
+    {
+        id: "demo_lim",
+        name: "Initial Composition Layers",
+        type: "number",
+        default: 8,
+        options: {
+                  min: 1,
+                  max: 25,
+                  step: 1,
+                },
     },
 ]);

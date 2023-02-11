@@ -1687,8 +1687,14 @@
 
       param_string = ""
 
+      // add the hash to the param_string
+      param_string=param_string.concat(fxhash)
+      // param_string=param_string.concat(",","andrew")
 
-      bg_color = pico8_col_dict[$fx.getParam("bg_color")]
+
+
+
+      bg_color = pico8_col_dict[window.$fx.getParam("bg_color")]
 
       // now we append the bg_color to the param_string
       // first use the dictionary to get the pico8 color number
@@ -1696,32 +1702,37 @@
       param_string=param_string.concat(",",bg_color)
 
       // same for skin2_color
-      skin2_color = pico8_col_dict[$fx.getParam("skin2_color")]
+      skin2_color = pico8_col_dict[window.$fx.getParam("skin2_color")]
       param_string=param_string.concat(",",skin2_color)
 
       // now skin1_color
-      skin1_color = pico8_col_dict[$fx.getParam("skin1_color")]
+      skin1_color = pico8_col_dict[window.$fx.getParam("skin1_color")]
       param_string=param_string.concat(",",skin1_color)
 
       // eye_color
-      eye_color = pico8_col_dict[$fx.getParam("eye_color")]
+      eye_color = pico8_col_dict[window.$fx.getParam("eye_color")]
       param_string=param_string.concat(",",eye_color)
 
       // eye_alt_color
-      eye_alt_color = pico8_col_dict[$fx.getParam("eye_alt_color")]
+      eye_alt_color = pico8_col_dict[window.$fx.getParam("eye_alt_color")]
       param_string=param_string.concat(",",eye_alt_color)
 
       // hair_color
-      hair_color = pico8_col_dict[$fx.getParam("hair_color")]
+      hair_color = pico8_col_dict[window.$fx.getParam("hair_color")]
       param_string=param_string.concat(",",hair_color)
 
       // mouth_color
-      mouth_color = pico8_col_dict[$fx.getParam("mouth_color")]
+      mouth_color = pico8_col_dict[window.$fx.getParam("mouth_color")]
       param_string=param_string.concat(",",mouth_color)
 
       // mouth_alt_color
-      mouth_alt_color = pico8_col_dict[$fx.getParam("mouth_alt_color")]
+      mouth_alt_color = pico8_col_dict[window.$fx.getParam("mouth_alt_color")]
       param_string=param_string.concat(",",mouth_alt_color)
+
+      // demo_lim
+      demo_lim = $fx.getParam("demo_lim")
+      param_string=param_string.concat(",",demo_lim)
+
 
       //end string
       param_string=param_string.concat("",",")
@@ -1730,15 +1741,16 @@
 
 
       // now define all the features
-      $fx.features({
-        "Background Color": $fx.getParam("bg_color"),
-        "Main Skin Color": $fx.getParam("skin1_color"),
-        "Skin Accent Color": $fx.getParam("skin2_color"),
-        "Eye Color": $fx.getParam("eye_color"),
-        "Eye Accent Color": $fx.getParam("eye_alt_color"),
-        "Hair Color": $fx.getParam("hair_color"),
-        "Mouth Color": $fx.getParam("mouth_color"),
-        "Mouth Accent Color": $fx.getParam("mouth_alt_color"),
+      window.$fx.features({
+        "Background Color": window.$fx.getParam("bg_color"),
+        "Main Skin Color": window.$fx.getParam("skin1_color"),
+        "Skin Accent Color": window.$fx.getParam("skin2_color"),
+        "Eye Color": window.$fx.getParam("eye_color"),
+        "Eye Accent Color": window.$fx.getParam("eye_alt_color"),
+        "Hair Color": window.$fx.getParam("hair_color"),
+        "Mouth Color": window.$fx.getParam("mouth_color"),
+        "Mouth Accent Color": window.$fx.getParam("mouth_alt_color"),
+        "Initial Composition Layers": window.$fx.getParam("demo_lim"),
       })
 
 
@@ -1919,14 +1931,14 @@
 
 
 
-  if (!isFxpreview) {
-    canvas.style.width = "min(80vh,80vw)";
-    canvas.style.height = "min(80vh,80vw)";
-    canvas.style["padding-top"] = "10px"
-  } else {
+  if (window.$fx.isPreview) {
     canvas.style.width = "min(100vh,100vw)";
     canvas.style.height = "min(100vh,100vw)";
     canvas.style["padding-top"] = "0px"
+  } else {
+    canvas.style.width = "min(80vh,80vw)";
+    canvas.style.height = "min(80vh,80vw)";
+    canvas.style["padding-top"] = "10px"
   }
   
   console.log(canvas.width)

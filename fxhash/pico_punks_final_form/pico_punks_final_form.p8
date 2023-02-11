@@ -8,10 +8,10 @@ __lua__
 --------------------------------
 
 r=rnd
-seed = r(-1)
 
 -- code to get the params as needed from the JS, comma separated
 rng = stat(6)
+print(rng)
 rng_vals = {}
 c_num = ""
 for i=1,#rng do
@@ -23,7 +23,16 @@ for i=1,#rng do
  end
 end
 
+seed=1
+-- must get the hash using substring otherwise it converts to nil for some reason
+w=sub(rng,1,52)
 
+-- seed the prng
+for i=1,#w do
+ ch=ord(sub(w,i,i))
+ seed+=seed*31+ch
+end
+srand(seed)
 
 
 function q()return flr(rnd(32)-16)end
@@ -205,18 +214,9 @@ fc = 0
 fclim = 2^4
 
 -- demo mode
-demo_mode=false
-demo_count=0
-
-
-function toggle_demo_mode()
- demo_mode = not demo_mode
- seed += 1
- cls()
- init()
- flip()
- return false
-end
+demo_mode=true
+demo_count=1
+demo_lim=rng_vals[9]
 
 -- vfx
 vfx = nil
@@ -231,7 +231,6 @@ function init()
 
 
  menuitem(1,"seed: "..seed)
- menuitem(2,"demo_mode: "..tostr(demo_mode),toggle_demo_mode)
 
  bgfg = {rng_vals[1],rng_vals[2]}
 
@@ -623,12 +622,15 @@ if (fc < fclim)fc+=1 goto _
 while true do
  
  if demo_mode then
-  if (t()*100\1)%1000==0 then
-   demo_count += 1
-   if(demo_count>=10)extcmd("screen")demo_count=0cls()
-   seed+=1
-   init()
-   flip()
+  if (t()*100\1)%50==0 then
+   if demo_count<demo_lim then
+    demo_count += 1
+    seed+=1
+    init()
+    flip()
+   else
+    demo_mode = false
+   end
    goto _
   end
  end
