@@ -1734,6 +1734,27 @@
       param_string=param_string.concat(",",demo_lim)
 
 
+      // vfx
+      // noise_freq
+      noise_freq = $fx.getParam("noise_freq")
+      param_string=param_string.concat(",",noise_freq)
+      // memfuck_freq
+      memfuck_freq = $fx.getParam("memfuck_freq")
+      param_string=param_string.concat(",",memfuck_freq)
+      // glitch_freq
+      glitch_freq = $fx.getParam("glitch_freq")
+      param_string=param_string.concat(",",glitch_freq)
+      // shrink_freq
+      shrink_freq = $fx.getParam("shrink_freq")
+      param_string=param_string.concat(",",shrink_freq)
+      // expand_freq
+      expand_freq = $fx.getParam("expand_freq")
+      param_string=param_string.concat(",",expand_freq)
+      // copy_freq
+      copy_freq = $fx.getParam("copy_freq")
+      param_string=param_string.concat(",",copy_freq)
+
+
       //end string
       param_string=param_string.concat("",",")
       console.log("YOYOYO: "+param_string)
@@ -1751,6 +1772,12 @@
         "Mouth Color": window.$fx.getParam("mouth_color"),
         "Mouth Accent Color": window.$fx.getParam("mouth_alt_color"),
         "Initial Composition Layers": window.$fx.getParam("demo_lim"),
+        "Noise Frequency": window.$fx.getParam("noise_freq"),
+        "Memory Corruption Frequency": window.$fx.getParam("memfuck_freq"),
+        "Glitch Frequency": window.$fx.getParam("glitch_freq"),
+        "Shrink Frequency": window.$fx.getParam("shrink_freq"),
+        "Expand Frequency": window.$fx.getParam("expand_freq"),
+        "Copy Frequency": window.$fx.getParam("copy_freq"),
       })
 
 

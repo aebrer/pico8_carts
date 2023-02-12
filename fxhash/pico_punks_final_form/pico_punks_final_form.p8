@@ -42,7 +42,7 @@ function g()return r(4)-r(4)end
 function ideocart()
 	poke(0x5f54,0x60)
 	for i=0,2^4do
-	 x=r(88)+20y=r(88)+20
+	 x=r(60)+20y=r(60)+20
 	 if r()>0.5 then
 	  sspr(x+g(),y+g(),8,8,y+g(),x+g(),r(4)+7,r(4)+7)
 	 else
@@ -94,33 +94,37 @@ end
 
 -- shrink screen
 function shrink()
+ palt(0,false)
  poke(0x5f54,0x60)
  if(r()>.2)sspr(0,0,128,128,2,2,124-r(2),124+r(2)-r(2))
  --sspr(r(128),0,r(5),128,0,r(128),128,r(5))
  poke(0x5f54,0x00)
+ palt(0,true)
 end
 
 function expand()
+ palt(0,false)
  poke(0x5f54,0x60)
  if(r()>.9)sspr(2,2,124+r(2)-r(2),124+r(2)-r(2),0,0,128,128)
  poke(0x5f54,0x00)
+ palt(0,true)
 end
 
-vfxs = {
- noise,
- noise,
- mem_fuck,
- mem_fuck,
- mem_fuck,
- glitch,
- glitch,
- glitch,
- glitch,
- glitch,
- shrink,
--- expand,
- ideocart
-}
+vfxs = {}
+
+do_noise = rng_vals[10]
+do_mem_fuck = rng_vals[11]
+do_glitch = rng_vals[12]
+do_shrink = rng_vals[13]
+do_expand = rng_vals[14]
+do_ideocart = rng_vals[15]
+
+if(do_noise>0)for i=0,do_noise do add(vfxs,noise) end
+if(do_mem_fuck>0)for i=0,do_mem_fuck do add(vfxs,mem_fuck) end
+if(do_glitch>0)for i=0,do_glitch do add(vfxs,glitch) end
+if(do_shrink>0)for i=0,do_shrink do add(vfxs,shrink) end
+if(do_expand>0)for i=0,do_expand do add(vfxs,expand) end
+if(do_ideocart>0)for i=0,do_ideocart do add(vfxs,ideocart) end
 
 
 
