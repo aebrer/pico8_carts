@@ -126,6 +126,10 @@ if(do_shrink>0)for i=0,do_shrink do add(vfxs,shrink) end
 if(do_expand>0)for i=0,do_expand do add(vfxs,expand) end
 if(do_ideocart>0)for i=0,do_ideocart do add(vfxs,ideocart) end
 
+function null_function()
+end
+
+if(#vfxs==0)add(vfxs,null_function)
 
 
 function rnd_sign()
@@ -570,48 +574,58 @@ end
 -- beard
 if rnd() < beard_prob then
  beard_type = rnd(5)\1+1
- -- beard_type = 4
+ beard_type = 5
  if beard_type == 1 then
-  for i=0,r(3) do 
+  count = 5
+  if(r()>.5)count=200
+  for i=0,r(count) do 
   x = 57 + rnd(25) * rnd_sign()
   y = 88 + rnd(10) * rnd_sign()
   ?"\^p"..chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 2 then
-  for i=0,r(3) do 
+  count = 3
+  if(r()>.9)count=100
+  for i=0,r(count) do 
   x = 50 + rnd(25)
   y = 77 
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 3 then
-  for i=0,r(3) do 
+  count = 5
+  if(r()>.9)count=150
+  for i=0,r(count) do 
   x = 57 + rnd(8) * rnd_sign()
   y = 77 + rnd(1) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,r(3) do 
+  for i=0,r(count) do 
   x = 50 + rnd(1) * rnd_sign()
   y = 83 + rnd(7) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,r(3) do 
+  for i=0,r(count) do 
   x = 70 + rnd(1) * rnd_sign()
   y = 83 + rnd(7) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 4 then
-  for i=0,r(3) do 
+  count = 5
+  if(r()>.9)count=50
+  for i=0,r(count) do 
   y = 99 + rnd(5) * rnd_sign()
   x = 34 + rnd(3) * rnd_sign() + (0.33*y)
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
  elseif beard_type == 5 then
-  for i=0,r(3) do 
+  count = 5
+  if(r()>.9)count=500
+  for i=0,r(count) do 
   x = 57 + rnd(20) * rnd_sign()
   y = 88 + rnd(10) * rnd_sign()
   ?chr(rnd(240)\1+16),x,y,hair_c
   end
-  for i=0,r(3) do 
+  for i=0,r(count) do 
   y = 100 + rnd(20) * rnd_sign()
   x = 40 + rnd(15) * rnd_sign() + (0.29*y)
   ?chr(rnd(240)\1+16),x,y,hair_c
