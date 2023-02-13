@@ -574,7 +574,6 @@ end
 -- beard
 if rnd() < beard_prob then
  beard_type = rnd(5)\1+1
- beard_type = 5
  if beard_type == 1 then
   count = 5
   if(r()>.5)count=200
