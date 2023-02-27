@@ -133,6 +133,11 @@ end
 
 mouse_input_buffer -= 1
 
+-- need to reset after ahile to avoid overflow
+if t() > 60*5 then
+  extcmd("reset")
+end
+
 -- draw loop end
 goto _
 
