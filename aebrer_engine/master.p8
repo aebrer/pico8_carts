@@ -844,7 +844,7 @@ function config.sketch.spiral_coords()
   if(config.sketch.fc%15==0)srand(seed)
   config.sketch.fc += 1
   --config.sketch.fc *= 2
-  --if(rnd()>.5)print(config.sketch.fc)
+  -- if(rnd()>.5)print(config.sketch.fc)
   return {x,y}
 end
 
@@ -857,9 +857,6 @@ function config.sketch.sketch()
 	local x = pos[1]
 	local y = pos[2]
 	brush_func(x,y)
-
- if((btnp(❎)and not display_params))config.sketch.init()cls()
-
 end
 
 
@@ -877,17 +874,18 @@ config.dither.loops=1000
 
 --  palettes/colors:
 --config.colors.i = #config.colors.methods
-config.colors.i = 1
+config.colors.i = 3
 
--- brush
+-- brush 4
 config.brush.i = 4
+config.brush.auto_rotate = 0
 
 -- timing
 config.timing.seed_loop = true
 config.timing.loop_len=8
 config.timing.rec_loop_start = 12
 config.timing.rec_loop_end = 14
-config.timing.gif_record = false
+config.timing.gif_record = true
 
 -- effects
 config.effects.enable_all = true

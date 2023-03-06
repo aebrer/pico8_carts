@@ -4,6 +4,8 @@ __lua__
 _set_fps(60)
 cls()
 pal({[0]=0,0,0,-15,1,-4,12,6,7,-9,10,9,-7,-2,8,-8},1)
+pal({[0]=0,0,-16,-16,-15,-15,-15,-15,-14,-14,-14,-11,-11,2,-8,-8},1)
+pal({[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4},1)
 seed = rnd(-1)
 srand(seed)
 poke(0x5f2d, 1) --enable mouse
@@ -26,12 +28,12 @@ fc += 1
 if(fc%16==0)srand(seed)
 
 -- last two terms control the "resolution" of the spiral
-pos = spiral_coords(64,64,fc/10,fc/50)
+pos = spiral_coords(64,64,fc/15,fc/50)
 circfill(pos[1],pos[2],2,0)
 flip()
 
 -- dithering
-for i=0,2000 do
+for i=0,1500 do
   x = rnd(128)
   y = rnd(128)
   pset(x, y, pget(x, y)-1)
