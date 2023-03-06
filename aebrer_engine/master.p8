@@ -1,5 +1,5 @@
 pico-8 cartridge // http://www.pico-8.com
-version 35
+version 38
 __lua__
 cls()
 camera(-64,-64)
@@ -12,6 +12,7 @@ ch=ord(sub(w,i,i))seed+=seed*31+ch
 end
 if(#w==0)seed=rnd(-1) 
 srand(seed)
+palt(0,true)
 
 -- local sprite_sheet_loc = 0x5f54
 -- local screen_loc = 0x5f55
@@ -83,9 +84,7 @@ config.params = {}
 --          burns             --
 --------------------------------
 function burn(c)
- local new_c = 0
- if(c==0)new_c=15 else new_c=c-1
- return new_c
+ return c-1
 end
 
 --------------------------------
@@ -146,7 +145,7 @@ function config.dither.ovalfill_burn()
   local x = (pxl.x - cx)
   local y = (pxl.y - cy)
   c=pget(x,y)
-  local a = burn(c) % #config.colors.palette / #config.colors.palette
+  local a = burn(c)
   
   local dx = round(x*pull) + ffx
   local dy = round(y*pull) + ffy
@@ -156,10 +155,7 @@ function config.dither.ovalfill_burn()
    dx = pt[1]
    dy = pt[2]
   end
-
-  if c > 0 then
-   ovalfill(dx-rect_w,dy-rect_h,dx+rect_w,dy+rect_h,burn(c))
-  end
+  ovalfill(dx-rect_w,dy-rect_h,dx+rect_w,dy+rect_h,burn(c))
  end
 end
 add(config.dither.methods, "ovalfill_burn") -- 1
@@ -185,8 +181,7 @@ function config.dither.pset_burn()
   local x = (pxl.x - cx)
   local y = (pxl.y - cy)
   c=pget(x,y)
-  local a = burn(c) % #config.colors.palette / #config.colors.palette
-
+  local a = burn(c)
   local dx = round(x*pull) + ffx
   local dy = round(y*pull) + ffy
 
@@ -196,9 +191,8 @@ function config.dither.pset_burn()
    dy = pt[2]
   end
 
-  if c > 0 then
-   pset(dx,dy,burn(c))
-  end
+  pset(dx,dy,burn(c))
+  
  end
 end
 add(config.dither.methods, "pset_burn") -- 2
@@ -254,16 +248,13 @@ function config.dither.luna_theory()
    c=pget(x,y)
    x = round(x*pull) + ffx
    y = round(y*pull) + ffy
-   if c > 0 then
-    circ(x,y,circ_r,burn(c))
-   end
+   circ(x,y,circ_r,burn(c))
   elseif dm == "burn" then
    local pxl = rnd_pixel()
    local x = (pxl.x - cx)
    local y = (pxl.y - cy)
    c=pget(x,y)
-   local a = burn(c) % #config.colors.palette / #config.colors.palette
-
+   local a = burn(c)
    local dx = round(x*pull) + ffx
    local dy = round(y*pull) + ffy
 
@@ -272,17 +263,13 @@ function config.dither.luna_theory()
     dx = pt[1]
     dy = pt[2]
    end
-
-   if c > 0 then
-    circ(dx,dy,circ_r,burn(c))
-   end
+   circ(dx,dy,circ_r,burn(c))
   elseif dm == "burn_rect" then
    local pxl = rnd_pixel()
    local x = (pxl.x - cx)
    local y = (pxl.y - cy)
    c=pget(x,y)
-   local a = burn(c) % #config.colors.palette / #config.colors.palette
-
+   local a = burn(c)
    local dx = round(x*pull) + ffx
    local dy = round(y*pull) + ffy
 
@@ -291,10 +278,7 @@ function config.dither.luna_theory()
     dx = pt[1]
     dy = pt[2]
    end
-
-   if c > 0 then
-    rect(dx-rect_w,dy-rect_h,dx+rect_w,dy+rect_h,burn(c))
-   end
+  rect(dx-rect_w,dy-rect_h,dx+rect_w,dy+rect_h,burn(c))
   end
  end
 end
@@ -326,8 +310,7 @@ function config.dither.starfire()
   local x = (pxl.x - cx)
   local y = (pxl.y - cy)
   local c=pget(x,y)
-  local a = burn(c) % #config.colors.palette / #config.colors.palette
-
+  local a = burn(c)
   local dx = round(x*pull) + ffx
   local dy = round(y*pull) + ffy
 
@@ -335,11 +318,8 @@ function config.dither.starfire()
    local pt = rotate(rot_direc * a, cx, cy, dx, dy)
    dx = pt[1]
    dy = pt[2]
-  end
-
-  if c > 0 then 
-   circfill(dx,dy,circ_r,burn(c))
-  end
+  end 
+  circfill(dx,dy,circ_r,burn(c))
   pxl = rnd_pixel()
   x = (pxl.x - cx)
   y = (pxl.y - cy)
@@ -347,8 +327,7 @@ function config.dither.starfire()
   dx = round(x*pull) + ffx
   dy = round(y*pull) + ffy
 
-  a = burn(c) % #config.colors.palette / #config.colors.palette
-
+  a = burn(c)
   if rot_direc != 0 then 
    local pt = rotate(rot_direc * a, cx, cy, dx, dy)
    dx = pt[1]
@@ -357,11 +336,8 @@ function config.dither.starfire()
   
   local h = round(rnd(config.dither.recth))
   local w = round(rnd(config.dither.rectw))
-
-  if c > 0 then
-   line(dx+w,dy-h,dx-w,dy+h,burn(c))
-   line(dx-w,dy-h,dx+w,dy+h,burn(c))
-  end
+  line(dx+w,dy-h,dx-w,dy+h,burn(c))
+  line(dx-w,dy-h,dx+w,dy+h,burn(c))
  end
 end
 add(config.dither.methods, "starfire") -- 4
@@ -844,59 +820,51 @@ config.sketch.i = 1
 config.sketch.param_i = 1
 
 function config.sketch.init()
- config.sketch.p8loops = rnd(30)+5
- config.sketch.colors = rnd(5)+3
-
- config.dither.loops = rnd(60)+30
- config.dither.circ_r = rnd({1,2})
- config.dither.recth = rnd({0,1,2,3})
- config.dither.rectw = rnd({0,1,2,3})
-
-
- config.effects.glitch_freq = rnd(13)+7
- config.effects.mirror_type = rnd({5,5,5,7,7})
+ config.sketch.fc = 0
+ --config.effects.glitch_freq = rnd(13)+7
+ --config.effects.mirror_type = rnd({5,5,5,7,7})
 
 end
 
 config.sketch.init()
 
 config.sketch.params = {
- {"p8loops", "int"},
- {"colors", "int"}
+  -- {"spi_r", "int"},
+ {"fc", "hidden"},
 }
 
--- always present mouse brush
-function config.sketch.mouse_brush()
- if not (stat(34) == 2) then
-  local brush_name = config.brush.methods[config.brush.i]
-  local brush_func = config.brush[brush_name]
-  if config.brush.mouse_ctrl then
-   -- mouse controls
-   -- only move mouse paint if clicking
-   if stat(34) == 1 then
-    config.sketch.mousex = stat(32) - 64
-    config.sketch.mousey = stat(33) - 64
-   end
-   brush_func(config.sketch.mousex,config.sketch.mousey)
-  end
- end
-end
+--config.sketch.spi_r = 1
+config.sketch.fc = 0
 
+function config.sketch.spiral_coords()
+  local a = config.sketch.fc
+  local x = (a/10) * cos(a/50)
+  local y = (a/10) * sin(a/50)
+  
+  if(config.sketch.fc%15==0)srand(seed)
+  config.sketch.fc += 1
+  --config.sketch.fc *= 2
+  --if(rnd()>.5)print(config.sketch.fc)
+  return {x,y}
+end
 
 function config.sketch.sketch()
 
- for i=0,config.sketch.p8loops do
- ?rnd({"\^i","\^p","\^i\^p",""})..chr(rnd(240)\1+16),rnd(132)-65,rnd(132)-65,rnd(config.sketch.colors)
- end
+	local brush_name = config.brush.methods[config.brush.i]
+	local brush_func = config.brush[brush_name]
+	local pos = config.sketch.spiral_coords()
+	
+	local x = pos[1]
+	local y = pos[2]
+	brush_func(x,y)
 
- if(rnd()>.9 and t()>0.3)srand(seed)
  if((btnp(❎)and not display_params))config.sketch.init()cls()
 
 end
 
 
 -- add layers in order
-add(config.sketch.methods, "mouse_brush")
+--add(config.sketch.methods, "mouse_brush")
 add(config.sketch.methods, "sketch")
 --add(config.sketch.methods, "mouse_brush")
 
@@ -904,21 +872,27 @@ add(config.sketch.methods, "sketch")
 -- overrides:
 
 --  dither:
-config.dither.i=4
+config.dither.i=2
+config.dither.loops=1000
 
 --  palettes/colors:
-config.colors.i = #config.colors.methods
+--config.colors.i = #config.colors.methods
+config.colors.i = 1
 
+-- brush
+config.brush.i = 4
 
 -- timing
-config.timing.seed_loop = false
+config.timing.seed_loop = true
 config.timing.loop_len=8
 config.timing.rec_loop_start = 12
 config.timing.rec_loop_end = 14
 config.timing.gif_record = false
 
 -- effects
-config.effects.enable_all = true 
+config.effects.enable_all = true
+config.effects.mirror_type = 5
+config.effects.glitch_freq = 0
 
 --------------------------------
 --        main loop           --
