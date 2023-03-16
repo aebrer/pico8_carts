@@ -838,8 +838,8 @@ config.sketch.fc = 0
 
 function config.sketch.spiral_coords(cx,cy)
   local a = config.sketch.fc
-  local x = (a/50) * cos(a/50) + cx
-  local y = (a/50) * sin(a/50) + cy
+  local x = (a/50) * cos(a/250) + cx
+  local y = (a/50) * sin(a/250) + cy
   return {x,y}
 end
 
@@ -850,16 +850,14 @@ function config.sketch.sketch()
 
 
   -- only draw the spirals up to a certain point
-  if config.sketch.fc<900 then
-    -- we want 16 spirals evenly spaced in a 128x128 grid
-    for cx=-64,64,32 do
-      for cy=-64,64,32 do
-        local pos = config.sketch.spiral_coords(cx,cy)
-        local x = pos[1]
-        local y = pos[2]
-        brush_func(x,y)
-      end
-    end
+  if config.sketch.fc<4500 then
+    local pos = config.sketch.spiral_coords(0,0)
+    local x = pos[1]
+    local y = pos[2]
+    config.brush.color = x^2+y^2
+    brush_func(x,y)
+  else
+    config.dither.loops=1024
   end
   if(config.sketch.fc%15==0)srand(seed)
   config.sketch.fc += 1
@@ -876,22 +874,22 @@ add(config.sketch.methods, "sketch")
 
 --  dither:
 config.dither.i=2
-config.dither.loops=1000
-
+-- config.dither.loops=1000
+config.dither.loops=0
 --  palettes/colors:
 --config.colors.i = #config.colors.methods
-config.colors.i = 1
+config.colors.i = 35
 
 -- brush 4
 config.brush.i = 1
-config.brush.circ_r = 1
+config.brush.circ_r = 3
 config.brush.auto_rotate = 0
 
 -- timing
 config.timing.seed_loop = true
 config.timing.loop_len=8
-config.timing.rec_loop_start = 12
-config.timing.rec_loop_end = 14
+config.timing.rec_loop_start = 20
+config.timing.rec_loop_end = 21
 config.timing.gif_record = true
 
 -- effects
