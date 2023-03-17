@@ -428,7 +428,12 @@ add(config.colors.methods, "dead_god_3") -- 35
 config.colors.rainbow = {[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}
 add(config.colors.methods, "rainbow") -- 36
 config.colors.hashed = {[0]=0,q(),q(),q(),q(),q(),q(),q(),q(),q(),q(),q(),q(),q(),q(),q()}
-add(config.colors.methods, "hashed")
+add(config.colors.methods, "hashed") -- 36
+config.colors.deadgod_sym = {[0]=0,8,-16,-15,-14,-11,2,-8,-8,2,-11,-14,-15,-16,8,0}
+add(config.colors.methods, "deadgod_sym") -- 37
+--_pal({[0]=0,133,130,141,2,136,8,7},1)
+config.colors.deadgod_sym2 = {[0]=0,133,130,141,2,136,8,7,7,8,136,2,141,130,133,0}
+add(config.colors.methods, "deadgod_sym2") -- 38
 --------------------------------
 --         brushes            --
 --------------------------------
@@ -880,7 +885,7 @@ config.dither.loops=1000
 --config.dither.loops=0
 --  palettes/colors:
 --config.colors.i = #config.colors.methods
-config.colors.i = 1
+config.colors.i = 38
 
 -- brush 4
 config.brush.i = 5
