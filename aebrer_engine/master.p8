@@ -851,15 +851,17 @@ function config.sketch.sketch()
 
   -- only draw the spirals up to a certain point
   if config.sketch.fc<4500 then
+    if(config.sketch.fc%60>10)srand(seed)
     local pos = config.sketch.spiral_coords(0,0)
     local x = pos[1]
     local y = pos[2]
     config.brush.color = x^2+y^2
     brush_func(x,y)
   else
+    if(config.sketch.fc%10==0)srand(seed)
     config.dither.loops=1024
   end
-  if(config.sketch.fc%15==0)srand(seed)
+  
   config.sketch.fc += 1
 end
 
@@ -874,22 +876,24 @@ add(config.sketch.methods, "sketch")
 
 --  dither:
 config.dither.i=2
--- config.dither.loops=1000
-config.dither.loops=0
+config.dither.loops=1000
+--config.dither.loops=0
 --  palettes/colors:
 --config.colors.i = #config.colors.methods
-config.colors.i = 35
+config.colors.i = 1
 
 -- brush 4
-config.brush.i = 1
+config.brush.i = 5
 config.brush.circ_r = 3
 config.brush.auto_rotate = 0
+config.brush.rectw = 2
+config.brush.recth = 2
 
 -- timing
 config.timing.seed_loop = true
 config.timing.loop_len=8
 config.timing.rec_loop_start = 20
-config.timing.rec_loop_end = 21
+config.timing.rec_loop_end = 22
 config.timing.gif_record = true
 
 -- effects
