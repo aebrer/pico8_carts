@@ -43,6 +43,15 @@ fc = 0
 
 ::_:: -- draw loop start
 
+ -- dithering
+ for i=0,1000 do 
+  x = r(128)
+  y = r(128)
+  pset(x, y, 0)
+ end
+
+
+
  -- draw the lines
  for i=1,#line_tops do
   -- draw a line from line_tops[i] to line_bots[i]
@@ -55,30 +64,36 @@ fc = 0
   -- but we want to make sure that the line doesn't go off the screen
   -- also the lines should remain within the lims defined above
 
-  top_fac = r(4)-2
-  bot_fac = r(4)-2
-  
-  -- check if the line is within the limits
-  while not (line_tops[i]+top_fac >= line_top_lims[i][1] and line_tops[i]+top_fac <= line_top_lims[i][2]) do
+  -- only wiggle once every ? frames
+  if (fc%120 == 0) then
    top_fac = r(4)-2
-  end
-  line_tops[i] += top_fac
-
-  while not (line_bots[i]+bot_fac >= line_bot_lims[i][1] and line_bots[i]+bot_fac <= line_bot_lims[i][2]) do
    bot_fac = r(4)-2
+   
+   -- check if the line is within the limits
+   while not (
+    line_tops[i]+top_fac >= line_top_lims[i][1] and 
+    line_tops[i]+top_fac <= line_top_lims[i][2] and
+    line_tops[i]+top_fac >= 0 and
+    line_tops[i]+top_fac <= 127
+   ) do
+    top_fac = r(4)-2
+   end
+   line_tops[i] += top_fac
+
+   while not (
+    line_bots[i]+bot_fac >= line_bot_lims[i][1] and
+    line_bots[i]+bot_fac <= line_bot_lims[i][2] and
+    line_bots[i]+bot_fac >= 0 and
+    line_bots[i]+bot_fac <= 127
+   ) do
+    bot_fac = r(4)-2
+   end
+   line_bots[i] += bot_fac
+   i+=1
   end
-  line_bots[i] += bot_fac
-
-
-  i+=1
  end
 
- -- dithering
- for i=0,1000 do 
-  x = r(128)
-  y = r(128)
-  pset(x, y, 0)
- end
+
 
  flip()
  fc+=1
