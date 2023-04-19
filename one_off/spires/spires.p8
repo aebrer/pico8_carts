@@ -50,8 +50,6 @@ fc = 0
   pset(x, y, 0)
  end
 
-
-
  -- draw the lines
  for i=1,#line_tops do
   -- draw a line from line_tops[i] to line_bots[i]
