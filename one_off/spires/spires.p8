@@ -44,10 +44,7 @@ fc = 0
 ::_:: -- draw loop start
 
  -- draw the lines
- i=1
- for top in all(line_tops) do
-  cls()
-  ?line_tops[i],0,0,7
+ for i=1,#line_tops do
   -- draw a line from line_tops[i] to line_bots[i]
   -- y should go from 0 to 127
   -- x should go from line_tops[i] to line_bots[i]
@@ -74,6 +71,13 @@ fc = 0
 
 
   i+=1
+ end
+
+ -- dithering
+ for i=0,1000 do 
+  x = r(128)
+  y = r(128)
+  pset(x, y, 0)
  end
 
  flip()
