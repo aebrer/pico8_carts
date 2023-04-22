@@ -2,6 +2,13 @@ pico-8 cartridge // http://www.pico-8.com
 version 38
 __lua__
 
+-- todo:
+-- bug: sometimes the rectangles are just triangles
+-- feature: maybe we fill in the rectangles?
+-- feature: rectangles should be rainbow colors
+-- bug: everything slows down and flashes as time goes on
+-- bug: when the lines move, sometimes we get WIIIIIDE rectangles
+
 _set_fps(60)
 cls()
 
@@ -119,10 +126,9 @@ one_rect = false
  end
 
  -- new loop for drawing the rectangles
- -- if(r()>0.9) then
- if one_rect == false then
-  -- add(rects, {r(#line_tops+1)\1, 0, r(10), r(2)-2, r(12)-2, 8, 1})
-  add(rects, {r(#line_tops+1)\1, 0, r(10), r(2)-2, r(12)-2, 8, 1})
+ if(r()>0.9) then
+  add(rects, {r(#line_tops+2)\1, 0, r(10), r(2)-2, r(12)-2, 8, 1})
+  -- add(rects, {3, 0, r(10)+1, r(2)-2+1, r(12)-2+1, 8, 1})
   one_rect = true
  end
  
