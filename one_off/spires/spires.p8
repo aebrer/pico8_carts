@@ -17,6 +17,32 @@ line_bots = {}  -- stores the x position of the bottom of the line
 line_top_lims = {}  -- store the max and min x position of the top of the line
 line_bot_lims = {}  -- store the max and min x position of the bottom of the line
 
+-- track the sliding rectangles
+rects = {}
+-- example of a rect 
+-- {i, y11,y12, y21,y22, color, slide_rate}
+
+-- first we need a function that will interpolate between two points
+-- this function will be used to get the x values for the rectangles
+-- based on the y value, and the imputed x values of the vertical lines
+function interpolate(x1, y1, x2, y2, y)
+ -- y = mx + b
+ -- m = (y2-y1)/(x2-x1)
+ -- b = y1 - m*x1
+ -- x = (y-b)/m
+ m = (y2-y1)/(x2-x1)
+ b = y1 - m*x1
+ return (y-b)/m
+end
+
+-- need a new function to draw a rectangle given four corners
+function custom_rect(x11,y11,x12,y12,x22,y22,x21,y21, color)
+ line(x11,y11,x12,y12, color)
+ line(x12,y12,x22,y22, color)
+ line(x22,y22,x21,y21, color)
+ line(x21,y21,x11,y11, color)
+end
+
 -- initialize line_tops and line_bots
 for i=0,127,12 do
  if (i==0) then
@@ -91,6 +117,43 @@ fc = 0
   end
  end
 
+ -- new loop for drawing the rectangles
+ if(r()>0.9) then
+  add(rects, {r(#line_tops+1)\1, 0, r(10), r(2)-2, r(12)-2, 8, 1})
+ end
+ 
+ if #rects > 0 then
+  -- draw the rectangles
+  for i=1,#rects do
+   -- get the x values for the top and bottom of the rectangle
+   -- example of a rect 
+   -- {i, y11,y12, y21,y22, color, slide_rate}
+   if line_bots[rects[i][1]] and line_bots[rects[i][1]+1] then
+    x11 = interpolate(line_tops[rects[i][1]], 0, line_bots[rects[i][1]], 127, rects[i][2])
+    x12 = interpolate(line_tops[rects[i][1]], 0, line_bots[rects[i][1]], 127, rects[i][3])
+    x21 = interpolate(line_tops[rects[i][1]+1], 0, line_bots[rects[i][1]+1], 127, rects[i][4])
+    x22 = interpolate(line_tops[rects[i][1]+1], 0, line_bots[rects[i][1]+1], 127, rects[i][5])
+   end
+   -- draw the rectangle
+   custom_rect(
+    x11,rects[i][2],
+    x12,rects[i][3],
+    x21,rects[i][4], 
+    x22,rects[i][5],
+    rects[i][6]
+   )
+   -- move the rectangle down
+   rects[i][2] += rects[i][5]
+   rects[i][3] += rects[i][5]
+  end
+ end
+
+ -- remove the rectangles that have gone off the screen
+ -- for i=1,#rects do
+ --  if rects[i][3] > 127 then
+ --   del(rects, i)
+ --  end
+ -- end
 
 
  flip()
