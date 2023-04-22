@@ -36,7 +36,7 @@ function interpolate(x1, y1, x2, y2, y)
 end
 
 -- need a new function to draw a rectangle given four corners
-function custom_rect(x11,y11,x12,y12,x22,y22,x21,y21, color)
+function custom_rect(x11,y11,x12,y12,x21,y21,x22,y22, color)
  line(x11,y11,x12,y12, color)
  line(x12,y12,x22,y22, color)
  line(x22,y22,x21,y21, color)
@@ -66,6 +66,7 @@ for bot in all(line_bots) do
 end
 
 fc = 0
+one_rect = false
 
 ::_:: -- draw loop start
 
@@ -118,8 +119,11 @@ fc = 0
  end
 
  -- new loop for drawing the rectangles
- if(r()>0.9) then
+ -- if(r()>0.9) then
+ if one_rect == false then
+  -- add(rects, {r(#line_tops+1)\1, 0, r(10), r(2)-2, r(12)-2, 8, 1})
   add(rects, {r(#line_tops+1)\1, 0, r(10), r(2)-2, r(12)-2, 8, 1})
+  one_rect = true
  end
  
  if #rects > 0 then
@@ -143,17 +147,19 @@ fc = 0
     rects[i][6]
    )
    -- move the rectangle down
-   rects[i][2] += rects[i][5]
-   rects[i][3] += rects[i][5]
+   rects[i][2] += rects[i][7]
+   rects[i][3] += rects[i][7]
+   rects[i][4] += rects[i][7]
+   rects[i][5] += rects[i][7]
   end
  end
 
  -- remove the rectangles that have gone off the screen
- -- for i=1,#rects do
- --  if rects[i][3] > 127 then
- --   del(rects, i)
- --  end
- -- end
+ for i=1,#rects do
+  if rects[i][2] > 127 then
+   del(rects, i)
+  end
+ end
 
 
  flip()
