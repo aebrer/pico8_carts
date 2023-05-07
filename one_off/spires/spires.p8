@@ -5,9 +5,8 @@ __lua__
 -- todo:
 -- bug: sometimes the rectangles are just triangles
 -- feature: maybe we fill in the rectangles?
--- feature: rectangles should be rainbow colors
+-- feature: rectangles should be rainbow colors, color cycling
 -- bug: everything slows down and flashes as time goes on
--- bug: when the lines move, sometimes we get WIIIIIDE rectangles
 
 _set_fps(60)
 cls()
@@ -44,6 +43,14 @@ end
 
 -- need a new function to draw a rectangle given four corners
 function custom_rect(x11,y11,x12,y12,x21,y21,x22,y22, color)
+
+ -- left side: x11,x22
+ -- right side: x12,x21
+ -- check that the left side and right side are within the limits
+ col_width = 128/#line_tops + 2  -- fudge factor
+ if (abs(x11-x22) > col_width) return
+ if (abs(x12-x21) > col_width) return
+
  line(x11,y11,x12,y12, color)
  line(x12,y12,x22,y22, color)
  line(x22,y22,x21,y21, color)
@@ -97,7 +104,7 @@ one_rect = false
   -- also the lines should remain within the lims defined above
 
   -- only wiggle once every ? frames
-  if (fc%120 == 0) then
+  if (false) then --fc%120 == 0) then
    top_fac = r(4)-2
    bot_fac = r(4)-2
    
@@ -141,8 +148,8 @@ one_rect = false
    if line_bots[rects[i][1]] and line_bots[rects[i][1]+1] then
     x11 = interpolate(line_tops[rects[i][1]], 0, line_bots[rects[i][1]], 127, rects[i][2])
     x12 = interpolate(line_tops[rects[i][1]], 0, line_bots[rects[i][1]], 127, rects[i][3])
-    x21 = interpolate(line_tops[rects[i][1]+1], 0, line_bots[rects[i][1]+1], 127, rects[i][4])
-    x22 = interpolate(line_tops[rects[i][1]+1], 0, line_bots[rects[i][1]+1], 127, rects[i][5])
+    x21 = interpolate(line_tops[min(rects[i][1]+1, #line_tops)], 0, line_bots[min(rects[i][1]+1, #line_tops)], 127, rects[i][4])
+    x22 = interpolate(line_tops[min(rects[i][1]+1, #line_tops)], 0, line_bots[min(rects[i][1]+1, #line_tops)], 127, rects[i][5])
    end
    -- draw the rectangle
    custom_rect(
