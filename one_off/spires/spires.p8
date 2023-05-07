@@ -6,7 +6,7 @@ __lua__
 -- bug: sometimes the rectangles are just triangles
 -- feature: maybe we fill in the rectangles?
 -- feature: rectangles should be rainbow colors, color cycling
--- bug: everything slows down and flashes as time goes on
+-- decide later: teleporting rectangles
 
 _set_fps(60)
 cls()
@@ -80,7 +80,6 @@ for bot in all(line_bots) do
 end
 
 fc = 0
-one_rect = false
 
 ::_:: -- draw loop start
 
@@ -104,7 +103,7 @@ one_rect = false
   -- also the lines should remain within the lims defined above
 
   -- only wiggle once every ? frames
-  if (false) then --fc%120 == 0) then
+  if (fc%120 == 0) then
    top_fac = r(4)-2
    bot_fac = r(4)-2
    
@@ -134,9 +133,16 @@ one_rect = false
 
  -- new loop for drawing the rectangles
  if(r()>0.9) then
-  add(rects, {r(#line_tops+2)\1, 0, r(10), r(2)-2, r(12)-2, 8, 1})
+  -- params for a new rectangle
+  i = r(#line_tops+2)\1
+  y11 = 0
+  y12 = r(10) + 2
+  y21 = r(2)-2
+  y22 = r(10) + 2
+  color = r(16)
+  slide_rate = r(1)+0.5
+  add(rects, {i, y11,y12, y21,y22, color, slide_rate})
   -- add(rects, {3, 0, r(10)+1, r(2)-2+1, r(12)-2+1, 8, 1})
-  one_rect = true
  end
  
  if #rects > 0 then
@@ -152,13 +158,16 @@ one_rect = false
     x22 = interpolate(line_tops[min(rects[i][1]+1, #line_tops)], 0, line_bots[min(rects[i][1]+1, #line_tops)], 127, rects[i][5])
    end
    -- draw the rectangle
-   custom_rect(
-    x11,rects[i][2],
-    x12,rects[i][3],
-    x21,rects[i][4], 
-    x22,rects[i][5],
-    rects[i][6]
-   )
+
+   if x11 then
+    custom_rect(
+     x11,rects[i][2],
+     x12,rects[i][3],
+     x21,rects[i][4], 
+     x22,rects[i][5],
+     rects[i][6]
+    )
+   end
    -- move the rectangle down
    rects[i][2] += rects[i][7]
    rects[i][3] += rects[i][7]
@@ -167,11 +176,8 @@ one_rect = false
   end
  end
 
- -- remove the rectangles that have gone off the screen
- for i=1,#rects do
-  if rects[i][2] > 127 then
-   del(rects, i)
-  end
+ if #rects > 50 then
+  deli(rects, 1)
  end
 
 
