@@ -3,10 +3,8 @@ version 38
 __lua__
 
 -- todo:
--- bug: sometimes the rectangles are just triangles
--- feature: maybe we fill in the rectangles?
--- feature: rectangles should be rainbow colors, color cycling
--- decide later: teleporting rectangles
+-- 1. all columns filled in, so bias the selection of columns to favor unseen ones
+-- 2. randomize the number of columns upon generation
 
 _set_fps(60)
 cls()
