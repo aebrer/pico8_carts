@@ -10,6 +10,8 @@ __lua__
 
 _set_fps(60)
 cls()
+pal({[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}, 1)
+
 
 -- sugar
 r = rnd
@@ -82,9 +84,12 @@ end
 fc = 0
 
 ::_:: -- draw loop start
+ 
+ -- entropy locking
+ if(r()>0.75) srand(s)
 
  -- dithering
- for i=0,1000 do 
+ for i=0,800 do 
   x = r(128)
   y = r(128)
   pset(x, y, 0)
@@ -106,7 +111,8 @@ fc = 0
   if (fc%120 == 0) then
    top_fac = r(4)-2
    bot_fac = r(4)-2
-   
+   s+=1
+
    -- check if the line is within the limits
    while not (
     line_tops[i]+top_fac >= line_top_lims[i][1] and 
@@ -131,15 +137,15 @@ fc = 0
   end
  end
 
- -- new loop for drawing the rectangles
- if(r()>0.9) then
+
+ function draw_it_all()
   -- params for a new rectangle
   i = r(#line_tops+2)\1
   y11 = 0
   y12 = r(10) + 2
   y21 = r(2)-2
   y22 = r(10) + 2
-  color = r(16)
+  color = fc%16
   slide_rate = r(1)+0.5
   add(rects, {i, y11,y12, y21,y22, color, slide_rate})
   -- add(rects, {3, 0, r(10)+1, r(2)-2+1, r(12)-2+1, 8, 1})
@@ -165,7 +171,8 @@ fc = 0
      x12,rects[i][3],
      x21,rects[i][4], 
      x22,rects[i][5],
-     rects[i][6]
+     fc%16
+     --rects[i][6]
     )
    end
    -- move the rectangle down
@@ -174,10 +181,20 @@ fc = 0
    rects[i][4] += rects[i][7]
    rects[i][5] += rects[i][7]
   end
+end
+
+
+ -- new loop for drawing the rectangles
+ if(r()>0.6) then
+  draw_it_all()
+ elseif(r()>0.8) then
+  draw_it_all()
  end
 
- if #rects > 50 then
+ -- prevent memory leak related slowdown
+ if #rects > 200 then
   deli(rects, 1)
+  
  end
 
 
