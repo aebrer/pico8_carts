@@ -890,7 +890,7 @@ config.colors.i = 35
 -- brush 4
 config.brush.i = 12
 config.brush.circ_r = 38
-config.brush.auto_rotate = 1
+config.brush.auto_rotate = -1
 config.brush.rectw = 2
 config.brush.recth = 2
 
