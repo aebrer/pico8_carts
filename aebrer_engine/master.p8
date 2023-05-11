@@ -884,8 +884,9 @@ config.dither.i=2
 config.dither.loops=1000
 --config.dither.loops=0
 --  palettes/colors:
---config.colors.i = #config.colors.methods
 config.colors.i = 35
+-- config.colors.i = #config.colors.methods
+
 
 -- brush 4
 config.brush.i = 12
@@ -897,8 +898,8 @@ config.brush.recth = 2
 -- timing
 config.timing.seed_loop = true
 config.timing.loop_len=8
-config.timing.rec_loop_start = 20
-config.timing.rec_loop_end = 22
+config.timing.rec_loop_start = 12
+config.timing.rec_loop_end = 14
 config.timing.gif_record = true
 
 -- effects
