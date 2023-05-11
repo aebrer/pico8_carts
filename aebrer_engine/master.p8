@@ -841,7 +841,7 @@ config.sketch.params = {
 }
 
 --config.sketch.spi_r = 1
-config.sketch.fc = 0
+config.sketch.fc = 1500
 
 function config.sketch.spiral_coords(cx,cy)
   local a = config.sketch.fc
@@ -857,7 +857,7 @@ function config.sketch.sketch()
 
 
   -- only draw the spirals up to a certain point
-  if config.sketch.fc<1500 then
+  if config.sketch.fc>0 then
     if(config.sketch.fc%60>10)srand(seed)
     local pos = config.sketch.spiral_coords(-32,-32)
     local x = pos[1]
@@ -869,7 +869,7 @@ function config.sketch.sketch()
     config.dither.loops=1024
   end
   
-  config.sketch.fc += 1
+  config.sketch.fc -= 1
 end
 
 
@@ -886,7 +886,7 @@ config.dither.i=2
 config.dither.loops=1000
 --config.dither.loops=0
 --  palettes/colors:
-config.colors.i = 35
+config.colors.i = 1
 -- config.colors.i = #config.colors.methods
 
 
@@ -901,7 +901,7 @@ config.brush.recth = 2
 config.timing.seed_loop = true
 config.timing.loop_len=8
 config.timing.rec_loop_start = 12
-config.timing.rec_loop_end = 13
+config.timing.rec_loop_end = 14
 config.timing.gif_record = true
 
 -- effects
