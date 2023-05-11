@@ -434,6 +434,8 @@ add(config.colors.methods, "deadgod_sym") -- 37
 --_pal({[0]=0,133,130,141,2,136,8,7},1)
 config.colors.deadgod_sym2 = {[0]=0,133,130,141,2,136,8,7,7,8,136,2,141,130,133,0}
 add(config.colors.methods, "deadgod_sym2") -- 38
+config.colors.rainbow_sym = {[0]=0,-8,8,9,10,11,12,-4,-4,12,11,10,9,8,-8,0}
+add(config.colors.methods, "rainbow_sym") -- 39
 --------------------------------
 --         brushes            --
 --------------------------------
@@ -899,7 +901,7 @@ config.brush.recth = 2
 config.timing.seed_loop = true
 config.timing.loop_len=8
 config.timing.rec_loop_start = 12
-config.timing.rec_loop_end = 14
+config.timing.rec_loop_end = 13
 config.timing.gif_record = true
 
 -- effects
