@@ -5,13 +5,13 @@ __lua__
 poke(0x5f2d, 1) --enable mouse
 _set_fps(60)
 cls()
-pal({[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}, 1)
+
 
 -- sugar
 r = rnd
 s = r(-1)  -- overflow bug to get random number
 srand(s)
-
+if(r()>0.001)pal({[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}, 1)
 poke(24364,r({0,5,6,7}))
 
 -- a list of seeds to iterate over
@@ -172,7 +172,7 @@ fc = 0
 
  function draw_it_all()
   -- params for a new rectangle
-  --i = r(#line_tops+2)\1
+  -- i = r(#line_tops+2)\1
   i = frint(1, #line_tops)
   y11 = 0
   y12 = r(10) + 2
@@ -225,9 +225,8 @@ end
  end
 
  -- prevent memory leak related slowdown
- if #rects > 200 then
-  deli(rects, 1)
-  
+ if #rects > 400 or (r()>0.5 and #rects > 200) then
+  deli(rects, 1) 
  end
 
  if(stat(34)==1)extcmd("reset")
