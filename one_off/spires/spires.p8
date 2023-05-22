@@ -2,19 +2,17 @@ pico-8 cartridge // http://www.pico-8.com
 version 38
 __lua__
 
--- todo:
--- 1. all columns filled in, so bias the selection of columns to favor unseen ones
--- 2. randomize the number of columns upon generation
-
+poke(0x5f2d, 1) --enable mouse
 _set_fps(60)
 cls()
 pal({[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}, 1)
-
 
 -- sugar
 r = rnd
 s = r(-1)  -- overflow bug to get random number
 srand(s)
+
+poke(24364,r({0,5,6,7}))
 
 -- a list of seeds to iterate over
 seeds = {}
@@ -123,7 +121,7 @@ fc = 0
  if(r()>0.75) entropy_lock()
 
  -- dithering
- for i=0,800 do 
+ for i=0,200 do 
   x = r(128)
   y = r(128)
   pset(x, y, 0)
@@ -232,9 +230,10 @@ end
   
  end
 
-
+ if(stat(34)==1)extcmd("reset")
  flip()
  fc+=1
+
 goto _ -- draw loop end
 
 
