@@ -16,6 +16,27 @@ r = rnd
 s = r(-1)  -- overflow bug to get random number
 srand(s)
 
+-- a store of randomness for the whole program that will be
+-- independent of the seed resetting / entropy locking
+
+rands = {}
+for i=0,1024 do
+ add(rands, r())
+end
+
+frc = 1
+
+function fr()
+ my_rand = rands[frc]
+ frc += 1
+ if(frc>#rands)frc=1
+ return my_rand
+end
+
+function frint(min, max)
+ return (min + fr()*(max-min))\1
+end
+
 
 -- global variables
 line_tops = {}  -- stores the x position of the top of the line
@@ -138,7 +159,8 @@ fc = 0
 
  function draw_it_all()
   -- params for a new rectangle
-  i = r(#line_tops+2)\1
+  --i = r(#line_tops+2)\1
+  i = frint(1, #line_tops)
   y11 = 0
   y12 = r(10) + 2
   y21 = r(2)-2
