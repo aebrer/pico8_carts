@@ -16,6 +16,21 @@ r = rnd
 s = r(-1)  -- overflow bug to get random number
 srand(s)
 
+-- a list of seeds to iterate over
+seeds = {}
+seed_counter = 1
+for i=0,4 do
+ add(seeds, r())
+end
+
+function entropy_lock()
+ s = seeds[seed_counter]
+ srand(s)
+ seed_counter += 1
+ if(seed_counter>#seeds)seed_counter=1
+end
+
+
 -- a store of randomness for the whole program that will be
 -- independent of the seed resetting / entropy locking
 
@@ -105,7 +120,7 @@ fc = 0
 ::_:: -- draw loop start
  
  -- entropy locking
- if(r()>0.75) srand(s)
+ if(r()>0.75) entropy_lock()
 
  -- dithering
  for i=0,800 do 
