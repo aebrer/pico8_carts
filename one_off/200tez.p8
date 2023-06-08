@@ -1,28 +1,52 @@
 pico-8 cartridge // http://www.pico-8.com
 version 38
+__lua__
+
+s = rnd(-1)  -- seed for entropy locking
+pal({[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}, 1)
 
 -- function to draw a regular polygon with any number of sides
 -- x,y = center of polygon
 -- r = radius of polygon
 -- n = number of sides
--- a = angle of rotation
-
-function poly(x,y,r,n,a)
+-- a = angle of rotation, in turns (0-1)
+function poly(x,y,r,n,a,c)
   local i
   for i=0,n-1 do
-    local a0 = a + i * 2 * pi / n
-    local a1 = a + (i+1) * 2 * pi / n
-    line(x+r*cos(a0),y+r*sin(a0),x+r*cos(a1),y+r*sin(a1),7)
+    local t = i/n+a
+    local x1 = x+r*cos(t)
+    local y1 = y+r*sin(t)
+    local x2 = x+r*cos(t+1/n)
+    local y2 = y+r*sin(t+1/n)
+    line(x1,y1,x2,y2,c)
   end
 end
 
+cls()
+
+rot_angle = 0
+
 ::_::  -- draw loop start
 
-poly(64,64,32,3,0)  -- draw triangle
+if(rnd()>.9)poly(64,64,32,3,rot_angle,9)  -- draw triangle
+if(rnd()>.99)poly(64,64,32,5,rot_angle,8)  -- draw pentagon
+if(rnd()>.99)poly(64,64,32,7,rot_angle,7)  -- draw ngon
+
+rot_angle += 0.01  -- rotate triangle
+
+-- more dither
+for i=0,200 do
+  local x = rnd(128)
+  local y = rnd(128)
+  local c = pget(x,y)-1
+  pset(x-rnd(3)+1.5,y-rnd(3)+1.5,c)
+end
+
+-- entropy locking
+if(rnd()>.99)srand(s)
+if(t()%2==0)s+=1
 
 goto _
-
-
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
