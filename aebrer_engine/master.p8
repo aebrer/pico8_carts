@@ -436,6 +436,11 @@ config.colors.deadgod_sym2 = {[0]=0,133,130,141,2,136,8,7,7,8,136,2,141,130,133,
 add(config.colors.methods, "deadgod_sym2") -- 38
 config.colors.rainbow_sym = {[0]=0,-8,8,9,10,11,12,-4,-4,12,11,10,9,8,-8,0}
 add(config.colors.methods, "rainbow_sym") -- 39
+config.colors.rainbow_heatmap = {[0]=0,-8,8,9,10,11,12,-4,0,-15,-14,-13,-12,-11,-10,-9}
+add(config.colors.methods, "rainbow_heatmap") -- 40
+--                                {[0]=0,0,0,-15,1,-4,12,6,7,-9,10,9,-7,-2,8,-8}
+config.colors.rainbow_heatmap_2 = {[0]=0,0,0,-8,8,9,10,11,12,-4,10,9,-7,-2,8,-8}
+add(config.colors.methods, "rainbow_heatmap_2") -- 41
 --------------------------------
 --         brushes            --
 --------------------------------
