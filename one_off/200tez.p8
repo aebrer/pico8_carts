@@ -4,7 +4,6 @@ __lua__
 
 s = rnd(-1)  -- seed for entropy locking
 pal({[0]=0,-8,8,9,10,11,12,-4,0,-8,8,9,10,11,12,-4}, 1)
-
 -- function to draw a regular polygon with any number of sides
 -- x,y = center of polygon
 -- r = radius of polygon
@@ -21,32 +20,23 @@ function poly(x,y,r,n,a,c)
     line(x1,y1,x2,y2,c)
   end
 end
-
 cls()
-
 rot_angle = 0
-
 ::_::  -- draw loop start
-
-if(rnd()>.9)poly(64,64,32,3,rot_angle,9)  -- draw triangle
-if(rnd()>.99)poly(64,64,32,5,rot_angle,8)  -- draw pentagon
-if(rnd()>.99)poly(64,64,32,7,rot_angle,7)  -- draw ngon
-
-rot_angle += 0.01  -- rotate triangle
-
--- more dither
+if(rnd()>.9)poly(80,80,32,3,rot_angle,9)  -- draw triangle
+rot_angle += 0.0001  -- rotate triangle
+-- dither
 for i=0,200 do
-  local x = rnd(128)
-  local y = rnd(128)
+  local x = rnd(129)
+  local y = rnd(129)
   local c = pget(x,y)-1
-  pset(x-rnd(3)+1.5,y-rnd(3)+1.5,c)
+  pset(x-1,y-1,c)
 end
-
--- entropy locking
-if(rnd()>.99)srand(s)
-if(t()%2==0)s+=1
+-- if rot_angle goes back to 0 (modulo) reset the seed
+if(rot_angle%1==0)srand(s)
 
 goto _
+
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
