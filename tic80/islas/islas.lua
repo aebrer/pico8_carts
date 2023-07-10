@@ -1,6 +1,6 @@
--- title:  Scattered Thoughts
--- author: aebrer - Andrew Brereton
--- desc:   they do be moving
+-- title:  noise (islas)
+-- author: aebrer - Andrew Brereton; https://aebrer.xyz
+-- desc:   just some delightful noise
 -- script: lua
 
 palette = {
@@ -28,25 +28,25 @@ end
 
 -- set colors
 function pal(ci,col)
-    local mem_loc = 0x03FC0 + 3*ci
+ local mem_loc = 0x03FC0 + 3*ci
    
-    cfr = math.random(0,2)
-    cfg = math.random(0,2)
-    cfb = math.random(0,2)
+ cfr = math.random(0,2)
+ cfg = math.random(0,2)
+ cfb = math.random(0,2)
    
-    color_facs={cfr,cfg,cfb}
-    color_b={math.random(-100,20),math.random(-30,50),math.random(-10,80)}
+ color_facs={cfr,cfg,cfb}
+ color_b={math.random(-100,20),math.random(-30,50),math.random(-10,80)}
    
-    for i=1,3 do
-     -- poke(mem_loc+i-1, math.min(math.max(col[i]*color_facs[i]+color_b[i],0),255))
-     poke(mem_loc+i-1, math.max(col[i]*color_facs[i]+color_b[i],0))
-    end
-   end
-   function set_pal()
-    for i=0,#palette-1 do
-     pal(i,palette[i+1])
-    end
-   end
+ for i=1,3 do
+  -- poke(mem_loc+i-1, math.min(math.max(col[i]*color_facs[i]+color_b[i],0),255))
+  poke(mem_loc+i-1, math.max(col[i]*color_facs[i]+color_b[i],0))
+ end
+end
+function set_pal()
+ for i=0,#palette-1 do
+  pal(i,palette[i+1])
+ end
+end
 set_pal()
 
 -- burn
