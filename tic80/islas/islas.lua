@@ -3,6 +3,12 @@
 -- desc:   just some delightful noise
 -- script: lua
 
+
+-- todo:
+-- fix web version
+-- try reducing the number of agents to reduce compute load
+
+
 palette = {
  {0,0,0},
  {10,0,2},
@@ -138,30 +144,30 @@ function move_agent(agent)
    agent.dy = 0
   end
 
-  if left and math.random()>mouse_hug_rate then
-   local mtest = false
-   if mx-agent.x > 120 then 
-    mtest = math.abs(mx-agent.x+agent.dx-240) < math.abs(mx-agent.x-agent.dx-240)
-   elseif mx-agent.x < -120 then
-    mtest = math.abs(mx-agent.x+agent.dx+240) < math.abs(mx-agent.x-agent.dx+240)
-   else
-    mtest = math.abs(mx-agent.x+agent.dx) < math.abs(mx-agent.x-agent.dx)
-   end
-   if mtest then
-    agent.dx=-agent.dx
-   end
-   local mtest = false
-   if my-agent.y > 68 then 
-    mtest = math.abs(my-agent.y+agent.dy-136) < math.abs(my-agent.y-agent.dy-136)
-   elseif my-agent.y < -68 then
-    mtest = math.abs(my-agent.y+agent.dy+136) < math.abs(my-agent.y-agent.dy+136)
-   else
-    mtest = math.abs(my-agent.y+agent.dy) < math.abs(my-agent.y-agent.dy)
-   end
-   if mtest then
-    agent.dy=-agent.dy
-   end
-  end
+  -- if left and math.random()>mouse_hug_rate then
+  --  local mtest = false
+  --  if mx-agent.x > 120 then 
+  --   mtest = math.abs(mx-agent.x+agent.dx-240) < math.abs(mx-agent.x-agent.dx-240)
+  --  elseif mx-agent.x < -120 then
+  --   mtest = math.abs(mx-agent.x+agent.dx+240) < math.abs(mx-agent.x-agent.dx+240)
+  --  else
+  --   mtest = math.abs(mx-agent.x+agent.dx) < math.abs(mx-agent.x-agent.dx)
+  --  end
+  --  if mtest then
+  --   agent.dx=-agent.dx
+  --  end
+  --  local mtest = false
+  --  if my-agent.y > 68 then 
+  --   mtest = math.abs(my-agent.y+agent.dy-136) < math.abs(my-agent.y-agent.dy-136)
+  --  elseif my-agent.y < -68 then
+  --   mtest = math.abs(my-agent.y+agent.dy+136) < math.abs(my-agent.y-agent.dy+136)
+  --  else
+  --   mtest = math.abs(my-agent.y+agent.dy) < math.abs(my-agent.y-agent.dy)
+  --  end
+  --  if mtest then
+  --   agent.dy=-agent.dy
+  --  end
+  -- end
 
   -- now we need a "attract" condition to randomly cycle on
   -- basically similar to when the mouse is pressed, but draw them to
@@ -252,7 +258,7 @@ function TIC()
   if my < 1 then my = my_reset end
   if my > 135 then my = my_reset end
 
- if right and not pal_changed then
+ if left and not pal_changed then
   set_pal()
   pal_changed = true
  end
