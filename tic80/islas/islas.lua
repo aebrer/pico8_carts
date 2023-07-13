@@ -221,7 +221,7 @@ agents = {}
 mx = math.floor(math.random(240))
 my = math.floor(136/2)
 
-for i=1,10 do
+for i=1,100 do
  agents[i] = make_agent()
 end
 
@@ -238,15 +238,25 @@ function cycle_attract()
 end
 
 
+-- palette prevent flashing
+pal_changed = false
+
+
 function TIC()
  mx,my,left,middle,right,scrollx,scrolly=mouse()
  
+ if right and not pal_changed then
+  set_pal()
+  pal_changed = true
+ end
+
  if frame%240==0 then
   seed = seed + 1
  	math.randomseed(seed)
   if math.random()>0.5 then
    cycle_attract()
   end
+  pal_changed = false
  end
  
  for i=1,#agents do
@@ -260,7 +270,7 @@ function TIC()
 --  local y = math.random(0,136)
 --  pix(x+math.random(-1,1),y+math.random(-1,1),burn(pix(x,y)))
 -- end
- for i=0,200 do
+ for i=0,350 do
   local x = math.random(0,240)
   local y = math.random(0,136)
   local c = pix(x,y)
