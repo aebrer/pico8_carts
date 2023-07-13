@@ -218,8 +218,8 @@ function draw_agent(agent)
 end
 
 agents = {}
-mx = math.floor(math.random(240))
-my = math.floor(136/2)
+mx_reset = math.floor(math.random(240))
+my_reset = math.floor(136/2)
 
 for i=1,100 do
  agents[i] = make_agent()
@@ -234,7 +234,7 @@ attract = false
 
 function cycle_attract()
  attract = not attract
- mx = math.floor(math.random(240))  -- entropy injection into mouse position
+ mx_reset = math.floor(math.random(240))  -- entropy injection into mouse position
 end
 
 
@@ -246,11 +246,11 @@ function TIC()
  mx,my,left,middle,right,scrollx,scrolly=mouse()
  
  -- if mx is offscreen, set it to be within the screen
-  if mx < 0 then mx = math.floor(math.random(240)) end
-  if mx > 240 then mx = math.floor(math.random(240)) end
+  if mx < 0 then mx = mx_reset end
+  if mx > 240 then mx = mx_reset end
   -- if my is offscreen, set it to be within the screen
-  if my < 0 then my = math.floor(136/2) end
-  if my > 136 then my = math.floor(136/2) end
+  if my < 0 then my = my_reset end
+  if my > 136 then my = my_reset end
 
  if right and not pal_changed then
   set_pal()
