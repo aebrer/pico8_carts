@@ -234,7 +234,7 @@ attract = false
 
 function cycle_attract()
  attract = not attract
- mx = math.floor(math.random(240))
+ mx = math.floor(math.random(240))  -- entropy injection into mouse position
 end
 
 
@@ -245,6 +245,13 @@ pal_changed = false
 function TIC()
  mx,my,left,middle,right,scrollx,scrolly=mouse()
  
+ -- if mx is offscreen, set it to be within the screen
+  if mx < 0 then mx = math.floor(math.random(240)) end
+  if mx > 240 then mx = math.floor(math.random(240)) end
+  -- if my is offscreen, set it to be within the screen
+  if my < 0 then my = math.floor(136/2) end
+  if my > 136 then my = math.floor(136/2) end
+
  if right and not pal_changed then
   set_pal()
   pal_changed = true
