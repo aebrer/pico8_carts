@@ -163,6 +163,35 @@ function move_agent(agent)
    end
   end
 
+  -- now we need a "attract" condition to randomly cycle on
+  -- basically similar to when the mouse is pressed, but draw them to
+  -- a random point on the horizontal center of the screen
+  if attract then 
+   local mtest = false
+   if mx-agent.x > 120 then 
+    mtest = math.abs(mx-agent.x+agent.dx-240) < math.abs(mx-agent.x-agent.dx-240)
+   elseif mx-agent.x < -120 then
+    mtest = math.abs(mx-agent.x+agent.dx+240) < math.abs(mx-agent.x-agent.dx+240)
+   else
+    mtest = math.abs(mx-agent.x+agent.dx) < math.abs(mx-agent.x-agent.dx)
+   end
+   if mtest then
+    agent.dx=-agent.dx
+   end
+   local mtest = false
+   if my-agent.y > 68 then 
+    mtest = math.abs(my-agent.y+agent.dy-136) < math.abs(my-agent.y-agent.dy-136)
+   elseif my-agent.y < -68 then
+    mtest = math.abs(my-agent.y+agent.dy+136) < math.abs(my-agent.y-agent.dy+136)
+   else
+    mtest = math.abs(my-agent.y+agent.dy) < math.abs(my-agent.y-agent.dy)
+   end
+   if mtest then
+    agent.dy=-agent.dy
+   end
+  end
+
+
  end
 
  -- finally, need to make sure it doesn't stand still
@@ -189,8 +218,10 @@ function draw_agent(agent)
 end
 
 agents = {}
+mx = math.floor(math.random(240))
+my = math.floor(136/2)
 
-for i=1,100 do
+for i=1,10 do
  agents[i] = make_agent()
 end
 
@@ -199,11 +230,23 @@ math.randomseed(seed)
 print(seed)
 cls()
 frame = 0
+attract = false
+
+function cycle_attract()
+ attract = not attract
+ mx = math.floor(math.random(240))
+end
+
+
 function TIC()
  mx,my,left,middle,right,scrollx,scrolly=mouse()
  
  if frame%240==0 then
+  seed = seed + 1
  	math.randomseed(seed)
+  if math.random()>0.5 then
+   cycle_attract()
+  end
  end
  
  for i=1,#agents do
@@ -217,7 +260,7 @@ function TIC()
 --  local y = math.random(0,136)
 --  pix(x+math.random(-1,1),y+math.random(-1,1),burn(pix(x,y)))
 -- end
- for i=0,500 do
+ for i=0,200 do
   local x = math.random(0,240)
   local y = math.random(0,136)
   local c = pix(x,y)
