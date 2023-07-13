@@ -246,11 +246,11 @@ function TIC()
  mx,my,left,middle,right,scrollx,scrolly=mouse()
  
  -- if mx is offscreen, set it to be within the screen
-  if mx < 0 then mx = mx_reset end
-  if mx > 240 then mx = mx_reset end
+  if mx < 1 then mx = mx_reset end
+  if mx > 239 then mx = mx_reset end
   -- if my is offscreen, set it to be within the screen
-  if my < 0 then my = my_reset end
-  if my > 136 then my = my_reset end
+  if my < 1 then my = my_reset end
+  if my > 135 then my = my_reset end
 
  if right and not pal_changed then
   set_pal()
