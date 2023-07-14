@@ -4,11 +4,6 @@
 -- script: lua
 
 
--- todo:
--- fix web version
--- try reducing the number of agents to reduce compute load
-
-
 palette = {
  {0,0,0},
  {10,0,2},
@@ -233,7 +228,6 @@ end
 
 seed = math.random(0,10000)
 math.randomseed(seed)
-print(seed)
 cls()
 frame = 0
 attract = false
@@ -258,16 +252,22 @@ function TIC()
   if my < 1 then my = my_reset end
   if my > 135 then my = my_reset end
 
- if left and not pal_changed then
+ if right and not pal_changed then
   set_pal()
   pal_changed = true
  end
 
- if frame%240==0 then
+ if frame%360==0 then
   seed = seed + 1
  	math.randomseed(seed)
-  if math.random()>0.5 then
-   cycle_attract()
+  if attract then
+    if math.random()>0.3 then
+    cycle_attract()
+    end
+  else
+    if math.random()>0.6 then
+    cycle_attract()
+    end
   end
   pal_changed = false
  end
@@ -283,7 +283,7 @@ function TIC()
 --  local y = math.random(0,136)
 --  pix(x+math.random(-1,1),y+math.random(-1,1),burn(pix(x,y)))
 -- end
- for i=0,350 do
+ for i=0,300 do
   local x = math.random(0,240)
   local y = math.random(0,136)
   local c = pix(x,y)
@@ -298,7 +298,7 @@ function TIC()
    end
   end
  end
-	frame = frame + 1
+ frame = frame + 1
 
 end
 
