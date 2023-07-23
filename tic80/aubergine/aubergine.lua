@@ -26,11 +26,6 @@ palette = {
   {255,255,204},
   {255,255,255}
  }
- 
-
-
-
-
 
 cls()
 -- pico8 compatibility functions
@@ -69,7 +64,7 @@ function rnd_pixel()
   flr(math.random(241))
  )
  local px_y = (
-  flr(math.random(137))
+  flr(math.random(135))
   )
  local pixel = {
   x=px_x,
@@ -128,8 +123,8 @@ function dither(loops)
    ) * rnd_sign()
   )
   --skip some nunber (12) pixels
-  for x=240+fudge_x,0,-12 do
-   for y=136+fudge_y,0,-12 do
+  for x=(240+fudge_x)%240,0,-12 do
+   for y=(136+fudge_y)%136,0,-12 do
     local pxl = rnd_pixel()
      c=pget(pxl.x,pxl.y)
      if c == 8 then
@@ -158,8 +153,8 @@ function dither(loops)
    ) * rnd_sign()
   )
   --skip some nunber (12) pixels
-  for x=240+fudge_x,0,-12 do
-   for y=136+fudge_y,0,-12 do
+  for x=(240+fudge_x)%240,0,-12 do
+   for y=(136+fudge_y)%136,0,-12 do
     local pxl = rnd_pixel()
     c=pget(pxl.x,pxl.y)
     if c == 8 then
@@ -232,7 +227,20 @@ loop_ended = false
 slide_x = 0
 slide_y = 0
 
+hyper_mode = false
+
 function TIC()
+
+ mx,my,left,middle,right,scrollx,scrolly=mouse()
+
+ if left then 
+  hyper_mode = false
+ end
+
+ if right then
+  seed = seed + 1
+  hyper_mode = true
+ end
 
  dither(3)
 
@@ -349,7 +357,11 @@ function TIC()
  -- ?oa,8
  -- ?loop_counter,8
  if rnd() > .5 then srand(seed) end
-
+ if hyper_mode then
+  -- seed = seed + 1
+  -- srand(seed)
+  set_pal()
+ end
 end
 
 -- <TILES>
