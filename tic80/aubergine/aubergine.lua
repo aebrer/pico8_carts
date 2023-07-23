@@ -63,10 +63,10 @@ end
 
 function rnd_pixel()
  local px_x = (
-  flr(math.random(240)) + 1
+  flr(math.random(241))
  )
  local px_y = (
-  flr(math.random(240)) + 1
+  flr(math.random(137))
   )
  local pixel = {
   x=px_x,
@@ -314,8 +314,8 @@ function TIC()
       break
       end
     end
-    slide_x = slide_x - .05
-    slide_y = slide_y + .05
+    slide_x = slide_x - .03
+    slide_y = slide_y + .03
   end
 
  end
