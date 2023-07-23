@@ -173,6 +173,9 @@ function dither(loops)
 end
 
 function drw_sqr(x,y,sl,a,c)
+ x = x % 240
+ y = y % 136
+ 
  local sa = {-sl+x,-sl+y}
  local sb = {sl+x,-sl+y}
  local sc = {sl+x,sl+y}
@@ -223,13 +226,13 @@ oa_zero = false
 loop_started = false
 loop_ended = false
 
-tile_xfac = 0
-tile_yfac = 0
+slide_x = 0
+slide_y = 0
 
 function TIC()
 
- for tile_x=0,240,64 do
-  for tile_y=0,136,64 do
+ for tile_x=0,240,80 do
+  for tile_y=0,136,68 do
     -- cls()
     local radius = 3.0
     local shrink = 0.3
@@ -237,13 +240,13 @@ function TIC()
     --outer angle for overall rotation
     local oa = time()*.001%(loop_l/2)/(loop_l/2)
     
-    for ia=0.2,0.0,-0.1 do
+    for ia=0.15,0.0,-0.1 do
       local pt=rotate(oa,0,0,radius,0)
       -- print(ia)
       local npt = rotate(ia,0,0,pt[1],pt[2])
 
-      local xfac = 10+tile_x+tile_xfac
-      local yfac = 8+tile_y+tile_yfac
+      local xfac = 10+tile_x+slide_x
+      local yfac = 8+tile_y+slide_y
       -- eggplant body
       drw_sqr(npt[1]-25+xfac,npt[2]-20+yfac,math.random(6),-oa*2,9)
       drw_sqr(-npt[1]-25+xfac,-npt[2]-20+yfac,rnd(6),-oa*2,9)
@@ -291,7 +294,18 @@ function TIC()
       drw_sqr(-npt[1]-23+xfac,-npt[2]-25+yfac,rnd(3),-oa*2,5)
       drw_sqr(npt[1]-31+xfac,npt[2]-22+yfac,rnd(3),-oa*2,5)
       drw_sqr(-npt[1]-31+xfac,-npt[2]-22+yfac,rnd(3),-oa*2,5)
-      line(rnd(5)-38+xfac,rnd(5)-38+yfac,rnd(5)-28+xfac,rnd(5)-25+yfac,5)
+      -- if line is not gonna cross the screen
+      local line_randx1 = (rnd(5)-38+xfac)%240
+      local line_randx2 = (rnd(5)-28+xfac)%240
+      local line_randy1 = (rnd(5)-38+yfac)%136
+      local line_randy2 = (rnd(5)-25+yfac)%136
+      
+      --first x check
+      if math.abs(line_randx1-line_randx2) <= 20 then
+        if math.abs(line_randy1-line_randy2) <= 20 then
+          line(line_randx1,line_randy1,line_randx2,line_randy2,5)
+        end
+      end
 
 
       -- flip()
@@ -300,15 +314,10 @@ function TIC()
       break
       end
     end
+    slide_x = slide_x - .05
+    slide_y = slide_y + .05
   end
-  tile_xfac = tile_xfac - .1
-  if tile_xfac < -64 then
-   tile_xfac = tile_xfac + 240
-  end
-  tile_yfac = tile_yfac + .1
-  if tile_yfac > 64 then
-   tile_yfac = tile_yfac - 136
-  end
+
  end
 
  if oa == 0.01 and not oa_zero then
@@ -334,7 +343,7 @@ function TIC()
  -- ?t(),8
  -- ?oa,8
  -- ?loop_counter,8
- dither(4)
+ dither(3)
 
 end
 
