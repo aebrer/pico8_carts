@@ -6,6 +6,8 @@
 -- version: NULL
 -- script:  lua
 
+-- converted buggily from pico8 to tic80
+
 palette = {
   {0,0,0},
   {10,0,2},
@@ -37,6 +39,7 @@ pget=pix
 abs=math.abs
 max=math.max
 min=math.min
+srand=math.randomseed
 -- rect(x, y, width, height, color)
 -- convert to rectfill(x1,y1,x2,y2,color)
 function rectfill(x1,y1,x2,y2,c)
@@ -218,9 +221,9 @@ function pal(ci,col)
    pal(i,palette[i+1])
   end
 end
--- set_pal()
+--set_pal()
 
-loop_l = 10
+loop_l = 2
 loop_counter = 0
 oa_zero = false
 loop_started = false
@@ -230,6 +233,8 @@ slide_x = 0
 slide_y = 0
 
 function TIC()
+
+ dither(3)
 
  for tile_x=0,240,80 do
   for tile_y=0,136,68 do
@@ -343,7 +348,7 @@ function TIC()
  -- ?t(),8
  -- ?oa,8
  -- ?loop_counter,8
- dither(3)
+ if rnd() > .5 then srand(seed) end
 
 end
 
