@@ -223,78 +223,91 @@ oa_zero = false
 loop_started = false
 loop_ended = false
 
+tile_xfac = 0
+tile_yfac = 0
+
 function TIC()
 
+ for tile_x=0,240,64 do
+  for tile_y=0,136,64 do
+    -- cls()
+    local radius = 3.0
+    local shrink = 0.3
+    local square_rad = 15
+    --outer angle for overall rotation
+    local oa = time()*.001%(loop_l/2)/(loop_l/2)
+    
+    for ia=0.2,0.0,-0.1 do
+      local pt=rotate(oa,0,0,radius,0)
+      -- print(ia)
+      local npt = rotate(ia,0,0,pt[1],pt[2])
+
+      local xfac = 10+tile_x+tile_xfac
+      local yfac = 8+tile_y+tile_yfac
+      -- eggplant body
+      drw_sqr(npt[1]-25+xfac,npt[2]-20+yfac,math.random(6),-oa*2,9)
+      drw_sqr(-npt[1]-25+xfac,-npt[2]-20+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-24+xfac,npt[2]-18+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-24+xfac,-npt[2]-18+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-23+xfac,npt[2]-15+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-23+xfac,-npt[2]-15+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-21+xfac,npt[2]-12+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-21+xfac,-npt[2]-12+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-18+xfac,npt[2]-8+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-18+xfac,-npt[2]-8+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-15+xfac,npt[2]-4+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-15+xfac,-npt[2]-4+yfac,rnd(6),-oa*2,9)
+      drw_sqr(npt[1]-18+xfac,npt[2]-4+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-18+xfac,-npt[2]-4+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-13+xfac,npt[2]+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-13+xfac,-npt[2]+yfac,rnd(6),-oa*2,9)
+      drw_sqr(npt[1]-10+xfac,npt[2]+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-10+xfac,-npt[2]+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-8+xfac,npt[2]+3+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-8+xfac,-npt[2]+3+yfac,rnd(6),-oa*2,9)
+      drw_sqr(npt[1]-4+xfac,npt[2]+3+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-4+xfac,-npt[2]+3+yfac,rnd(6),-oa*2,9)
+      drw_sqr(npt[1]+xfac,npt[2]+3+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]+xfac,-npt[2]+3+yfac,rnd(6),-oa*2,9)
+
+      drw_sqr(npt[1]-3+xfac,npt[2]+7+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]-3+xfac,-npt[2]+7+yfac,rnd(6),-oa*2,9)
+      drw_sqr(npt[1]+xfac,npt[2]+7+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]+xfac,-npt[2]+7+yfac,rnd(6),-oa*2,9)
+      drw_sqr(npt[1]+4+xfac,npt[2]+7+yfac,rnd(6),-oa*2,9)
+      drw_sqr(-npt[1]+4+xfac,-npt[2]+7+yfac,rnd(6),-oa*2,9)
+
+      -- leaf stem
+      drw_sqr(npt[1]-28+xfac,npt[2]-25+yfac,rnd(3),-oa*2,5)
+      drw_sqr(-npt[1]-28+xfac,-npt[2]-25+yfac,rnd(3),-oa*2,5)
+      drw_sqr(npt[1]-23+xfac,npt[2]-25+yfac,rnd(3),-oa*2,5)
+      drw_sqr(-npt[1]-23+xfac,-npt[2]-25+yfac,rnd(3),-oa*2,5)
+      drw_sqr(npt[1]-31+xfac,npt[2]-22+yfac,rnd(3),-oa*2,5)
+      drw_sqr(-npt[1]-31+xfac,-npt[2]-22+yfac,rnd(3),-oa*2,5)
+      line(rnd(5)-38+xfac,rnd(5)-38+yfac,rnd(5)-28+xfac,rnd(5)-25+yfac,5)
 
 
- -- cls()
- -- todo: make multiple sets of squares on a grid
- local radius = 3.0
- local shrink = 0.3
- local square_rad = 15
- --outer angle for overall rotation
- local oa = time()*.001%(loop_l/2)/(loop_l/2)
- for ia=0.2,0.0,-0.1 do
-  local pt=rotate(oa,0,0,radius,0)
-  -- print(ia)
-  local npt = rotate(ia,0,0,pt[1],pt[2])
-
-  local xfac = 10+(240/2)
-  local yfac = 8+(136/2)
-  -- eggplant body
-  drw_sqr(npt[1]-25+xfac,npt[2]-20+yfac,math.random(6),-oa*2,9)
-  drw_sqr(-npt[1]-25+xfac,-npt[2]-20+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-24+xfac,npt[2]-18+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-24+xfac,-npt[2]-18+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-23+xfac,npt[2]-15+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-23+xfac,-npt[2]-15+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-21+xfac,npt[2]-12+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-21+xfac,-npt[2]-12+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-18+xfac,npt[2]-8+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-18+xfac,-npt[2]-8+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-15+xfac,npt[2]-4+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-15+xfac,-npt[2]-4+yfac,rnd(6),-oa*2,9)
-  drw_sqr(npt[1]-18+xfac,npt[2]-4+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-18+xfac,-npt[2]-4+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-13+xfac,npt[2]+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-13+xfac,-npt[2]+yfac,rnd(6),-oa*2,9)
-  drw_sqr(npt[1]-10+xfac,npt[2]+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-10+xfac,-npt[2]+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-8+xfac,npt[2]+3+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-8+xfac,-npt[2]+3+yfac,rnd(6),-oa*2,9)
-  drw_sqr(npt[1]-4+xfac,npt[2]+3+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-4+xfac,-npt[2]+3+yfac,rnd(6),-oa*2,9)
-  drw_sqr(npt[1]+xfac,npt[2]+3+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]+xfac,-npt[2]+3+yfac,rnd(6),-oa*2,9)
-
-  drw_sqr(npt[1]-3+xfac,npt[2]+7+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]-3+xfac,-npt[2]+7+yfac,rnd(6),-oa*2,9)
-  drw_sqr(npt[1]+xfac,npt[2]+7+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]+xfac,-npt[2]+7+yfac,rnd(6),-oa*2,9)
-  drw_sqr(npt[1]+4+xfac,npt[2]+7+yfac,rnd(6),-oa*2,9)
-  drw_sqr(-npt[1]+4+xfac,-npt[2]+7+yfac,rnd(6),-oa*2,9)
-
-  -- leaf stem
-  drw_sqr(npt[1]-28+xfac,npt[2]-25+yfac,rnd(3),-oa*2,5)
-  drw_sqr(-npt[1]-28+xfac,-npt[2]-25+yfac,rnd(3),-oa*2,5)
-  drw_sqr(npt[1]-23+xfac,npt[2]-25+yfac,rnd(3),-oa*2,5)
-  drw_sqr(-npt[1]-23+xfac,-npt[2]-25+yfac,rnd(3),-oa*2,5)
-  drw_sqr(npt[1]-31+xfac,npt[2]-22+yfac,rnd(3),-oa*2,5)
-  drw_sqr(-npt[1]-31+xfac,-npt[2]-22+yfac,rnd(3),-oa*2,5)
-  line(rnd(5)-38+xfac,rnd(5)-38+yfac,rnd(5)-28+xfac,rnd(5)-25+yfac,5)
-
-
-  -- flip()
-  radius=radius-shrink
-  if radius <= 1 then
-   break
+      -- flip()
+      radius=radius-shrink
+      if radius <= 1 then
+      break
+      end
+    end
+  end
+  tile_xfac = tile_xfac - .1
+  if tile_xfac < -64 then
+   tile_xfac = tile_xfac + 240
+  end
+  tile_yfac = tile_yfac + .1
+  if tile_yfac > 64 then
+   tile_yfac = tile_yfac - 136
   end
  end
 
