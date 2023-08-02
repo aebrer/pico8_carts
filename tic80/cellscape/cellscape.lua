@@ -6,6 +6,8 @@
 -- version: NULL
 -- script:  lua
 
+debug = true
+
 palette = {
  {0,0,0},
  {10,0,2},
@@ -83,8 +85,47 @@ function set_pal()
   pal(i,palette[i+1])
  end
 end
-set_pal()
-  
+
+if not debug then
+ set_pal()
+end
+
+-- outline:
+-- random or gridbased pixel sampling
+-- get the color of the pixel
+-- based on the color (0-15), choose a rule
+-- apply the rule to the pixel, or any surrounding pixels mentioned in the rule
+-- repeat
+-- notes:
+-- rules should each involve differing amounts of entropy
+ -- eg. calls to rnd() or rnd_pixel()
+ -- eg. size of the area affected
+-- rules should be able to be applied to any pixel
+-- screen modulo to make a torus
+-- the screen itself is storing the state of the automata
+-- entropy locking:
+-- random entropy locking will affect some rules more than others  
+-- and each seed (universe) will favour some rules over others
+
+-- structure:
+-- rules are stored in a table
+-- each rule is a function
+-- the color is the idx of the rule in the table
+-- the rule function takes a pixel as an argument
+-- the rule function returns a table of pixels to be changed, and their new colors
+-- rules can modify rules
+  -- rules would be a table-class object
+  -- would have a .actions table (functions that are always applied)
+  -- would have a .conditions table (functions that are conditionally applied)
+  -- would have a .entropy table (functions that randomly applied)
+
+-- interaction:
+-- mouse click to change the seed, preserving the current ...
+-- state but changing how the rules are applied, due to entropy locking
+-- right click to run set_pal(), which also "jiggles" the entropy locking by ...
+-- interrupting the cycle of calls to math.random() with calls to math.random()
+
+
 function TIC() 
  mx,my,left,middle,right,scrollx,scrolly=mouse()
  
