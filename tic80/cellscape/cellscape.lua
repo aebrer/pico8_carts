@@ -1,0 +1,7 @@
+-- title:   cellscape [working]
+-- author:  aebrer
+-- desc:    4-bit color automata
+-- site:    aebrer.xyz
+-- license: cc0
+-- version: NULL
+-- script:  lua
