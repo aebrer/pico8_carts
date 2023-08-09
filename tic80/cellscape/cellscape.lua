@@ -6,8 +6,6 @@
 -- version: NULL
 -- script:  lua
 
-debug = true
-
 palette = {
  {0,0,0},
  {10,0,2},
@@ -33,6 +31,7 @@ flr=math.floor
 abs=math.abs
 max=math.max
 min=math.min
+add=table.insert
   
 -- functions
 function random_choice(t)
@@ -64,6 +63,12 @@ function rnd_pixel()
  return(pixel)
 end
 
+--Prints text where x is the center of text.
+function printc(s,x,y,c)
+ local w=print(s,0,-8)
+ print(s,x-(w/2),y,c or 15)
+end
+
 -- setting params
 seed = math.random(0,999999)
 math.randomseed(seed)
@@ -86,9 +91,7 @@ function set_pal()
  end
 end
 
-if not debug then
- set_pal()
-end
+set_pal()
 
 -- outline:
 -- random or gridbased pixel sampling
@@ -109,7 +112,6 @@ end
 
 -- structure:
 -- rules are stored in a table
--- each rule is a function
 -- the color is the idx of the rule in the table
 -- the rule function takes a pixel as an argument
 -- the rule function returns a table of pixels to be changed, and their new colors
@@ -125,9 +127,86 @@ end
 -- right click to run set_pal(), which also "jiggles" the entropy locking by ...
 -- interrupting the cycle of calls to math.random() with calls to math.random()
 
+rules = {}
+
+function generate_rules()
+ for i=0,15 do
+  rules[i] = {}
+  rules[i].actions = {}
+  rules[i].conditions = {}
+  rules[i].entropy = {}
+ end
+end
+
+generate_rules()
+
+function get_neighbors(pixel)
+ local neighbors = {}
+ for i=-1,1 do
+  for j=-1,1 do
+   if not (i==0 and j==0) then
+    local neighbor = {
+     x = (pixel.x + i) % 240,
+     y = (pixel.y + j) % 136
+    }
+    add(neighbors, neighbor)
+   end
+  end
+ end
+ return neighbors
+end
+
+-- entropy function for rules[0]
+-- 0 == void, has a very low chance of changing to any color at random
+function void_spawn(pixel)
+  if rnd()>0.9999 then
+    pix(pixel.x,pixel.y,math.random(1,15))
+  end
+end
+add(rules[0].actions, void_spawn)
+
+-- action function for rules[1]
+function moss_spread(pixel)
+ local neighbors = get_neighbors(pixel)
+ local neighbor = random_choice(neighbors)
+ pix(neighbor.x,neighbor.y,1)
+end
+add(rules[1].actions, moss_spread)
+
+
+frame = 0
+
+
+cls()
 
 function TIC() 
  mx,my,left,middle,right,scrollx,scrolly=mouse()
- 
+
+
+ -- debugging, make a circle in the center of color 1
+ circ(120,68,50,1)
+
+
+  -- loop to get random pixel
+ for i=1,100 do
+  local pixel = rnd_pixel()
+  local color = pix(pixel.x,pixel.y)
+  -- loop to apply rules
+  for j=1,#rules[color].actions do
+   rules[color].actions[j](pixel)
+  end
+  for j=1,#rules[color].conditions do
+   rules[color].conditions[j](pixel)
+  end
+  for j=1,#rules[color].entropy do
+   rules[color].entropy[j](pixel)
+  end
+ end
+
+ frame = frame + 1
+
+ if left then
+  set_pal()
+ end
+
 end
-    
