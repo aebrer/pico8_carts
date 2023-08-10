@@ -51,10 +51,10 @@ end
 
 function rnd_pixel()
  local px_x = (
-  flr(math.random(241))
+  flr(math.random(240)-1)
  )
  local px_y = (
-  flr(math.random(137))
+  flr(math.random(136)-1)
   )
  local pixel = {
   x=px_x,
@@ -117,9 +117,6 @@ set_pal()
 -- the rule function returns a table of pixels to be changed, and their new colors
 -- rules can modify rules
   -- rules would be a table-class object
-  -- would have a .actions table (functions that are always applied)
-  -- would have a .conditions table (functions that are conditionally applied)
-  -- would have a .entropy table (functions that randomly applied)
 
 -- interaction:
 -- mouse click to change the seed, preserving the current ...
@@ -132,9 +129,6 @@ rules = {}
 function generate_rules()
  for i=0,15 do
   rules[i] = {}
-  rules[i].actions = {}
-  rules[i].conditions = {}
-  rules[i].entropy = {}
  end
 end
 
@@ -146,8 +140,8 @@ function get_neighbors(pixel)
   for j=-1,1 do
    if not (i==0 and j==0) then
     local neighbor = {
-     x = (pixel.x + i) % 240,
-     y = (pixel.y + j) % 136
+     x = ((pixel.x + i) % 240),
+     y = ((pixel.y + j) % 136)
     }
     add(neighbors, neighbor)
    end
@@ -156,50 +150,138 @@ function get_neighbors(pixel)
  return neighbors
 end
 
--- entropy function for rules[0]
+-- function for rules[0]
 -- 0 == void, has a very low chance of changing to any color at random
 function void_spawn(pixel)
   if rnd()>0.9999 then
     pix(pixel.x,pixel.y,math.random(1,15))
   end
 end
-add(rules[0].actions, void_spawn)
+add(rules[0], void_spawn)
 
--- action function for rules[1]
+
+-- list of colors moss can not spread to
+moss_blockers = {2,14,15}
+
+-- function for rules[1]
 function moss_spread(pixel)
  local neighbors = get_neighbors(pixel)
  local neighbor = random_choice(neighbors)
- pix(neighbor.x,neighbor.y,1)
+ -- if not blocked, spread to a random neighbor
+ local blocked = false
+ for i=1,#moss_blockers do
+  if pix(neighbor.x,neighbor.y) == moss_blockers[i] then
+   blocked = true
+  end
+ end
+ if not blocked then
+  pix(neighbor.x,neighbor.y,1)
+ end
 end
-add(rules[1].actions, moss_spread)
+add(rules[1], moss_spread)
+
+-- function for rules[1]
+function spawn_seedpod(pixel)
+ -- get all neighbors
+ local neighbors = get_neighbors(pixel)
+ -- if all neighbors are 1, 1% chance to spawn a seedpod
+ local all_ones = true
+ for i=1,#neighbors do
+  if pix(neighbors[i].x,neighbors[i].y) ~= 1 then
+   all_ones = false
+  end
+ end
+ if all_ones and rnd()>0.99 then
+  pix(pixel.x,pixel.y,2)
+ end
+end
+add(rules[1], spawn_seedpod)
+
+
+-- rules[14] == fire
+-- if enough "trash" gathers in one place, a fire starts
+-- fire spreads fast and burns things to void
+-- fire has a chance to go out which is reduced by surrounding void tiles
+-- fire cannot spread to void tiles
+fire_blockers = {0,14}
+
+function fire_spread(pixel)
+ local neighbors = get_neighbors(pixel)
+ local neighbor = random_choice(neighbors)
+ -- if not blocked, spread to a random neighbor
+ local blocked = false
+ for i=1,#fire_blockers do
+  if pix(neighbor.x,neighbor.y) == fire_blockers[i] then
+   blocked = true
+  end
+ end
+ if not blocked then
+  pix(neighbor.x,neighbor.y,14)
+ end
+end
+add(rules[14], fire_spread)
+
+function fire_decay(pixel)
+ local chance = 0.8
+ local neighbors = get_neighbors(pixel)
+ for i=1,#neighbors do
+  if pix(neighbors[i].x,neighbors[i].y) == 0 then
+   chance = chance * 0.75
+  end
+ end
+ if rnd()>chance then
+  pix(pixel.x,pixel.y,0)
+ end
+end
+add(rules[14], fire_decay)
+
+
+-- function for rules[15]
+-- rules[15] is the "trash" rule, all things decay to trash
+function spawn_fire_from_trash(pixel)
+ -- if enough trash gathers in one place, a fire starts
+ local neighbors = get_neighbors(pixel)
+ local base_chance = 1.0
+ for i=1,#neighbors do
+  if pix(neighbors[i].x,neighbors[i].y) == 15 then
+   base_chance = base_chance * 0.95
+  end
+ end
+ if rnd()>base_chance then
+  pix(pixel.x,pixel.y,14)
+ end
+end
+add(rules[15], spawn_fire_from_trash)
+
+-- rules[1] trash rate
+function moss_trash_rate(pixel)
+ if rnd()>0.999 then
+  pix(pixel.x,pixel.y,15)
+ end
+end
+add(rules[1], moss_trash_rate)
+
+-- rules[2] trash rate
+function seedpod_trash_rate(pixel)
+ if rnd()>0.9999 then
+  pix(pixel.x,pixel.y,15)
+ end
+end
+add(rules[2], seedpod_trash_rate)
 
 
 frame = 0
-
-
 cls()
-
 function TIC() 
  mx,my,left,middle,right,scrollx,scrolly=mouse()
 
-
- -- debugging, make a circle in the center of color 1
- circ(120,68,50,1)
-
-
   -- loop to get random pixel
- for i=1,100 do
+ for i=1,1000 do
   local pixel = rnd_pixel()
   local color = pix(pixel.x,pixel.y)
   -- loop to apply rules
-  for j=1,#rules[color].actions do
-   rules[color].actions[j](pixel)
-  end
-  for j=1,#rules[color].conditions do
-   rules[color].conditions[j](pixel)
-  end
-  for j=1,#rules[color].entropy do
-   rules[color].entropy[j](pixel)
+  for j=1,#rules[color] do
+   rules[color][j](pixel)
   end
  end
 
