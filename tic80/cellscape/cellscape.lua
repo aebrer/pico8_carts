@@ -150,6 +150,16 @@ function get_neighbors(pixel)
  return neighbors
 end
 
+-- legend
+void = 0
+moss = 1
+seedpod = 2
+spore = 3
+
+fire = 14
+trash = 15
+
+
 -- function for rules[0]
 -- 0 == void, has a very low chance of changing to any color at random
 function void_spawn(pixel)
@@ -157,11 +167,11 @@ function void_spawn(pixel)
     pix(pixel.x,pixel.y,math.random(1,15))
   end
 end
-add(rules[0], void_spawn)
+add(rules[void], void_spawn)
 
 
 -- list of colors moss can not spread to
-moss_blockers = {2,14,15}
+moss_blockers = {seedpod,fire,trash}
 
 -- function for rules[1]
 function moss_spread(pixel)
@@ -175,10 +185,13 @@ function moss_spread(pixel)
   end
  end
  if not blocked then
-  pix(neighbor.x,neighbor.y,1)
+  -- low chance for moss to spread, otherwise relies on spores
+  if rnd()>0.95 then
+   pix(neighbor.x,neighbor.y,moss)
+  end 
  end
 end
-add(rules[1], moss_spread)
+add(rules[moss], moss_spread)
 
 -- function for rules[1]
 function spawn_seedpod(pixel)
@@ -187,23 +200,67 @@ function spawn_seedpod(pixel)
  -- if all neighbors are 1, 1% chance to spawn a seedpod
  local all_ones = true
  for i=1,#neighbors do
-  if pix(neighbors[i].x,neighbors[i].y) ~= 1 then
+  if pix(neighbors[i].x,neighbors[i].y) ~= moss then
    all_ones = false
   end
  end
  if all_ones and rnd()>0.99 then
-  pix(pixel.x,pixel.y,2)
+  pix(pixel.x,pixel.y,seedpod)
  end
 end
-add(rules[1], spawn_seedpod)
+add(rules[moss], spawn_seedpod)
 
+
+-- function for rules[2]
+-- 2 == seedpod, has a chance to spawn a moss on all surrounding tiles
+function seedpod_spawn(pixel)
+ if rnd()>0.95 then
+  local neighbors = get_neighbors(pixel)
+  for i=1,#neighbors do
+   pix(neighbors[i].x,neighbors[i].y,moss)
+  end
+ end
+end
+add(rules[seedpod], seedpod_spawn)
+
+-- seedpods have a chance to release spores [3] in one direction
+function seedpod_spore(pixel)
+ if rnd()>0.95 then
+  local neighbors = get_neighbors(pixel)
+  local neighbor = random_choice(neighbors)
+  pix(neighbor.x,neighbor.y,spore)
+ end
+end
+add(rules[seedpod], seedpod_spore)
+
+-- function for rules[3] - spore
+-- 3 == spore, moves each frame in a random direction, leaves moss behind
+
+spore_blockers = {seedpod,fire,trash}
+
+function spore_move(pixel)
+ local neighbors = get_neighbors(pixel)
+ local neighbor = random_choice(neighbors)
+ 
+ local blocked = false
+ for i=1, #spore_blockers do
+  if pix(neighbor.x,neighbor.y) == spore_blockers[i] then
+   blocked = true
+  end
+ end
+ if not blocked then
+  pix(neighbor.x,neighbor.y,spore)
+  pix(pixel.x,pixel.y,moss)
+ end
+end
+add(rules[spore], spore_move)
 
 -- rules[14] == fire
 -- if enough "trash" gathers in one place, a fire starts
 -- fire spreads fast and burns things to void
 -- fire has a chance to go out which is reduced by surrounding void tiles
 -- fire cannot spread to void tiles
-fire_blockers = {0,14}
+fire_blockers = {void,fire}
 
 function fire_spread(pixel)
  local neighbors = get_neighbors(pixel)
@@ -216,13 +273,13 @@ function fire_spread(pixel)
   end
  end
  if not blocked then
-  pix(neighbor.x,neighbor.y,14)
+  pix(neighbor.x,neighbor.y,fire)
  end
 end
-add(rules[14], fire_spread)
+add(rules[fire], fire_spread)
 
 function fire_decay(pixel)
- local chance = 0.8
+ local chance = 0.6
  local neighbors = get_neighbors(pixel)
  for i=1,#neighbors do
   if pix(neighbors[i].x,neighbors[i].y) == 0 then
@@ -230,10 +287,10 @@ function fire_decay(pixel)
   end
  end
  if rnd()>chance then
-  pix(pixel.x,pixel.y,0)
+  pix(pixel.x,pixel.y,void)
  end
 end
-add(rules[14], fire_decay)
+add(rules[fire], fire_decay)
 
 
 -- function for rules[15]
@@ -248,18 +305,18 @@ function spawn_fire_from_trash(pixel)
   end
  end
  if rnd()>base_chance then
-  pix(pixel.x,pixel.y,14)
+  pix(pixel.x,pixel.y,fire)
  end
 end
-add(rules[15], spawn_fire_from_trash)
+add(rules[trash], spawn_fire_from_trash)
 
 -- rules[1] trash rate
 function moss_trash_rate(pixel)
- if rnd()>0.999 then
+ if rnd()>0.9999 then
   pix(pixel.x,pixel.y,15)
  end
 end
-add(rules[1], moss_trash_rate)
+add(rules[moss], moss_trash_rate)
 
 -- rules[2] trash rate
 function seedpod_trash_rate(pixel)
@@ -267,8 +324,14 @@ function seedpod_trash_rate(pixel)
   pix(pixel.x,pixel.y,15)
  end
 end
-add(rules[2], seedpod_trash_rate)
+add(rules[seedpod], seedpod_trash_rate)
 
+-- spore trash rate
+function spore_trash_rate(pixel)
+ if math.random(1,10000) >= 9999 then
+  pix(pixel.x,pixel.y,15)
+ end
+end
 
 frame = 0
 cls()
