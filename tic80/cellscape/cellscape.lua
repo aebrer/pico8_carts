@@ -279,7 +279,7 @@ end
 add(rules[fire], fire_spread)
 
 function fire_decay(pixel)
- local chance = 0.6
+ local chance = 0.75
  local neighbors = get_neighbors(pixel)
  for i=1,#neighbors do
   if pix(neighbors[i].x,neighbors[i].y) == 0 then
