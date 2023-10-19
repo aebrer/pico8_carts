@@ -146,7 +146,7 @@ rect(stem_x, stem_y, stem_w, stem_h);
 let x = width / 2.5; // Adjust the x-coordinate for left position
 let y = height / 2.3; // Adjust the y-coordinate for up position
 let radius = 37; // Adjust the size as needed
-let numVertices = int(random(3, 6)); // Randomly choose 3 to 6 vertices
+let numVertices = random_int(3, 6); // Randomly choose 3 to 6 vertices
 
 // Draw the left eye shape with black fill and white outline
 fill(black); // Black fill
@@ -156,7 +156,7 @@ strokeWeight(5); // Outline thickness
 beginShape();
 for (let i = 0; i < numVertices; i++) {
   let angle = TWO_PI / numVertices * i;
-  let spikeLength = random(0.5, 1) * radius; // Randomize spike length
+  let spikeLength = random_num(0.5, 1) * radius; // Randomize spike length
   let spikeX = x + cos(angle) * (radius + spikeLength);
   let spikeY = y + sin(angle) * (radius + spikeLength);
   vertex(spikeX, spikeY);
@@ -175,7 +175,7 @@ strokeWeight(5); // Outline thickness
 beginShape();
 for (let i = 0; i < numVertices; i++) {
   let angle = TWO_PI / numVertices * i;
-  let spikeLength = random(0.5, 1) * radius; // Randomize spike length
+  let spikeLength = random_num(0.5, 1) * radius; // Randomize spike length
   let spikeX = rightEyeX + cos(angle) * (radius + spikeLength);
   let spikeY = rightEyeY + sin(angle) * (radius + spikeLength);
   vertex(spikeX, spikeY);
