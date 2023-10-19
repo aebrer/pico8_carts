@@ -20,7 +20,6 @@ license: CC0 -> go nuts; citations not required but definitely appreciated
 */
 
 
-//thanks @Yazid for these two helper functions
 function random_num(a, b) {
   return a+(b-a)*$fx.rand()
 }
@@ -33,9 +32,6 @@ return arr[Math.floor(random_num(0,1) * arr.length)];
 }
 
 
-// will decide on mobile mode unless there is a pointer device with hover capability attached
-let is_mobile = window.matchMedia("(any-hover: none)").matches
-
 
 let aspect = 1.0
 let ww;
@@ -45,34 +41,22 @@ let py = 0;
 let col;
 let pd=3;
 let dd;
+let mindist
 
 
 let initial_run=true;
 
 let mycan;
 
-
 function setup() {
 
+mindist = Math.min(windowWidth, windowHeight)
 
-ww = 1024
-wh = 1024
+ww = mindist
+wh = mindist
 
-// shrink dimensions to fit the full image in the display dynamically
-if(windowHeight<wh){
-  wh=windowHeight
-  ww = wh*aspect
-}
+mycan = createCanvas(ww, wh, SVG);
 
-
-createCanvas(ww, wh, SVG);
-
-
-dd=displayDensity()
-df = Math.ceil(dd * pd * 0.5)
-if(is_mobile){df/=3}
-pixelDensity(df);
-df = pixelDensity();
 // blendMode(DIFFERENCE);
 noSmooth();
 
@@ -129,7 +113,7 @@ ellipse(pumpkin_x, pumpkin_y, pumpkin_w, pumpkin_h);
 
 
 
-
+pop()
 // now we draw the stem, at the top of the pumpkin as calculated
 let stem_w = pumpkin_w*0.05
 let stem_h = pumpkin_h*0.2
@@ -138,14 +122,20 @@ let stem_y = pumpkin_y - pumpkin_h/2 - stem_h/2
 rectMode(CENTER)
 // rotate the stem a bit
 rotate(random_num(0.05,0.15))
+
 // set fill to pumpkin orange
 fill(pumpkinOrange)
 rect(stem_x, stem_y, stem_w, stem_h);
 
+push()
+
+pop()
 // Eye shape parameters for the left eye
-let x = width / 2.5; // Adjust the x-coordinate for left position
-let y = height / 2.3; // Adjust the y-coordinate for up position
-let radius = 37; // Adjust the size as needed
+// x will be between pumpkin_x and pumpkin_x + pumpkin_w
+// y will be between pumpkin_y and pumpkin_y + pumpkin_h
+let x = pumpkin_x - (pumpkin_w / random_num(5,10)); // Adjust the x-coordinate for the left eye
+let y = pumpkin_y - (pumpkin_h / random_num(3,7)); // Adjust the y-coordinate for the left eye
+let radius = pumpkin_w / 20; // Adjust the size as needed
 let numVertices = random_int(3, 6); // Randomly choose 3 to 6 vertices
 
 // Draw the left eye shape with black fill and white outline
@@ -164,8 +154,8 @@ for (let i = 0; i < numVertices; i++) {
 endShape(CLOSE);
 
 // Eye shape parameters for the right eye
-let rightEyeX = width / 1.4; // Adjust the x-coordinate for the right eye
-let rightEyeY = height / 2.3; // Adjust the y-coordinate for the right eye
+let rightEyeX = pumpkin_x + (pumpkin_w / random_num(3,7)); // Adjust the x-coordinate for the right eye
+let rightEyeY = pumpkin_y - (pumpkin_h / random_num(3,7)); // Adjust the y-coordinate for the right eye
 
 // Draw the right eye shape with black fill and white outline
 fill(0); // Black fill
@@ -181,12 +171,15 @@ for (let i = 0; i < numVertices; i++) {
   vertex(spikeX, spikeY);
 }
 endShape(CLOSE);
+push()
 
+pop()
 // Mouth shape parameters
-let mouthX = width / 1.7; // Move the mouth to the right
-let mouthY = height / 1.8; // Move the mouth up
-let mouthWidth = random_int(100,190); // Make it more narrow
-let mouthHeight = random_int(20,50); // Make it more vertically narrow
+let eye_dist = rightEyeX - x
+let mouthX = pumpkin_x + random_num(-eye_dist/2,eye_dist/2); // Move the mouth to the right
+let mouthY = pumpkin_y + pumpkin_h / 10; // Move the mouth up
+let mouthWidth = pumpkin_w/random_num(3,5); // Make it more narrow
+let mouthHeight = pumpkin_h/random_int(25,40); // Make it more vertically narrow
 numVertices = random_int(8,16); // Number of vertices to create the mouth
 
 // Draw the mouth shape with black fill and white outline
@@ -199,7 +192,7 @@ for (let i = 0; i <= numVertices; i++) { // Include one more vertex to close the
   // Calculate the angle for vertex positioning
   let angle = map(i, 0, numVertices, -PI/6, PI + PI/6); // Adjust angle range for a curved top
   
-  // Adjust the radius to create a shape with the center high and edges low (or vice versa)
+  // Adjust the radius for apparently no real reason
   let radius = mouthWidth / 2 + sin(angle) * mouthHeight;
 
   // Calculate vertex position
@@ -209,6 +202,12 @@ for (let i = 0; i <= numVertices; i++) { // Include one more vertex to close the
   vertex(vertexX, vertexY);
 }
 endShape(CLOSE);
+push()
+
+// // now we scale if needed
+// mindist = Math.min(windowWidth, windowHeight)
+// // render the graphics buffer to the display canvas
+// image(mycan, 0, 0, ww, wh, 0, 0, mindist, mindist)
 
 }
 
