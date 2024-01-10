@@ -85,9 +85,9 @@ const get_possible_colors = col => {
   for (let i = 0; i < possible_hue_transforms.length; i++) {
     const hue = Math.floor((h + possible_hue_transforms[i] + 360) % 360);
     for (let j = 0; j < possible_saturation_transforms.length; j++) {
-      const saturation = Math.floor(Math.max(0, Math.min(100, s + possible_saturation_transforms[j])));
+      const saturation = Math.floor(Math.max(50, Math.min(100, s + possible_saturation_transforms[j])));
       for (let k = 0; k < possible_brightness_transforms.length; k++) {
-        const brightness = Math.floor(Math.max(0, Math.min(100, b + possible_brightness_transforms[k])));
+        const brightness = Math.floor(Math.max(75, Math.min(100, b + possible_brightness_transforms[k])));
         possible_colors.push(color(get_hsb(hue, saturation, brightness))); // Use get_hsb to convert HSB to RGB
       }
     }
@@ -263,6 +263,14 @@ function draw() {
   pg.updatePixels();
   // render the graphics buffer to the display canvas
   image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
+  // and mirror image
+  push();
+  translate(ww, 0);
+  scale(-1, 1);
+  image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
+  pop();
+
+
 
   return
 }
