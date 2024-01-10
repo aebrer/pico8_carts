@@ -44,7 +44,8 @@ fxrand = sfc32(...hashes);
 window.$fxhashFeatures = {};
 
 let pg, wth, hgt, hc, ww, wh, x, y, col, pd = 5, dd, initial_run = true, mycan, tx, c, calt, nostroke, loop_count = 0, locking_method, xdata, ydata, pixeldata, seed_freq;
-const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
+// const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
+const ent_lock_methods = ["Random Chance"];
 // const ent_lock_methods = ["None"];
 
 let possible_hue_transforms = [0, 0, 0, 0, 1, 2, randomChoice([5,10,45,180])];
@@ -187,7 +188,7 @@ function setup() {
   locking_method = randomChoice(ent_lock_methods);
 
   hues = [random_int(0, 360)];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 30; i++) {
     hues.push((hues[0] + randomChoice([5, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 45, 45, 45, 120, 120, 180, 180, 180, 180, 270, 270])) % 360);
   }
 
@@ -269,7 +270,6 @@ function draw() {
   scale(-1, 1);
   image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
   pop();
-
 
 
   return
