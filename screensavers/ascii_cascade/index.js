@@ -47,9 +47,9 @@ let pg, wth, hgt, hc, ww, wh, x, y, col, pd = 5, dd, initial_run = true, mycan, 
 // const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
 const ent_lock_methods = ["None"];
 
-let possible_hue_transforms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, randomChoice([0, 0, 180])];
+let possible_hue_transforms = [0, 0, 0, 0, 1, 2, 180];
 const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
-const possible_brightness_transforms = [1, 2, 3, 5, 10, -1, -2, -3, -5, -10];
+const possible_brightness_transforms = [1, 2, 3, 5, -1, -2, -3, -5];
 
 // Define the neighbors array once outside of the function
 const neighbors = new Array(8);
@@ -71,16 +71,14 @@ const get_all_pixels_by_state = state => {
 
 // This function will return the possible neighbor colors given a color
 const get_possible_colors = col => {
-  const key = col.toString();
-  if (colorCache[key]) {
-    return colorCache[key];
-  }
-
   const h = hue(col);
   const s = saturation(col);
   const b = brightness(col);
+  const key = `${h}-${s}-${b}`; // Use a simpler key
 
-  
+  if (colorCache[key]) {
+    return colorCache[key];
+  }
 
   const possible_colors = [];
 
@@ -90,7 +88,7 @@ const get_possible_colors = col => {
       const saturation = Math.floor(Math.max(0, Math.min(100, s + possible_saturation_transforms[j])));
       for (let k = 0; k < possible_brightness_transforms.length; k++) {
         const brightness = Math.floor(Math.max(0, Math.min(100, b + possible_brightness_transforms[k])));
-        possible_colors.push(color(get_hsb(hue, saturation, brightness)));
+        possible_colors.push(color(get_hsb(hue, saturation, brightness))); // Use get_hsb to convert HSB to RGB
       }
     }
   }
