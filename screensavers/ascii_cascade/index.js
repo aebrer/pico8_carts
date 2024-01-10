@@ -47,7 +47,7 @@ let pg, wth, hgt, hc, ww, wh, x, y, col, pd = 5, dd, initial_run = true, mycan, 
 const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
 // const ent_lock_methods = ["None"];
 
-let possible_hue_transforms = [0, 0, 0, 0, 1, 2, 180];
+let possible_hue_transforms = [0, 0, 0, 0, 1, 2, randomChoice([5,10,45,180])];
 const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
 const possible_brightness_transforms = [1, 2, 3, 5, -1, -2, -3, -5];
 
@@ -151,8 +151,6 @@ const set_pixel_colors = (pixels) => {
 function setup() {
   fxrand = sfc32(...hashes);
 
-  possible_hue_transforms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, randomChoice([0, 0, 180])];
-
   if (isFxpreview) {
     ww = 1080;
     wh = 1080;
@@ -202,14 +200,14 @@ function setup() {
 };
 
 const renew_pixels = () => {
+  hashes = get_new_hashes();
+  fxrand = sfc32(...hashes);
+  locking_method = randomChoice(ent_lock_methods);
+  possible_hue_transforms = [0, 0, 0, 0, 1, 2, randomChoice([5,10,45,180])];
   pixeldata.forEach(row => row.forEach(pixel => {
     pixel.state = "unseen";
     pixel.colors = [randomChoice(pixel.colors)];
   }));
-
-  hashes = get_new_hashes();
-  fxrand = sfc32(...hashes);
-  locking_method = randomChoice(ent_lock_methods);
 };
 
 
