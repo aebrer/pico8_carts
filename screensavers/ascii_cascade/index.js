@@ -44,8 +44,8 @@ fxrand = sfc32(...hashes);
 window.$fxhashFeatures = {};
 
 let pg, wth, hgt, hc, ww, wh, x, y, col, pd = 5, dd, initial_run = true, mycan, tx, c, calt, nostroke, loop_count = 0, locking_method, xdata, ydata, pixeldata, seed_freq;
-// const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
-const ent_lock_methods = ["None"];
+const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
+// const ent_lock_methods = ["None"];
 
 let possible_hue_transforms = [0, 0, 0, 0, 1, 2, 180];
 const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
