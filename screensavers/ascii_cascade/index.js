@@ -22,6 +22,11 @@ license: CC0 -> go nuts; citations not required but definitely appreciated
 const random_num = (a, b) => a + (b - a) * fxrand();
 const random_int = (a, b) => Math.floor(random_num(a, b + 1));
 const randomChoice = arr => arr[Math.floor(random_num(0, 1) * arr.length)];
+// Cache for possible colors
+const MAX_CACHE_SIZE = 10000;
+// Use a fixed-size array for colorCache
+const colorCache = new Array(MAX_CACHE_SIZE);
+const PIX_BATCH_SIZE = 32;
 
 const get_new_hashes = () => {
   fxhash = "oo" + Array(49).fill(0).map(_ => alphabet[(Math.random() * alphabet.length) | 0]).join('');
@@ -38,49 +43,81 @@ fxrand = sfc32(...hashes);
 window.$fxhashFeatures = {};
 
 let pg, wth, hgt, hc, ww, wh, x, y, col, pd = 5, dd, initial_run = true, mycan, tx, c, calt, nostroke, loop_count = 0, locking_method, xdata, ydata, pixeldata, seed_freq;
-// const ent_lock_methods = ["Random Chance", "Consistent by Frame Count"];
-const ent_lock_methods = ["None"];
+const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
+// const ent_lock_methods = ["None"];
 
+let possible_hue_transforms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, randomChoice([0, 0, 180])];
+const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
+const possible_brightness_transforms = [1, 2, 3, 5, 10, -1, -2, -3, -5, -10];
+
+// Define the neighbors array once outside of the function
+const neighbors = new Array(8);
 
 const get_hsb = (h, s, b) => `hsb(${h},${s}%,${b}%)`;
 
 const get_random_pixel_by_state = state => randomChoice(get_all_pixels_by_state(state));
 
 const get_all_pixels_by_state = state => {
-  let good_pixels = [];
+  const good_pixels = [];
   for (let x = 0; x < wth; x++) {
-    let pixels = pixeldata[x];
-    good_pixels = [...good_pixels, ...pixels.filter(pixel => pixel.state === state)];
+    const pixels = pixeldata[x];
+    for (let i = 0; i < pixels.length; i++) {
+      if (pixels[i].state === state) {
+        good_pixels.push(pixels[i]);
+      }
+    }
   }
   return good_pixels;
 };
+
 // This function will return the possible neighbor colors given a color
 const get_possible_colors = col => {
+  const key = col.toString();
+  if (colorCache[key]) {
+    return colorCache[key];
+  }
+
   const h = hue(col);
   const s = saturation(col);
   const b = brightness(col);
 
-  const possible_hue_transforms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, randomChoice([0, 0, 180])];
-  const possible_hues = possible_hue_transforms.map(x => Math.floor((h + x + 360) % 360));
+  
 
-  let possible_saturation_transforms = [1, 2, 3];
-  possible_saturation_transforms = possible_saturation_transforms.concat(possible_saturation_transforms.map(x => -x));
-  const possible_saturations = possible_saturation_transforms.map(x => Math.floor(Math.max(0, Math.min(100, s + x))));
+  const possible_colors = [];
 
-  let possible_brightness_transforms = [1, 2, 3, 5, 10];
-  possible_brightness_transforms = possible_brightness_transforms.concat(possible_brightness_transforms.map(x => -x));
-  const possible_brightnesses = possible_brightness_transforms.map(x => Math.floor(Math.max(0, Math.min(100, b + x))));
+  for (let i = 0; i < possible_hue_transforms.length; i++) {
+    const hue = Math.floor((h + possible_hue_transforms[i] + 360) % 360);
+    for (let j = 0; j < possible_saturation_transforms.length; j++) {
+      const saturation = Math.floor(Math.max(0, Math.min(100, s + possible_saturation_transforms[j])));
+      for (let k = 0; k < possible_brightness_transforms.length; k++) {
+        const brightness = Math.floor(Math.max(0, Math.min(100, b + possible_brightness_transforms[k])));
+        possible_colors.push(color(get_hsb(hue, saturation, brightness)));
+      }
+    }
+  }
 
-  const possible_colors = possible_hues.map(hue => possible_saturations.map(saturation => possible_brightnesses.map(brightness => color(get_hsb(hue, saturation, brightness))))).flat(2);
+  // Limit the size of the cache
+  if (Object.keys(colorCache).length >= MAX_CACHE_SIZE) {
+    const oldestKey = Object.keys(colorCache)[0];
+    delete colorCache[oldestKey];
+  }
 
+  colorCache[key] = possible_colors;
   return possible_colors;
 };
 
+
 // This function will set the color of a given pixel
 const set_pixel_color = (x, y, col) => {
+  
   pixeldata[x][y].color = col;
   pixeldata[x][y].state = "settled";
-  pg.set(x, y, col);
+
+  const idx = (x + y * wth) * 4; // Calculate the index in the pixels array
+  pg.pixels[idx] = red(col); // Set the red channel
+  pg.pixels[idx + 1] = green(col); // Set the green channel
+  pg.pixels[idx + 2] = blue(col); // Set the blue channel
+  pg.pixels[idx + 3] = alpha(col); // Set the alpha channel
 
   const neighbors = [
     [(x - 1 + wth) % wth, y],
@@ -99,10 +136,49 @@ const set_pixel_color = (x, y, col) => {
       pixeldata[nx][ny].state = "waiting";
     }
   });
+
 };
+
+// This function will set the color of a batch of pixels
+const set_pixel_colors = (pixels) => {
+  pixels.forEach(pixel => {
+    let col = randomChoice(pixel.colors)
+    let x = pixel.x
+    let y = pixel.y
+    pixeldata[x][y].color = col;
+    pixeldata[x][y].state = "settled";
+
+    const idx = (x + y * wth) * 4; // Calculate the index in the pixels array
+    pg.pixels[idx] = red(col); // Set the red channel
+    pg.pixels[idx + 1] = green(col); // Set the green channel
+    pg.pixels[idx + 2] = blue(col); // Set the blue channel
+    pg.pixels[idx + 3] = alpha(col); // Set the alpha channel
+
+    const neighbors = [
+      [(x - 1 + wth) % wth, y],
+      [(x + 1 + wth) % wth, y],
+      [x, (y - 1 + hgt) % hgt],
+      [x, (y + 1 + hgt) % hgt],
+      [(x + 1 + wth) % wth, (y + 1 + hgt) % hgt],
+      [(x - 1 + wth) % wth, (y - 1 + hgt) % hgt],
+      [(x + 1 + wth) % wth, (y - 1 + hgt) % hgt],
+      [(x - 1 + wth) % wth, (y + 1 + hgt) % hgt]
+    ];
+
+    neighbors.forEach(([nx, ny]) => {
+      if (pixeldata[nx][ny].state != "settled") {
+        pixeldata[nx][ny].colors.push(...get_possible_colors(col));
+        pixeldata[nx][ny].state = "waiting";
+      }
+    });
+  });
+};
+
 
 function setup() {
   fxrand = sfc32(...hashes);
+
+  possible_hue_transforms = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, randomChoice([0, 0, 180])];
 
   if (isFxpreview) {
     ww = 1080;
@@ -116,12 +192,16 @@ function setup() {
 
   mycan = createCanvas(ww, wh);
 
-  wth = 32;
+  wth = 256;
   window.$fxhashFeatures["Pixel Width"] = wth;
   hgt = Math.ceil(wth * (wh / ww));
   hc = -wth;
   pg = createGraphics(wth, hgt);
   pg.colorMode(HSL);
+  pg.pixelDensity(1);
+  pg.loadPixels();
+  console.log(pg.pixels.length);
+  // pg.pixels = new Uint32Array(wth * hgt);
 
   dd = displayDensity();
   let df = Math.ceil(dd * pd * 0.5);
@@ -190,13 +270,12 @@ function draw() {
     set_pixel_color(random_pixel.x, random_pixel.y, color(get_hsb(randomChoice(hues), random_int(75,100), random_int(75,100))))
   } else {
     // if there are waiting pixels, get a random waiting pixel
-    let random_pixel = randomChoice(waiting_pixels)
-    // get a random color from the pixel's possible colors
-    // let random_color = randomChoice(random_pixel.colors)
-    let random_color = randomChoice(random_pixel.colors)
-    // console.debug(random_color)
-    // set the pixel to the random color
-    set_pixel_color(random_pixel.x, random_pixel.y, random_color)
+    if (waiting_pixels.length < PIX_BATCH_SIZE) {
+      random_pixels = waiting_pixels;
+    } else {
+      random_pixels = Array.from({ length: PIX_BATCH_SIZE }, () => randomChoice(waiting_pixels));
+    }
+    set_pixel_colors(random_pixels)
   }
 
   // if all pixels are settled, stop rendering
@@ -211,36 +290,5 @@ function draw() {
   // render the graphics buffer to the display canvas
   image(pg, 0, 0, ww, wh, 0, 0, wth, hgt)
 
-  blendMode(DIFFERENCE);
-  for (let i=0;i<64;i++) {
-    x=random_int(0,ww)
-    y=random_int(0,wh)
-    a=random_num(-ww/2,ww/2)
-    b=random_num(-wh/2,wh/2)
-    c=random_num(ww/8,ww/8)
-    d=random_num(wh/8,wh/8)
-    choices=[a,b,c,d]
-    if(random_int(1,1000)>950){image(mycan, x+randomChoice(choices),y+randomChoice(choices),ww/8,wh/8, x+randomChoice(choices),y+randomChoice(choices),randomChoice(choices),randomChoice(choices))}
-  }
-  blendMode(BLEND);
-
   return
-}
-
-function keyTyped() {
-  const actions = {
-    's': () => save(mycan, "export_.png"),
-    '1': () => { pd = 1; setup(); },
-    '2': () => { pd = 2; setup(); },
-    '3': () => { pd = 3; setup(); },
-    '4': () => { pd = 4; setup(); },
-    '5': () => { pd = 5; setup(); },
-    '6': () => { pd = 6; setup(); },
-    '7': () => { pd = 7; setup(); },
-    '8': () => { pd = 8; setup(); },
-  };
-
-  if (actions[key]) {
-    actions[key]();
-  }
 }
