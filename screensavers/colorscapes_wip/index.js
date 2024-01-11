@@ -24,12 +24,12 @@ const random_int = (a, b) => Math.floor(random_num(a, b + 1));
 const randomChoice = arr => arr[Math.floor(random_num(0, 1) * arr.length)];
 
 // scale of the pixel canvas
-const PIX_WIDTH = 256;
+const PIX_WIDTH = 666;
 // Cache for possible colors
 const MAX_CACHE_SIZE = 10000;
 // Use a fixed-size array for colorCache
 let colorCache = new Array(MAX_CACHE_SIZE);
-const PIX_BATCH_SIZE = 128
+const PIX_BATCH_SIZE = 777;
 
 const random_pixels = new Array(PIX_BATCH_SIZE);
 
@@ -48,13 +48,13 @@ fxrand = sfc32(...hashes);
 window.$fxhashFeatures = {};
 
 let pg, wth, hgt, hc, ww, wh, x, y, col, hues, pd = 5, dd, initial_run = true, mycan, tx, c, calt, nostroke, loop_count = 0, locking_method, xdata, ydata, pixeldata, seed_freq;
-const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
-// const ent_lock_methods = ["Random Chance"];
+// const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
+const ent_lock_methods = ["Random Chance"];
 // const ent_lock_methods = ["None"];
 // const ent_lock_methods = ["Consistent by Frame Count"];
 
-let possible_hue_transforms = [1];
-const possible_saturation_transforms = [1, 2, 3, -1];
+let possible_hue_transforms = [0,0,1,1,2,3];
+const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
 const possible_brightness_transforms = [1, 2, 3, 5, -1, -2, -3];
 
 // Define the neighbors array once outside of the function
@@ -112,9 +112,10 @@ const get_possible_colors = col => {
 // This function will set the color of a batch of pixels
 const set_pixel_colors = (pixels) => {
   pixels.forEach(pixel => {
+
     // if pixel is settled, shouldn't be here, that's a bug
     if (pixel.state === "settled") {
-      console.log("pixel is settled, shouldn't be here")
+      // console.log("pixel is settled, shouldn't be here")
       return
     }
     
@@ -205,14 +206,13 @@ const renew_pixels = () => {
   fxrand = sfc32(...hashes);
   locking_method = randomChoice(ent_lock_methods);
   // possible_hue_transforms = [];
-  console.log("hue genotype premod: ", possible_hue_transforms);
   // limit possible_hue_transforms to 2
-  if (possible_hue_transforms.length >= 2) {
-    possible_hue_transforms.shift();
-  }
-  possible_hue_transforms.push(possible_hue_transforms[0] + random_int(0,45));
+  // if (possible_hue_transforms.length >= 2) {
+  //   possible_hue_transforms.shift();
+  // }
+  // possible_hue_transforms.push(possible_hue_transforms[0] + random_int(0,1));
 
-  console.log("hue genotype: ", possible_hue_transforms);
+  // console.log("hue genotype: ", possible_hue_transforms);
   // pg.clear()
   // clear()
   pixeldata.forEach(row => row.forEach(pixel => {
@@ -221,9 +221,6 @@ const renew_pixels = () => {
   }));
   colorCache = new Array(MAX_CACHE_SIZE);
   hues = [random_int(0, 360)];
-  for (let i = 0; i < 5; i++) {
-    hues.push((hues[0] + randomChoice(possible_hue_transforms)) % 360);
-  }
 };
 
 
@@ -263,6 +260,13 @@ function draw() {
       }
     } else {
       for (let i = 0; i < PIX_BATCH_SIZE; i++) {
+        
+        if (locking_method == "Random Chance") {
+          if (random_int(1,1000)>950 && i > PIX_BATCH_SIZE / 4){fxrand=sfc32(...hashes)}
+        }
+
+
+
         random_pixels[i] = randomChoice(waiting_pixels);
       }
     }
