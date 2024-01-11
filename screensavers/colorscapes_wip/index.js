@@ -114,7 +114,7 @@ const set_pixel_colors = (pixels) => {
   pixels.forEach(pixel => {
 
     if (locking_method == "Random Chance") {
-      if (random_int(1,1000)>200){fxrand=sfc32(...hashes)}
+      if (random_int(1,1000)>500){fxrand=sfc32(...hashes)}
     }
 
     // if pixel is settled, shouldn't be here, that's a bug
@@ -299,5 +299,26 @@ function draw() {
 
 // on resize, reload the page
 function windowResized() {
-  window.location.reload();
+  // window.location.reload();
+  setup();
+}
+
+// if the user presses s, save a png of the image
+// if the user presses f, toggle fullscreen
+// if the user presses p, toggle pause
+
+function keyPressed() {
+  if (key == 's' || key == 'S') saveCanvas(mycan, 'colorscapes_wip', 'png');
+  if (key == 'f' || key == 'F') fullscreen(!fullscreen());
+  if (key == 'p' || key == 'P') noLoop();
+  if (key == 'r' || key == 'R') setup();
+  if (key == 'u' || key == 'U') loop();
+}
+
+function checkLoop() {
+  if (this.checked()) {
+    loop();
+  } else {
+    noLoop();
+  }
 }
