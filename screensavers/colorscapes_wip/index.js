@@ -113,6 +113,10 @@ const get_possible_colors = col => {
 const set_pixel_colors = (pixels) => {
   pixels.forEach(pixel => {
 
+    if (locking_method == "Random Chance") {
+      if (random_int(1,1000)>200){fxrand=sfc32(...hashes)}
+    }
+
     // if pixel is settled, shouldn't be here, that's a bug
     if (pixel.state === "settled") {
       // console.log("pixel is settled, shouldn't be here")
@@ -254,22 +258,22 @@ function draw() {
       random_pixels[0] = randomChoice(unseen_pixels);
     // }
   } else {
-    if (waiting_pixels.length < PIX_BATCH_SIZE) {
+    // if (waiting_pixels.length < PIX_BATCH_SIZE) {
       for (let i = 0; i < PIX_BATCH_SIZE; i++) {
         random_pixels[i] = waiting_pixels[i % waiting_pixels.length];
       }
-    } else {
-      for (let i = 0; i < PIX_BATCH_SIZE; i++) {
+    // } else {
+      // for (let i = 0; i < PIX_BATCH_SIZE; i++) {
         
-        if (locking_method == "Random Chance") {
-          if (random_int(1,1000)>950 && i > PIX_BATCH_SIZE / 4){fxrand=sfc32(...hashes)}
-        }
+      //   if (locking_method == "Random Chance") {
+      //     if (random_int(1,1000)>950 && i > PIX_BATCH_SIZE / 4){fxrand=sfc32(...hashes)}
+      //   }
 
 
 
-        random_pixels[i] = randomChoice(waiting_pixels);
-      }
-    }
+      //   random_pixels[i] = randomChoice(waiting_pixels);
+      // }
+    // }
   }
   set_pixel_colors(random_pixels)
   // if all pixels are settled, stop rendering
