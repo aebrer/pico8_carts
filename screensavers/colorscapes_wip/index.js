@@ -24,12 +24,13 @@ const random_int = (a, b) => Math.floor(random_num(a, b + 1));
 const randomChoice = arr => arr[Math.floor(random_num(0, 1) * arr.length)];
 
 // scale of the pixel canvas
-const PIX_WIDTH = 512;
+const PIX_WIDTH = 256;
 // Cache for possible colors
 const MAX_CACHE_SIZE = 10000;
 // Use a fixed-size array for colorCache
-const colorCache = new Array(MAX_CACHE_SIZE);
-const PIX_BATCH_SIZE = 256;
+let colorCache = new Array(MAX_CACHE_SIZE);
+const PIX_BATCH_SIZE = 128
+
 const random_pixels = new Array(PIX_BATCH_SIZE);
 
 const get_new_hashes = () => {
@@ -46,15 +47,15 @@ const is_mobile = window.matchMedia("(any-hover: none)").matches;
 fxrand = sfc32(...hashes);
 window.$fxhashFeatures = {};
 
-let pg, wth, hgt, hc, ww, wh, x, y, col, pd = 5, dd, initial_run = true, mycan, tx, c, calt, nostroke, loop_count = 0, locking_method, xdata, ydata, pixeldata, seed_freq;
-// const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
+let pg, wth, hgt, hc, ww, wh, x, y, col, hues, pd = 5, dd, initial_run = true, mycan, tx, c, calt, nostroke, loop_count = 0, locking_method, xdata, ydata, pixeldata, seed_freq;
+const ent_lock_methods = ["Random Chance", "Consistent by Frame Count", "None"];
 // const ent_lock_methods = ["Random Chance"];
 // const ent_lock_methods = ["None"];
-const ent_lock_methods = ["Consistent by Frame Count"];
+// const ent_lock_methods = ["Consistent by Frame Count"];
 
-let possible_hue_transforms = [0, 0, 0, 0, 1, 2, randomChoice([5,10,45,180])];
-const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
-const possible_brightness_transforms = [1, 2, 3, 5, -1, -2, -3, -5];
+let possible_hue_transforms = [1];
+const possible_saturation_transforms = [1, 2, 3, -1];
+const possible_brightness_transforms = [1, 2, 3, 5, -1, -2, -3];
 
 // Define the neighbors array once outside of the function
 const neighbors = new Array(8);
@@ -111,15 +112,18 @@ const get_possible_colors = col => {
 // This function will set the color of a batch of pixels
 const set_pixel_colors = (pixels) => {
   pixels.forEach(pixel => {
+    // if pixel is settled, shouldn't be here, that's a bug
+    if (pixel.state === "settled") {
+      console.log("pixel is settled, shouldn't be here")
+      return
+    }
     
     let col = color(get_hsb(randomChoice(hues), random_int(75,100), random_int(75,100)));
     
-    if (pixel.state === "unseen") {
-      // do nothing
-    } else {
+    if (pixel.state !== "unseen" && pixel.colors.length > 0) {
       col = randomChoice(pixel.colors)
     }
-  
+
     let x = pixel.x
     let y = pixel.y
     pixeldata[x][y].color = col;
@@ -153,7 +157,7 @@ const set_pixel_colors = (pixels) => {
 
 
 function setup() {
-  fxrand = sfc32(...hashes);
+ 
 
   if (isFxpreview) {
     ww = 1080;
@@ -190,28 +194,36 @@ function setup() {
 
   locking_method = randomChoice(ent_lock_methods);
 
-  hues = [random_int(0, 360)];
-  for (let i = 0; i < 30; i++) {
-    hues.push((hues[0] + randomChoice([5, 10, 15, 0, 0, 0, 0, 0, 0, 0, 0, 45, 45, 45, 120, 120, 180, 180, 180, 180, 270, 270])) % 360);
-  }
-
-  let num_hues = [...new Set(hues)].length;
-  window.$fxhashFeatures["Number of Seed Hues"] = num_hues;
-
   pixeldata = Array.from({ length: wth }, (_, i) => Array.from({ length: hgt }, (_, j) => ({ x: i, y: j, state: "unseen", colors: [], color: color(get_hsb(calt, 0, 0)) })));
 
-  console.table(window.$fxhashFeatures);
+  renew_pixels();
+
 };
 
 const renew_pixels = () => {
   hashes = get_new_hashes();
   fxrand = sfc32(...hashes);
   locking_method = randomChoice(ent_lock_methods);
-  possible_hue_transforms = [0, 0, 0, 0, 1, 2, randomChoice([5,10,45,180])];
+  // possible_hue_transforms = [];
+  console.log("hue genotype premod: ", possible_hue_transforms);
+  // limit possible_hue_transforms to 2
+  if (possible_hue_transforms.length >= 2) {
+    possible_hue_transforms.shift();
+  }
+  possible_hue_transforms.push(possible_hue_transforms[0] + random_int(0,45));
+
+  console.log("hue genotype: ", possible_hue_transforms);
+  // pg.clear()
+  // clear()
   pixeldata.forEach(row => row.forEach(pixel => {
     pixel.state = "unseen";
-    pixel.colors = [randomChoice(pixel.colors)];
+    pixel.colors = [];
   }));
+  colorCache = new Array(MAX_CACHE_SIZE);
+  hues = [random_int(0, 360)];
+  for (let i = 0; i < 5; i++) {
+    hues.push((hues[0] + randomChoice(possible_hue_transforms)) % 360);
+  }
 };
 
 
@@ -220,12 +232,10 @@ function draw() {
   // entropy locking
 
   if (locking_method == "Random Chance") {
-    if (random_int(1,1000)>800){fxrand=sfc32(...hashes);pg.clear()}
+    if (random_int(1,1000)>400){fxrand=sfc32(...hashes)}
   } else if (locking_method == "Consistent by Frame Count") {
-    if(frameCount%5==0){fxrand=sfc32(...hashes);pg.clear()}
-  } else if (locking_method == "None") {
-    if(frameCount%5==0){pg.clear()}
-  }
+    if(frameCount%5==0){fxrand=sfc32(...hashes)}
+  } 
 
   // // call fxpreview when the drawing is finished, and stop rendering
   // if(loop_count>16){fxpreview();noLoop();}
@@ -241,7 +251,7 @@ function draw() {
   if (waiting_pixels.length === 0 || (frameCount%seed_freq==0 & frameCount<100)) {
   // if (waiting_pixels.length === 0) {
 
-    console.log("no waiting pixels, seeding")
+    // console.log("no waiting pixels, seeding")
     // get PIXEL_BATCH_SIZE random pixels
     // for (let i = 0; i < PIX_BATCH_SIZE; i++) {
       random_pixels[0] = randomChoice(unseen_pixels);
@@ -249,7 +259,8 @@ function draw() {
   } else {
     if (waiting_pixels.length < PIX_BATCH_SIZE) {
       for (let i = 0; i < PIX_BATCH_SIZE; i++) {
-        random_pixels[i] = waiting_pixels[i % waiting_pixels.length];      }
+        random_pixels[i] = waiting_pixels[i % waiting_pixels.length];
+      }
     } else {
       for (let i = 0; i < PIX_BATCH_SIZE; i++) {
         random_pixels[i] = randomChoice(waiting_pixels);
