@@ -94,7 +94,7 @@ const get_possible_colors = col => {
     // const saturation = Math.floor(Math.max(50, Math.min(100, s + possible_saturation_transforms[j])));
     const sat = Math.floor(Math.max(50, Math.min(100, s + randomChoice(possible_saturation_transforms))));
     // const brightness = Math.floor(Math.max(75, Math.min(100, b + possible_brightness_transforms[k])));
-    const bright = Math.floor(Math.max(75, Math.min(100, b + randomChoice(possible_brightness_transforms))));
+    const bright = Math.floor(Math.max(0, Math.min(100, b + randomChoice(possible_brightness_transforms))));
     possible_colors.push(color(get_hsb(hueget, sat, bright))); // Use get_hsb to convert HSB to RGB
   }
 
