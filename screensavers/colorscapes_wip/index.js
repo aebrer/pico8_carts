@@ -55,7 +55,7 @@ const ent_lock_methods = ["Random Chance"];
 
 let possible_hue_transforms = [0,0,1,1,2,3];
 const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
-const possible_brightness_transforms = [1, 2, 3, 5, -1, -2, -3];
+const possible_brightness_transforms = [1, 2, 3, 5, -1, -2];
 
 // Define the neighbors array once outside of the function
 const neighbors = new Array(8);
