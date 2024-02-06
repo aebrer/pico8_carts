@@ -24,7 +24,7 @@ const random_int = (a, b) => Math.floor(random_num(a, b + 1));
 const randomChoice = arr => arr[Math.floor(random_num(0, 1) * arr.length)];
 
 // scale of the pixel canvas
-const PIX_WIDTH = 666;
+const PIX_WIDTH = 256;
 // Cache for possible colors
 const MAX_CACHE_SIZE = 10000;
 // Use a fixed-size array for colorCache
@@ -53,6 +53,9 @@ const ent_lock_methods = ["Random Chance"];
 // const ent_lock_methods = ["None"];
 // const ent_lock_methods = ["Consistent by Frame Count"];
 
+// const init_hue_limiter = random_int(0, 360);
+const init_hue_limiter = 16;
+console.log("init_hue_limiter: ", init_hue_limiter);
 let possible_hue_transforms = [0,0,1,1,2,3];
 const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
 const possible_brightness_transforms = [1, 2, 3, 5, -1, -2];
@@ -90,12 +93,17 @@ const get_possible_colors = col => {
   const possible_colors = [];
 
   for (let i = 0; i < 5; i++) {
-    // const hue = Math.floor((h + possible_hue_transforms[i] + 360) % 360);
-    const hueget = Math.max(Math.floor((h + randomChoice(possible_hue_transforms) + 360) % 360), 69);
-    // const saturation = Math.floor(Math.max(50, Math.min(100, s + possible_saturation_transforms[j])));
+    
+    
+    let hueget = h + randomChoice(possible_hue_transforms);
+    if (hueget < init_hue_limiter-69) {hueget = init_hue_limiter-69}
+    if (hueget > init_hue_limiter+69) {hueget = init_hue_limiter+69}
+    if (hueget < 0) {hueget = 360 + hueget}
+    if (hueget > 360) {hueget = hueget - 360}
+
+
     const sat = Math.floor(Math.max(69, Math.min(100, s + randomChoice(possible_saturation_transforms))));
-    // const brightness = Math.floor(Math.max(75, Math.min(100, b + possible_brightness_transforms[k])));
-    const bright = Math.floor(Math.max(75, Math.min(100, b + randomChoice(possible_brightness_transforms))));
+    const bright = Math.floor(Math.max(75, Math.min(98, b + randomChoice(possible_brightness_transforms))));
     possible_colors.push(color(get_hsb(hueget, sat, bright))); // Use get_hsb to convert HSB to RGB
   }
 
@@ -118,11 +126,11 @@ const set_pixel_colors = (pixels) => {
       if (random_int(1,1000)>500){fxrand=sfc32(...hashes)}
     }
 
-    // if pixel is settled, shouldn't be here, that's a bug
-    if (pixel.state === "settled") {
-      // console.log("pixel is settled, shouldn't be here")
-      return
-    }
+    // // if pixel is settled, shouldn't be here, that's a bug
+    // if (pixel.state === "settled") {
+    //   // console.log("pixel is settled, shouldn't be here")
+    //   return
+    // }
     
     let col = color(get_hsb(randomChoice(hues), random_int(75,100), random_int(75,100)));
     
@@ -229,10 +237,15 @@ const renew_pixels = () => {
     // get possible colors for that pixel
     const new_cols = get_possible_colors(random_pixel.color)
     // get just the hues from these colors
-    hues = new_cols.map(col => hue(col))
+    for (let i = 0; i < new_cols.length; i++) {
+      hues[i] = hue(new_cols[i])
+    }
+    
   } else {
     hues = Array.from({ length: 5 }, () => random_int(0, 360));
   }
+
+  console.log("hues: ", hues)
 
   pixeldata.forEach(row => row.forEach(pixel => {
     pixel.state = "unseen";
@@ -279,7 +292,7 @@ function draw() {
   for (let i = 0; i < PIX_BATCH_SIZE; i++) {
     // random_pixels[i] = 
     // 50:50 chance of getting a waiting pixel or an unseen pixel
-    if ((random_int(1,1000)>999 || waiting_pixels.length === 0) && unseen_pixels.length > 0){
+    if ((waiting_pixels.length === 0) && unseen_pixels.length > 0){
       random_pixels[i] = randomChoice(unseen_pixels);
     } else {
       random_pixels[i] = randomChoice(waiting_pixels);
