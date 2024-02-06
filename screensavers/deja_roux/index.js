@@ -24,7 +24,7 @@ const random_int = (a, b) => Math.floor(random_num(a, b + 1));
 const randomChoice = arr => arr[Math.floor(random_num(0, 1) * arr.length)];
 
 // scale of the pixel canvas
-const PIX_WIDTH = 256;
+const PIX_WIDTH = 666;
 // Cache for possible colors
 const MAX_CACHE_SIZE = 10000;
 // Use a fixed-size array for colorCache
@@ -53,10 +53,10 @@ const ent_lock_methods = ["Random Chance"];
 // const ent_lock_methods = ["None"];
 // const ent_lock_methods = ["Consistent by Frame Count"];
 
-// const init_hue_limiter = random_int(0, 360);
-const init_hue_limiter = 16;
+const init_hue_limiter = random_int(0, 360);
+// const init_hue_limiter = 16;
 console.log("init_hue_limiter: ", init_hue_limiter);
-let possible_hue_transforms = [0,0,1,1,2,3];
+let possible_hue_transforms = [0,0,1,1,-1,-1,2,-2,3,-3];
 const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
 const possible_brightness_transforms = [1, 2, 3, 5, -1, -2];
 
@@ -102,8 +102,8 @@ const get_possible_colors = col => {
     if (hueget > 360) {hueget = hueget - 360}
 
 
-    const sat = Math.floor(Math.max(69, Math.min(100, s + randomChoice(possible_saturation_transforms))));
-    const bright = Math.floor(Math.max(75, Math.min(98, b + randomChoice(possible_brightness_transforms))));
+    const sat = Math.floor(Math.min(69, Math.max(100, s + randomChoice(possible_saturation_transforms))));
+    const bright = Math.floor(Math.min(69, Math.max(98, b + randomChoice(possible_brightness_transforms))));
     possible_colors.push(color(get_hsb(hueget, sat, bright))); // Use get_hsb to convert HSB to RGB
   }
 
@@ -137,6 +137,12 @@ const set_pixel_colors = (pixels) => {
     if (pixel.state !== "unseen" && pixel.colors.length > 0) {
       col = randomChoice(pixel.colors)
     }
+
+    // // check if the col is not white
+    // if (brightness(col) > 99) {
+    //   console.log("white pixel")
+    //   return
+    // }
 
     let x = pixel.x
     let y = pixel.y
@@ -242,7 +248,7 @@ const renew_pixels = () => {
     }
     
   } else {
-    hues = Array.from({ length: 5 }, () => random_int(0, 360));
+    hues = Array.from({ length: 1 }, () => random_int(0, 360));
   }
 
   console.log("hues: ", hues)
