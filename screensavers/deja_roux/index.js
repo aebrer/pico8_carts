@@ -24,7 +24,7 @@ const random_int = (a, b) => Math.floor(random_num(a, b + 1));
 const randomChoice = arr => arr[Math.floor(random_num(0, 1) * arr.length)];
 
 // scale of the pixel canvas
-const PIX_WIDTH = 256;
+const PIX_WIDTH = 666;
 // Cache for possible colors
 const MAX_CACHE_SIZE = 10000;
 // Use a fixed-size array for colorCache
@@ -75,6 +75,7 @@ const get_all_pixels_by_state = state => {
   return good_pixels;
 };
 
+
 // This function will return the possible neighbor colors given a color
 const get_possible_colors = col => {
   const h = hue(col);
@@ -90,11 +91,11 @@ const get_possible_colors = col => {
 
   for (let i = 0; i < 5; i++) {
     // const hue = Math.floor((h + possible_hue_transforms[i] + 360) % 360);
-    const hueget = Math.floor((h + randomChoice(possible_hue_transforms) + 360) % 360);
+    const hueget = Math.max(Math.floor((h + randomChoice(possible_hue_transforms) + 360) % 360), 69);
     // const saturation = Math.floor(Math.max(50, Math.min(100, s + possible_saturation_transforms[j])));
-    const sat = Math.floor(Math.max(50, Math.min(100, s + randomChoice(possible_saturation_transforms))));
+    const sat = Math.floor(Math.max(69, Math.min(100, s + randomChoice(possible_saturation_transforms))));
     // const brightness = Math.floor(Math.max(75, Math.min(100, b + possible_brightness_transforms[k])));
-    const bright = Math.floor(Math.max(0, Math.min(100, b + randomChoice(possible_brightness_transforms))));
+    const bright = Math.floor(Math.max(75, Math.min(100, b + randomChoice(possible_brightness_transforms))));
     possible_colors.push(color(get_hsb(hueget, sat, bright))); // Use get_hsb to convert HSB to RGB
   }
 
@@ -141,10 +142,10 @@ const set_pixel_colors = (pixels) => {
     pg.pixels[idx + 3] = alpha(col); // Set the alpha channel
 
     const neighbors = [
-      [(x - 1 + wth) % wth, y],
-      [(x + 1 + wth) % wth, y],
-      [x, (y - 1 + hgt) % hgt],
-      [x, (y + 1 + hgt) % hgt],
+      // [(x - 1 + wth) % wth, y],
+      // [(x + 1 + wth) % wth, y],
+      // [x, (y - 1 + hgt) % hgt],
+      // [x, (y + 1 + hgt) % hgt],
       [(x + 1 + wth) % wth, (y + 1 + hgt) % hgt],
       [(x - 1 + wth) % wth, (y - 1 + hgt) % hgt],
       [(x + 1 + wth) % wth, (y - 1 + hgt) % hgt],
@@ -219,12 +220,28 @@ const renew_pixels = () => {
   // console.log("hue genotype: ", possible_hue_transforms);
   // pg.clear()
   // clear()
+
+  if (loop_count > 0) {
+    // get all settled pixels
+    const settled_pixels = get_all_pixels_by_state("settled")
+    // choose one at random
+    const random_pixel = randomChoice(settled_pixels)
+    // get possible colors for that pixel
+    const new_cols = get_possible_colors(random_pixel.color)
+    // get just the hues from these colors
+    hues = new_cols.map(col => hue(col))
+  } else {
+    hues = Array.from({ length: 5 }, () => random_int(0, 360));
+  }
+
   pixeldata.forEach(row => row.forEach(pixel => {
     pixel.state = "unseen";
     pixel.colors = [];
   }));
+
+
   colorCache = new Array(MAX_CACHE_SIZE);
-  hues = [random_int(0, 360)];
+
 };
 
 
@@ -245,53 +262,34 @@ function draw() {
   pg.loadPixels();
 
 
-  // get all the waiting pixels
+  // // get all the waiting pixels
   let waiting_pixels = get_all_pixels_by_state("waiting")
   let unseen_pixels = get_all_pixels_by_state("unseen")
 
-  // adjust buffer length for the "settled" pixels
-  let settled_pixels = get_all_pixels_by_state("settled")
-  if (settled_pixels.length > waiting_pixels.length) {
-    // get a random subset of the settled pixels
-    // change state to "unseen"
-    for (let i = 0; i < settled_pixels.length - waiting_pixels.length; i++) {
-      let pixel = randomChoice(settled_pixels)
-      pixel.state = "unseen"
+  // // if there are no waiting pixels, get a random unseen pixel
+  // if (waiting_pixels.length === 0 || (frameCount%seed_freq==0 & frameCount<100)) {
+  //     random_pixels[0] = randomChoice(unseen_pixels);
+  // } else {
+  //     for (let i = 0; i < PIX_BATCH_SIZE; i++) {
+  //       random_pixels[i] = waiting_pixels[i % waiting_pixels.length];
+  //     }
+  // }
+
+
+  for (let i = 0; i < PIX_BATCH_SIZE; i++) {
+    // random_pixels[i] = 
+    // 50:50 chance of getting a waiting pixel or an unseen pixel
+    if ((random_int(1,1000)>999 || waiting_pixels.length === 0) && unseen_pixels.length > 0){
+      random_pixels[i] = randomChoice(unseen_pixels);
+    } else {
+      random_pixels[i] = randomChoice(waiting_pixels);
     }
-    
-
-
-
   }
 
-  // if there are no waiting pixels, get a random unseen pixel
-  if (waiting_pixels.length === 0 || (frameCount%seed_freq==0 & frameCount<100)) {
-  // if (waiting_pixels.length === 0) {
-
-    // console.log("no waiting pixels, seeding")
-    // get PIXEL_BATCH_SIZE random pixels
-    // for (let i = 0; i < PIX_BATCH_SIZE; i++) {
-      random_pixels[0] = randomChoice(unseen_pixels);
-    // }
-  } else {
-    // if (waiting_pixels.length < PIX_BATCH_SIZE) {
-      for (let i = 0; i < PIX_BATCH_SIZE; i++) {
-        random_pixels[i] = waiting_pixels[i % waiting_pixels.length];
-      }
-    // } else {
-      // for (let i = 0; i < PIX_BATCH_SIZE; i++) {
-        
-      //   if (locking_method == "Random Chance") {
-      //     if (random_int(1,1000)>950 && i > PIX_BATCH_SIZE / 4){fxrand=sfc32(...hashes)}
-      //   }
-
-
-
-      //   random_pixels[i] = randomChoice(waiting_pixels);
-      // }
-    // }
-  }
   set_pixel_colors(random_pixels)
+
+
+  
   // if all pixels are settled, stop rendering
   if (get_all_pixels_by_state("settled").length === wth * hgt) {
     loop_count+=1;
