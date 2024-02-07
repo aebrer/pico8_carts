@@ -1,11 +1,6 @@
 
 /*
-Controls:
-
-F11 -> fullscreen mode (alternatively you should be able to do this from your browser menu)
-s -> save a png of the image
-1-8 -> set the pixel density and re-render (default is 2, higher means higher resolution final image; the preview image is generated with a value of 5, at 1080x1080px)
-
+Controls at bottom or in description online.
 ------------------
 
 find my social links, projects, newsletter, roadmap, and more, at aebrer.xyz
@@ -317,7 +312,12 @@ function draw() {
     // random_pixels[i] = 
     // 50:50 chance of getting a waiting pixel or an unseen pixel
     if ((waiting_pixels.length === 0) && unseen_pixels.length > 0){
-      random_pixels[i] = randomChoice(unseen_pixels);
+      let new_pixel = randomChoice(unseen_pixels);
+      new_pixel.state = "waiting";
+      // set the color to a random color via get_possible_colors
+      new_pixel.colors = get_possible_colors(new_pixel.color);
+      random_pixels[i] = new_pixel;
+      
     } else {
       random_pixels[i] = randomChoice(waiting_pixels);
     }
@@ -359,7 +359,7 @@ function windowResized() {
 // if the user presses p, toggle pause
 
 function keyPressed() {
-  if (key == 's' || key == 'S') saveCanvas(mycan, 'colorscapes_wip', 'png');
+  if (key == 's' || key == 'S') saveCanvas(mycan, 'dejahue', 'png');
   if (key == 'f' || key == 'F') fullscreen(!fullscreen());
   if (key == 'p' || key == 'P') noLoop();
   if (key == 'r' || key == 'R') setup();
