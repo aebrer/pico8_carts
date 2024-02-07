@@ -53,7 +53,7 @@ const ent_lock_methods = ["Random Chance"];
 // const ent_lock_methods = ["None"];
 // const ent_lock_methods = ["Consistent by Frame Count"];
 
-const init_hue_limiter = random_int(0, 360);
+let init_hue_limiter = random_int(0, 360);
 // const init_hue_limiter = 16;
 // console.log("init_hue_limiter: ", init_hue_limiter);
 let possible_hue_transforms = [0,0,1,1,-1,-1,2,-2,3,-3];
@@ -99,7 +99,7 @@ const get_possible_colors = col => {
     let hueget = h + randomChoice(possible_hue_transforms);
     if (hueget < init_hue_limiter-69) {hueget = init_hue_limiter-69}
     if (hueget > init_hue_limiter+69) {hueget = init_hue_limiter+69}
-    if (hueget < 0) {hueget = 360 + hueget}
+    if (hueget < 1) {hueget = 360 + hueget}
     if (hueget > 360) {hueget = hueget - 360}
     // sanitization
     hueget = Math.floor(hueget);
@@ -366,6 +366,7 @@ function keyPressed() {
   if (key == 'u' || key == 'U') loop();
   if (key == 'b' || key == 'B') {PIX_WIDTH = Math.floor(PIX_WIDTH * 2); PIX_BATCH_SIZE=PIX_WIDTH;setup();}
   if (key == 'n' || key == 'N') {PIX_WIDTH = Math.floor(PIX_WIDTH / 2); PIX_BATCH_SIZE=PIX_WIDTH;setup();}
+  if (key == 'c' || key == 'C') {init_hue_limiter = random_int(0, 360);setup();}
 }
 
 function checkLoop() {
