@@ -24,12 +24,12 @@ const random_int = (a, b) => Math.floor(random_num(a, b + 1));
 const randomChoice = arr => arr[Math.floor(random_num(0, 1) * arr.length)];
 
 // scale of the pixel canvas
-const PIX_WIDTH = 666;
+let PIX_WIDTH = 32;
 // Cache for possible colors
 const MAX_CACHE_SIZE = 10000;
 // Use a fixed-size array for colorCache
 let colorCache = new Array(MAX_CACHE_SIZE);
-const PIX_BATCH_SIZE = 666;
+let PIX_BATCH_SIZE = Math.floor(PIX_WIDTH / 2);
 
 const random_pixels = new Array(PIX_BATCH_SIZE);
 
@@ -55,8 +55,9 @@ const ent_lock_methods = ["Random Chance"];
 
 const init_hue_limiter = random_int(0, 360);
 // const init_hue_limiter = 16;
-console.log("init_hue_limiter: ", init_hue_limiter);
+// console.log("init_hue_limiter: ", init_hue_limiter);
 let possible_hue_transforms = [0,0,1,1,-1,-1,2,-2,3,-3];
+// let possible_hue_transforms = [-1,-1,-2,-3];
 const possible_saturation_transforms = [1, 2, 3, -1, -2, -3];
 const possible_brightness_transforms = [1, 2, 3, 5, -1, -2];
 
@@ -100,11 +101,19 @@ const get_possible_colors = col => {
     if (hueget > init_hue_limiter+69) {hueget = init_hue_limiter+69}
     if (hueget < 0) {hueget = 360 + hueget}
     if (hueget > 360) {hueget = hueget - 360}
+    // sanitization
+    hueget = Math.floor(hueget);
 
-
-    const sat = Math.floor(Math.min(69, Math.max(100, s + randomChoice(possible_saturation_transforms))));
+    const sat = Math.floor(Math.max(69, Math.min(100, s + randomChoice(possible_saturation_transforms))));
     const bright = Math.floor(Math.min(69, Math.max(98, b + randomChoice(possible_brightness_transforms))));
-    possible_colors.push(color(get_hsb(hueget, sat, bright))); // Use get_hsb to convert HSB to RGB
+
+    const newcolor = get_hsb(hueget, sat, bright);
+    const col = color(newcolor);
+    // // log them both
+    // console.log("col: ", col)
+    // console.log("newcolor: ", newcolor)
+
+    possible_colors.push(col); // Use get_hsb to convert HSB to RGB
   }
 
   // Limit the size of the cache
@@ -127,10 +136,10 @@ const set_pixel_colors = (pixels) => {
     }
 
     // // if pixel is settled, shouldn't be here, that's a bug
-    // if (pixel.state === "settled") {
-    //   // console.log("pixel is settled, shouldn't be here")
-    //   return
-    // }
+    if (pixel.state === "settled") {
+      // console.log("pixel is settled, shouldn't be here")
+      return
+    }
     
     let col = color(get_hsb(randomChoice(hues), random_int(75,100), random_int(75,100)));
     
@@ -139,10 +148,11 @@ const set_pixel_colors = (pixels) => {
     }
 
     // // check if the col is not white
-    // if (brightness(col) > 99) {
-    //   console.log("white pixel")
-    //   return
-    // }
+    if (brightness(col) > 99) {
+      // console.log("white pixel")
+      pixel.state = "settled";
+      return
+    }
 
     let x = pixel.x
     let y = pixel.y
@@ -156,10 +166,10 @@ const set_pixel_colors = (pixels) => {
     pg.pixels[idx + 3] = alpha(col); // Set the alpha channel
 
     const neighbors = [
-      // [(x - 1 + wth) % wth, y],
-      // [(x + 1 + wth) % wth, y],
-      // [x, (y - 1 + hgt) % hgt],
-      // [x, (y + 1 + hgt) % hgt],
+      [(x - 1 + wth) % wth, y],
+      [(x + 1 + wth) % wth, y],
+      [x, (y - 1 + hgt) % hgt],
+      [x, (y + 1 + hgt) % hgt],
       [(x + 1 + wth) % wth, (y + 1 + hgt) % hgt],
       [(x - 1 + wth) % wth, (y - 1 + hgt) % hgt],
       [(x + 1 + wth) % wth, (y - 1 + hgt) % hgt],
@@ -199,7 +209,7 @@ function setup() {
   pg.colorMode(HSL);
   pg.pixelDensity(1);
   pg.loadPixels();
-  console.log(pg.pixels.length);
+  // console.log(pg.pixels.length);
   // pg.pixels = new Uint32Array(wth * hgt);
 
   dd = displayDensity();
@@ -235,23 +245,31 @@ const renew_pixels = () => {
   // pg.clear()
   // clear()
 
+
+  hues = Array.from({ length: 1 }, () => random_int(0, 360));
+
   if (loop_count > 0) {
     // get all settled pixels
     const settled_pixels = get_all_pixels_by_state("settled")
     // choose one at random
     const random_pixel = randomChoice(settled_pixels)
+    // while it's a black pixel, choose another one
+    while (brightness(random_pixel.color) < 1) {
+      random_pixel = randomChoice(settled_pixels)
+    }
+
     // get possible colors for that pixel
     const new_cols = get_possible_colors(random_pixel.color)
     // get just the hues from these colors
     for (let i = 0; i < new_cols.length; i++) {
-      hues[i] = hue(new_cols[i])
-    }
-    
-  } else {
-    hues = Array.from({ length: 1 }, () => random_int(0, 360));
+      const new_col = new_cols[i]
+      // console.log("new_col: ", new_col)
+      hues[i] = hue(new_col)
+      // console.log("hues[i]: ", hues[i])
+    } 
   }
 
-  console.log("hues: ", hues)
+  // console.log("hues: ", hues)
 
   pixeldata.forEach(row => row.forEach(pixel => {
     pixel.state = "unseen";
@@ -346,6 +364,8 @@ function keyPressed() {
   if (key == 'p' || key == 'P') noLoop();
   if (key == 'r' || key == 'R') setup();
   if (key == 'u' || key == 'U') loop();
+  if (key == 'b' || key == 'B') {PIX_WIDTH = Math.floor(PIX_WIDTH * 2); PIX_BATCH_SIZE=PIX_WIDTH;setup();}
+  if (key == 'n' || key == 'N') {PIX_WIDTH = Math.floor(PIX_WIDTH / 2); PIX_BATCH_SIZE=PIX_WIDTH;setup();}
 }
 
 function checkLoop() {
