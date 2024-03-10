@@ -137,7 +137,7 @@ function draw() {
   pg.updatePixels();
   image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
 
-  if (fc > 60) {
+  if (fc > 30) {
     console.log('finished frame: ' + fc);
     finish_image();
   }
@@ -192,4 +192,9 @@ if (key === 's') {
 if (key === 'n') {
   loop();
 }
+}
+
+// on resize, reload the page
+function windowResized() {
+  window.location.reload();
 }
