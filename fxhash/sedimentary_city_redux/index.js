@@ -36,10 +36,12 @@ function rng_reset(odds=999) {
 }
 
 
-const PIX_WIDTH = 512;
+const PIX_WIDTH = 16;
 let wth, ww, wh;
-let x=0, y=0;
 
+let rfac=0, gfac=0, bfac=0;
+
+let fc=0;
 
 function getColor(x, y) {
   const index = (y * wth + x) * 4;
@@ -63,9 +65,25 @@ function pixel_circle(x, y, rad, r, g, b) {
   }
 }
 
+// function pixel_rect, x, y, xl, yl, r, g, b
+function pixel_rect(x, y, xl, yl, r, g, b) {
+  for (let i = x; i < x + xl; i++) {
+    for (let j = y; j < y + yl; j++) {
+      setColor(i, j, r, g, b);
+    }
+  }
+}
+
+
 
 
 function setup() {
+
+  $fx.rand.reset();
+
+  rfac = random_int(5,50);
+  gfac = random_int(5,50);
+  bfac = random_int(5,50);
 
   wth = PIX_WIDTH;
   if($fx.isPreview){
@@ -99,12 +117,19 @@ function draw() {
   for (let y = 0; y < wth; y += random_int(1,8)) {
       rng_reset(990);
       const c = getColor(x, y);
-      const c1 = c[0] + random_int(0, 20) % 255;
-      const c2 = c[1] + random_int(0, 20) % 255;
-      const c3 = c[2] + random_int(0, 20) % 255;
+      const c1 = c[0] + random_int(1, rfac) % 255;
+      const c2 = c[1] + random_int(1, gfac) % 255;
+      const c3 = c[2] + random_int(1, bfac) % 255;
 
-      setColor(x, y, c1, c2, c3);
-      pixel_circle(x, y, random_int(1,5), c1, c2, c3)
+      if (random_int(0, 99) < 50) {
+        setColor(x, y, c1, c2, c3);
+      }
+      if (random_int(0, 99) < 50) {
+        pixel_circle(x, y, random_int(1,5), c1, c2, c3)
+      }
+      if (random_int(0, 99) < 50) {
+        pixel_rect(x, y, random_int(0,8), random_int(0,8), c1, c2, c3)
+      }
     }
   }
 
@@ -112,10 +137,12 @@ function draw() {
   pg.updatePixels();
   image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
 
-  if (frameCount > 2^18 == 0) {
+  if (fc > 999 == 0) {
+    console.log('finished frame' + fc);
     finish_image();
   }
 
+  fc += 1;
 
 }
 
