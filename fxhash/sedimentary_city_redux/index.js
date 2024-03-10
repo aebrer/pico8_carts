@@ -82,6 +82,7 @@ function setup() {
   pixelDensity(1);
   noSmooth();
   pg.background(0);
+  background(0);
   pg.strokeWeight(1);
 
 }
@@ -107,7 +108,7 @@ function draw() {
   }
 
   pg.updatePixels();
-  image(pg, 0, 0, ww, ww, 0, 0, wth, wth)
+  image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
 
 }
 
