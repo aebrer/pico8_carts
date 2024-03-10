@@ -116,10 +116,10 @@ function draw() {
     rng_reset(950);
   for (let y = 0; y < wth; y += random_int(1,8)) {
       rng_reset(990);
-      const c = getColor(x, y);
-      const c1 = c[0] + random_int(1, rfac) % 255;
-      const c2 = c[1] + random_int(1, gfac) % 255;
-      const c3 = c[2] + random_int(1, bfac) % 255;
+      const c = getColor(x+random_int(-1,1), y+random_int(-1,1));
+      const c1 = c[0] + random_int(-rfac, rfac) % 255;
+      const c2 = c[1] + random_int(-gfac, gfac) % 255;
+      const c3 = c[2] + random_int(-bfac, bfac) % 255;
 
       if (random_int(0, 99) < 50) {
         setColor(x, y, c1, c2, c3);
@@ -137,8 +137,8 @@ function draw() {
   pg.updatePixels();
   image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
 
-  if (fc > 999 == 0) {
-    console.log('finished frame' + fc);
+  if (fc > 60) {
+    console.log('finished frame: ' + fc);
     finish_image();
   }
 
@@ -188,5 +188,8 @@ function obtain_bg_color() {
 function keyTyped() {
 if (key === 's') {
   save("sedimentary_city_redux.png")
+}
+if (key === 'n') {
+  loop();
 }
 }
