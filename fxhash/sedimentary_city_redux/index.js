@@ -36,7 +36,7 @@ function rng_reset(odds=999) {
 }
 
 
-const PIX_WIDTH = 16;
+let PIX_WIDTH = 32;
 let wth, ww, wh;
 
 let rfac=0, gfac=0, bfac=0;
@@ -80,6 +80,7 @@ function pixel_rect(x, y, xl, yl, r, g, b) {
 function setup() {
 
   $fx.rand.reset();
+  PIX_WIDTH = random_int(16, 32);
 
   rfac = random_int(5,50);
   gfac = random_int(5,50);
