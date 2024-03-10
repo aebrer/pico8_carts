@@ -29,11 +29,15 @@ function randomChoice(arr) {
 return arr[Math.floor(random_num(0,1) * arr.length)];
 }
 
+function rng_reset(odds=999) {
+  if (random_int(1, 1000) > odds) {
+    $fx.rand.reset();
+  }
+}
 
 
-const PIX_WIDTH = 256;
+const PIX_WIDTH = 512;
 let wth, ww, wh;
-let xfac, yfac;
 
 
 function getColor(x, y) {
@@ -46,6 +50,16 @@ function setColor(x, y, r, g, b) {
   pg.pixels[index] = r;
   pg.pixels[index + 1] = g;
   pg.pixels[index + 2] = b;
+}
+
+function pixel_circle(x, y, rad, r, g, b) {
+  for (let i = x - rad; i <= x + rad; i++) {
+    for (let j = y - rad; j <= y + rad; j++) {
+      if (dist(i, j, x, y) <= rad) {
+        setColor(i, j, r, g, b);
+      }
+    }
+  }
 }
 
 
@@ -76,19 +90,19 @@ function draw() {
 
   pg.loadPixels();
 
-  if (random_int(1, 1000) > 900) {
-    $fx.reset;
-  }
+  rng_reset();
 
   for (let x = 0; x < wth; x += random_int(0,8)) {
+    rng_reset(950);
   for (let y = 0; y < wth; y += random_int(0,8)) {
+      rng_reset(950);
+      const c = getColor(x-1, y-1);
+      const c1 = c[0] + random_int(-1, 1) % 255;
+      const c2 = c[1] + random_int(-1, 1) % 255;
+      const c3 = c[2] + random_int(-1, 1) % 255;
 
-      if (random_int(1, 1000) > 50) {
-        $fx.reset;
-      } 
-
-      const c = getColor(x, y);
-      setColor(x, y, (c[0] + random_int(0,1)) % 255, (c[1] + random_int(0,1)) % 255, (c[2] + random_int(0,1)) % 255);
+      setColor(x, y, c1, c2, c3);
+      pixel_circle(x, y, random_int(1,5), c1, c2, c3)
     }
   }
 
