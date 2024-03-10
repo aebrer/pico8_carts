@@ -38,6 +38,7 @@ function rng_reset(odds=999) {
 
 const PIX_WIDTH = 512;
 let wth, ww, wh;
+let x=0, y=0;
 
 
 function getColor(x, y) {
@@ -93,24 +94,68 @@ function draw() {
 
   rng_reset();
 
-  for (let x = 0; x < wth; x += random_int(0,8)) {
+  for (let x = 0; x < wth; x += random_int(1,8)) {
     rng_reset(950);
-  for (let y = 0; y < wth; y += random_int(0,8)) {
-      rng_reset(950);
-      const c = getColor(x-1, y-1);
-      const c1 = c[0] + random_int(-1, 1) % 255;
-      const c2 = c[1] + random_int(-1, 1) % 255;
-      const c3 = c[2] + random_int(-1, 1) % 255;
+  for (let y = 0; y < wth; y += random_int(1,8)) {
+      rng_reset(990);
+      const c = getColor(x, y);
+      const c1 = c[0] + random_int(0, 20) % 255;
+      const c2 = c[1] + random_int(0, 20) % 255;
+      const c3 = c[2] + random_int(0, 20) % 255;
 
       setColor(x, y, c1, c2, c3);
       pixel_circle(x, y, random_int(1,5), c1, c2, c3)
     }
   }
 
+
   pg.updatePixels();
   image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
 
+  if (frameCount > 2^18 == 0) {
+    finish_image();
+  }
+
+
 }
+
+function finish_image() {
+  console.log('finishing image');
+  background(obtain_bg_color());
+  image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
+  noLoop();
+  $fx.preview();
+}
+
+function obtain_bg_color() {
+  // first we loop over the pixels with an interval size 
+  // and store the r,g,b values in arrays
+  const interval = 8
+  let bg_color = [0,0,0];
+  let r_array = [];
+  let g_array = [];
+  let b_array = [];
+  for (let x = 0; x < wth; x += interval) {
+    for (let y = 0; y < wth; y += interval) {
+      const c = getColor(x, y);
+      r_array.push(c[0]);
+      g_array.push(c[1]);
+      b_array.push(c[2]);
+    }
+  }
+
+  // now compute the average pixel color
+  const avg_r = r_array.reduce((a,b) => a + b)/r_array.length;
+  const avg_g = g_array.reduce((a,b) => a + b)/g_array.length;
+  const avg_b = b_array.reduce((a,b) => a + b)/b_array.length;
+
+  // now get the background color as the average pixel color
+  bg_color = [avg_r, avg_g, avg_b];
+  console.log(bg_color);
+  return bg_color;
+}
+
+
 
 // ux
 function keyTyped() {
