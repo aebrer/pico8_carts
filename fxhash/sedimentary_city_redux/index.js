@@ -118,9 +118,9 @@ function draw() {
   for (let y = 0; y < wth; y += random_int(1,8)) {
       rng_reset(990);
       const c = getColor(x+random_int(-1,1), y+random_int(-1,1));
-      const c1 = c[0] + random_int(-rfac, rfac) % 255;
-      const c2 = c[1] + random_int(-gfac, gfac) % 255;
-      const c3 = c[2] + random_int(-bfac, bfac) % 255;
+      const c1 = c[0] + random_int(1, rfac) % 255;
+      const c2 = c[1] + random_int(1, gfac) % 255;
+      const c3 = c[2] + random_int(1, bfac) % 255;
 
       if (random_int(0, 99) < 50) {
         setColor(x, y, c1, c2, c3);
