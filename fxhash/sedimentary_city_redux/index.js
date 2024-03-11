@@ -1,10 +1,8 @@
 /*
-This is sedimentary city redux. "sedimentary city" can be found here: https://www.fxhash.xyz/generative/13978
-
-
 Controls:
 
 s -> save a png of the image
+n -> next frame
 ------------------
 
 find my social links, projects, newsletter, roadmap, and more, at aebrer.xyz
@@ -16,7 +14,6 @@ minted by:
 license: CC0 -> go nuts; citations not required but definitely appreciated
 
 */
-
 
 function random_num(a, b) {
   return a+(b-a)*$fx.rand()
@@ -33,12 +30,17 @@ function rng_reset(odds=999) {
   if (random_int(1, 1000) > odds) {
     $fx.rand.reset();
   }
-}
 
+  if (seed_change_needed) {
+    change_rng();
+  }
+
+}
 
 let PIX_WIDTH = 32;
 let wth, ww, wh;
-
+let entropy_lock_x=950, entropy_lock_y=950;
+let seed_change_needed=0;
 let rfac=0, gfac=0, bfac=0;
 
 let fc=0;
@@ -74,17 +76,29 @@ function pixel_rect(x, y, xl, yl, r, g, b) {
   }
 }
 
-
-
+// change_rng
+function change_rng() {
+  // if we flood the rng with requests after resetting, it will change randomly
+  // so assume the randomseed has just been reset
+  for (let i = 0; i < 1000 * seed_change_needed; i++) {
+    random_num(0,1000);
+  }
+}
 
 function setup() {
 
   $fx.rand.reset();
+  if (seed_change_needed) {
+    change_rng();
+  }
   PIX_WIDTH = random_int(16, 32);
 
   rfac = random_int(5,50);
   gfac = random_int(5,50);
   bfac = random_int(5,50);
+
+  entropy_lock_x = max(random_int(500, 999), random_int(500, 999));
+  entropy_lock_y = max(random_int(500, 999), random_int(500, 999));
 
   wth = PIX_WIDTH;
   if($fx.isPreview){
@@ -105,18 +119,24 @@ function setup() {
   background(0);
   pg.strokeWeight(1);
 
+
+  $fx.features({
+    'pix_width': PIX_WIDTH,
+    'entropy_lock_x': entropy_lock_x,
+    'entropy_lock_y': entropy_lock_y
+  })
+
+  console.table($fx.getFeatures())
+
 }
 
 function draw() {
 
   pg.loadPixels();
-
-  rng_reset();
-
   for (let x = 0; x < wth; x += random_int(1,8)) {
-    rng_reset(950);
+    rng_reset(entropy_lock_x);
   for (let y = 0; y < wth; y += random_int(1,8)) {
-      rng_reset(990);
+      rng_reset(entropy_lock_y);
       const c = getColor(x+random_int(-1,1), y+random_int(-1,1));
       const c1 = c[0] + random_int(1, rfac) % 255;
       const c2 = c[1] + random_int(1, gfac) % 255;
@@ -134,25 +154,33 @@ function draw() {
     }
   }
 
-
   pg.updatePixels();
   image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
 
-  if (fc > 30) {
+  if (fc > 15) {
     console.log('finished frame: ' + fc);
     finish_image();
   }
-
   fc += 1;
-
 }
 
 function finish_image() {
   console.log('finishing image');
-  background(obtain_bg_color());
-  image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
-  noLoop();
-  $fx.preview();
+  let bg_color = obtain_bg_color();
+  // if the bg color is white, we need to regenerate the image
+  if (bg_color[0] == 255 && bg_color[1] == 255 && bg_color[2] == 255) {
+  // if (true) {
+
+    console.log('regenerating image');
+    setup();
+    fc = 0;
+    seed_change_needed += 1;
+  } else {
+    background(bg_color);
+    image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
+    noLoop();
+    $fx.preview();
+  }
 }
 
 function obtain_bg_color() {
@@ -179,16 +207,14 @@ function obtain_bg_color() {
 
   // now get the background color as the average pixel color
   bg_color = [avg_r, avg_g, avg_b];
-  console.log(bg_color);
   return bg_color;
 }
-
 
 
 // ux
 function keyTyped() {
 if (key === 's') {
-  save("sedimentary_city_redux.png")
+  save("beholder.png")
 }
 if (key === 'n') {
   loop();
