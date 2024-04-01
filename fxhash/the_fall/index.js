@@ -37,7 +37,7 @@ function rng_reset(odds=999999) {
 
 }
 
-let PIX_WIDTH = 32;
+let PIX_WIDTH = 512;
 let wth, ww, wh;
 let entropy_lock_x=950, entropy_lock_y=950;
 let seed_change_needed=0;
@@ -121,9 +121,9 @@ function setup() {
     change_rng();
   }
 
-  rfac = random_int(2,50);
-  gfac = random_int(2,50);
-  bfac = random_int(2,50);
+  rfac = random_int(2,15);
+  gfac = random_int(2,15);
+  bfac = random_int(2,15);
 
   dfacs = get_dfacs();
 
@@ -135,8 +135,10 @@ function setup() {
     ww=2048
     mycan = createCanvas(2048, 2048);
   } else {
-    ww=min(windowWidth, windowHeight)
-    mycan = createCanvas(ww, ww);
+    // ww=min(windowWidth, windowHeight)
+    ww=windowWidth;
+    wh=windowHeight;
+    mycan = createCanvas(windowWidth, windowHeight);
   }
 
   pg = createGraphics(wth, wth);
@@ -163,11 +165,25 @@ function setup() {
 function draw() {
 
   pg.loadPixels();
-  for (let i = 0; i < 100; i++) {
+  rng_reset(999003)
+  for (let i = 0; i < 10000; i++) {
     const x = random_int(0, wth-1);
     const y = random_int(0, wth-1);
-    // rng_reset(999005);
-    const c = getColor(x+random_int(dfacs[0],dfacs[1]), y+random_int(dfacs[2],dfacs[3]));
+    // rng_reset(999003);
+    // rng_reset();
+    let x_new = x + random_int(dfacs[0],dfacs[1])
+    if (x_new < 0) {
+      x_new = wth-1-x_new;
+    } else if (x_new > wth-1) {
+      x_new = 0 + (wth-1-x_new);
+    }
+    let y_new = y + random_int(dfacs[2],dfacs[3])
+    if (y_new < 0) {
+      y_new = wth-1-y_new;
+    } else if (y_new > wth-1) {
+      y_new = 0 + (wth-1-y_new);
+    }
+    const c = getColor(x_new, y_new);
     const c_new = burn_color(c[0], c[1], c[2]);
     const c1 = c_new[0];
     const c2 = c_new[1];
@@ -177,12 +193,20 @@ function draw() {
   }
 
   pg.updatePixels();
-  image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
-
-  if (fc > 120) {
-    console.log('finished frame: ' + fc);
-    finish_image();
+  
+  if (fc % 60 == 0) {
+    let bg_color = obtain_bg_color();
+    background(bg_color);
   }
+    // image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
+  // fix to center the image
+  image(pg, ww/16, wh/16, ww*14/16, wh*14/16, 0, 0, wth, wth)
+
+
+  // if (fc > 120) {
+  //   console.log('finished frame: ' + fc);
+  //   finish_image();
+  // }
   fc += 1;
 }
 
@@ -210,25 +234,22 @@ function obtain_bg_color() {
   // and store the r,g,b values in arrays
   const interval = 8
   let bg_color = [0,0,0];
-  let r_array = [];
-  let g_array = [];
-  let b_array = [];
+  let rgb_array = [];
   for (let x = 0; x < wth; x += interval) {
     for (let y = 0; y < wth; y += interval) {
       const c = getColor(x, y);
-      r_array.push(c[0]);
-      g_array.push(c[1]);
-      b_array.push(c[2]);
+      rgb_array.push(c);
     }
   }
 
-  // now compute the average pixel color
-  const avg_r = r_array.reduce((a,b) => a + b)/r_array.length;
-  const avg_g = g_array.reduce((a,b) => a + b)/g_array.length;
-  const avg_b = b_array.reduce((a,b) => a + b)/b_array.length;
-
-  // now get the background color as the average pixel color
-  bg_color = [avg_r, avg_g, avg_b];
+  // sort the array by sum(r,g,b) values
+  rgb_array = rgb_array.sort((a, b) => a[0] + a[1] + a[2] - b[0] - b[1] - b[2]);
+  // // select the median color from the array
+  // bg_color = rgb_array[rgb_array.length/2];
+  // select the darkest color inthe array
+  // bg_color = rgb_array[1];
+  bg_color = rgb_array[rgb_array.length-1];
+  
   return bg_color;
 }
 
@@ -240,6 +261,9 @@ if (key === 's') {
 }
 if (key === 'n') {
   loop();
+}
+if (key === 'p') {
+  noLoop();
 }
 }
 
