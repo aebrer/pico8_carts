@@ -156,13 +156,13 @@ function setup() {
   pg.strokeWeight(1);
 
 
-  $fx.features({
-    'pix_width': PIX_WIDTH,
-    'entropy_lock_x': entropy_lock_x,
-    'entropy_lock_y': entropy_lock_y
-  })
+  // $fx.features({
+  //   'pix_width': PIX_WIDTH,
+  //   'entropy_lock_x': entropy_lock_x,
+  //   'entropy_lock_y': entropy_lock_y
+  // })
 
-  console.table($fx.getFeatures())
+  // console.table($fx.getFeatures())
 
 }
 
@@ -197,14 +197,17 @@ function draw() {
   pg.updatePixels();
   
   if (fc % 120 == 0) {
-    bg_color = obtain_bg_color();
-    background(bg_color);
     rng_reset(0)
+    if (fc < 120*2) {
+      bg_color = obtain_bg_color();
+      background(bg_color);
+    }
   }
     // image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
   // fix to center the image
   image(pg, ww/16, wh/16, ww*14/16, wh*14/16, 0, 0, wth, wth)
 
+  // image(pg, 0,0,ww,wh,0,0,wth,wth)
 
   // if (fc > 120) {
   //   console.log('finished frame: ' + fc);
@@ -235,24 +238,18 @@ function finish_image() {
 function obtain_bg_color() {
   // first we loop over the pixels with an interval size 
   // and store the r,g,b values in arrays
-  const interval = 8
   let bg_col = [0,0,0];
   let rgb_array = [];
-  for (let x = 0; x < wth; x += interval) {
-    for (let y = 0; y < wth; y += interval) {
-      const c = getColor(x, y);
-      rgb_array.push(c);
-    }
+  for (let i = 0; i < 100; i++) {
+    const x = random_int(0,wth-1)
+    const y = random_int(0,wth-1)
+    const c = getColor(x, y);
+    rgb_array.push(c);
   }
-
+  
   // sort the array by sum(r,g,b) values
   rgb_array = rgb_array.sort((a, b) => a[0] + a[1] + a[2] - b[0] - b[1] - b[2]);
-  // // select the median color from the array
-  // bg_col = rgb_array[rgb_array.length/2];
-  // select the second darkest color in the array
-  bg_col = rgb_array[1];
-  // bg_col = rgb_array[rgb_array.length-1];
-  
+  bg_col = rgb_array[rgb_array.length*0.25];  
   return bg_col;
 }
 
