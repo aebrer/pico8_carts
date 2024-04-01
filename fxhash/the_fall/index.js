@@ -81,14 +81,21 @@ function pixel_rect(x, y, xl, yl, r, g, b) {
 // function burn_color(r, g, b) returns a descended color
 function burn_color(r, g, b) {
   r = r * random_num(0.98, 1.00) - rfac;
+  // r = r * random_num(0.98, 1.00);
+  // r = r - rfac;
+
   if (r < 0) {
     r = 255 + r;
   }
   g = g * random_num(0.98, 1.00) - gfac;
+  // g = g * random_num(0.98, 1.00);
+  // g = g - gfac;
   if (g < 0) {
     g = 255 + g;
   }
   b = b * random_num(0.98, 1.00) - bfac;
+  // b = b * random_num(0.98, 1.00);
+  // b = b - bfac;
   if (b < 0) {
     b = 255 + b;
   }
@@ -125,9 +132,9 @@ function setup() {
 
   bg_color = [random_int(0, 255), random_int(0, 255), random_int(0, 255)];
 
-  rfac = random_int(1,9);
-  gfac = random_int(1,9);
-  bfac = random_int(1,9);
+  rfac = random_num(0.5,5);
+  gfac = random_num(0.5,5);
+  bfac = random_num(0.5,5);
 
   dfacs = get_dfacs();
 
@@ -198,7 +205,7 @@ function draw() {
   
   if (fc % 120 == 0) {
     rng_reset(0)
-    if (fc < 120*2) {
+    if (fc < 120*3) {
       bg_color = obtain_bg_color();
       background(bg_color);
     }
