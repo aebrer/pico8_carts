@@ -80,15 +80,15 @@ function pixel_rect(x, y, xl, yl, r, g, b) {
 
 // function burn_color(r, g, b) returns a descended color
 function burn_color(r, g, b) {
-  r = r * random_num(0.9, 1.00) - rfac;
+  r = r * random_num(0.98, 1.00) - rfac;
   if (r < 0) {
     r = 255 + r;
   }
-  g = g * random_num(0.9, 1.00) - gfac;
+  g = g * random_num(0.98, 1.00) - gfac;
   if (g < 0) {
     g = 255 + g;
   }
-  b = b * random_num(0.9, 1.00) - bfac;
+  b = b * random_num(0.98, 1.00) - bfac;
   if (b < 0) {
     b = 255 + b;
   }
@@ -122,6 +122,9 @@ function setup() {
     change_rng();
   }
 
+
+  bg_color = [random_int(0, 255), random_int(0, 255), random_int(0, 255)];
+
   rfac = random_int(1,9);
   gfac = random_int(1,9);
   bfac = random_int(1,9);
@@ -148,8 +151,8 @@ function setup() {
   pg.loadPixels();
   pixelDensity(1);
   noSmooth();
-  pg.background(random_int(0,255));
-  background(0);
+  pg.background(bg_color);
+  background(bg_color);
   pg.strokeWeight(1);
 
 
@@ -170,8 +173,6 @@ function draw() {
   for (let i = 0; i < 100000; i++) {
     const x = random_int(0, wth-1);
     const y = random_int(0, wth-1);
-    // rng_reset(999003);
-    // rng_reset();
     let x_new = x + random_int(dfacs[0],dfacs[1])
     if (x_new < 0) {
       x_new = wth-1-x_new;
@@ -196,9 +197,8 @@ function draw() {
   pg.updatePixels();
   
   if (fc % 120 == 0) {
-    let old_bg_col = bg_color;
     bg_color = obtain_bg_color();
-    background(lerp_color(old_bg_col, bg_color));
+    background(bg_color);
     rng_reset(0)
   }
     // image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
@@ -249,24 +249,24 @@ function obtain_bg_color() {
   rgb_array = rgb_array.sort((a, b) => a[0] + a[1] + a[2] - b[0] - b[1] - b[2]);
   // // select the median color from the array
   // bg_col = rgb_array[rgb_array.length/2];
-  // select the darkest color inthe array
-  // bg_col = rgb_array[1];
-  bg_col = rgb_array[rgb_array.length-1];
+  // select the second darkest color in the array
+  bg_col = rgb_array[1];
+  // bg_col = rgb_array[rgb_array.length-1];
   
   return bg_col;
 }
 
-function lerp_color(c1, c2) {
-  return [
-    lerp(c1[0], c2[0], 0.5),
-    lerp(c1[1], c2[1], 0.5),
-    lerp(c1[2], c2[2], 0.5)
-    ];
-}
+// function lerp_color(c1, c2) {
+//   return [
+//     lerp(c1[0], c2[0], 0.5),
+//     lerp(c1[1], c2[1], 0.5),
+//     lerp(c1[2], c2[2], 0.5)
+//     ];
+// }
 
-function lerp(c1, c2, t) {
-  return c1 + t * (c2 - c1);
-}
+// function lerp(c1, c2, t) {
+//   return c1 + t * (c2 - c1);
+// }
 
 
 // ux
