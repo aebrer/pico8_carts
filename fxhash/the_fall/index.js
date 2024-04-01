@@ -37,12 +37,13 @@ function rng_reset(odds=999999) {
 
 }
 
-let PIX_WIDTH = 512;
+let PIX_WIDTH = 720;
 let wth, ww, wh;
 let entropy_lock_x=950, entropy_lock_y=950;
 let seed_change_needed=0;
 let rfac=0, gfac=0, bfac=0;
 let dfacs=[];
+let bg_color=[0,0,0];
 
 let fc=0;
 
@@ -121,9 +122,9 @@ function setup() {
     change_rng();
   }
 
-  rfac = random_int(2,15);
-  gfac = random_int(2,15);
-  bfac = random_int(2,15);
+  rfac = random_int(1,9);
+  gfac = random_int(1,9);
+  bfac = random_int(1,9);
 
   dfacs = get_dfacs();
 
@@ -166,7 +167,7 @@ function draw() {
 
   pg.loadPixels();
   rng_reset(999003)
-  for (let i = 0; i < 10000; i++) {
+  for (let i = 0; i < 100000; i++) {
     const x = random_int(0, wth-1);
     const y = random_int(0, wth-1);
     // rng_reset(999003);
@@ -194,9 +195,11 @@ function draw() {
 
   pg.updatePixels();
   
-  if (fc % 60 == 0) {
-    let bg_color = obtain_bg_color();
-    background(bg_color);
+  if (fc % 120 == 0) {
+    let old_bg_col = bg_color;
+    bg_color = obtain_bg_color();
+    background(lerp_color(old_bg_col, bg_color));
+    rng_reset(0)
   }
     // image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
   // fix to center the image
@@ -233,7 +236,7 @@ function obtain_bg_color() {
   // first we loop over the pixels with an interval size 
   // and store the r,g,b values in arrays
   const interval = 8
-  let bg_color = [0,0,0];
+  let bg_col = [0,0,0];
   let rgb_array = [];
   for (let x = 0; x < wth; x += interval) {
     for (let y = 0; y < wth; y += interval) {
@@ -245,12 +248,24 @@ function obtain_bg_color() {
   // sort the array by sum(r,g,b) values
   rgb_array = rgb_array.sort((a, b) => a[0] + a[1] + a[2] - b[0] - b[1] - b[2]);
   // // select the median color from the array
-  // bg_color = rgb_array[rgb_array.length/2];
+  // bg_col = rgb_array[rgb_array.length/2];
   // select the darkest color inthe array
-  // bg_color = rgb_array[1];
-  bg_color = rgb_array[rgb_array.length-1];
+  // bg_col = rgb_array[1];
+  bg_col = rgb_array[rgb_array.length-1];
   
-  return bg_color;
+  return bg_col;
+}
+
+function lerp_color(c1, c2) {
+  return [
+    lerp(c1[0], c2[0], 0.5),
+    lerp(c1[1], c2[1], 0.5),
+    lerp(c1[2], c2[2], 0.5)
+    ];
+}
+
+function lerp(c1, c2, t) {
+  return c1 + t * (c2 - c1);
 }
 
 
