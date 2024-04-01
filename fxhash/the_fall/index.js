@@ -26,8 +26,8 @@ function randomChoice(arr) {
 return arr[Math.floor(random_num(0,1) * arr.length)];
 }
 
-function rng_reset(odds=999) {
-  if (random_int(1, 1000) > odds) {
+function rng_reset(odds=999999) {
+  if (random_int(1, 1000000) > odds) {
     $fx.rand.reset();
   }
 
@@ -42,6 +42,7 @@ let wth, ww, wh;
 let entropy_lock_x=950, entropy_lock_y=950;
 let seed_change_needed=0;
 let rfac=0, gfac=0, bfac=0;
+let dfacs=[];
 
 let fc=0;
 
@@ -76,6 +77,24 @@ function pixel_rect(x, y, xl, yl, r, g, b) {
   }
 }
 
+// function burn_color(r, g, b) returns a descended color
+function burn_color(r, g, b) {
+  r = r * random_num(0.9, 1.00) - rfac;
+  if (r < 0) {
+    r = 255 + r;
+  }
+  g = g * random_num(0.9, 1.00) - gfac;
+  if (g < 0) {
+    g = 255 + g;
+  }
+  b = b * random_num(0.9, 1.00) - bfac;
+  if (b < 0) {
+    b = 255 + b;
+  }
+
+  return [r, g, b];
+}
+
 // change_rng
 function change_rng() {
   // if we flood the rng with requests after resetting, it will change randomly
@@ -85,17 +104,28 @@ function change_rng() {
   }
 }
 
+function get_dfacs() {
+  let xf1, xf2, yf1, yf2;
+  xf2 = random_int(0, 3);
+  xf1 = xf2 - random_int(0, 3);
+  yf2 = random_int(0, 3);
+  yf1 = yf2 - random_int(0, 3);
+  return [xf1, xf2, yf1, yf2];
+}
+
+
 function setup() {
 
   $fx.rand.reset();
   if (seed_change_needed) {
     change_rng();
   }
-  PIX_WIDTH = random_int(16, 32);
 
-  rfac = random_int(5,50);
-  gfac = random_int(5,50);
-  bfac = random_int(5,50);
+  rfac = random_int(2,50);
+  gfac = random_int(2,50);
+  bfac = random_int(2,50);
+
+  dfacs = get_dfacs();
 
   entropy_lock_x = max(random_int(500, 999), random_int(500, 999));
   entropy_lock_y = max(random_int(500, 999), random_int(500, 999));
@@ -115,7 +145,7 @@ function setup() {
   pg.loadPixels();
   pixelDensity(1);
   noSmooth();
-  pg.background(0);
+  pg.background(random_int(0,255));
   background(0);
   pg.strokeWeight(1);
 
@@ -133,31 +163,23 @@ function setup() {
 function draw() {
 
   pg.loadPixels();
-  for (let x = 0; x < wth; x += random_int(1,8)) {
-    rng_reset(entropy_lock_x);
-  for (let y = 0; y < wth; y += random_int(1,8)) {
-      rng_reset(entropy_lock_y);
-      const c = getColor(x+random_int(-1,1), y+random_int(-1,1));
-      const c1 = c[0] + random_int(1, rfac) % 255;
-      const c2 = c[1] + random_int(1, gfac) % 255;
-      const c3 = c[2] + random_int(1, bfac) % 255;
+  for (let i = 0; i < 100; i++) {
+    const x = random_int(0, wth-1);
+    const y = random_int(0, wth-1);
+    // rng_reset(999005);
+    const c = getColor(x+random_int(dfacs[0],dfacs[1]), y+random_int(dfacs[2],dfacs[3]));
+    const c_new = burn_color(c[0], c[1], c[2]);
+    const c1 = c_new[0];
+    const c2 = c_new[1];
+    const c3 = c_new[2];
+    setColor(x, y, c1, c2, c3);
 
-      if (random_int(0, 99) < 50) {
-        setColor(x, y, c1, c2, c3);
-      }
-      if (random_int(0, 99) < 50) {
-        pixel_circle(x, y, random_int(1,5), c1, c2, c3)
-      }
-      if (random_int(0, 99) < 50) {
-        pixel_rect(x, y, random_int(0,8), random_int(0,8), c1, c2, c3)
-      }
-    }
   }
 
   pg.updatePixels();
   image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
 
-  if (fc > 15) {
+  if (fc > 120) {
     console.log('finished frame: ' + fc);
     finish_image();
   }
