@@ -214,7 +214,7 @@ function obtain_bg_color() {
 // ux
 function keyTyped() {
 if (key === 's') {
-  save("beholder.png")
+  save("the_fall.png")
 }
 if (key === 'n') {
   loop();
