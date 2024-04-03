@@ -146,7 +146,6 @@ function setup() {
     ww=2048
     mycan = createCanvas(2048, 2048);
   } else {
-    // ww=min(windowWidth, windowHeight)
     ww=windowWidth;
     wh=windowHeight;
     mycan = createCanvas(windowWidth, windowHeight);
@@ -156,20 +155,12 @@ function setup() {
   pg.colorMode(HSL);
   pg.pixelDensity(1);
   pg.loadPixels();
-  pixelDensity(1);
+  pixelDensity(3);
   noSmooth();
   pg.background(bg_color);
   background(bg_color);
   pg.strokeWeight(1);
 
-
-  // $fx.features({
-  //   'pix_width': PIX_WIDTH,
-  //   'entropy_lock_x': entropy_lock_x,
-  //   'entropy_lock_y': entropy_lock_y
-  // })
-
-  // console.table($fx.getFeatures())
 
 }
 
@@ -210,36 +201,9 @@ function draw() {
       background(bg_color);
     }
   }
-    // image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
-  // fix to center the image
+
   image(pg, ww/16, wh/16, ww*14/16, wh*14/16, 0, 0, wth, wth)
-
-  // image(pg, 0,0,ww,wh,0,0,wth,wth)
-
-  // if (fc > 120) {
-  //   console.log('finished frame: ' + fc);
-  //   finish_image();
-  // }
   fc += 1;
-}
-
-function finish_image() {
-  console.log('finishing image');
-  let bg_color = obtain_bg_color();
-  // if the bg color is white, we need to regenerate the image
-  if (bg_color[0] == 255 && bg_color[1] == 255 && bg_color[2] == 255) {
-  // if (true) {
-
-    console.log('regenerating image');
-    setup();
-    fc = 0;
-    seed_change_needed += 1;
-  } else {
-    background(bg_color);
-    image(pg, ww/16, ww/16, ww*14/16, ww*14/16, 0, 0, wth, wth)
-    noLoop();
-    $fx.preview();
-  }
 }
 
 function obtain_bg_color() {
@@ -259,19 +223,6 @@ function obtain_bg_color() {
   bg_col = rgb_array[rgb_array.length*0.25];  
   return bg_col;
 }
-
-// function lerp_color(c1, c2) {
-//   return [
-//     lerp(c1[0], c2[0], 0.5),
-//     lerp(c1[1], c2[1], 0.5),
-//     lerp(c1[2], c2[2], 0.5)
-//     ];
-// }
-
-// function lerp(c1, c2, t) {
-//   return c1 + t * (c2 - c1);
-// }
-
 
 // ux
 function keyTyped() {
