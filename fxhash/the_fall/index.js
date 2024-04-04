@@ -144,6 +144,7 @@ function setup() {
   wth = PIX_WIDTH;
   if($fx.isPreview){
     ww=2048
+    wh=2048
     mycan = createCanvas(2048, 2048);
   } else {
     ww=windowWidth;
