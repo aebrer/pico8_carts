@@ -219,11 +219,13 @@ function obtain_bg_color() {
   // and store the r,g,b values in arrays
   let bg_col = [0,0,0];
   let rgb_array = [];
-  for (let i = 0; i < 100; i++) {
-    const x = random_int(0,wth-1)
-    const y = random_int(0,wth-1)
-    const c = getColor(x, y);
-    rgb_array.push(c);
+  
+  // get all pixels in the image
+  for (let x=0; x<wth; x++) {
+    for (let y=0; y<wth; y++) {
+      const c = getColor(x, y);
+      rgb_array.push([c[0], c[1], c[2]]);
+    }
   }
   
   // sort the array by sum(r,g,b) values
@@ -243,14 +245,13 @@ if (key === 'n') {
 if (key === 'p') {
   noLoop();
 }
+if (key === 'r') {
+  seed_change_needed += 1;
+  setup();
+}
 }
 
 // on resize, reload the page
 function windowResized() {
   window.location.reload();
-}
-
-function mouseClicked() {
-  seed_change_needed += 1;
-  setup();
 }
