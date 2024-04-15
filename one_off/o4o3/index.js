@@ -228,9 +228,18 @@ function obtain_bg_color() {
     }
   }
   
-  // sort the array by sum(r,g,b) values
-  rgb_array = rgb_array.sort((a, b) => a[0] + a[1] + a[2] - b[0] - b[1] - b[2]);
-  bg_col = rgb_array[rgb_array.length*0.25];  
+  // // sort the array by sum(r,g,b) values
+  // rgb_array = rgb_array.sorter((a, b) => a[0] + a[1] + a[2] - b[0] - b[1] - b[2]);
+  // bg_col = rgb_array[rgb_array.length*0.25]; 
+
+  // get the average color of all pixels in the image
+  let sum = [0,0,0];
+  for (let i=0; i<rgb_array.length; i++) {
+    sum[0] += rgb_array[i][0];
+    sum[1] += rgb_array[i][1];
+    sum[2] += rgb_array[i][2];
+  }
+  bg_col = [sum[0]/rgb_array.length, sum[1]/rgb_array.length, sum[2]/rgb_array.length];
   return bg_col;
 }
 
