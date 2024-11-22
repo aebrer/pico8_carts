@@ -716,36 +716,43 @@ function config.brush.triangle(x,y)
 
   local c = config.brush.color
   local shrink = config.brush.shrink
-  local a = config.brush.angle
   local tri_rad = config.brush.circ_r
 
+  -- Dynamic rotation based on config
+  local a = config.brush.angle
+  if config.brush.auto_rotate == -1 then 
+    a = -config.timing.time
+  elseif config.brush.auto_rotate == 1 then
+    a = config.timing.time
+  end
 
   local triangle_points = {}
   for i=360,0,-120 do
     local tpx = cos(i/360.0) * tri_rad
     local tpy = sin(i/360.0) * tri_rad
     add(triangle_points, {flr(tpx),flr(tpy)})
-    tri_rad-=shrink
+    tri_rad -= shrink
   end
-  local ta=triangle_points[1]
-  local tb=triangle_points[2]
-  local tc=triangle_points[3]
-  ta[1] += x
-  ta[2] += y
-  tb[1] += x
-  tb[2] += y 
-  tc[1] += x
-  tc[2] += y
 
-  --rotate all four points
-  ta = rotate(a,x,y,ta[1],ta[2])
-  tb = rotate(a,x,y,tb[1],tb[2])
-  tc = rotate(a,x,y,tc[1],tc[2])
+  -- Add x, y offsets
+  for pt in all(triangle_points) do
+    pt[1] += x
+    pt[2] += y
+  end
 
-  line(ta[1], ta[2], tb[1], tb[2], c) 
-  line(tb[1], tb[2], tc[1], tc[2], c) 
-  line(tc[1], tc[2], ta[1], ta[2], c) 
-  
+  -- Rotate points
+  for i, pt in ipairs(triangle_points) do
+    triangle_points[i] = rotate(a, x, y, pt[1], pt[2])
+  end
+
+  -- Draw the triangle
+  local ta = triangle_points[1]
+  local tb = triangle_points[2]
+  local tc = triangle_points[3]
+  line(ta[1], ta[2], tb[1], tb[2], c)
+  line(tb[1], tb[2], tc[1], tc[2], c)
+  line(tc[1], tc[2], ta[1], ta[2], c)
+
 end
  
 add(config.brush.methods, "triangle") -- 13
@@ -895,26 +902,42 @@ end
 
 function config.sketch.sketch()
 
-	local brush_name = config.brush.methods[config.brush.i]
-	local brush_func = config.brush[brush_name]
+  local brush_name = config.brush.methods[config.brush.i]
+  local brush_func = config.brush[brush_name]
 
-
-  -- only draw the spirals up to a certain point
-  if config.sketch.fc>0 then
-    if(config.sketch.fc%60>10)srand(seed)
-    local pos = config.sketch.spiral_coords(-32,-32)
-    local x = pos[1]
-    local y = pos[2]
-    config.brush.color = x^2+y^2
-    brush_func(x,y)
-  else
-    if(config.sketch.fc%10==0)srand(seed)
-    config.dither.loops=1024
-  end
+  -- Circle radius for the emitters
+  local circle_radius = 0 -- Adjust as needed for emitter radius
+  local center_x = 0 -- Center of the circle, adjust as needed
+  local center_y = 0
   
+  -- Dynamic rotation angle
+  local rotation_speed = 0.05
+  local angle_offset = config.sketch.fc * rotation_speed
+
+  -- Calculate positions of three emitters forming a triangle on the circle
+  local emitters = {}
+  for i = 0, 2 do
+    local angle = angle_offset + i * (2/3 * 3.14159) -- 0°, 120°, 240°
+    local x = center_x + circle_radius * cos(angle)
+    local y = center_y + circle_radius * sin(angle)
+    add(emitters, {x, y})
+  end
+
+  -- Emit triangles at each emitter position
+  for emitter in all(emitters) do
+    local x, y = emitter[1], emitter[2]
+
+    -- Configure triangle brush parameters (if needed)
+    config.brush.angle = angle_offset -- Rotate triangles dynamically
+    config.brush.color = (x^2 + y^2) % 16 -- Example color based on position
+
+    -- Call the triangle brush function
+    brush_func(x, y)
+  end
+
+  -- Update frame count
   config.sketch.fc -= 1
 end
-
 
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
@@ -951,7 +974,7 @@ config.timing.gif_record = true
 
 -- effects
 config.effects.enable_all = true
-config.effects.mirror_type = 7
+config.effects.mirror_type = 0
 config.effects.glitch_freq = 0
 
 --------------------------------
