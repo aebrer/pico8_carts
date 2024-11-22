@@ -876,6 +876,8 @@ config.sketch.methods = {}
 config.sketch.i = 1
 config.sketch.param_i = 1
 
+
+-- todo: fix init params for new sketch
 function config.sketch.init()
  config.sketch.fc = 0
  --config.effects.glitch_freq = rnd(13)+7
@@ -885,6 +887,8 @@ end
 
 config.sketch.init()
 
+
+-- todo fix params for new sketch
 config.sketch.params = {
   -- {"spi_r", "int"},
  {"fc", "hidden"},
@@ -893,51 +897,53 @@ config.sketch.params = {
 --config.sketch.spi_r = 1
 config.sketch.fc = 1500
 
-function config.sketch.spiral_coords(cx,cy)
-  local a = config.sketch.fc
-  local x = (a/50) * cos(a/250) + cx
-  local y = (a/50) * sin(a/250) + cy
-  return {x,y}
-end
+
 
 function config.sketch.sketch()
 
   local brush_name = config.brush.methods[config.brush.i]
   local brush_func = config.brush[brush_name]
 
-  -- Circle radius for the emitters
-  local circle_radius = 64 -- Adjust as needed for emitter radius
-  local center_x = 0 -- Center of the circle, adjust as needed
-  local center_y = 0
-  
-  -- Dynamic rotation angle
+  -- Large triangle's circumscribed circle radius
+  local large_radius = 64 -- Distance from the canvas center to the centers of the outer circles
+  local small_radius = 32  -- Radius of each individual circle's emitter path
   local rotation_speed = 0.05
-  local angle_offset = config.sketch.fc * rotation_speed
+  local angle_offset = config.timing.time * rotation_speed -- Use `config.timing.time` for consistent timing
 
-  -- Calculate positions of three emitters forming a triangle on the circle
-  local emitters = {}
+  -- Calculate positions of three outer circles forming a larger triangle
+  local outer_circles = {}
   for i = 0, 2 do
-    local angle = angle_offset + i * (2/3 * 3.14159) -- 0°, 120°, 240°
-    local x = center_x + circle_radius * cos(angle)
-    local y = center_y + circle_radius * sin(angle)
-    add(emitters, {x, y})
+    local angle = i / 3 -- PICO-8 expects angles in turns, so use fractions of 1
+    local cx = large_radius * cos(angle + angle_offset)
+    local cy = large_radius * sin(angle + angle_offset)
+    add(outer_circles, {cx, cy})
   end
 
-  -- Emit triangles at each emitter position
-  for emitter in all(emitters) do
-    local x, y = emitter[1], emitter[2]
+  -- For each outer circle, calculate triangle emitters
+  for outer_circle in all(outer_circles) do
+    local circle_x = outer_circle[1]
+    local circle_y = outer_circle[2]
 
-    -- Configure triangle brush parameters (if needed)
-    config.brush.angle = angle_offset -- Rotate triangles dynamically
-    config.brush.color = (x^2 + y^2) % 16 -- Example color based on position
+    for i = 0, 2 do
+      -- Calculate positions of emitters on the smaller circle
+      local emitter_angle = i / 3 + angle_offset -- Divide the smaller circle into thirds
+      local x = circle_x + small_radius * cos(emitter_angle)
+      local y = circle_y + small_radius * sin(emitter_angle)
 
-    -- Call the triangle brush function
-    brush_func(x, y)
+      -- Configure triangle brush parameters
+      config.brush.angle = angle_offset -- Rotate triangles dynamically
+      config.brush.color = (flr(x^2 + y^2) % 16) + 1 -- Color derived from position (clamped between 1 and 16)
+
+      -- Call the triangle brush function
+      brush_func(x, y)
+    end
   end
 
   -- Update frame count
   config.sketch.fc -= 1
 end
+
+
 
 -- add layers in order
 --add(config.sketch.methods, "mouse_brush")
