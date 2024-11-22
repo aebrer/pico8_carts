@@ -906,17 +906,26 @@ function config.sketch.sketch()
 
   -- Large triangle's circumscribed circle radius
   local large_radius = 64 -- Distance from the canvas center to the centers of the outer circles
-  local small_radius = 32  -- Radius of each individual circle's emitter path
-  local rotation_speed = 0.05
-  local angle_offset = config.timing.time * rotation_speed -- Use `config.timing.time` for consistent timing
+  local small_radius = 32 -- Radius of each individual circle's emitter path
+
+  -- Dynamic rotation based on timing
+  local a = config.brush.angle
+  if config.brush.auto_rotate == -1 then
+    a = -config.timing.time
+  elseif config.brush.auto_rotate == 1 then
+    a = config.timing.time
+  end
 
   -- Calculate positions of three outer circles forming a larger triangle
   local outer_circles = {}
   for i = 0, 2 do
     local angle = i / 3 -- PICO-8 expects angles in turns, so use fractions of 1
-    local cx = large_radius * cos(angle + angle_offset)
-    local cy = large_radius * sin(angle + angle_offset)
-    add(outer_circles, {cx, cy})
+    local cx = large_radius * cos(angle)
+    local cy = large_radius * sin(angle)
+
+    -- Apply rotation to outer circle
+    local rotated_circle = rotate(a, 0, 0, cx, cy)
+    add(outer_circles, rotated_circle)
   end
 
   -- For each outer circle, calculate triangle emitters
@@ -926,22 +935,26 @@ function config.sketch.sketch()
 
     for i = 0, 2 do
       -- Calculate positions of emitters on the smaller circle
-      local emitter_angle = i / 3 + angle_offset -- Divide the smaller circle into thirds
-      local x = circle_x + small_radius * cos(emitter_angle)
-      local y = circle_y + small_radius * sin(emitter_angle)
+      local emitter_angle = i / 3 -- Divide the smaller circle into thirds
+      local ex = small_radius * cos(emitter_angle)
+      local ey = small_radius * sin(emitter_angle)
+
+      -- Apply rotation to emitter around the outer circle
+      local rotated_emitter = rotate(a, circle_x, circle_y, circle_x + ex, circle_y + ey)
 
       -- Configure triangle brush parameters
-      config.brush.angle = angle_offset -- Rotate triangles dynamically
-      config.brush.color = (flr(x^2 + y^2) % 16) + 1 -- Color derived from position (clamped between 1 and 16)
+      config.brush.angle = a -- Rotate triangles dynamically
+      config.brush.color = (flr(rotated_emitter[1]^2 + rotated_emitter[2]^2) % 16) + 1 -- Color based on position
 
       -- Call the triangle brush function
-      brush_func(x, y)
+      brush_func(rotated_emitter[1], rotated_emitter[2])
     end
   end
 
   -- Update frame count
   config.sketch.fc -= 1
 end
+
 
 
 
@@ -968,7 +981,7 @@ config.colors.i = 1
 config.brush.i = 13
 
 config.brush.circ_r = 32
-config.brush.auto_rotate = 1
+config.brush.auto_rotate = -1
 
 
 -- timing
