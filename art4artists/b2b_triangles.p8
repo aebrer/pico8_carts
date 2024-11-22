@@ -905,8 +905,8 @@ function config.sketch.sketch()
   local brush_func = config.brush[brush_name]
 
   -- Large triangle's circumscribed circle radius
-  local large_radius = 64 -- Distance from the canvas center to the centers of the outer circles
-  local small_radius = 32 -- Radius of each individual circle's emitter path
+  local large_radius = 32 -- Distance from the canvas center to the centers of the outer circles
+  local small_radius = 16 -- Radius of each individual circle's emitter path
 
   -- Dynamic rotation based on timing
   local a = config.brush.angle
@@ -944,8 +944,8 @@ function config.sketch.sketch()
 
       -- Configure triangle brush parameters
       config.brush.angle = a -- Rotate triangles dynamically
-      -- config.brush.color = (flr(rotated_emitter[1]^2 + rotated_emitter[2]^2) % 16) + 1 -- Color based on position
-      config.brush.color = 1
+      config.brush.color = (flr(rotated_emitter[1]^2 + rotated_emitter[2]^2) % 16) + 1 -- Color based on position
+      -- config.brush.color = 1
 
       -- Call the triangle brush function
       brush_func(rotated_emitter[1], rotated_emitter[2])
@@ -954,9 +954,9 @@ function config.sketch.sketch()
 
   -- Update frame count
   config.sketch.fc -= 1
-  camera(0,0)
-  sspr(rnd(128),0,rnd(5),128,0,rnd(128),128,rnd(5))
-  camera(-64,-64)
+  -- camera(0,0)
+  -- sspr(rnd(128),0,rnd(5),128,0,rnd(128),128,rnd(5))
+  -- camera(-64,-64)
 end
 
 
@@ -974,8 +974,8 @@ poke(0x5f54,0x60)
 
 --  dither:
 config.dither.i=2
-config.dither.loops=420
-config.dither.pull=1.00
+config.dither.loops=800
+config.dither.pull=1.07
 --config.dither.loops=0
 --  palettes/colors:
 config.colors.i = 1
@@ -998,7 +998,7 @@ config.timing.gif_record = false
 
 -- effects
 config.effects.enable_all = true
-config.effects.mirror_type = 7
+config.effects.mirror_type = 0
 config.effects.glitch_freq = 0
 
 --------------------------------
