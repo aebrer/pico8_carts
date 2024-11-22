@@ -970,7 +970,8 @@ config.brush.shrink = 0
 
 --  dither:
 config.dither.i=2
-config.dither.loops=1000
+config.dither.loops=420
+config.dither.pull=1.07
 --config.dither.loops=0
 --  palettes/colors:
 config.colors.i = 1
@@ -981,20 +982,20 @@ config.colors.i = 1
 config.brush.i = 13
 
 config.brush.circ_r = 32
-config.brush.auto_rotate = -1
+config.brush.auto_rotate = 1
 
 
 -- timing
 config.timing.seed_loop = true
 config.timing.loop_len=8
-config.timing.rec_loop_start = 12
-config.timing.rec_loop_end = 14
-config.timing.gif_record = true
+config.timing.rec_loop_start = 4
+config.timing.rec_loop_end = 6
+config.timing.gif_record = false
 
 -- effects
 config.effects.enable_all = true
-config.effects.mirror_type = 0
-config.effects.glitch_freq = 0
+config.effects.mirror_type = 7
+config.effects.glitch_freq = 1
 
 --------------------------------
 --        main loop           --
