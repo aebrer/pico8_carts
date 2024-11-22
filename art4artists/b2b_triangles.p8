@@ -994,7 +994,7 @@ config.timing.seed_loop = true
 config.timing.loop_len=8
 config.timing.rec_loop_start = 8
 config.timing.rec_loop_end = 12
-config.timing.gif_record = true
+config.timing.gif_record = false
 
 -- effects
 config.effects.enable_all = true
