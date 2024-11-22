@@ -906,7 +906,7 @@ function config.sketch.sketch()
   local brush_func = config.brush[brush_name]
 
   -- Circle radius for the emitters
-  local circle_radius = 0 -- Adjust as needed for emitter radius
+  local circle_radius = 64 -- Adjust as needed for emitter radius
   local center_x = 0 -- Center of the circle, adjust as needed
   local center_y = 0
   
@@ -962,7 +962,7 @@ config.colors.i = 1
 config.brush.i = 13
 
 config.brush.circ_r = 32
-config.brush.auto_rotate = -1
+config.brush.auto_rotate = 1
 
 
 -- timing
