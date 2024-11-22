@@ -944,7 +944,8 @@ function config.sketch.sketch()
 
       -- Configure triangle brush parameters
       config.brush.angle = a -- Rotate triangles dynamically
-      config.brush.color = (flr(rotated_emitter[1]^2 + rotated_emitter[2]^2) % 16) + 1 -- Color based on position
+      -- config.brush.color = (flr(rotated_emitter[1]^2 + rotated_emitter[2]^2) % 16) + 1 -- Color based on position
+      config.brush.color = 1
 
       -- Call the triangle brush function
       brush_func(rotated_emitter[1], rotated_emitter[2])
@@ -953,6 +954,9 @@ function config.sketch.sketch()
 
   -- Update frame count
   config.sketch.fc -= 1
+  camera(0,0)
+  sspr(rnd(128),0,rnd(5),128,0,rnd(128),128,rnd(5))
+  camera(-64,-64)
 end
 
 
@@ -966,12 +970,12 @@ add(config.sketch.methods, "sketch")
 
 -- overrides:
 config.brush.shrink = 0
-
+poke(0x5f54,0x60)
 
 --  dither:
 config.dither.i=2
 config.dither.loops=420
-config.dither.pull=1.07
+config.dither.pull=1.00
 --config.dither.loops=0
 --  palettes/colors:
 config.colors.i = 1
@@ -988,14 +992,14 @@ config.brush.auto_rotate = 1
 -- timing
 config.timing.seed_loop = true
 config.timing.loop_len=8
-config.timing.rec_loop_start = 4
-config.timing.rec_loop_end = 6
-config.timing.gif_record = false
+config.timing.rec_loop_start = 8
+config.timing.rec_loop_end = 12
+config.timing.gif_record = true
 
 -- effects
 config.effects.enable_all = true
 config.effects.mirror_type = 7
-config.effects.glitch_freq = 1
+config.effects.glitch_freq = 0
 
 --------------------------------
 --        main loop           --
