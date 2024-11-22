@@ -975,10 +975,10 @@ poke(0x5f54,0x60)
 --  dither:
 config.dither.i=2
 config.dither.loops=800
-config.dither.pull=1.07
+config.dither.pull=0.9174
 --config.dither.loops=0
 --  palettes/colors:
-config.colors.i = 1
+config.colors.i = 5
 -- config.colors.i = #config.colors.methods
 
 
