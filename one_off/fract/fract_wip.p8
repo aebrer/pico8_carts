@@ -5,12 +5,15 @@ cls()
 r=rnd
 seed=r(-1)
 srand(seed)
+-- poke(24364,5)
+function q()return r(32)-16end
+pal({q(),q(),q(),q()},1)fillp(r({∧,░,…,█,█,█,▥,▒,♪,▤}))
 
 max_depth = r(25) + 10
 
 
 _set_fps(60)
-pal({8,-8,2,1,-3,13,-16},1)
+-- pal({8,-8,2,1,-3,13,-16},1)
 poke(0x5f54,0x60)
 palt(0,false)
 
@@ -34,10 +37,19 @@ function s(x0, y0, x1, y1, depth)
 end
 
 function fr(n)
- if(r()>.9)sspr(0,0,128,128,2,2,124,124)flip()
+ if(r()>.9)sspr(0,0,128,128,2,2,124,124)
+ for i=0,25do
+  x=r(88)+20y=r(88)+20
+  if r()>0.7 then
+  sspr(x+g(),y+g(),8,8,y+g(),x+g(),r(4)+7,r(4)+7)else
+  sspr(x+r(4)-r(4),y+r(4)-r(4),8,8,x+r(4)-r(4),y+r(4)-r(4),r(4)+7,r(4)+7)end
+  end
+ flip()
 	if(n>128)return r(n)
  return n
 end
+
+function g()return r(4)-r(4)end
 
 ::_::
 
