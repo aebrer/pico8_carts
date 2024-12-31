@@ -28,8 +28,8 @@ function s(x0, y0, x1, y1, depth)
 	if(r()>0.999)cls()
 	px=r(x0+x1)+x0
 	py=r(y0+y1)+y0
-	px1=(r(px+x1)+px)/2
-	py1=(r(py+y1)+py)/2
+	px1=(r(px+x1))/2
+	py1=(r(py+y1))/2
 	s(fr(px),fr(py),fr(px1),fr(py1), 1+depth)
 end
 
@@ -41,7 +41,7 @@ end
 
 ::_::
 
-s(r(128),r(128),128,128)
+s(r(128),r(128),r(128),r(128))
 
 goto _
 __gfx__
