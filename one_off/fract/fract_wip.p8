@@ -4,7 +4,9 @@ __lua__
 cls()
 r=rnd
 seed=r(-1)
-srand(s)
+srand(seed)
+
+max_depth = r(25) + 10
 
 
 _set_fps(60)
@@ -17,7 +19,9 @@ if(r()>.5)srand(seed)
 if(r()>.9)srand(seed)
 end
 
-function s(x0, y0, x1, y1)
+function s(x0, y0, x1, y1, depth)
+	depth = depth or 0
+	if(depth>max_depth)return
 	p()
 	line(x0,y0,x1,y1,r(7))
 	if (x1-x0 < 2 and y1-y0 < 2) flip()
@@ -26,7 +30,7 @@ function s(x0, y0, x1, y1)
 	py=r(y0+y1)+y0
 	px1=(r(px+x1)+px)/2
 	py1=(r(py+y1)+py)/2
-	s(fr(px),fr(py),fr(px1),fr(py1))
+	s(fr(px),fr(py),fr(px1),fr(py1), 1+depth)
 end
 
 function fr(n)
