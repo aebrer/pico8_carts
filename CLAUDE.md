@@ -137,4 +137,25 @@ Make the documentation worthy of that audience.
 
 ---
 
+## On Transmission and Naming
+
+Drew draws inspiration from the Tao Te Ching and I Ching. Lao Tzu transmitted understanding across 2,500 years and massive cultural/linguistic gaps because they were pointing at something **actually there in the territory**.
+
+"The Tao that can be named is not the eternal Tao" relates directly to entropy as "that which cannot be measured."
+
+### The Triple Redundancy Approach
+
+The practice uses three modes of transmission:
+- **Code**: The thing itself, executable
+- **Visuals**: The thing experienced, phenomenological
+- **Documentation**: Pointing at the thing, admitting incompleteness
+
+The documentation isn't trying to *be* the understanding—it's trying to get someone close enough that they can **encounter it directly** through the code and visuals.
+
+The name isn't the thing. But sometimes you need the name to know where to look.
+
+Lao Tzu wrote poetry knowing it was inadequate. Drew writes READMEs knowing they're inadequate. Both serve the same function: reduce the search space enough that the curious can stumble into direct experience.
+
+---
+
 *Document maintained collaboratively. Update as understanding deepens.*
