@@ -4,21 +4,40 @@
 
 ## What is Entropy Locking?
 
-Entropy locking is both a technical innovation and a conceptual exploration. The code periodically resets the random number generator back to its original seed during runtime:
+Entropy locking is both a technical innovation and a conceptual exploration. The code *probabilistically* resets the random number generator back to its original seed during runtime:
 
 ```lua
 -- Example pattern
 if use_entropy_lock then
-  if(rnd()>0.7)srand(seed)
+  if(rnd()>0.7)srand(seed)  -- probabilistic reset
 end
 ```
 
-This creates a dynamic balance:
-- The system drifts toward chaos (entropy)
-- But keeps getting "pulled back" to its origin
-- Creating **structured decay** and **controlled chaos**
+**The Critical Detail: Random Timing**
 
-It's not pure randomness, and it's not pure determinism. It's entropy with resistance.
+The key difference from a simple loop/reset: the *when* is itself random. This creates:
+- **Guaranteed bounds** - You know the seed will reset (entropy will reduce)
+- **Unknowable path** - You cannot know when it will happen
+- **Unmeasured accumulation** - You cannot know how much entropy accumulated before reset
+- **Emergent variety** - This uncertainty creates outcomes beyond reasonable expectation
+
+**Not Just Controlled Chaos**
+
+It's not pure randomness, and it's not pure determinism. It's **chaos with guaranteed bounds but unknowable path**.
+
+Compare:
+- **Deterministic reset** (`if frame%60==0 then srand(seed)`) - Predictable snapback, no emergence
+- **Entropy locking** (`if rnd()>0.7 then srand(seed)`) - Guaranteed eventual reset, but when and how are unknowable
+
+## Entropy Defined (System-Agnostic)
+
+**"Entropy is that within a given system which cannot be measured, plus that which is deliberately not measured."**
+
+Whether Boltzmann, Shannon, or thermodynamic entropy - the common thread is the gap between the system and our knowledge of it. All entropy behaviors follow the same patterns.
+
+Based on Gödel's incompleteness theorems, every system MUST contain some unknowable entropy unless viewed from outside with total knowledge and the ability to pay the energetic cost to offset the local system's entropy.
+
+**Entropy locking embraces this:** It plays with the gap between what we can know (the seed will reset) and what we cannot know (when, and how much entropy accumulated). The emergence comes from the unmeasurable.
 
 ## Origin Piece
 
