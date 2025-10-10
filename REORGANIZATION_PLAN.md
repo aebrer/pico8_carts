@@ -14,6 +14,35 @@ Make this repository:
 - **Archival**: Preserve the process, sketches, and evolution
 - **Portfolio-ready**: Something that can be shared publicly as part of practice
 
+## Deeper Purpose: Clues and Flares
+
+The art practice connects professional work in generative chemistry, artistic exploration in code, and daily life frameworks. Starting from curiosity around age 13, studying emergence, evolution, and entropy became formative—a praxis for living, not just intellectual exercise.
+
+### The Core Understanding
+
+Entropy behaves consistently across all systems. Whether chemistry, art, evolution, or personal growth—the patterns are the same. Understanding how entropy actually works (beyond pop-science "disorder") allows building tools and approaches that compound over time.
+
+**Example from daily life:** When encountering two choices with roughly equal apparent benefit, favor the choice that creates more opportunity. Like Wu Wei from the Tao Te Ching—create opportunities with low effort, then wait to act on the right one, maximizing benefit with lower effort. From the outside it seems like intentional genius. From the inside it's emergence you took advantage of, without knowing what to expect.
+
+This compounds. The practice connects:
+- Professional work in generative chemistry
+- Artistic exploration in code
+- Decision-making frameworks
+- A path toward improving conditions through entropy-based praxis
+
+### The Goal
+
+The art is an accessible entry point. Someone curious about emergence might find this repository. They won't follow the same path—their chemistry will be different, their life different—but the documentation might open a door.
+
+The approach:
+- **Flares** to catch attention (entropy locking pieces, striking visuals)
+- **Clues** for the curious to follow (series, variations, iterations)
+- **Clear documentation** so "wait, what?" can become "oh, I see"
+
+### Why This Reorganization Matters
+
+This repository is a cairn. A marker that says "someone was here, thinking about this, here's what they found."
+
 ---
 
 ## Core Principles
