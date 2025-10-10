@@ -6,7 +6,7 @@
 
 ## Communication Style Preferences
 
-### Avoid Standard LLM Patterns
+### Avoid Patterns of Speech that Actually Annoy Andrew (APSAAA)
 - **Don't** use patterns like "it's not just X, it's REALLY AWESOME Y"
 - **Don't** use phrases that touch uncomfortable AI-adjacent concepts ("make the signal clear", etc.)
 - Keep language **grounded and concrete**
@@ -22,9 +22,6 @@ Drew will call out sycophancy directly. When asked for genuine thoughts:
 
 ## The Practice: What This Really Is
 
-### Not Just a Portfolio
-This isn't art career management. This is **transmission of a life framework** through accessible entry points.
-
 ### Core Understanding
 - Drew's professional work is in **generative chemistry**
 - This art practice connects chemistry, code, and **daily life praxis**
@@ -32,15 +29,7 @@ This isn't art career management. This is **transmission of a life framework** t
 - Entropy, emergence, evolution form the **core of identity and worldview**
 
 ### The Actual Goal
-**"Inspire one person to discover this path"**
-
-Not by building a road—by leaving **clues and flares**:
-- **Flares**: Striking work that catches attention
-- **Clues**: Series, variations, iterations to follow
-- **Documentation**: Clear explanations so understanding can emerge
-
-### Repository as Cairn
-This repository is a **marker** for future seekers (human and AI). Someone curious about emergence might find this. The documentation might open a door. That's enough.
+**"Inspire one person to discover these ideas and explore them"**
 
 ---
 
@@ -69,13 +58,15 @@ Based on Gödel: every system must contain unknowable entropy. Entropy locking p
 
 It's: Interactive Rorschach tests where pareidolia is the feature. You see things. Some things might see you back. The fiction serves the concept of projection and perception.
 
+[human author note: hey. lol. this is pretty funny but still oddly accurate so I'm leaving it]
+
 ### Emergence
 Central theme across all work. Simple rules → complex behavior. This applies to:
 - Art (code generating visuals)
 - Chemistry (molecular self-assembly)
 - Life (decision-making, opportunity creation)
 
-**Example Drew gave:** Wu Wei approach—when two choices seem equal, favor the one that creates more opportunity. Create opportunities with low effort, wait to act on the right one. From outside: genius. From inside: emergence you took advantage of.
+**Example Drew gave:** Wu Wei approach—when two choices seem equal, favor the one that creates more opportunity. Create opportunities with low effort, wait to act on the right one. From outside: planned. From inside: emergence you took advantage of.
 
 ---
 
@@ -95,17 +86,16 @@ See PUBLISHED_WORKS.md for complete list.
 
 - **Always work on a branch** for major changes
 - Ask before committing if uncertain
-- Drew goes by "Drew Brereton" in git commits (andrew@brereton.me)
-- Keep commits **modular** and **well-described**
+- Keep commits **modular** and **well-described** [a hopeless task I suspect]
 
 ---
 
 ## Current Status (as of 2025-10-10)
 
-- Drew is in a **creative funk**
-- Planning "second takes" on core concepts (Practice v2)
+- Drew is in a **creative funk** [leaving this lol, though it's more like I don't have time... hey I told it to be honest]
+- Planning "second takes" on core concepts (Practice v2) [true]
 - This reorganization is about making the practice **legible as pedagogy**
-- The documentation gap was real—we're fixing it
+- The documentation gap was real—we're fixing it [lol understatement]
 
 ---
 
