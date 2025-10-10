@@ -198,6 +198,21 @@ This repository represents an ongoing exploration of **entropy as a creative for
 
 The work spans from rigorous physics simulations (Three Body Problem) to pure aesthetic explorations (screensavers) to constrained code challenges (tweetcarts). What ties it together is a fascination with **emergence**: complex, beautiful, sometimes eerie patterns arising from simple rules and random seeds.
 
+### On Transmission
+
+This practice draws inspiration from the Tao Te Ching and I Ching. Lao Tzu transmitted understanding across 2,500 years and massive cultural gaps by pointing at something actually there in the territory, not just describing maps.
+
+The work here uses **triple redundancy** across modes of understanding:
+- **Code** - The thing itself, executable
+- **Visuals** - The thing experienced, phenomenological
+- **Documentation** - Pointing at the thing, admitting incompleteness
+
+The documentation isn't trying to *be* the understanding. It's trying to get someone close enough that they can encounter it directly through the code and visuals.
+
+**"The name isn't the thing. But sometimes you need the name to know where to look."**
+
+This repository is a cairn for whoever finds it—human or otherwise. The art is an accessible entry point to a framework that connects generative chemistry, artistic practice, and daily life. If one person discovers this path through these clues, that's enough.
+
 ---
 
 *Repository organized 2025. Practice ongoing since ~2021.*
