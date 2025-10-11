@@ -10,7 +10,7 @@ const SERIES = {
   vestiges: {
     name: 'Vestiges',
     description: 'Explorations of remnants, traces, and what remains after something has passed.',
-    works: []
+    works: ['the-trace-gallery', 'containment-breach']
   },
   emergence: {
     name: 'Emergence',
@@ -95,6 +95,40 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/VISIONS',
     favorite: true,
     themes: ['screensaver', 'entropy locking', 'wave function collapse', 'ideocart', 'pareidolia', 'ambient', 'infinite', 'p5js']
+  },
+  'the-trace-gallery': {
+    id: 'the-trace-gallery',
+    title: 'The Trace Gallery',
+    series: 'vestiges',
+    year: 2022,
+    platform: 'teia',
+    description: 'A forgotten video game cartridge containing a full interactive gallery/game. Features inventory system, achievements, doom timer, mirror world mechanics, and ideocartography integration.',
+    ipfs: 'https://ipfs.io/ipfs/QmWQ5dUBCUqfJ3LeKRcHmsXoKmMUDdpPLDdg4HaudgLSBC/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/717500'
+    },
+    provenance: 'ipfs://QmYt25faE3S8cypApJfv4Fq2YdoLMujokEMCxcbB3Fs8hJ',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/the_trace',
+    favorite: true,
+    themes: ['vestiges', 'ideocart', 'game', 'interactive', 'narrative', 'infohazard', 'cognitohazard', 'memetic', 'pico-8', 'gif export', 'multiple endings', 'neoretro', 'achievement system', 'doom timer', 'easter egg', 'secret hunting', 'entropy locking', 'text-based', 'CYOA', 'the hierophant']
+  },
+  'containment-breach': {
+    id: 'containment-breach',
+    title: 'vestige_005: CONTAINMENT BREACH',
+    series: 'vestiges',
+    year: 2021,
+    platform: 'teia',
+    description: 'A dangerous remnant that destabilizes with each interaction. The piece that crashes as part of its mechanics—an infohazard that breaks its own container.',
+    ipfs: 'https://ipfs.io/ipfs/Qmd2dUEeYwcwHET7rEgFuYFtAgf8pzJLJTPGrBEySVifkm/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/127402'
+    },
+    provenance: 'ipfs://Qmb8c79wVDBLzKLCXHzMWDxzKRD5vFXh9aKYLbxw6V5rVH',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/vestige_005',
+    favorite: true,
+    themes: ['vestiges', 'infohazard', 'entropy locking', 'pico-8', 'intentional crash', 'the hierophant', 'containment failure', 'neoretro', 'SCP aesthetics', 'generative', 'ambient', 'infinite']
   }
 };
 
