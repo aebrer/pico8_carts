@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beginner Ideocartography - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Entry point to the ideocart system. An interactive exploration tool for perceiving entities compressed into two dimensions.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header>
+      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../series/ideocart.html">Ideocart</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork()">Click to view artwork</button>
+          </div>
+          <div id="randomize-container"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Beginner Ideocartography</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/ideocart.html">Ideocart</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash (generative)</p>
+            <p><strong>Themes:</strong> pareidolia, interactive, SCP aesthetics, exploration, vestiges universe</p>
+          </div>
+
+          <div class="artwork-description">
+            <p><strong>Welcome &lt;INTERN NAME&gt; to the Department of Ideocartography!</strong></p>
+
+            <p>On the display, we have preloaded the "Beginner Ideocartography" cartridge. This is a standard introduction to ideocartography, and is widely considered to be mostly safe to perceive.</p>
+
+            <p>Your task is to investigate, within a limited range of colors and textures, for the presence of active entities. As you use the arrow keys to explore your layer of &lt;REDACTED&gt;, please record short descriptions of the images you see, and please note any feelings you experience. Most of these entities should be rendered inert via compression into two dimensions (plus time). If not, press Z to capture a still photo, or X to capture a moving gif, and report immediately to &lt;REDACTED&gt;.</p>
+
+            <p style="margin-top: 20px;">This piece is a favorite and the entry point to the ideocart system. It shares a universe with the <a href="../series/vestiges.html">Vestiges series</a>.</p>
+
+            <p>Some outputs from this generator were reinterpreted using AI in the <a href="https://teia.art/collab/ideocartography_realized" target="_blank">Ideocartography Realized</a> project on Teia.</p>
+          </div>
+
+          <div class="artwork-links">
+            <a href="https://www.fxhash.xyz/generative/5529" target="_blank">View on fxhash</a>
+            <a href="https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/beginner_ideocartography" target="_blank">View Source Code</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Controls & Technical Notes</h2>
+        <p><strong>Arrow Keys:</strong> Navigate the ideocartographic space</p>
+        <p><strong>Z:</strong> Capture still photo</p>
+        <p><strong>X:</strong> Capture moving gif</p>
+        <p><strong>Randomize button:</strong> Generate a new variation (each fxhash produces a unique output)</p>
+
+        <details style="margin-top: 20px;">
+          <summary style="cursor: pointer; font-weight: 500;">Secret Code (spoiler)</summary>
+          <p style="margin-top: 10px;">Per C.O.17IL98 I am obligated to inform you that there is a combination of keys that the original creator encoded which will remove the color limit and enable &lt;REDACTED&gt;. This creates &lt;REDACTED&gt;, and should not be done without supervision by an ideocartographer of at least rank &lt;REDACTED&gt;.</p>
+          <p style="margin-top: 10px;"><strong>The Konami Code:</strong> ↑ ↑ ↓ ↓ ← → ← → B A</p>
+          <p>This unlocks "true random mode" which removes palette constraints per piece.</p>
+        </details>
+
+        <p style="margin-top: 20px;"><strong>Platform:</strong> Pico-8</p>
+        <p><strong>Supply:</strong> 300 editions minted (originally 1000)</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/ideocart.html">← Back to Ideocart</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script>
+    // Load artwork in iframe when button is clicked
+    // (Prevents auto-loading all iframes on series pages)
+    const IS_GENERATIVE = true; // true for fxhash generative pieces
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmV7C8QtpeyzJzAfh2Y6b3Y9AdeRsbDqLsE6ykva4GZ6f7/';
+    let artworkLoaded = false;
+    let currentIframe = null;
+
+    function loadArtwork() {
+      if (artworkLoaded) return;
+
+      const display = document.getElementById('artwork-display');
+      const hash = IS_GENERATIVE ? generateFxHash() : '';
+      const url = IS_GENERATIVE ? `${BASE_IPFS_URL}?fxhash=${hash}` : BASE_IPFS_URL;
+
+      display.innerHTML = `
+        <iframe
+          id="artwork-iframe"
+          src="${url}"
+          sandbox="allow-scripts allow-downloads"
+          scrolling="no"
+          style="width: 100%; height: 100%; border: none;">
+        </iframe>
+      `;
+
+      // Add randomize button below the artwork view
+      if (IS_GENERATIVE) {
+        const randomizeContainer = document.getElementById('randomize-container');
+        randomizeContainer.style.cssText = 'margin-top: 10px; text-align: center;';
+        randomizeContainer.innerHTML = '<button class="btn" onclick="randomizeArtwork()">Randomize</button>';
+      }
+      artworkLoaded = true;
+      currentIframe = document.getElementById('artwork-iframe');
+    }
+
+    function randomizeArtwork() {
+      if (!IS_GENERATIVE || !currentIframe) return;
+      const hash = generateFxHash();
+      currentIframe.src = `${BASE_IPFS_URL}?fxhash=${hash}`;
+    }
+  </script>
+</body>
+</html>

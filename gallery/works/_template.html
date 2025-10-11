@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WORK_TITLE] - Drew Brereton (aebrer)</title>
+  <meta name="description" content="[WORK_DESCRIPTION]">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header>
+      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../series/[SERIES_ID].html">[SERIES_NAME]</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div class="artwork-view" id="artwork-display">
+          <button class="btn" onclick="loadArtwork()">Click to view artwork</button>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>[WORK_TITLE]</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/[SERIES_ID].html">[SERIES_NAME]</a></p>
+            <p><strong>Year:</strong> [YEAR]</p>
+            <p><strong>Platform:</strong> [PLATFORM]</p>
+            [THEMES]
+          </div>
+
+          <div class="artwork-description">
+            [DESCRIPTION]
+          </div>
+
+          <div class="artwork-links">
+            [LINKS]
+            <a href="[CODE_LINK]" target="_blank">View Source Code</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        [TECHNICAL_NOTES]
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/[SERIES_ID].html">← Back to [SERIES_NAME]</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script>
+    // Load artwork in iframe when button is clicked
+    // (Prevents auto-loading all iframes on series pages)
+    const IS_GENERATIVE = [IS_GENERATIVE]; // true for fxhash generative pieces
+    const BASE_IPFS_URL = '[IPFS_URL]';
+    let artworkLoaded = false;
+    let currentIframe = null;
+
+    function loadArtwork() {
+      if (artworkLoaded) return;
+
+      const display = document.getElementById('artwork-display');
+      const hash = IS_GENERATIVE ? generateFxHash() : '';
+      const url = IS_GENERATIVE ? `${BASE_IPFS_URL}?fxhash=${hash}` : BASE_IPFS_URL;
+
+      display.innerHTML = `
+        <iframe
+          id="artwork-iframe"
+          src="${url}"
+          sandbox="allow-scripts allow-downloads"
+          scrolling="no"
+          width="100%"
+          height="100%"
+          style="border: none;">
+        </iframe>
+        ${IS_GENERATIVE ? '<button class="btn" style="position: absolute; top: 10px; right: 10px;" onclick="randomizeArtwork()">Randomize</button>' : ''}
+      `;
+      artworkLoaded = true;
+      currentIframe = document.getElementById('artwork-iframe');
+    }
+
+    function randomizeArtwork() {
+      if (!IS_GENERATIVE || !currentIframe) return;
+      const hash = generateFxHash();
+      currentIframe.src = `${BASE_IPFS_URL}?fxhash=${hash}`;
+    }
+  </script>
+</body>
+</html>

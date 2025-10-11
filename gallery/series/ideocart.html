@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ideocart - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="ideocart.html">Ideocart</a>
+        <a href="vestiges.html">Vestiges</a>
+        <a href="emergence.html">Emergence</a>
+        <a href="three-body-problem.html">Three Body Problem</a>
+        <a href="entropy-locked.html">Entropy-Locked</a>
+        <a href="pico-punks.html">Pico Punks</a>
+        <a href="pico-galaxies.html">Pico Galaxies</a>
+        <a href="screensavers.html">Screensavers</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Series Header -->
+      <section class="mb-40">
+        <h1>Ideocart</h1>
+        <p>Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.</p>
+
+        <p style="margin-top: 20px;">Ideocart generators are explorable, interactive systems. As you navigate through them, you inevitably "see things" in the patterns—faces, creatures, structures, entities. This is pareidolia by design.</p>
+
+        <p>The fiction: some of these things might be seeing you back.</p>
+
+        <p>Think of it as an alternative world's psychological testing apparatus, where finding meaning in randomness isn't a bug—it's the entire point. And maybe, just maybe, something on the other side is taking notes.</p>
+
+        <p style="margin-top: 20px;">This series shares a universe with <a href="vestiges.html">Vestiges</a>.</p>
+      </section>
+
+      <!-- Featured work from this series -->
+      <section class="featured mb-40" id="series-featured">
+        <!-- Will be populated by JS with random favorite from this series -->
+      </section>
+
+      <!-- All works in series -->
+      <section>
+        <h2>Works in This Series</h2>
+        <div class="grid grid-3" id="works-grid">
+          <!-- Will be populated by JS -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../index.html">← Back to home</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script>
+    // Get series ID from filename
+    const seriesId = 'ideocart';
+    const seriesWorks = SERIES[seriesId].works.map(id => WORKS[id]).filter(w => w);
+
+    // Populate featured work
+    const favorites = seriesWorks.filter(work => work.favorite);
+    const featuredWork = favorites.length > 0 ? favorites[Math.floor(Math.random() * favorites.length)] : null;
+    const featuredContainer = document.getElementById('series-featured');
+
+    if (featuredWork) {
+      const hash = featuredWork.isGenerative ? generateFxHash() : '';
+      const url = featuredWork.isGenerative ? `${featuredWork.ipfs}?fxhash=${hash}` : featuredWork.ipfs;
+
+      featuredContainer.innerHTML = `
+        <iframe class="featured-iframe"
+                src="${url}"
+                sandbox="allow-scripts allow-downloads"
+                scrolling="no">
+        </iframe>
+        <div class="featured-info">
+          <a href="../works/${featuredWork.id}.html">${featuredWork.title}</a> (${featuredWork.year})
+        </div>
+      `;
+    } else {
+      featuredContainer.innerHTML = `
+        <div class="text-center">
+          <p style="color: var(--link-hover);">Works in this series will appear here as they're migrated.</p>
+        </div>
+      `;
+    }
+
+    // Populate works grid
+    const worksGrid = document.getElementById('works-grid');
+    if (seriesWorks.length > 0) {
+      seriesWorks.forEach(work => {
+        const card = document.createElement('a');
+        card.href = `../works/${work.id}.html`;
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${work.title}${work.favorite ? ' ⭐' : ''}</h3>
+          <p>${work.year} · ${work.platform}</p>
+        `;
+        worksGrid.appendChild(card);
+      });
+    } else {
+      worksGrid.innerHTML = `
+        <p style="color: var(--link-hover);">Works in this series are being migrated. Check back soon!</p>
+      `;
+    }
+  </script>
+</body>
+</html>
