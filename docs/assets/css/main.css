@@ -58,12 +58,18 @@ nav {
   align-items: center;
 }
 
-.avatar {
-  width: 16px;
-  height: 16px;
+nav .avatar {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
   border-radius: 50%;
   border: 1px solid var(--border);
   margin-left: auto;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 nav a {
