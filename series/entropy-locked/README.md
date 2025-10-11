@@ -86,4 +86,34 @@ The specific implementation changes the character of the decay.
 
 ---
 
+## Creative Code Toronto Talk (Jan 25, 2025)
+
+Drew gave a talk at Creative Code Toronto demonstrating entropy locking with live, interactive examples using PICO-8 Education Edition. The talk is the clearest pedagogical demonstration of the technique.
+
+**Key demonstrations:**
+
+1. **The baseline generator** - Simple diagonal line drawer with random X/Y increments and slowly incrementing color
+2. **Maximum entropy comparison** - With no entropy locking, every outcome looks identical to human observers despite being mathematically unique
+3. **Entropy locking enabled** - Same algorithm produces visually diverse outcomes
+4. **Live threshold tweaking** - Real-time adjustments showing how different probability values affect output
+
+**Core insights from the talk:**
+
+- **The entropy spectrum:** Outcomes cluster at both bounds. Minimum entropy produces visually similar results (constrained patterns). Maximum entropy produces visually similar results (homogeneous noise). Maximum variety exists in the middle range.
+- **Emergent equilibrium:** Systems find their own balance. The probabilistic reset creates a feedback loop that's "only predictable to itself, not the human observer."
+- **Multi-gate patterns:** The demo uses two sequential checks (`if(r()>0.5)p(s)` then `if(r()>0.9)p(s)`), creating more complex entropy landscapes than single-gate patterns.
+- **Application to complex systems:** The technique extends beyond simple generators to cellular automata—"what should be a naturally evolving system becomes a system that is still evolving but in a constrained way."
+- **Unintentional emergence example:** Drew mentioned a piece designed to crash after a certain time, where the crash state is the final output. But ~1% of the time it finds equilibrium and persists forever—an emergent behavior not anticipated during creation.
+
+**Discovery context:**
+
+The technique emerged from PICO-8 size coding constraints. Extreme minimalism (65k character limit, token limits, 32KB RAM) forced creative solutions. Entropy locking wasn't designed top-down—it was discovered through constraint-driven exploration.
+
+**Video:** https://www.youtube.com/watch?v=YdBr_9pmVXg&list=PL_YfqG2SCOAKkVUlwxspUIYdYmg9VbbdS&index=2&t=17s
+
+**Key quote:**
+> "With this entropy locking in place every outcome looks quite different to a human eye despite the algorithm not changing and everything being essentially identical—just the fact that the amount of random numbers that are available to the algorithm shrinks or increases in a completely unpredictable way and yet it invariably creates its own equilibrium where it will cause itself to reset in a predictable way but it's only predictable to itself, it's not predictable to the human observer."
+
+---
+
 *Entropy locking appears throughout the body of work, but these pieces make it central to their concept and execution.*

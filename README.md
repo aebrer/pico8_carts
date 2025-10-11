@@ -170,7 +170,32 @@ Many pieces have different working titles and published titles. Key mappings:
 
 ## Platforms & Tools
 
-- **Pico-8** - Primary platform (~90% of work)
+### Why PICO-8?
+
+PICO-8 is the primary platform for this practice (~90% of work) for several reasons:
+
+**Accessibility:**
+- Runs on everything—phones, computers, potatoes
+- No GPU required, minimal CPU needed
+- 41% of internet users only have phones, no computers
+- PICO-8 Education Edition is freely available at [pico-8-edu.com](https://www.pico-8-edu.com)
+- Can share work with anyone, anywhere
+
+**Consistency:**
+- No browser differences (unlike p5.js)
+- Always looks the same across platforms
+- Predictable behavior and output
+
+**Constraints as creativity:**
+- 65,536 character maximum
+- Token limits
+- 32KB RAM
+- No math library access (hand-code everything)
+- 16 colors, 128×128 pixels
+- These limitations force creative solutions
+- Entropy locking was discovered because of size coding constraints
+
+**Other platforms:**
 - **p5.js** - Web-based generative art (fxhash, screensavers)
 - **TIC-80** - Fantasy console experiments
 - **fxhash** - Primary NFT/generative art platform

@@ -17,13 +17,8 @@
 </head>
 <body>
   <div class="container-wide">
-    <header>
-      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
-      <nav>
-        <a href="../index.html">Home</a>
-        <a href="../series/[SERIES_ID].html">[SERIES_NAME]</a>
-        <a href="../index.html#contact">Contact</a>
-      </nav>
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
     </header>
 
     <main>
@@ -71,6 +66,7 @@
     </footer>
   </div>
 
+  <script src="../assets/js/nav.js"></script>
   <script src="../assets/js/data.js"></script>
   <script>
     // Load artwork in iframe when button is clicked

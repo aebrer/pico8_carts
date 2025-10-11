@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Frequently asked questions about Drew's generative art practice, entropy locking, and creative process.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <header data-nav-context="root">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <section class="mb-40">
+        <h1>Frequently Asked Questions</h1>
+        <p>Questions that come up repeatedly about the practice, platforms, and concepts.</p>
+      </section>
+
+      <!-- Platform Questions -->
+      <section class="mb-40">
+        <h2>Platform & Tools</h2>
+
+        <h3>Why PICO-8?</h3>
+        <p>
+          PICO-8 is the primary platform for this practice (~90% of work) for three main reasons:
+        </p>
+        <p>
+          <strong>Accessibility:</strong> It runs on everything—phones, computers, potatoes. No GPU required, minimal CPU needed. 41% of internet users only have phones, no computers. If I want them to be able to perceive what I'm making, it has to run on what they have. The PICO-8 Education Edition is freely available at <a href="https://www.pico-8-edu.com" target="_blank">pico-8-edu.com</a>, so anyone can try it.
+        </p>
+        <p>
+          <strong>Consistency:</strong> Unlike p5.js (which has browser differences), PICO-8 always looks the same across platforms. Predictable behavior, predictable output. No surprises.
+        </p>
+        <p>
+          <strong>Constraints as creativity:</strong> PICO-8 has strict limitations—65,536 character maximum, token limits, 32KB RAM, no math library (you hand-code everything), 16 colors, 128×128 pixels. These constraints force creative solutions. Entropy locking was discovered because of size coding constraints—I wouldn't have found it without that pressure.
+        </p>
+
+        <h3>Why NFTs?</h3>
+        <p>
+          For me, an NFT is a receipt showing you supported the artist. That's it. I only ever wanted to mint on low-energy, eco-friendly blockchains (hence Tezos).
+        </p>
+        <p>
+          Beyond the receipt, NFT platforms gave me infrastructure I couldn't afford to build myself: immutable records, code hosting on IPFS (so work doesn't disappear when a server goes down), and a community that allowed me to learn and grow my art practice without worrying about tedious implementation details like hosting or database management.
+        </p>
+        <p>
+          I was able to focus on making art because the platform handled everything else.
+        </p>
+
+        <h3>Why Tezos specifically?</h3>
+        <p>
+          Low-energy, eco-friendly blockchain. I wasn't interested in chains that required massive energy consumption. Tezos proof-of-stake made sense for the kind of work I wanted to do.
+        </p>
+
+        <h3>What's size coding and why do you do it?</h3>
+        <p>
+          Size coding (or code golf) is the practice of writing the smallest possible code to achieve a result. In PICO-8, this often means constrained pieces like tweetcarts (code that fits in a tweet—280 characters or less).
+        </p>
+        <p>
+          I do it because extreme constraints force creative problem-solving. You can't use standard approaches when you're limited to a handful of characters. That pressure reveals techniques you'd never discover otherwise—like entropy locking, which emerged directly from size coding constraints.
+        </p>
+      </section>
+
+      <!-- Concept Questions -->
+      <section class="mb-40">
+        <h2>Concepts</h2>
+
+        <h3>What's entropy locking?</h3>
+        <p>
+          Entropy locking is a technique where the random number generator is <em>probabilistically</em> reseeded back to its original seed during runtime. The key detail: the <em>timing</em> of the reset is itself random.
+        </p>
+        <p>
+          Instead of resetting every N frames (predictable), you reset with X% probability each frame (unpredictable). This creates guaranteed bounds without knowable path—you know the seed will reset (entropy will reduce), but you don't know when or how much entropy accumulated before the reset.
+        </p>
+        <p>
+          This uncertainty creates emergent variety beyond what you'd expect from the algorithm alone. Systems find their own equilibrium—predictable to themselves, but not to human observers.
+        </p>
+        <p>
+          <strong>See also:</strong> <a href="https://www.youtube.com/watch?v=YdBr_9pmVXg" target="_blank">Creative Code Toronto talk (Jan 25, 2025)</a> for a live demonstration with interactive examples.
+        </p>
+
+        <h3>What does "entropy" mean in your work?</h3>
+        <p>
+          <strong>"Entropy is that within a given system which cannot be measured, plus that which is deliberately not measured."</strong>
+        </p>
+        <p>
+          This definition works across all contexts—Boltzmann, Shannon, thermodynamic entropy—they all share the same pattern. Entropy is always about the gap between the system and our knowledge of it.
+        </p>
+        <p>
+          Based on Gödel's incompleteness theorems, every system must contain some unknowable entropy unless viewed from outside with total knowledge and infinite energy. Entropy locking plays with that gap: you know the seed will reset, but when and how much entropy accumulated remains unmeasurable.
+        </p>
+
+        <h3>What's the Ideocart series about?</h3>
+        <p>
+          Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist. As you explore these generators, you inevitably "see things" in the patterns—faces, creatures, structures, entities. That's pareidolia by design.
+        </p>
+        <p>
+          The fiction: some of these things might be seeing you back.
+        </p>
+        <p>
+          Think of it as an alternative world's psychological testing apparatus, where finding meaning in randomness isn't a bug—it's the entire point.
+        </p>
+        <p>
+          <strong>See also:</strong> <a href="series/ideocart.html">Ideocart series page</a>
+        </p>
+
+        <h3>Why constrained platforms instead of unlimited tools?</h3>
+        <p>
+          Constraints force creativity. When you have unlimited options, you often default to familiar patterns. When you're forced to work within strict limits (16 colors, 280 characters of code, 32KB RAM), you have to find novel solutions.
+        </p>
+        <p>
+          Most of my best techniques—like entropy locking—emerged directly from constraint-driven exploration. I wouldn't have discovered them in an unlimited environment.
+        </p>
+      </section>
+
+      <!-- Practice Questions -->
+      <section class="mb-40">
+        <h2>Practice & Process</h2>
+
+        <h3>Is this your main work?</h3>
+        <p>
+          No. My professional work is in generative chemistry. This art practice connects that work to code and daily life—a framework that applies across chemistry, art, decision-making, and opportunity creation.
+        </p>
+        <p>
+          I've been exploring these concepts (entropy, emergence, evolution) since around age 13. They're core to my identity and worldview. The art is an accessible entry point to those ideas.
+        </p>
+
+        <h3>What's the goal of this practice?</h3>
+        <p>
+          <strong>"Inspire one person to discover these ideas and explore them."</strong>
+        </p>
+        <p>
+          That's it. If one person encounters this work and it opens a door to thinking about entropy, emergence, or evolution in a new way—that's enough.
+        </p>
+
+        <h3>Can I use or remix your code?</h3>
+        <p>
+          Most work is <strong>CC0 (public domain)</strong> unless otherwise specified in individual pieces. You're free to use, modify, and build upon it.
+        </p>
+        <p>
+          Citations not required but definitely appreciated!
+        </p>
+
+        <h3>Where can I run these pieces?</h3>
+        <p>
+          <strong>Published NFTs:</strong> Most are on <a href="https://www.fxhash.xyz/u/aebrer" target="_blank">fxhash</a>, <a href="https://objkt.com/@aebrer" target="_blank">objkt.com</a>, or <a href="https://teia.art/aebrer" target="_blank">Teia</a>. Links are included on individual work pages.
+        </p>
+        <p>
+          <strong>PICO-8 cartridges:</strong> You can run them in the free <a href="https://www.pico-8-edu.com" target="_blank">PICO-8 Education Edition</a>. Some work pages include preloaded cartridge URLs.
+        </p>
+        <p>
+          <strong>Source code:</strong> Available in the <a href="https://github.com/aebrer/pico8_carts" target="_blank">GitHub repository</a>.
+        </p>
+      </section>
+
+      <!-- Getting Started -->
+      <section class="mb-40">
+        <h2>Getting Started</h2>
+
+        <h3>Where do I start if I'm new to this?</h3>
+        <p>
+          <strong>For the art:</strong> Start with <a href="series/ideocart.html">Beginner Ideocartography</a> or explore the <a href="series/screensavers.html">Screensavers series</a>. Both are accessible entry points.
+        </p>
+        <p>
+          <strong>For the concepts:</strong> Watch the <a href="https://www.youtube.com/watch?v=YdBr_9pmVXg" target="_blank">Creative Code Toronto talk (Jan 25, 2025)</a> for a live demonstration of entropy locking with interactive examples.
+        </p>
+        <p>
+          <strong>For the code:</strong> Browse the <a href="https://github.com/aebrer/pico8_carts" target="_blank">GitHub repository</a>. Series READMEs provide context for major bodies of work.
+        </p>
+
+        <h3>How do I learn PICO-8?</h3>
+        <p>
+          Start with the free <a href="https://www.pico-8-edu.com" target="_blank">PICO-8 Education Edition</a>. Look up "tweetcart tutorial" for beginner-friendly resources—there's a great page that walks through the basics.
+        </p>
+        <p>
+          The <a href="https://www.lexaloffle.com/bbs/?cat=7" target="_blank">PICO-8 BBS</a> has thousands of cartridges with viewable source code. Load a cart, hit Escape to see the code, and start tinkering.
+        </p>
+      </section>
+
+    </main>
+
+    <footer>
+      <p>
+        <a href="index.html">← Back to home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="assets/js/nav.js"></script>
+</body>
+</html>

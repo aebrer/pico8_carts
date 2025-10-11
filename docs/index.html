@@ -17,21 +17,25 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="series/ideocart.html">Ideocart</a>
-        <a href="series/vestiges.html">Vestiges</a>
-        <a href="series/emergence.html">Emergence</a>
-        <a href="series/three-body-problem.html">Three Body Problem</a>
-        <a href="series/entropy-locked.html">Entropy-Locked</a>
-        <a href="series/pico-punks.html">Pico Punks</a>
-        <a href="series/pico-galaxies.html">Pico Galaxies</a>
-        <a href="series/screensavers.html">Screensavers</a>
-        <a href="#contact">Contact</a>
-        <img src="aebrer_pfp.png" alt="aebrer" class="avatar">
-      </nav>
+    <header data-nav-context="root">
+      <!-- Nav rendered by nav.js -->
+      <noscript>
+        <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="series/ideocart.html">Ideocart</a>
+          <a href="series/vestiges.html">Vestiges</a>
+          <a href="series/emergence.html">Emergence</a>
+          <a href="series/three-body-problem.html">Three Body Problem</a>
+          <a href="series/entropy-locked.html">Entropy-Locked</a>
+          <a href="series/pico-punks.html">Pico Punks</a>
+          <a href="series/pico-galaxies.html">Pico Galaxies</a>
+          <a href="series/screensavers.html">Screensavers</a>
+          <a href="faq.html">FAQ</a>
+          <a href="#contact">Contact</a>
+          <img src="aebrer_pfp.png" alt="aebrer" class="avatar">
+        </nav>
+      </noscript>
     </header>
 
     <main>
@@ -53,6 +57,9 @@
         </p>
         <p>
           This work uses triple redundancy across modes of understanding: code (the thing itself), visuals (the thing experienced), and documentation (pointing at the thing). The goal is simple—if one person discovers these ideas and explores them, that's enough.
+        </p>
+        <p style="margin-top: 20px;">
+          Got questions? You're not alone. Check out the <a href="faq.html">FAQ</a> to maybe find answers.
         </p>
       </section>
 
@@ -126,6 +133,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="assets/js/nav.js"></script>
   <script src="assets/js/data.js"></script>
   <script>
     // Populate series grid

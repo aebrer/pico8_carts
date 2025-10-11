@@ -17,20 +17,8 @@
 </head>
 <body>
   <div class="container">
-    <header>
-      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
-      <nav>
-        <a href="../index.html">Home</a>
-        <a href="ideocart.html">Ideocart</a>
-        <a href="vestiges.html">Vestiges</a>
-        <a href="emergence.html">Emergence</a>
-        <a href="three-body-problem.html">Three Body Problem</a>
-        <a href="entropy-locked.html">Entropy-Locked</a>
-        <a href="pico-punks.html">Pico Punks</a>
-        <a href="pico-galaxies.html">Pico Galaxies</a>
-        <a href="screensavers.html">Screensavers</a>
-        <a href="../index.html#contact">Contact</a>
-      </nav>
+    <header data-nav-context="series">
+      <!-- Nav rendered by nav.js -->
     </header>
 
     <main>
@@ -74,6 +62,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="../assets/js/nav.js"></script>
   <script src="../assets/js/data.js"></script>
   <script>
     // Get series ID from filename
