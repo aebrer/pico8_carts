@@ -1,3 +1,6 @@
 [submodule "aebrer.github.io"]
 	path = aebrer.github.io
 	url = https://github.com/aebrer/aebrer.github.io.git
+[submodule "teia-ui"]
+	path = teia-ui
+	url = https://github.com/teia-community/teia-ui.git

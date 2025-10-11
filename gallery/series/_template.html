@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[SERIES_NAME] - Andrew Brereton</title>
+  <meta name="description" content="[SERIES_DESCRIPTION]">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1 class="site-title">Andrew Brereton</h1>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="ideocart.html">Ideocart</a>
+        <a href="vestiges.html">Vestiges</a>
+        <a href="emergence.html">Emergence</a>
+        <a href="three-body-problem.html">Three Body Problem</a>
+        <a href="entropy-locked.html">Entropy-Locked</a>
+        <a href="pico-punks.html">Pico Punks</a>
+        <a href="screensavers.html">Screensavers</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Series Header -->
+      <section class="mb-40">
+        <h1>[SERIES_NAME]</h1>
+        <p>[SERIES_DESCRIPTION]</p>
+      </section>
+
+      <!-- Featured work from this series -->
+      <section class="featured mb-40" id="series-featured">
+        <!-- Will be populated by JS with random favorite from this series -->
+      </section>
+
+      <!-- All works in series -->
+      <section>
+        <h2>Works in This Series</h2>
+        <div class="grid grid-3" id="works-grid">
+          <!-- Will be populated by JS -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../index.html">← Back to home</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/data.js"></script>
+  <script>
+    // Get series ID from filename
+    const seriesId = '[SERIES_ID]';
+    const works = getWorksBySeries(seriesId);
+
+    // Populate featured work
+    const featuredWork = getRandomFavoriteFromSeries(seriesId);
+    const featuredContainer = document.getElementById('series-featured');
+
+    if (featuredWork) {
+      featuredContainer.innerHTML = `
+        <iframe class="featured-iframe"
+                src="${featuredWork.ipfs}"
+                sandbox="allow-scripts allow-downloads"
+                scrolling="no">
+        </iframe>
+        <div class="featured-info">
+          <a href="../works/${featuredWork.id}.html">${featuredWork.title}</a> (${featuredWork.year})
+        </div>
+      `;
+    } else {
+      featuredContainer.innerHTML = `
+        <div class="text-center">
+          <p style="color: var(--link-hover);">Works in this series will appear here as they're migrated.</p>
+        </div>
+      `;
+    }
+
+    // Populate works grid
+    const worksGrid = document.getElementById('works-grid');
+    if (works.length > 0) {
+      works.forEach(work => {
+        const card = document.createElement('a');
+        card.href = `../works/${work.id}.html`;
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${work.title}</h3>
+          <p>${work.year} · ${work.platform}</p>
+        `;
+        worksGrid.appendChild(card);
+      });
+    } else {
+      worksGrid.innerHTML = `
+        <p style="color: var(--link-hover);">Works in this series are being migrated. Check back soon!</p>
+      `;
+    }
+  </script>
+</body>
+</html>
