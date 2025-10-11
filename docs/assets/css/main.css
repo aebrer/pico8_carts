@@ -108,6 +108,18 @@ a:hover {
   color: var(--link-hover);
 }
 
+/* Add pointing finger emoji before links (excluding nav and buttons) */
+main a:not(.btn):not(.card):before,
+.footer-links a:before,
+.artwork-description a:before {
+  content: "👉 ";
+}
+
+/* Remove emoji from button-style links */
+.artwork-links a:before {
+  content: none;
+}
+
 /* Grid layouts */
 .grid {
   display: grid;
