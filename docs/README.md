@@ -1,49 +1,64 @@
-# Documentation
+# Gallery Website
 
-**Detailed explorations of concepts, techniques, and practice.**
+Vanilla HTML/CSS/JS gallery for Andrew Brereton's generative art practice.
 
-## Planned Documentation
+## Structure
 
-### Technical
-- [ ] **entropy-locking.md** - Deep dive into the entropy locking technique
-  - Technical implementation variations
-  - Conceptual foundations
-  - Code examples from major pieces
-  - Parameter tuning and effects
+```
+gallery/
+├── index.html              - Landing page with featured work
+├── series/                 - Series pages
+│   ├── _template.html     - Template for new series pages
+│   ├── ideocart.html
+│   ├── vestiges.html
+│   └── ...
+├── works/                  - Individual artwork pages
+│   ├── _template.html     - Template for new work pages
+│   └── [work-id].html
+└── assets/
+    ├── css/
+    │   ├── reset.css      - Modern CSS reset
+    │   └── main.css       - Main styles
+    └── js/
+        └── data.js        - Gallery data (works, series)
+```
 
-- [ ] **technical-patterns.md** - Common code patterns and techniques
-  - Burn/fade effects
-  - Palette cycling
-  - Particle systems
-  - Procedural generation approaches
+## Adding New Work
 
-### Conceptual
-- [ ] **ideocart-worldbuilding.md** - The ideocart fiction and world
-  - SCP-style documentation
-  - Entity catalog
-  - Containment procedures
-  - Theoretical framework
+1. Add entry to `assets/js/data.js` in the `WORKS` object
+2. Copy `works/_template.html` to `works/[work-id].html`
+3. Replace placeholders:
+   - `[WORK_TITLE]` - Title of the piece
+   - `[WORK_DESCRIPTION]` - Brief description
+   - `[SERIES_ID]` - Series identifier
+   - `[SERIES_NAME]` - Series display name
+   - `[YEAR]` - Year created
+   - `[PLATFORM]` - Platform (fxhash, objkt, etc.)
+   - `[THEMES]` - Theme tags
+   - `[DESCRIPTION]` - Full description
+   - `[LINKS]` - External links (fxhash, objkt, etc.)
+   - `[CODE_LINK]` - Link to source code in repo
+   - `[TECHNICAL_NOTES]` - Technical details
+   - `[IPFS_URL]` - IPFS link for iframe
 
-### Historical
-- [ ] **platforms-and-tools.md** - Notes on Pico-8, p5.js, TIC-80
-  - Platform constraints and affordances
-  - Tool choices and evolution
-  - Technical limitations as creative drivers
+## Adding New Series
 
-### Process
-- [ ] **on-entropy.md** - Why entropy? What is it really?
-  - Conceptual exploration
-  - Common misconceptions
-  - Entropy as creative force
+1. Add entry to `assets/js/data.js` in the `SERIES` object
+2. Copy `series/_template.html` to `series/[series-id].html`
+3. Replace placeholders:
+   - `[SERIES_NAME]` - Display name
+   - `[SERIES_DESCRIPTION]` - Description
+   - `[SERIES_ID]` - Identifier (used in JS)
 
-## Current Status
+## Design Philosophy
 
-Documentation is planned but not yet written. For now, see:
-- Main [README.md](../README.md) for overview
-- Series READMEs for specific concepts
-- [PUBLISHED_WORKS.md](../PUBLISHED_WORKS.md) for mappings
-- Code comments in individual pieces
+- Minimal, clean aesthetic inspired by Teia/hicetnunc
+- Monospace typography (IBM Plex Mono)
+- Dark/light mode support via CSS variables
+- Lazy-load iframes (click to view) to improve performance
+- Mobile-responsive
+- No build tools - pure HTML/CSS/JS
 
----
+## Deployment
 
-*Documentation grows with the practice.*
+This will be deployed to GitHub Pages at aebrer.xyz once migration is complete.

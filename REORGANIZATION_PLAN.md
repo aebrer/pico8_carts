@@ -172,7 +172,7 @@ Clear documentation helps turn "wait, what?" into "oh, I see" through striking v
 
 ```
 .
-├── gallery/              - Website files (HTML/CSS/JS)
+├── docs/                 - Website files (HTML/CSS/JS) for GitHub Pages
 │   ├── index.html       - Landing page with random featured work
 │   ├── series/          - Series pages (ideocart, vestiges, etc.)
 │   ├── works/           - Individual artwork pages
