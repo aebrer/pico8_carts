@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="beginner-ideocartography">
   <title>Beginner Ideocartography - Drew Brereton (aebrer)</title>
   <meta name="description" content="Entry point to the ideocart system. An interactive exploration tool for perceiving entities compressed into two dimensions.">
 
@@ -27,9 +28,9 @@
         <!-- Artwork View -->
         <div>
           <div class="artwork-view" id="artwork-display">
-            <button class="btn" onclick="loadArtwork()">Click to view artwork</button>
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
           </div>
-          <div id="randomize-container"></div>
+          <div class="artwork-controls" id="artwork-controls"></div>
         </div>
 
         <!-- Artwork Info -->
@@ -40,7 +41,9 @@
             <p><strong>Series:</strong> <a href="../series/ideocart.html">Ideocart</a></p>
             <p><strong>Year:</strong> 2022</p>
             <p><strong>Platform:</strong> fxhash (generative)</p>
-            <p><strong>Themes:</strong> pareidolia, interactive, SCP aesthetics, exploration, vestiges universe</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
           </div>
 
           <div class="artwork-description">
@@ -63,9 +66,8 @@
             <p style="margin-top: 10px;"><em>Discussion and development thread: <a href="https://www.lexaloffle.com/bbs/?tid=46014" target="_blank">Pico-8 BBS</a></em></p>
           </div>
 
-          <div class="artwork-links">
-            <a href="https://www.fxhash.xyz/generative/5529" target="_blank">View on fxhash</a>
-            <a href="https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/beginner_ideocartography" target="_blank">View Source Code</a>
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
           </div>
         </div>
       </div>
@@ -100,46 +102,12 @@
 
   <script src="../assets/js/nav.js"></script>
   <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
   <script>
-    // Load artwork in iframe when button is clicked
-    // (Prevents auto-loading all iframes on series pages)
-    const IS_GENERATIVE = true; // true for fxhash generative pieces
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
     const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmV7C8QtpeyzJzAfh2Y6b3Y9AdeRsbDqLsE6ykva4GZ6f7/';
-    let artworkLoaded = false;
-    let currentIframe = null;
-
-    function loadArtwork() {
-      if (artworkLoaded) return;
-
-      const display = document.getElementById('artwork-display');
-      const hash = IS_GENERATIVE ? generateFxHash() : '';
-      const url = IS_GENERATIVE ? `${BASE_IPFS_URL}?fxhash=${hash}` : BASE_IPFS_URL;
-
-      display.innerHTML = `
-        <iframe
-          id="artwork-iframe"
-          src="${url}"
-          sandbox="allow-scripts allow-downloads"
-          scrolling="no"
-          style="width: 100%; height: 100%; border: none;">
-        </iframe>
-      `;
-
-      // Add randomize button below the artwork view
-      if (IS_GENERATIVE) {
-        const randomizeContainer = document.getElementById('randomize-container');
-        randomizeContainer.style.cssText = 'margin-top: 10px; text-align: center;';
-        randomizeContainer.innerHTML = '<button class="btn" onclick="randomizeArtwork()">Randomize</button>';
-      }
-      artworkLoaded = true;
-      currentIframe = document.getElementById('artwork-iframe');
-    }
-
-    function randomizeArtwork() {
-      if (!IS_GENERATIVE || !currentIframe) return;
-      const hash = generateFxHash();
-      currentIframe.src = `${BASE_IPFS_URL}?fxhash=${hash}`;
-    }
   </script>
 </body>
 </html>
