@@ -150,6 +150,7 @@ a:hover {
   aspect-ratio: 1;
   border: 1px solid var(--border);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background: var(--bg);
@@ -159,6 +160,10 @@ a:hover {
   width: 100%;
   height: 100%;
   border: none;
+}
+
+.artwork-view .btn {
+  margin-top: 10px;
 }
 
 .artwork-info h1 {
@@ -198,6 +203,9 @@ a:hover {
 /* Featured work on homepage */
 .featured {
   margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .featured-iframe {
@@ -206,6 +214,7 @@ a:hover {
   aspect-ratio: 1;
   margin: 0 auto 20px;
   border: 1px solid var(--border);
+  display: block;
 }
 
 .featured-info {
@@ -217,7 +226,9 @@ a:hover {
 .btn {
   display: inline-block;
   padding: 10px 20px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--text);
+  background: var(--bg);
+  color: var(--text);
   transition: all 0.2s;
   cursor: pointer;
 }
@@ -225,7 +236,6 @@ a:hover {
 .btn:hover {
   background: var(--text);
   color: var(--bg);
-  border-color: var(--text);
 }
 
 /* Footer */

@@ -5,7 +5,7 @@ const SERIES = {
   ideocart: {
     name: 'Ideocart',
     description: 'Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.',
-    works: []
+    works: ['beginner-ideocartography']
   },
   vestiges: {
     name: 'Vestiges',
@@ -32,6 +32,11 @@ const SERIES = {
     description: 'Generative character/avatar systems exploring procedural generation.',
     works: []
   },
+  'pico-galaxies': {
+    name: 'Pico Galaxies',
+    description: 'Looping gif project exploring spirals, recursion, and dynamic equilibria on Pico-8.',
+    works: []
+  },
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
@@ -40,20 +45,21 @@ const SERIES = {
 };
 
 const WORKS = {
-  // Example structure - will be populated during migration
-  // 'beginner-ideocartography': {
-  //   title: 'beginner_ideocartography',
-  //   series: 'ideocart',
-  //   year: 2022,
-  //   platform: 'fxhash',
-  //   description: 'Entry point to the ideocart system...',
-  //   ipfs: 'ipfs://...',
-  //   links: {
-  //     fxhash: 'https://www.fxhash.xyz/generative/...',
-  //   },
-  //   favorite: true,
-  //   themes: ['pareidolia', 'emergence', 'interactive']
-  // }
+  'beginner-ideocartography': {
+    id: 'beginner-ideocartography',
+    title: 'Beginner Ideocartography',
+    series: 'ideocart',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'Entry point to the ideocart system. An interactive exploration tool for perceiving entities compressed into two dimensions.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmV7C8QtpeyzJzAfh2Y6b3Y9AdeRsbDqLsE6ykva4GZ6f7/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/5529',
+    },
+    favorite: true,
+    themes: ['pareidolia', 'interactive', 'SCP aesthetics', 'exploration', 'vestiges universe']
+  }
 };
 
 // Get all favorites for random selection
@@ -80,7 +86,17 @@ function getRandomFavoriteFromSeries(seriesId) {
   return works[Math.floor(Math.random() * works.length)];
 }
 
+// Generate random fxhash (for generative pieces)
+function generateFxHash() {
+  const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let hash = 'oo'; // fxhash format starts with 'oo'
+  for (let i = 0; i < 49; i++) {
+    hash += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return hash;
+}
+
 // Export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { SERIES, WORKS, getFavorites, getRandomFavorite, getWorksBySeries, getRandomFavoriteFromSeries };
+  module.exports = { SERIES, WORKS, getFavorites, getRandomFavorite, getWorksBySeries, getRandomFavoriteFromSeries, generateFxHash };
 }

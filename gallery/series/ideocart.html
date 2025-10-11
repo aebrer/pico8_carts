@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[SERIES_NAME] - Drew Brereton (aebrer)</title>
-  <meta name="description" content="[SERIES_DESCRIPTION]">
+  <title>Ideocart - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,8 +36,16 @@
     <main>
       <!-- Series Header -->
       <section class="mb-40">
-        <h1>[SERIES_NAME]</h1>
-        <p>[SERIES_DESCRIPTION]</p>
+        <h1>Ideocart</h1>
+        <p>Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.</p>
+
+        <p style="margin-top: 20px;">Ideocart generators are explorable, interactive systems. As you navigate through them, you inevitably "see things" in the patterns—faces, creatures, structures, entities. This is pareidolia by design.</p>
+
+        <p>The fiction: some of these things might be seeing you back.</p>
+
+        <p>Think of it as an alternative world's psychological testing apparatus, where finding meaning in randomness isn't a bug—it's the entire point. And maybe, just maybe, something on the other side is taking notes.</p>
+
+        <p style="margin-top: 20px;">This series shares a universe with <a href="vestiges.html">Vestiges</a>.</p>
       </section>
 
       <!-- Featured work from this series -->
@@ -65,17 +73,21 @@
   <script src="../assets/js/data.js"></script>
   <script>
     // Get series ID from filename
-    const seriesId = '[SERIES_ID]';
-    const works = getWorksBySeries(seriesId);
+    const seriesId = 'ideocart';
+    const seriesWorks = SERIES[seriesId].works.map(id => WORKS[id]).filter(w => w);
 
     // Populate featured work
-    const featuredWork = getRandomFavoriteFromSeries(seriesId);
+    const favorites = seriesWorks.filter(work => work.favorite);
+    const featuredWork = favorites.length > 0 ? favorites[Math.floor(Math.random() * favorites.length)] : null;
     const featuredContainer = document.getElementById('series-featured');
 
     if (featuredWork) {
+      const hash = featuredWork.isGenerative ? generateFxHash() : '';
+      const url = featuredWork.isGenerative ? `${featuredWork.ipfs}?fxhash=${hash}` : featuredWork.ipfs;
+
       featuredContainer.innerHTML = `
         <iframe class="featured-iframe"
-                src="${featuredWork.ipfs}"
+                src="${url}"
                 sandbox="allow-scripts allow-downloads"
                 scrolling="no">
         </iframe>
@@ -93,13 +105,13 @@
 
     // Populate works grid
     const worksGrid = document.getElementById('works-grid');
-    if (works.length > 0) {
-      works.forEach(work => {
+    if (seriesWorks.length > 0) {
+      seriesWorks.forEach(work => {
         const card = document.createElement('a');
         card.href = `../works/${work.id}.html`;
         card.className = 'card';
         card.innerHTML = `
-          <h3>${work.title}</h3>
+          <h3>${work.title}${work.favorite ? ' ⭐' : ''}</h3>
           <p>${work.year} · ${work.platform}</p>
         `;
         worksGrid.appendChild(card);

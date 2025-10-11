@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[WORK_TITLE] - Andrew Brereton</title>
+  <title>[WORK_TITLE] - Drew Brereton (aebrer)</title>
   <meta name="description" content="[WORK_DESCRIPTION]">
 
   <!-- Fonts -->
@@ -18,7 +18,7 @@
 <body>
   <div class="container-wide">
     <header>
-      <h1 class="site-title">Andrew Brereton</h1>
+      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
       <nav>
         <a href="../index.html">Home</a>
         <a href="../series/[SERIES_ID].html">[SERIES_NAME]</a>
@@ -71,25 +71,42 @@
     </footer>
   </div>
 
+  <script src="../assets/js/data.js"></script>
   <script>
     // Load artwork in iframe when button is clicked
     // (Prevents auto-loading all iframes on series pages)
+    const IS_GENERATIVE = [IS_GENERATIVE]; // true for fxhash generative pieces
+    const BASE_IPFS_URL = '[IPFS_URL]';
     let artworkLoaded = false;
+    let currentIframe = null;
+
     function loadArtwork() {
       if (artworkLoaded) return;
 
       const display = document.getElementById('artwork-display');
+      const hash = IS_GENERATIVE ? generateFxHash() : '';
+      const url = IS_GENERATIVE ? `${BASE_IPFS_URL}?fxhash=${hash}` : BASE_IPFS_URL;
+
       display.innerHTML = `
         <iframe
-          src="[IPFS_URL]"
+          id="artwork-iframe"
+          src="${url}"
           sandbox="allow-scripts allow-downloads"
           scrolling="no"
           width="100%"
           height="100%"
           style="border: none;">
         </iframe>
+        ${IS_GENERATIVE ? '<button class="btn" style="position: absolute; top: 10px; right: 10px;" onclick="randomizeArtwork()">Randomize</button>' : ''}
       `;
       artworkLoaded = true;
+      currentIframe = document.getElementById('artwork-iframe');
+    }
+
+    function randomizeArtwork() {
+      if (!IS_GENERATIVE || !currentIframe) return;
+      const hash = generateFxHash();
+      currentIframe.src = `${BASE_IPFS_URL}?fxhash=${hash}`;
     }
   </script>
 </body>
