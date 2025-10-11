@@ -5,7 +5,7 @@ const SERIES = {
   ideocart: {
     name: 'Ideocart',
     description: 'Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.',
-    works: ['beginner-ideocartography']
+    works: ['beginner-ideocartography', 'intermediate-ideocartography']
   },
   vestiges: {
     name: 'Vestiges',
@@ -59,6 +59,21 @@ const WORKS = {
     },
     favorite: true,
     themes: ['pareidolia', 'interactive', 'SCP aesthetics', 'exploration', 'vestiges universe']
+  },
+  'intermediate-ideocartography': {
+    id: 'intermediate-ideocartography',
+    title: 'Intermediate Ideocartography',
+    series: 'ideocart',
+    year: 2022,
+    platform: 'versum',
+    description: 'Going deeper. More control, more danger. Navigate metalayers with entropy networks preventing seed adjacency.',
+    ipfs: 'https://ipfs.io/ipfs/Qmf7NBtXHyAL3EiXJyKxqGSuW8AHXC9B1v6aotm6GcJP8g/',
+    isGenerative: false, // Self-randomizes on launch
+    links: {
+      objkt: 'https://objkt.com/tokens/versum_items/10',
+    },
+    favorite: true,
+    themes: ['pareidolia', 'interactive', 'SCP aesthetics', 'exploration', 'progression', 'risk']
   }
 };
 

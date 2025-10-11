@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intermediate Ideocartography - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Going deeper. More control, more danger. Navigate metalayers with entropy networks preventing seed adjacency.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header>
+      <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
+      <nav>
+        <a href="../index.html">Home</a>
+        <a href="../series/ideocart.html">Ideocart</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork()">Click to view artwork</button>
+          </div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Intermediate Ideocartography</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/ideocart.html">Ideocart</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> versum / objkt</p>
+            <p><strong>Themes:</strong> pareidolia, interactive, SCP aesthetics, exploration, progression, risk</p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>In-Fiction Description</h3>
+
+            <p><strong>~ hey &lt;INTERN NAME&gt;</strong></p>
+
+            <p>~ be careful when you boot your computer this morning</p>
+
+            <p>~ I left a cartridge in the slot: Intermediate Ideocartography</p>
+
+            <p>~ it's kind of dangerous, but &lt;REDACTED&gt; did the same for me when I was an intern, and I think it's a major reason why I survived here</p>
+
+            <p>~ you have to be willing to take risks</p>
+
+            <p style="margin-top: 20px;"><strong>~ some notes about the cart:</strong></p>
+
+            <p>~ a. it's more complicated than the Beginner cart. You can use the arrow keys to move the map directly, gives you more control</p>
+
+            <p>~ b. you can also hop from seed to seed in the metalayers, use the mod key (Z) AND the arrow keys to do that</p>
+
+            <p>~ there's an entropy network in place to prevent seed adjacency</p>
+
+            <p>~ you're going to be frustrated but it's for your protection</p>
+
+            <p>~ you can still get to any seed, just some are difficult</p>
+
+            <p>~ &lt;REDACTED&gt;</p>
+
+            <p>~ &lt;REDACTED&gt;</p>
+
+            <p>~ c. now the X button takes screenshots by default, but also saves a gif if you hold the mod button</p>
+
+            <p>~ d. you can press enter to get to a menu that lists the controls as well, now that text is permitted that kind of &lt;REDACTED&gt;</p>
+
+            <p style="margin-top: 20px;">~ happy hunting, and be safe!</p>
+
+            <p>~ PS: if you find any &lt;REDACTED&gt; in there, msg me directly ASAP</p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+
+            <p><em>This is the second assignment in the intern's journey. The mentor is now taking risks by giving them access to more dangerous artifacts. The "entropy network preventing seed adjacency" is both a safety feature and a sign that things are getting more serious. Some seeds are intentionally harder to reach—for your protection.</em></p>
+
+            <p style="margin-top: 10px;"><em>Discussion and development thread: <a href="https://www.lexaloffle.com/bbs/?tid=46134" target="_blank">Pico-8 BBS</a></em></p>
+          </div>
+
+          <div class="artwork-links">
+            <a href="https://objkt.com/tokens/versum_items/10" target="_blank">View on objkt (versum)</a>
+            <a href="https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/intermediate_ideocartography" target="_blank">View Source Code</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Controls & Technical Notes</h2>
+        <p><strong>Arrow Keys:</strong> Navigate the map directly (more control than Beginner)</p>
+        <p><strong>Z + Arrow Keys:</strong> Hop between metalayer seeds (entropy network prevents adjacency)</p>
+        <p><strong>X:</strong> Take screenshot</p>
+        <p><strong>Z + X:</strong> Record gif</p>
+        <p><strong>Enter:</strong> Open menu with control list</p>
+
+        <p style="margin-top: 20px;"><strong>Platform:</strong> Pico-8</p>
+        <p><strong>Supply:</strong> 128 editions</p>
+        <p><strong>Minted:</strong> January 12, 2022 on versum</p>
+        <p><strong>License:</strong> CC-BY-4.0</p>
+        <p><strong>Working Title:</strong> interior_zoning_cartography</p>
+
+        <p style="margin-top: 20px;"><em>Note: Versum is no longer active. View on objkt.com instead.</em></p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/ideocart.html">← Back to Ideocart</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script>
+    // Load artwork in iframe when button is clicked
+    // (Prevents auto-loading all iframes on series pages)
+    const IS_GENERATIVE = false; // Self-randomizes on launch
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/Qmf7NBtXHyAL3EiXJyKxqGSuW8AHXC9B1v6aotm6GcJP8g/';
+    let artworkLoaded = false;
+    let currentIframe = null;
+
+    function loadArtwork() {
+      if (artworkLoaded) return;
+
+      const display = document.getElementById('artwork-display');
+
+      display.innerHTML = `
+        <iframe
+          id="artwork-iframe"
+          src="${BASE_IPFS_URL}"
+          sandbox="allow-scripts allow-downloads"
+          scrolling="no"
+          style="width: 100%; height: 100%; border: none;">
+        </iframe>
+      `;
+
+      artworkLoaded = true;
+      currentIframe = document.getElementById('artwork-iframe');
+    }
+  </script>
+</body>
+</html>
