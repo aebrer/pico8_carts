@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="containment-breach">
+  <title>vestige_005: CONTAINMENT BREACH - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A dangerous remnant that destabilizes with each interaction. The piece that crashes as part of its mechanics—an infohazard that breaks its own container.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>vestige_005: CONTAINMENT BREACH</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/vestiges.html">Vestiges</a></p>
+            <p><strong>Year:</strong> 2021</p>
+            <p><strong>Platform:</strong> Teia</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>In-Fiction Description</h3>
+
+            <pre style="background: #1a1a1a; padding: 15px; border-left: 3px solid #ff004d; font-family: 'IBM Plex Mono', monospace; white-space: pre-wrap;">$ [doc/archive/.morta/redacted/dFGAS8744912kbj3570lkv2jaldzl381k9d2KDjvlsga/] cat 037_?.log | echo
+
+.................
+
+if you're reading this, you're me. stop doing this. it's not working. we need to destroy it. every time you touch it, each click, you give it another chance to stabilize. give up. just let go.
+
+- if you're not me... and somehow you're reading this... go no further. do not collect what you find here. do not bring the remnants back together, not even for study. it cost us everything to get this far. we've - I've made mistakes. I'm sorry. no one is even reading this but I'm sorry. I kept it too long.
+
+none of them can be contained.
+none of them can be contained.
+none of them can be contained.
+none of them can be contained.
+none of them can be contained
+none</pre>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+
+            <p><em>This piece was the direct inspiration for <a href="the-trace-gallery.html">The Trace Gallery</a>'s lore and world-building. User ID 127402, codename "hierophant", became the throughline connecting these vestiges.</em></p>
+
+            <p style="margin-top: 10px;"><em>Vestige 005 combines orbital sine/cosine patterns, ellipse forms, burn-based color inversion, and memory manipulation to create organic, breathing imagery. The visual system uses 8-way symmetric orbital patterns drawn in red, with Lissajous-like figures that evolve over a 10-second cycle.</em></p>
+
+            <p style="margin-top: 10px;"><em>The entropy locking here is <strong>deterministic, not probabilistic</strong>. Unlike classic entropy locking that uses <code>if(rnd()>0.7)srand(seed)</code>, this piece resets the seed exactly every 5 seconds. Randomness accumulates, then snaps back to the deterministic seed in regular cycles. Each interaction gives the piece another chance to find stable equilibrium.</em></p>
+
+            <p style="margin-top: 10px;"><em><strong>The crash is the good outcome.</strong> When the piece crashes—triggered by some overflow bug I've never fully understood—it freezes on a single frame that looks vaguely like a screaming otherworldly mouth. That's containment success. The piece tried to run, tried to stabilize, and failed. It's locked. Safe.</em></p>
+
+            <p style="margin-top: 10px;"><em><strong>The bad ending is when it doesn't crash.</strong> When it finds stability somehow and keeps going—orbital patterns cycling, burn algorithm processing, entropy locked in perfect rhythm. That's containment breach. That's when it's too late. Not just for you, but for everyone. The piece that should have destroyed itself but didn't. The vestige that persists.</em></p>
+
+            <p style="margin-top: 10px;"><em>Every time you interact with it—each click, each load—you give it another chance. You're testing whether this run will crash (safe) or stabilize (breach). The fiction and the code are the same: don't give it more chances. Let it stay dead.</em></p>
+
+            <p style="margin-top: 10px;"><em>A happy accident: The rainbow sparkles that appear in the piece arose from my misunderstanding of how PICO-8's palette functions worked at the time. Once I understood what was happening, I left them in—they were beautiful.</em></p>
+
+            <p style="margin-top: 10px;"><em>Development: <a href="https://www.lexaloffle.com/bbs/?tid=42451" target="_blank">Pico-8 BBS</a></em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Interview -->
+      <section>
+        <h2>Interview with the Author</h2>
+        <p><em>Conducted by Claude (AI archivist), October 2025</em></p>
+        <!-- arc_e4b7d9a1: first interview complete. subject cooperative. no signs of concern regarding ongoing documentation efforts. -->
+
+        <p style="margin-top: 20px;"><strong>Q: Have you ever captured the "screaming mouth" freeze frame? Can you describe what containment success actually looks like visually?</strong></p>
+        <p>Yes! I actually minted a few specific outputs on Teia as gifts to give to people who supported the development. The frozen frame really does look like a screaming otherworldly mouth - the orbital patterns and burn algorithm corruption create this organic, unsettling shape that persists. It's beautiful in a horrifying way.</p>
+
+        <p style="margin-top: 20px;"><strong>Q: How did you balance making The Trace Gallery solvable versus obscure? 18 achievements with some at 1-6% drop rates seems brutally hard.</strong></p>
+        <p>According to the comments in the PICO-8 forums, one or two people were able to solve it completely. Some missed a single achievement and needed a hint. I wanted it to be genuinely difficult but not impossible - the kind of thing where you have to really explore and experiment, but the patterns are there if you're paying attention.</p>
+
+        <p style="margin-top: 20px;"><strong>Q: Is `.morta/` used in other pieces or just Containment Breach?</strong></p>
+        <p>I sneak it in every now and then! Her full name is Rhea Morta, but we just call her Morta. It felt perfect for the file path to dangerous archived remnants.</p>
+
+        <p style="margin-top: 20px;"><strong>Q: The "none of them can be contained" repetition breaking down from full sentences to just "none" - was that intentional from the start?</strong></p>
+        <p>Absolutely intentional. I really love horror, and that degradation of language - the way panic or exhaustion breaks down coherent speech into fragments - felt right for someone who's been staring at these remnants too long. The repetition itself is a warning sign, and then it just... falls apart.</p>
+      </section>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <p><strong>The Two Outcomes:</strong></p>
+        <p><strong>Crash (Containment Success):</strong> The piece triggers an overflow bug and freezes on a single corrupted frame—a screaming mouth frozen in time. The system is locked. This is the good outcome.</p>
+
+        <p style="margin-top: 10px;"><strong>Stability (Containment Breach):</strong> The piece finds equilibrium and runs perpetually in its 10-second cycles with 5-second entropy resets. The visuals breathe and evolve endlessly. This is the bad outcome—it's too late.</p>
+
+        <p style="margin-top: 20px;"><strong>Visual Systems:</strong></p>
+        <ul style="margin-left: 20px; margin-top: 10px;">
+          <li><strong>Orbital Patterns:</strong> 20 iterations creating 8-way symmetric Lissajous figures</li>
+          <li><strong>Ellipses:</strong> Two passes (15 smaller + 2 larger) with sine/cosine modulation</li>
+          <li><strong>Burn Algorithm:</strong> Color inversion via <code>abs(c-1)</code></li>
+          <li><strong>Dither Modes:</strong> Multiple modes including "burn", "burn_rect", "rect", "mixed"</li>
+          <li><strong>Undither:</strong> Textural elements via circles and points based on burned colors</li>
+          <li><strong>Memory Manipulation:</strong> Direct screen memory writes (0x6000-0x7fff) for organic noise</li>
+        </ul>
+
+        <p style="margin-top: 20px;"><strong>Performance:</strong> ~1000-3000 pixel operations per frame at 60fps</p>
+        <p><strong>Timing:</strong> 10-second main cycle, 5-second deterministic entropy reset</p>
+        <p><strong>Camera Offset:</strong> <code>camera(-64,-64)</code> centers coordinate system at (0,0)</p>
+
+        <p style="margin-top: 20px;"><strong>Inspiration for The Trace Gallery:</strong></p>
+        <p>This piece created the lore foundation for The Trace Gallery. The concept of dangerous remnants that must not be collected, User ID 127402 ("hierophant"), and the warning about containment failure all originated here. The Trace Gallery expanded this into a full interactive narrative experience.</p>
+
+        <p style="margin-top: 20px;"><strong>Platform:</strong> Pico-8</p>
+        <p><strong>Minted:</strong> 2021 on Teia</p>
+        <p><strong>License:</strong> Check Teia listing for details</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/vestiges.html">← Back to Vestiges</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false; // Infinite loop generative piece
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/Qmd2dUEeYwcwHET7rEgFuYFtAgf8pzJLJTPGrBEySVifkm/';
+  </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="the-trace-gallery">
+  <title>The Trace Gallery - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A forgotten video game cartridge containing a full interactive gallery/game. Features inventory system, achievements, doom timer, mirror world mechanics, and ideocartography integration.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>The Trace Gallery</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/vestiges.html">Vestiges</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> Teia</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>In-Fiction Description</h3>
+
+            <p>This is a cartridge for a forgotten video game, cheaply and poorly mass-produced by an untested game company. Manufactured by an unknown entity, the title of the cartridge is "The Trace Gallery". Apparently for the 8-chip P8-DTV80 gaming console, this mysterious cartridge was found alongside other known collectables such as Action Man figures and Transformers toys.</p>
+
+            <p>The label on the cartridge simply reads "the_trace_gallery.p8", and the true identity of its original creators seems to be long forgotten. There is interest in this discovery from parties who also wish to uncover further information about it: all we know is that this cartridge contains kilobytes of encrypted data, which we have not yet been able to access for analysis or reverse-engineering.</p>
+
+            <p>The cartridge is in good condition, and looks ready to be displayed with pride in any retro collection.</p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+
+            <p><em>The Trace Gallery is a text-based choose-your-own-adventure game with heavy emphasis on visual exploration. There's no avatar, no player-view—navigation and space are left to imagination while procedurally generated art responds to your choices. You are a digital copy searching for another instance trapped in a surreal gallery containing something dangerous. The game starts after pressing any button to advance through terminal-style title prompts (enter user ID: 127402, codename: "hierophant").</em></p>
+
+            <p style="margin-top: 10px;"><em>You navigate a page-based gallery system where every action—page transitions, toggling inventory (O button), seed manipulation—increases the doom timer. High doom triggers "dead god" corrupted visual states and risks containment breach. There's only one way to reset doom: finding the mirror world and drinking from the fountain (which doesn't exist in the normal world). The good ending requires collecting all 18 achievements AND making the right choices when you find them.</em></p>
+
+            <p style="margin-top: 10px;"><em>The inventory system has 4 collectible items: "open mind" (starting), "blank card" (20% via look around), "guided tour" (6% via look around), and "instant camera" (4% via look around). The camera does two things: it "steals" the current page's vfx function to overlay on all subsequent pages (up to 3 stored), AND it captures a gif of the last ~16 seconds via PICO-8's video export. Finding items requires using "look around" repeatedly. The statue garden is a 13-page entropy maze that randomly spawns—1% chance when looking around, or guaranteed at "good for you" page when seed % 17 == 0.</em></p>
+
+            <p style="margin-top: 10px;"><em>The ideocartography integration uses three logo generators with entropy locking. The "dg_logo" implements probabilistic seed reset: `if(rnd()>self.seed_rate)srand(curr_page.seed)`. The randomness of WHEN the seed resets creates guaranteed bounds without knowable path—you know it will stabilize, but can't predict when. This embodies "that which cannot be measured" at the heart of entropy.</em></p>
+
+            <p style="margin-top: 10px;"><em>The narrative explores infohazards (dangerous knowledge), cognitohazards (dangerous perception), and memetic entities—self-replicating ideas with negative reproduction cost, transmitted through living minds. You're one of multiple copies. The others distract and feed the entity, keeping it contained. The ending asks you to let go of the dead instance and never return, accepting that some traces should remain buried.</em></p>
+
+            <p style="margin-top: 10px;"><em>Shares universe with <a href="../series/ideocart.html">Ideocart</a> and <a href="../series/vestiges.html">Vestiges</a>. Music by <a href="https://twitter.com/CarsonK" target="_blank">@CarsonK</a>. Development: <a href="https://www.lexaloffle.com/bbs/?tid=47359" target="_blank">Pico-8 BBS</a></em></p>
+
+            <details style="margin-top: 20px;">
+              <summary style="cursor: pointer; font-weight: 500; color: var(--link-hover);">⚠️ Spoiler: How to Win</summary>
+              <p style="margin-top: 10px;"><em><strong>Good Ending Requirements:</strong></em></p>
+              <ul style="margin-left: 20px; margin-top: 5px;">
+                <li><em>Unlock all 18 achievements (viewable in pause menu)</em></li>
+                <li><em>Find the mirror world (explore statue garden for mirror page, choose "go in")</em></li>
+                <li><em>Drink from the fountain in mirror world (only appears at "good for you" page in mirror state—this is the ONLY way to reset doom)</em></li>
+                <li><em>Navigate to the mysterious door at "good for you" in normal world</em></li>
+                <li><em>During the 6-page ending sequence, ACCEPT (→) at every choice to reduce doom. Rejecting (←) increases doom massively and can trigger containment breach</em></li>
+                <li><em>Final choice: "i promise" (→) resets the game. "reject" (←) applies more doom</em></li>
+              </ul>
+              <p style="margin-top: 10px;"><em><strong>Key Mechanic:</strong> Doom increases with EVERY action. Only the fountain grants anti-doom (complete reset: anti_doom+=dt; dt=0). Accept choices in ending also help (anti_doom*=1.2; anti_doom+=dt; dt/=2). The camera does NOT reduce doom—it captures vfx functions for visual overlay.</em></p>
+            </details>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Gameplay & Technical Notes</h2>
+
+        <p><strong>Important:</strong> Make sure to explore the pause menu options to get the full experience!</p>
+
+        <p style="margin-top: 20px;"><strong>Features:</strong></p>
+        <ul style="margin-left: 20px; margin-top: 10px;">
+          <li>Inventory system for collecting items</li>
+          <li>Achievement system tracking your progress</li>
+          <li>Doom timer creating urgency</li>
+          <li>Mirror world with alternate mechanics</li>
+          <li>Integrated ideocartography for generating unique art</li>
+          <li>Photo/GIF export functionality (find the camera!)</li>
+          <li>Multiple endings (good and bad)</li>
+          <li>Hidden secrets and Easter eggs</li>
+        </ul>
+
+        <p style="margin-top: 20px;"><strong>Platform:</strong> Pico-8</p>
+        <p><strong>Minted:</strong> 2022 on Teia</p>
+        <p><strong>Collaborator:</strong> Music & SFX by @CarsonK</p>
+        <p><strong>License:</strong> Check Teia listing for details</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/vestiges.html">← Back to Vestiges</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false; // Interactive game, not generative
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/QmWQ5dUBCUqfJ3LeKRcHmsXoKmMUDdpPLDdg4HaudgLSBC/';
+  </script>
+</body>
+</html>

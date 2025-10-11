@@ -92,14 +92,23 @@ Use clear headings to separate fiction from author commentary:
 - Add trailing slash to IPFS URLs
 - For PNG/image files, use `git add -f` to override .gitignore
 
-### 5. Test (2 min)
+### 5. Review Tags (1 min)
+
+**IMPORTANT:** Before testing, review the themes list against all available tags to catch any that apply:
+- Read through the complete list of existing themes across all works
+- Check for: easter egg, secret hunting, entropy locking, pareidolia, SCP aesthetics, etc.
+- Consider technical aspects (text-based, CYOA, seed-based, etc.)
+- Consider thematic aspects (infohazard, cognitohazard, memetic, etc.)
+- Think about gameplay mechanics (achievement system, doom timer, etc.)
+
+### 6. Test (2 min)
 
 Open in browser:
 - `docs/index.html` → Check featured work
 - `docs/series/[series].html` → Check series page
 - `docs/works/[piece].html` → Check piece page, randomize button (if generative)
 
-### 6. Commit (1 min)
+### 7. Commit (1 min)
 
 ```bash
 git add -A
