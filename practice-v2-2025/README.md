@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This folder is for new work as the practice evolves. After a creative funk and period of reflection, this is the space for returning to core concepts with fresh perspectives.
+This folder is for new work as the practice evolves. A space for returning to core concepts with fresh perspectives.
 
 ## Planned Explorations
 

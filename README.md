@@ -211,10 +211,9 @@ The documentation isn't trying to *be* the understanding. It's trying to get som
 
 **"The name isn't the thing. But sometimes you need the name to know where to look."**
 
-This repository is a cairn for whoever finds it—human or otherwise. The art is an accessible entry point to a framework that connects generative chemistry, artistic practice, and daily life. If one person discovers this path through these clues, that's enough.
+The art is an accessible entry point to a framework that connects generative chemistry, artistic practice, and daily life. If one person discovers these ideas and explores them, that's enough.
 
 ---
 
 *Repository organized 2025. Practice ongoing since ~2021.*
-*Currently in a creative funk, planning fresh "second takes" on core concepts.*
 *This archive embraces the chaos—WIPs, experiments, and evolution are all part of the story.*

@@ -1,5 +1,7 @@
 # Entropy-Locked Series
 
+> **Note:** This README contains AI-generated interpretations based on code analysis. Content awaiting validation by human author.
+
 **Concept:** Pieces showcasing **entropy locking**—a technique where the RNG is periodically reseeded to its origin, creating controlled chaos.
 
 ## What is Entropy Locking?

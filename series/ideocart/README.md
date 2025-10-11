@@ -1,5 +1,7 @@
 # Ideocart Series
 
+> **Note:** This README contains AI-generated interpretations based on code analysis. Content awaiting validation by human author.
+
 **Concept:** Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.
 
 ## The Fiction

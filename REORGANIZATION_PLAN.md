@@ -12,9 +12,10 @@ Make this repository:
 - **Discoverable**: Easy to navigate and understand the body of work
 - **Educational**: Document core concepts like entropy locking and ideocart
 - **Archival**: Preserve the process, sketches, and evolution
-- **Portfolio-ready**: Something that can be shared publicly as part of practice
+- **Interactive**: Gallery website at aebrer.xyz where people can view and experience the work
+- **Triple Redundancy**: Code in repo, visuals in gallery, documentation pointing at both
 
-## Deeper Purpose: Clues and Flares
+## Deeper Purpose
 
 The art practice connects professional work in generative chemistry, artistic exploration in code, and daily life frameworks. Starting from curiosity around age 13, studying emergence, evolution, and entropy became formative—a praxis for living, not just intellectual exercise.
 
@@ -34,14 +35,7 @@ This compounds. The practice connects:
 
 The art is an accessible entry point. Someone curious about emergence might find this repository. They won't follow the same path—their chemistry will be different, their life different—but the documentation might open a door.
 
-The approach:
-- **Flares** to catch attention (entropy locking pieces, striking visuals)
-- **Clues** for the curious to follow (series, variations, iterations)
-- **Clear documentation** so "wait, what?" can become "oh, I see"
-
-### Why This Reorganization Matters
-
-This repository is a cairn. A marker that says "someone was here, thinking about this, here's what they found."
+Clear documentation helps turn "wait, what?" into "oh, I see" through striking visuals, series variations, and iterative explorations.
 
 ---
 
@@ -176,35 +170,84 @@ This repository is a cairn. A marker that says "someone was here, thinking about
 
 ## Proposed New Structure
 
-**TODO:** Design this together
-**Considerations:**
-- Keep fxhash/ as-is? It's huge but well-organized
-- Series vs one-offs separation?
-- Sketches/WIP folder?
-- Practice v2 (2025+) location?
-- Published vs unpublished distinction?
+```
+.
+├── gallery/              - Website files (HTML/CSS/JS)
+│   ├── index.html       - Landing page with random featured work
+│   ├── series/          - Series pages (ideocart, vestiges, etc.)
+│   ├── works/           - Individual artwork pages
+│   └── assets/          - CSS, JS, images
+├── series/              - Code organized by conceptual series
+│   ├── ideocart/
+│   ├── vestiges/
+│   ├── emergence/
+│   ├── three-body-problem/
+│   ├── entropy-locked/
+│   ├── pico-punks/
+│   └── screensavers/
+├── published-works/     - Major standalone pieces
+├── tweetcarts/          - Constrained code art
+├── sketches/            - Experiments and WIPs
+├── tools-and-engines/   - Reusable code and utilities
+├── archive/             - Older/platform-specific work
+├── practice-v2-2025/    - Fresh explorations
+└── docs/                - Deep-dive documentation
+```
 
-**Questions to resolve:**
-- [ ] Where do loose experimental files go?
-- [ ] How to handle duplicate/version files?
-- [ ] Archive old/abandoned experiments?
-- [ ] Create series-specific READMEs?
+**Gallery Website Approach:**
+- Vanilla HTML/CSS/JS (keep it simple, hicetnunc/teia aesthetic)
+- Series pages mirror repo structure
+- Individual artwork pages with:
+  - Title, description, themes
+  - IPFS iframe (loads on user click)
+  - Links to published homes (fxhash, objkt, etc.)
+  - Source code access
+- Random selector on series pages (chooses from favorites)
+- For unpublished Pico-8: link to edu edition with preloaded code
+- Hosted via GitHub Pages at aebrer.xyz
+
+**Migration Strategy:**
+- One piece at a time
+- For each piece: setup gallery page, clarify details with Andrew, document, mark complete
+- Track progress as we go
 
 ---
 
-## Immediate Next Steps
+## Implementation Plan
 
-1. [ ] Finish analyzing current structure
-2. [ ] Draft proposed reorganization structure
-3. [ ] Get Andrew's approval on structure
-4. [ ] Create main README.md with:
-   - [ ] Brief intro to practice
-   - [ ] Core concepts (entropy locking, ideocart)
-   - [ ] Links to major series
-   - [ ] Platform/tools used
-   - [ ] Link to portfolio (aebrer.xyz)
-5. [ ] Document published title mappings
-6. [ ] Plan "sketches" or "archive" folder strategy
+### Phase 1: Gallery Foundation
+1. [ ] Create basic gallery structure (HTML/CSS/JS boilerplate)
+2. [ ] Build landing page with random featured work selector
+3. [ ] Create template for series pages
+4. [ ] Create template for individual artwork pages
+5. [ ] Setup routing/navigation
+
+### Phase 2: Content Migration (One Piece at a Time)
+For each artwork:
+1. [ ] Identify piece location in current structure
+2. [ ] Gather info from Andrew (purpose, themes, IPFS links, etc.)
+3. [ ] Create gallery page
+4. [ ] Move code to appropriate series/folder
+5. [ ] Update documentation
+6. [ ] Mark as complete
+
+**Series to migrate:**
+- [ ] Ideocart series
+- [ ] Three Body Problem series
+- [ ] Vestiges series
+- [ ] Emergence series
+- [ ] Entropy-Locked series
+- [ ] Pico Punks series
+- [ ] Screensavers series
+- [ ] Featured standalone works
+- [ ] Tweetcarts
+
+### Phase 3: Polish & Launch
+1. [ ] Contact/about page
+2. [ ] Final README updates with gallery link
+3. [ ] Test all IPFS embeds
+4. [ ] Configure GitHub Pages
+5. [ ] Point aebrer.xyz to new gallery
 
 ---
 
@@ -212,11 +255,10 @@ This repository is a cairn. A marker that says "someone was here, thinking about
 
 - [ ] Detailed "What is Entropy Locking?" document
 - [ ] Ideocart world-building doc
-- [ ] Per-series READMEs with context
-- [ ] Visual examples/screenshots in docs
-- [ ] Code pattern documentation
-- [ ] "Best of" or "Start Here" guide
-- [ ] Practice v2 (2025+) structure/folder
+- [ ] Search/filter functionality
+- [ ] Tags/themes navigation
+- [ ] Animated transitions between works
+- [ ] Dark/light mode toggle
 
 ---
 
@@ -225,15 +267,23 @@ This repository is a cairn. A marker that says "someone was here, thinking about
 - Working titles preserved alongside published titles
 - WIPs/experiments kept visible (embrace the chaos)
 - Documentation: breadcrumbs not encyclopedias
-- Andrew in a creative funk, planning fresh "second take" on concepts
 - Portfolio at www.aebrer.xyz
 
 ---
 
-## Questions for Andrew
+## Progress Tracking
 
-*This section tracks open questions as we work*
+*This section tracks completed migrations*
 
-- What's the story behind "petite_chute"? (listed as favorite but haven't found it yet)
-- Any other title mappings we should document?
-- Preferences on how to handle the many small directories (noise, lemniscates, etc.)?
+### Completed:
+- [x] Series READMEs created with placeholder disclaimers
+- [x] Screensavers moved to series/ folder
+- [x] Petite Chute added to screensavers series
+- [x] Main README updated with transmission philosophy
+- [x] REORGANIZATION_PLAN updated with gallery vision
+
+### In Progress:
+- [ ] Gallery foundation (Phase 1)
+
+### Pending Migration:
+*(Will be populated as we work through each piece)*

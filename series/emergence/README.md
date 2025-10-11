@@ -1,5 +1,7 @@
 # Emergence Series
 
+> **Note:** This README contains AI-generated interpretations based on code analysis. Content awaiting validation by human author.
+
 **Concept:** Cross-platform exploration of emergent systems—complex patterns arising from simple rules.
 
 ## About

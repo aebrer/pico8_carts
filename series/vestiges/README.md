@@ -1,5 +1,7 @@
 # Vestiges Series
 
+> **Note:** This README contains AI-generated interpretations based on code analysis. Content awaiting validation by human author.
+
 **Concept:** Explorations of remnants, traces, and what remains after something has passed.
 
 ## About
