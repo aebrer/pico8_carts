@@ -58,6 +58,7 @@ const WORKS = {
       fxhash: 'https://www.fxhash.xyz/generative/5529',
     },
     provenance: 'ipfs://QmXb4vXaF1T89HkXaY6PPMMNCokrunaraAnxMn9PR1EVzP',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/beginner_ideocartography',
     favorite: true,
     themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'generative', 'pico-8', 'easter egg']
   },
@@ -74,6 +75,7 @@ const WORKS = {
       objkt: 'https://objkt.com/tokens/versum_items/10',
     },
     provenance: 'ipfs://QmQ8gj1rqYFzqyZwCeLRfMuBUMJ2ATT7MTqTUV7dJYPgWy',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/intermediate_ideocartography',
     favorite: true,
     themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'entropy locking', 'pico-8', 'dark']
   },
@@ -90,6 +92,7 @@ const WORKS = {
       teia: 'https://teia.art/objkt/844464'
     },
     provenance: 'ipfs://QmT6sc5d7MP3gG9sdnqFNifmYRVbRWcSdVcLW6C9R7LGPD',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/VISIONS',
     favorite: true,
     themes: ['screensaver', 'entropy locking', 'wave function collapse', 'ideocart', 'pareidolia', 'ambient', 'infinite', 'p5js']
   }

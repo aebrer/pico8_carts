@@ -42,9 +42,14 @@ function renderArtworkMetadata(workId) {
     }
 
     // Source code link (always include)
-    const seriesPath = SERIES[work.series]?.name.toLowerCase().replace(/\s+/g, '-') || work.series;
-    const workPath = work.title.toLowerCase().replace(/\s+/g, '-');
-    linksHTML += `<a href="https://github.com/aebrer/pico8_carts/tree/master/series/${seriesPath}/${workPath}" target="_blank">View Source Code</a>`;
+    if (work.sourceCode) {
+      linksHTML += `<a href="${work.sourceCode}" target="_blank">View Source Code</a>`;
+    } else {
+      // Fallback to auto-generated path
+      const seriesPath = SERIES[work.series]?.name.toLowerCase().replace(/\s+/g, '-') || work.series;
+      const workPath = work.title.toLowerCase().replace(/\s+/g, '-');
+      linksHTML += `<a href="https://github.com/aebrer/pico8_carts/tree/master/series/${seriesPath}/${workPath}" target="_blank">View Source Code</a>`;
+    }
 
     linksContainer.innerHTML = linksHTML;
   }
