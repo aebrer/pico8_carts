@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse by Theme - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Explore generative art organized by themes and concepts.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./assets/css/reset.css">
+  <link rel="stylesheet" href="./assets/css/main.css">
+  <style>
+    .theme-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .theme-filter {
+      padding: 8px 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.9em;
+      color: var(--text);
+    }
+
+    .theme-filter:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .theme-filter.active {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .works-count {
+      color: var(--secondary-text);
+      font-size: 0.9em;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header data-nav-context="themes">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Header -->
+      <section class="mb-40">
+        <h1>Browse by Theme</h1>
+        <p>Click a theme to filter works. Click again to show all.</p>
+      </section>
+
+      <!-- Theme Filters -->
+      <section class="mb-40">
+        <div class="theme-filters" id="theme-filters">
+          <!-- Will be populated by JS -->
+        </div>
+      </section>
+
+      <!-- Works Grid -->
+      <section>
+        <div class="works-count" id="works-count">
+          <!-- Will show count -->
+        </div>
+        <div class="grid grid-3" id="works-grid">
+          <!-- Will be populated by JS -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="./index.html">← Back to home</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="./assets/js/nav.js"></script>
+  <script src="./assets/js/data.js"></script>
+  <script>
+    let activeTheme = null;
+
+    // Get all unique themes from works
+    function getAllThemes() {
+      const themesSet = new Set();
+      Object.values(WORKS).forEach(work => {
+        work.themes.forEach(theme => themesSet.add(theme));
+      });
+      return Array.from(themesSet).sort();
+    }
+
+    // Get works by theme
+    function getWorksByTheme(theme) {
+      return Object.values(WORKS).filter(work =>
+        work.themes.includes(theme)
+      );
+    }
+
+    // Render theme filters
+    function renderThemeFilters() {
+      const themes = getAllThemes();
+      const filtersContainer = document.getElementById('theme-filters');
+
+      themes.forEach(theme => {
+        const button = document.createElement('button');
+        button.className = 'theme-filter';
+        button.textContent = theme;
+        button.onclick = () => toggleTheme(theme);
+        filtersContainer.appendChild(button);
+      });
+    }
+
+    // Toggle theme filter
+    function toggleTheme(theme) {
+      if (activeTheme === theme) {
+        activeTheme = null;
+      } else {
+        activeTheme = theme;
+      }
+
+      updateActiveFilters();
+      renderWorks();
+    }
+
+    // Update active filter styling
+    function updateActiveFilters() {
+      document.querySelectorAll('.theme-filter').forEach(button => {
+        if (button.textContent === activeTheme) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+    }
+
+    // Render works grid
+    function renderWorks() {
+      const worksGrid = document.getElementById('works-grid');
+      const worksCount = document.getElementById('works-count');
+
+      let works;
+      if (activeTheme) {
+        works = getWorksByTheme(activeTheme);
+        worksCount.textContent = `${works.length} work${works.length !== 1 ? 's' : ''} tagged with "${activeTheme}"`;
+      } else {
+        works = Object.values(WORKS);
+        worksCount.textContent = `Showing all ${works.length} works`;
+      }
+
+      worksGrid.innerHTML = '';
+
+      if (works.length === 0) {
+        worksGrid.innerHTML = '<p style="color: var(--secondary-text);">No works found with this theme.</p>';
+        return;
+      }
+
+      works.forEach(work => {
+        const card = document.createElement('a');
+        card.href = `./works/${work.id}.html`;
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${work.title}</h3>
+          <p>${work.year} · ${work.platform}</p>
+          <p style="font-size: 0.85em; color: var(--secondary-text); margin-top: 8px;">
+            ${work.themes.slice(0, 3).join(', ')}${work.themes.length > 3 ? '...' : ''}
+          </p>
+        `;
+        worksGrid.appendChild(card);
+      });
+    }
+
+    // Check URL for theme parameter
+    function checkURLParams() {
+      const params = new URLSearchParams(window.location.search);
+      const themeParam = params.get('theme');
+      if (themeParam) {
+        activeTheme = themeParam;
+        updateActiveFilters();
+      }
+    }
+
+    // Initialize
+    renderThemeFilters();
+    checkURLParams();
+    renderWorks();
+  </script>
+</body>
+</html>

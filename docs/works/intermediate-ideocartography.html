@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="intermediate-ideocartography">
   <title>Intermediate Ideocartography - Drew Brereton (aebrer)</title>
   <meta name="description" content="Going deeper. More control, more danger. Navigate metalayers with entropy networks preventing seed adjacency.">
 
@@ -27,8 +28,9 @@
         <!-- Artwork View -->
         <div>
           <div class="artwork-view" id="artwork-display">
-            <button class="btn" onclick="loadArtwork()">Click to view artwork</button>
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
           </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
         </div>
 
         <!-- Artwork Info -->
@@ -39,7 +41,9 @@
             <p><strong>Series:</strong> <a href="../series/ideocart.html">Ideocart</a></p>
             <p><strong>Year:</strong> 2022</p>
             <p><strong>Platform:</strong> versum / objkt</p>
-            <p><strong>Themes:</strong> pareidolia, interactive, SCP aesthetics, exploration, progression, risk, recursion</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
           </div>
 
           <div class="artwork-description">
@@ -88,9 +92,8 @@
             <p style="margin-top: 10px;"><em>Discussion and development thread: <a href="https://www.lexaloffle.com/bbs/?tid=46134" target="_blank">Pico-8 BBS</a></em></p>
           </div>
 
-          <div class="artwork-links">
-            <a href="https://objkt.com/tokens/versum_items/10" target="_blank">View on objkt (versum)</a>
-            <a href="https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/intermediate_ideocartography" target="_blank">View Source Code</a>
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
           </div>
         </div>
       </div>
@@ -124,32 +127,12 @@
 
   <script src="../assets/js/nav.js"></script>
   <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
   <script>
-    // Load artwork in iframe when button is clicked
-    // (Prevents auto-loading all iframes on series pages)
+    // Configure artwork settings for this page
     const IS_GENERATIVE = false; // Self-randomizes on launch
     const BASE_IPFS_URL = 'https://ipfs.io/ipfs/Qmf7NBtXHyAL3EiXJyKxqGSuW8AHXC9B1v6aotm6GcJP8g/';
-    let artworkLoaded = false;
-    let currentIframe = null;
-
-    function loadArtwork() {
-      if (artworkLoaded) return;
-
-      const display = document.getElementById('artwork-display');
-
-      display.innerHTML = `
-        <iframe
-          id="artwork-iframe"
-          src="${BASE_IPFS_URL}"
-          sandbox="allow-scripts allow-downloads"
-          scrolling="no"
-          style="width: 100%; height: 100%; border: none;">
-        </iframe>
-      `;
-
-      artworkLoaded = true;
-      currentIframe = document.getElementById('artwork-iframe');
-    }
   </script>
 </body>
 </html>

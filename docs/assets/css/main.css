@@ -181,6 +181,12 @@ a:hover {
   margin-top: 10px;
 }
 
+.artwork-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .artwork-info h1 {
   margin-bottom: 15px;
 }
@@ -266,6 +272,25 @@ footer {
   gap: 20px;
   flex-wrap: wrap;
   margin-bottom: 20px;
+}
+
+/* Theme tags */
+.theme-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 0.85em;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+}
+
+.theme-tag:hover {
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
 }
 
 /* Utility */

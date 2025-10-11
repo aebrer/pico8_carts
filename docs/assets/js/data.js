@@ -40,7 +40,7 @@ const SERIES = {
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
-    works: []
+    works: ['visions']
   }
 };
 
@@ -57,8 +57,9 @@ const WORKS = {
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/5529',
     },
+    provenance: 'ipfs://QmXb4vXaF1T89HkXaY6PPMMNCokrunaraAnxMn9PR1EVzP',
     favorite: true,
-    themes: ['pareidolia', 'interactive', 'SCP aesthetics', 'exploration', 'vestiges universe']
+    themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'generative', 'pico-8', 'easter egg']
   },
   'intermediate-ideocartography': {
     id: 'intermediate-ideocartography',
@@ -72,8 +73,25 @@ const WORKS = {
     links: {
       objkt: 'https://objkt.com/tokens/versum_items/10',
     },
+    provenance: 'ipfs://QmQ8gj1rqYFzqyZwCeLRfMuBUMJ2ATT7MTqTUV7dJYPgWy',
     favorite: true,
-    themes: ['pareidolia', 'interactive', 'SCP aesthetics', 'exploration', 'progression', 'risk']
+    themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'entropy locking', 'pico-8', 'dark']
+  },
+  'visions': {
+    id: 'visions',
+    title: 'VISIONS',
+    series: 'screensavers',
+    year: 2024,
+    platform: 'teia',
+    description: 'Entropy locking meets wave function collapse algorithm, plus ideocartography. A screensaver exploration with bombastic colors—gods and temples emerging from controlled chaos.',
+    ipfs: 'https://ipfs.io/ipfs/bafybeibt6vi2jkvvf2cvhgw6qhwfsjuqcazbumds6vjags4i4hosh224yi/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/844464'
+    },
+    provenance: 'ipfs://QmT6sc5d7MP3gG9sdnqFNifmYRVbRWcSdVcLW6C9R7LGPD',
+    favorite: true,
+    themes: ['screensaver', 'entropy locking', 'wave function collapse', 'ideocart', 'pareidolia', 'ambient', 'infinite', 'p5js']
   }
 };
 

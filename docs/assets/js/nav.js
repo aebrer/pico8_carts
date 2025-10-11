@@ -10,6 +10,7 @@ function renderNav(context = 'root') {
     <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
     <nav>
       <a href="${prefix}index.html">Home</a>
+      <a href="${prefix}themes.html">Themes</a>
       <a href="${prefix}series/ideocart.html">Ideocart</a>
       <a href="${prefix}series/vestiges.html">Vestiges</a>
       <a href="${prefix}series/emergence.html">Emergence</a>

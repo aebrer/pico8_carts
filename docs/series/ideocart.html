@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="series-id" content="ideocart">
   <title>Ideocart - Drew Brereton (aebrer)</title>
   <meta name="description" content="Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.">
 
@@ -64,56 +65,6 @@
   <!-- Scripts -->
   <script src="../assets/js/nav.js"></script>
   <script src="../assets/js/data.js"></script>
-  <script>
-    // Get series ID from filename
-    const seriesId = 'ideocart';
-    const seriesWorks = SERIES[seriesId].works.map(id => WORKS[id]).filter(w => w);
-
-    // Populate featured work
-    const favorites = seriesWorks.filter(work => work.favorite);
-    const featuredWork = favorites.length > 0 ? favorites[Math.floor(Math.random() * favorites.length)] : null;
-    const featuredContainer = document.getElementById('series-featured');
-
-    if (featuredWork) {
-      const hash = featuredWork.isGenerative ? generateFxHash() : '';
-      const url = featuredWork.isGenerative ? `${featuredWork.ipfs}?fxhash=${hash}` : featuredWork.ipfs;
-
-      featuredContainer.innerHTML = `
-        <iframe class="featured-iframe"
-                src="${url}"
-                sandbox="allow-scripts allow-downloads"
-                scrolling="no">
-        </iframe>
-        <div class="featured-info">
-          <a href="../works/${featuredWork.id}.html">${featuredWork.title}</a> (${featuredWork.year})
-        </div>
-      `;
-    } else {
-      featuredContainer.innerHTML = `
-        <div class="text-center">
-          <p style="color: var(--link-hover);">Works in this series will appear here as they're migrated.</p>
-        </div>
-      `;
-    }
-
-    // Populate works grid
-    const worksGrid = document.getElementById('works-grid');
-    if (seriesWorks.length > 0) {
-      seriesWorks.forEach(work => {
-        const card = document.createElement('a');
-        card.href = `../works/${work.id}.html`;
-        card.className = 'card';
-        card.innerHTML = `
-          <h3>${work.title}${work.favorite ? ' ⭐' : ''}</h3>
-          <p>${work.year} · ${work.platform}</p>
-        `;
-        worksGrid.appendChild(card);
-      });
-    } else {
-      worksGrid.innerHTML = `
-        <p style="color: var(--link-hover);">Works in this series are being migrated. Check back soon!</p>
-      `;
-    }
-  </script>
+  <script src="../assets/js/series-page.js"></script>
 </body>
 </html>
