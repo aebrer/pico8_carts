@@ -293,6 +293,57 @@ footer {
   border-color: var(--text);
 }
 
+/* JavaScript disabled warning */
+.js-warning {
+  background: #ff004d;
+  color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid #000000;
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .js-warning {
+    border-color: #ffffff;
+  }
+}
+
+.js-warning h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.js-warning p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.js-warning .prompt-box {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  margin: 15px 0;
+  font-family: var(--mono-font);
+  font-size: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  word-wrap: break-word;
+}
+
+.js-warning a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.js-warning ul {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.js-warning li {
+  margin-bottom: 8px;
+}
+
 /* Utility */
 .hidden {
   display: none;
