@@ -40,10 +40,17 @@ Add entry to `docs/assets/js/data.js`:
     objkt: 'https://...',
   },
   provenance: 'ipfs://Qm...', // IPFS metadata link
+  sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/[series]/[folder_name]', // IMPORTANT: Use exact folder name (underscores, capitalization, etc.)
   favorite: true/false, // Mark favorites
   themes: ['theme1', 'theme2', 'theme3']
 }
 ```
+
+**CRITICAL: Source Code Link**
+- Must use the EXACT folder name from the filesystem
+- Check with `ls series/[series-name]/` to get the exact name
+- Common gotchas: underscores vs hyphens, capitalization (e.g., `VISIONS` not `visions`)
+- Example: `beginner_ideocartography` NOT `beginner-ideocartography`
 
 Add piece ID to the series works array in SERIES.
 
@@ -140,6 +147,7 @@ Featured work, works grid, favorite stars → all auto-render
 - ✅ IPFS URLs must be complete - check objkt if truncated
 - ✅ Provenance uses `ipfs://` format in data.js (auto-converted to https)
 - ✅ `[WORK_ID]` in HTML must exactly match key in data.js
+- ✅ **Source code link MUST use exact folder name** - use `ls` to check! (underscores, caps, etc.)
 - ✅ Themes, links, provenance, and stars auto-render from data.js - don't hardcode!
 - ✅ Randomize/fullscreen buttons auto-render via `artwork-controls.js`
 - ✅ Mark favorites so they appear in featured rotation AND get star emoji
