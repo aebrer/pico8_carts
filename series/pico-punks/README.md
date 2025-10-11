@@ -1,3 +1,6 @@
+[placeholder, info is mostly hallucinated]
+
+
 # Pico Punks Series
 
 **Concept:** Generative character/avatar systems exploring on-chain identity and procedural generation.
@@ -8,9 +11,9 @@ The Pico Punks series creates generative avatars and characters using Pico-8's c
 
 ## The Meta-Generator
 
-**pico_punk_generator.p8** ⭐
+**pico_punk_generator_generator.p8** ⭐
 
-The crown jewel of this series—a generator that generates generators. A meta-system for creating punk variations. This piece explores recursion and generative systems at multiple levels.
+The crown jewel [TODO: we'll work on this language later, reduce hubris] of this series—a generator that generates generators. A meta-system for creating pico_punk generators. This piece explores recursion and generative systems at multiple levels.
 
 ## Published Works (fxhash)
 
