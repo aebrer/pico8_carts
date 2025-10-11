@@ -215,12 +215,13 @@ Clear documentation helps turn "wait, what?" into "oh, I see" through striking v
 
 ## Implementation Plan
 
-### Phase 1: Gallery Foundation
-1. [ ] Create basic gallery structure (HTML/CSS/JS boilerplate)
-2. [ ] Build landing page with random featured work selector
-3. [ ] Create template for series pages
-4. [ ] Create template for individual artwork pages
-5. [ ] Setup routing/navigation
+### Phase 1: Gallery Foundation ✅ COMPLETE
+1. [x] Create basic gallery structure (HTML/CSS/JS boilerplate)
+2. [x] Build landing page with random featured work selector
+3. [x] Create template for series pages
+4. [x] Create template for individual artwork pages
+5. [x] Setup routing/navigation
+6. [x] Deploy to GitHub Pages at aebrer.xyz
 
 ### Phase 2: Content Migration (One Piece at a Time)
 For each artwork:
@@ -232,7 +233,15 @@ For each artwork:
 6. [ ] Mark as complete
 
 **Series to migrate:**
-- [ ] Ideocart series
+- [~] Ideocart series (2/7+ migrated)
+  - [x] beginner_ideocartography
+  - [x] intermediate_ideocartography (interior_zoning_cartography)
+  - [ ] bootleg_ideocart
+  - [ ] ideocart_contain_breach
+  - [ ] ideocart_interference
+  - [ ] ideocart_lakeview_entities
+  - [ ] ideocart_planar_slices
+  - [ ] p5_ideocart
 - [ ] Three Body Problem series
 - [ ] Vestiges series
 - [ ] Emergence series
@@ -243,11 +252,11 @@ For each artwork:
 - [ ] Tweetcarts
 
 ### Phase 3: Polish & Launch
-1. [ ] Contact/about page
+1. [x] Contact/about page (comprehensive links section on homepage)
 2. [ ] Final README updates with gallery link
-3. [ ] Test all IPFS embeds
-4. [ ] Configure GitHub Pages
-5. [ ] Point aebrer.xyz to new gallery
+3. [~] Test all IPFS embeds (ongoing as pieces migrate)
+4. [x] Configure GitHub Pages
+5. [x] Point aebrer.xyz to new gallery
 
 ---
 
@@ -281,9 +290,30 @@ For each artwork:
 - [x] Petite Chute added to screensavers series
 - [x] Main README updated with transmission philosophy
 - [x] REORGANIZATION_PLAN updated with gallery vision
+- [x] Gallery foundation (Phase 1) - COMPLETE
+- [x] Gallery deployed to aebrer.xyz via GitHub Pages
+- [x] Teia-inspired minimal design with dark/light mode
+- [x] Random featured work selector
+- [x] Series pages and work page templates
+- [x] Ideocart worldbuilding and lore documented
 
 ### In Progress:
-- [ ] Gallery foundation (Phase 1)
+- [~] Ideocart series migration (2/7+ pieces)
 
-### Pending Migration:
-*(Will be populated as we work through each piece)*
+### Recently Migrated (2025-10-11):
+- **beginner_ideocartography** - Entry point, intern's first assignment
+  - fxhash generative, 300 editions
+  - Konami code easter egg documented
+  - Pico-8 BBS development thread linked
+- **intermediate_ideocartography** - Second assignment, increased danger
+  - versum/objkt, 128 editions, working title: interior_zoning_cartography
+  - Mentor note fiction, entropy network preventing seed adjacency
+  - Featured output: "The Demon King" image included
+  - Self-randomizing (not fxhash generative)
+
+### Documentation Structure Established:
+- Clear separation: "In-Fiction Description" vs "Author's Notes"
+- Author's notes italicized for clarity
+- Pico-8 BBS development thread links included
+- Featured outputs/images can be showcased
+- MIGRATION_WORKFLOW.md created with gotchas and best practices

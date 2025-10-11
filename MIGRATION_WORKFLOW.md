@@ -66,16 +66,24 @@ Find/replace placeholders:
 - `[YEAR]` → Year
 - `[PLATFORM]` → Platform name
 - `[THEMES]` → Theme list
-- `[DESCRIPTION]` → Full description
+- `[DESCRIPTION]` → Full description (with proper structure - see below)
 - `[LINKS]` → External links HTML
 - `[IPFS_URL]` → IPFS link (with trailing slash!)
 - `[IS_GENERATIVE]` → true or false
 - `[CODE_LINK]` → GitHub link to master branch
 
+**Description Structure:**
+Use clear headings to separate fiction from author commentary:
+- `<h3>In-Fiction Description</h3>` for world/story content
+- `<h3 style="margin-top: 30px;">Author's Notes</h3>` for meta commentary
+- Italicize author's notes content: `<p><em>...</em></p>`
+- Include Pico-8 BBS link if available: `<a href="https://www.lexaloffle.com/bbs/?tid=XXXXX" target="_blank">Pico-8 BBS</a>`
+
 **Important:**
 - Use `master` branch (not main)
 - Use new organized path: `series/[series-name]/[piece-name]/`
 - Add trailing slash to IPFS URLs
+- For PNG/image files, use `git add -f` to override .gitignore
 
 ### 5. Test (2 min)
 
@@ -103,11 +111,16 @@ git push
 ## Common Gotchas
 
 - ✅ IPFS URLs need trailing slash: `.../QmXXX/`
+- ✅ IPFS URLs must be complete - check objkt if truncated
 - ✅ Use `master` branch not `main`
 - ✅ Randomize button needs `IS_GENERATIVE = true`
 - ✅ Source code links point to new `series/` location
 - ✅ Mark favorites so they appear in featured rotation
 - ✅ Add piece ID to series works array in data.js
+- ✅ Use `git add -f` for images (.png files ignored by default)
+- ✅ Structure descriptions with headings: "In-Fiction Description" and "Author's Notes"
+- ✅ Italicize all author's notes content
+- ✅ Include Pico-8 BBS development thread links when available
 
 ## Estimated Time Per Piece
 
