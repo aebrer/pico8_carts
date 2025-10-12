@@ -29,13 +29,13 @@ const SERIES = {
   },
   'pico_punks': {
     name: 'pico_punks',
-    description: 'Generative character/avatar systems exploring procedural generation.',
-    works: []
+    description: 'Generative character/avatar systems exploring procedural generation, identity, and pareidolia.',
+    works: ['pico-punk-generator-generator']
   },
   'pico_galaxies': {
     name: 'pico_galaxies',
     description: 'Looping gif project exploring spirals, recursion, and dynamic equilibria on Pico-8.',
-    works: []
+    works: ['pico-galaxy-010']
   },
   screensavers: {
     name: 'Screensavers',
@@ -218,6 +218,44 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/the_city_is_burning',
     favorite: true,
     themes: ['entropy locking', 'p5js', 'minimal', 'creative coding', 'neoretro', 'pixelart', 'landscape', 'city', 'fire', 'breadfond', 'diptych', 'fuck cars']
+  },
+  'pico-punk-generator-generator': {
+    id: 'pico-punk-generator-generator',
+    title: 'pico_punk_generator_generator.p8',
+    series: 'pico_punks',
+    year: 2023,
+    platform: 'fxhash',
+    description: 'The terminus of pico_punks. A generator generator using fxparams—you choose colors and effect frequencies to create your own unique pico_punk generator. Then explore the infinite generative space interactively, building avatars layer by layer. What began as satire became identity.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmdaEhotLYzPMuKXqbjpk6EzB5oLgUUic45o8i277foPfG/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/project/pico_punk_generator_generator.p8',
+      'first generator': 'https://objkt.com/asset/hicetnunc/439049'
+    },
+    provenance: 'ipfs://QmWwtD357wYmVhewCy1g5XhnpWSTMj8dcZMsm2sKLyrEr6',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punks_final_form',
+    favorite: true,
+    themes: ['pico_punks', 'pico-8', 'pfp', 'avatar', 'identity', 'pareidolia', 'interactive', 'generator generator', 'fxparams', 'neoretro', 'pixelart', 'lofi', 'entropy locking', 'irreversibility', 'noise', 'punks', 'aebrer_pfp']
+  },
+  'pico-galaxy-010': {
+    id: 'pico-galaxy-010',
+    title: 'pico_galaxy_010',
+    series: 'pico_galaxies',
+    year: 2021,
+    platform: 'teia',
+    description: 'Purple spiral commission for @bisdvrk. When things are feeling dark just remember that most people are compassionate, and together we are strong. A perfect looping gif where the spiral decohere and recohere at exactly the right moment.',
+    ipfs: 'https://ipfs.io/ipfs/QmXQraiBtNg1ZN8JqKAXappS5L2BFLBevejfn1UwvHdNam',
+    isGenerative: false,
+    isImage: true,
+    links: {
+      teia: 'https://teia.art/objkt/182690',
+      'pico-8 edu': 'https://www.pico-8-edu.com/?c=AHB4YQtiBP83H-8G2_N9dfT5h79B0x1xzTFneKBtz67bR2huf4Mqbq9J0zrI49sHkuKGg8rioDLwQ9S-whvsjLzAI0QjpVPLOnqAnfQJyrRZ2GnqdKaux9J0ponK4r5iI0pjewT3GCfOripm8qQbGJhpVqRCrh_4P07LbKfREudc9xDZxISOcBUtFVICTTcgJ7ywdV6uMxBEe8XgpE54XkIn-L-lRbQJ3kJQIB5TFxl1QuSUoA5fQ6BYhkifUPlkaXFsUO9IAtU0yTNkk9nS1laZFWFyaZWFU6NrnSZC_RZtEoSxYkqZnTmSNNWgHZrZgVBH2DuL3gmSNtMPclbnmw3fBMlGH8msx12L1VC9lCRLSRwlSSO2rJBSNHoIUWHZxjKBZYIlzya5KYoDq364bdVTyiwaGMgyzebMP4F-dzda-8q2FmtJHQkQRJUNgjV1RCnoaWWXXgK63Zgai2QgtvO6T8qFJpucHV1KEjFhfynAX9nK1oAAPEJ9hHxvqQtW5tyTx86eW0jLUtJk_8Jirh0opcJzqWmujMrRrY2yEgrHjgBFtDmSeF6WyVaFqX0nTG_Jh7BZXNFe6yaC0XIrWa8CZRRRl40lzy1lfTLQt4kt5KvDotO1p2d25ppNWYikvNKPo34K3DEWDuytLK2YJp2wlmaIwpsl6tlCeWSqCGJLBpaHK2RQijYozhQ-LeqZpaRt21KdQKBRhEQGRStUKFkraK5bCfSC1vXCfwR64f8fG6RJs7aQpjMrcTzTNJUHoirSIZdAoHHM0SQC4Yc4k0kU2dvPbu5t9mPKRlmzFitjjCpdL4bZxsZLSEMdOmt65kv1lLE2favAJS8zPS3nujNfTkzN75tgcVHQQc55dVdqR0Bn5VCNgOV2S49BfWA1DhaTUXm6YQ17VMLhEeSR2xEO---tDAaRNNlENtOwVIj6QBaOJqW6WefJ1aZKPDukLxMH_qfZrhOHY8tGltVBSbTvBHsnhwcGVGX2Eo0sZbsbNAiXtO2U7bG0uBTXhftYLsD421_0fvrCPHqBHBOsSOOZG4obfJYWMxOhejiEQt_hkgouO7FQJ8iF6N3Jlml96k3pikZGaozYNJ4uClctdoqhqWSw0yqnVpXroRoOXVrJ5HxkfyX2HDOGA6YDooHl-XxzJi3i8bRogyUqDs9AL8QRhaEVnLOgGLK8Pl9UUlRuyVflCMoDTDI9WkXjbvDAdhRNuUVhZHQkkAyPXjhTufAmAkP1wrDI2OCmz1QXllYyU_JZSMk3IZuMHDLQem1lZY9fg_Q0siTsHmNrqFKJFgsaGOyipBozPYU7LB9BJI2GlSquYoWOqqsu0EYRG6mPCPIiSIJUoHDNSnmqOYLBQapcxWPkbbsREHQ4tD6rhA9EcrWNS4ekyw7YihOrQ-53dTWI4wmxnuWFC6YS2_ZZacpR7YYVsAhHtlgUmsHBxkYyvNBqlJ1rBvfUbtNIly-2jBWPC5OcC6dBcSRjMBeu5BONfKpapV0F5KUdeod0eGTD-0h1FjrtumAldISyvBpldQj_BBtF4RiN8iw3AprbgXR4g0DWMvLOut7WaLuUC1uoHCnEEw5DtE6l4SfPuXVCn81Xg6dqCARTei-SUZLikg2nsv7Uxq99tXFqzmmNd3Uqa2u1wb2qGfCTZqpKrf56RgLeD5WAGVmSdLii0PzRyaeQRzre55LwNsBKjYMCmw==&g=w-w-w-w1HQHw-w2Xw-w3Xw-w2HQH',
+      bisdvrk: 'https://teia.art/bisdvrk'
+    },
+    provenance: 'ipfs://QmZY9GgNs2WYyUUqeFFskn9FouSe3dTGnSXZLcaSb6MfMh',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_galaxies/pico_galaxy_010',
+    favorite: true,
+    themes: ['pico_galaxies', 'loop', 'gif', 'spiral', 'pico-8', 'codeart', 'neoretro', 'pixelart', 'purple', 'commission', 'decoherence', 'rotation', 'dither', 'collaboration']
   }
 };
 

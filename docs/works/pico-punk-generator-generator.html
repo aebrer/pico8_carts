@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="pico-punk-generator-generator">
+  <title>pico_punk_generator_generator.p8 - Drew Brereton (aebrer)</title>
+  <meta name="description" content="The terminus of pico_punks. A generator generator where you create your own pico_punk generator through parameter selection, then explore infinite identity space.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>pico_punk_generator_generator.p8</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/pico_punks.html">pico_punks</a></p>
+            <p><strong>Year:</strong> 2023</p>
+            <p><strong>Platform:</strong> fxhash (fxparams)</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>Welcome to the ultimate pico_punk generator. This is the terminus—the final generator I intend to make for this series.</p>
+
+            <p>This interactive token is a <strong>generator generator</strong> using fxhash's parameter system. You first choose colors and effect frequencies during the parameter selection phase, creating your own unique pico_punk generator. Then you explore the infinite generative space interactively, building avatars layer by layer through navigation.</p>
+
+            <p>Each step through the space adds one layer to your composition. Each layer has a chance to apply visual effects—ranging from subtle to completely disruptive. The process of exploration itself modifies the output before your eyes.</p>
+
+            <h3 style="margin-top: 30px;">Interactive Controls</h3>
+            <ul>
+              <li><strong>Arrow keys</strong>: Navigate the generative space (each step adds one layer)</li>
+              <li><strong>❎ button</strong>: Take a screenshot of the generated pico_punk</li>
+              <li><strong>🅾️ button</strong>: Clear all layers except current (clean slate for new punk)</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">Parameter Selection (fxparams)</h3>
+            <p>Before exploring, you configure your generator with 15 parameters:</p>
+
+            <p><strong>Color Parameters (8 total):</strong></p>
+            <ul>
+              <li>Background Color</li>
+              <li>Main Skin Color & Skin Accent Color</li>
+              <li>Eye Color & Eye Accent Color</li>
+              <li>Hair Color</li>
+              <li>Mouth Color & Mouth Accent Color</li>
+            </ul>
+            <p><em>All colors chosen from the 32-color Pico-8 palette.</em></p>
+
+            <p style="margin-top: 15px;"><strong>Effect Frequency Parameters (7 total):</strong></p>
+            <ul>
+              <li><strong>Initial Composition Layers</strong> (1-100): How many layers to generate before interaction begins</li>
+              <li><strong>Noise Frequency</strong> (0-25): How often to apply noise effects</li>
+              <li><strong>Memory Corruption Frequency</strong> (0-25): How often to corrupt memory regions</li>
+              <li><strong>Glitch Frequency</strong> (0-25): How often to apply glitch effects</li>
+              <li><strong>Shrink Frequency</strong> (0-25): How often to shrink elements</li>
+              <li><strong>Expand Frequency</strong> (0-5): How often to expand elements</li>
+              <li><strong>Copy Frequency</strong> (0-25): How often to copy/duplicate regions</li>
+            </ul>
+
+            <p>These parameters determine the character of your generator—conservative or chaotic, clean or corrupted, coherent or fragmented.</p>
+
+            <h3 style="margin-top: 30px;">The Series Evolution</h3>
+            <p>pico_punks began as a project to create something like DOS Punks, but fully generative—no manual intervention, no pre-rendered components, only code running in the Pico-8 fantasy console.</p>
+
+            <p>The <a href="https://objkt.com/asset/hicetnunc/439049" target="_blank">first generator</a> was interactive, but each punk was isolated: one seed, one process, one output. Over time this evolved into this final experience where the curator isn't just choosing from infinite punks—the process of exploration itself modifies the output.</p>
+
+            <p>You don't just select a punk. You build it through navigation decisions. The artifact carries the trace of your path through possibility space.</p>
+
+            <h3 style="margin-top: 30px;">On Identity</h3>
+            <p>pico_punks explores themes of <strong>identity, irreversibility, noise, pattern recognition, and pareidolia</strong>.</p>
+
+            <p>What began for me as something bordering on satire has become an integral part of how I represent myself online. My current profile picture across platforms is a pico_punk. It's become identity—not just a representation of identity, but constitutive of it.</p>
+
+            <p>It is my sincere wish that with these tools you are able to create something unique that you feel represents you, and is something that couldn't have been made without you.</p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>This is as complete as I can ever make it. The parameter system lets you tune the generator to your aesthetic preferences. The interactive exploration makes you co-author rather than just selector.</em></p>
+
+            <p><em>The irreversibility is key—every step forward adds a layer. You can clear and start fresh, but you can't undo individual steps. The path matters. The sequence of decisions creates unique outcomes even if you hit the same "coordinates" twice via different routes.</em></p>
+
+            <p><em>Pareidolia is doing the heavy lifting here. The layers are noise and geometry and color manipulation. Your brain completes them into faces, identities, characters. The algorithm doesn't know what a face is. But you do.</em></p>
+
+            <p><em>Thank you for these last couple years of support, and here's to many more making and collecting art together.</em></p>
+
+            <h3 style="margin-top: 30px;">Exhibition History</h3>
+            <p>This piece was included in <a href="https://janogallery.com/collections/digital-self" target="_blank"><strong>"Digital Self"</strong></a>, a physical gallery exhibition at Jano Lapin Gallery in Verdun, Quebec (September 22 - November 16, 2022).</p>
+
+            <p>The exhibition, co-curated by Samuel Arsenault-Brassard and Anne Jano, explored digital identity through 36 international artists. The curatorial theme examined how digital technologies enable people to create "anonymous, false, playful, alternate, and selected identities," asking: <em>"what would the portrait of these digital selves resemble?"</em></p>
+
+            <p>pico_punks answered that question directly—not with a fixed portrait, but with a tool for creating identity through interactive exploration and co-authorship with generative systems.</p>
+
+            <h3 style="margin-top: 30px;">Minting Details</h3>
+            <ul>
+              <li>30% of royalties go to the minter</li>
+              <li>10% of royalties go to previous curated pico_punk holders</li>
+              <li>One reserve spot generated for each curated pico_punk held (they stack)</li>
+              <li>One extra reserve spot for my Mom</li>
+            </ul>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>Generator Generator Architecture</h3>
+        <p>This piece is structured in layers:</p>
+        <ol>
+          <li><strong>fxhash Layer</strong>: Provides the random hash seed</li>
+          <li><strong>fxparams Layer</strong>: User selects 15 parameters configuring the generator</li>
+          <li><strong>Generator Layer</strong>: Uses hash + params to create a unique generator instance</li>
+          <li><strong>Exploration Layer</strong>: User navigates the space, building punks interactively</li>
+        </ol>
+
+        <p>The result: each minted token is itself a generator with its own character, tuned by user choices, explored through interaction.</p>
+
+        <h3 style="margin-top: 20px;">Effect System</h3>
+        <p>Seven visual effects can be applied to layers, each with configurable probability:</p>
+        <ul>
+          <li><strong>Noise</strong>: Random pixel corruption</li>
+          <li><strong>Memory Corruption</strong>: Direct manipulation of Pico-8's memory regions</li>
+          <li><strong>Glitch</strong>: Line displacement and color channel shifts</li>
+          <li><strong>Shrink</strong>: Reduce element size</li>
+          <li><strong>Expand</strong>: Increase element size</li>
+          <li><strong>Copy</strong>: Duplicate regions</li>
+        </ul>
+
+        <p>The frequency parameters control the RNG thresholds for each effect. Higher frequency = more likely to trigger. This lets you bias the generator toward specific aesthetic territories.</p>
+
+        <h3 style="margin-top: 20px;">Irreversibility as Feature</h3>
+        <p>The one-way nature of exploration is deliberate. You can't undo steps—only clear everything and start fresh. This mirrors identity formation: you can reinvent yourself, but you can't simply reverse specific past decisions.</p>
+
+        <p>The path through the space matters as much as the destination. Two people reaching the same "coordinates" via different paths will have different outputs because the layer accumulation is order-dependent.</p>
+
+        <h3 style="margin-top: 20px;">On Pareidolia and Identity</h3>
+        <p><em>The generator produces noise patterns with geometric constraints. Your brain converts these into faces because that's what brains do—detect faces in noise.</em></p>
+
+        <p><em>When you choose a pico_punk as your avatar, you're not selecting from pre-made options. You're collaborating with controlled randomness to produce something that resonates with how you want to be perceived.</em></p>
+
+        <p><em>The parameters let you steer the aesthetic (color palette, effect intensity), but the specific outcomes emerge from exploration. It's co-creation between your navigation choices and the generative system.</em></p>
+
+        <p><em>Identity works the same way: there are constraints (genetics, upbringing, context), tunable parameters (how you present yourself), and emergent properties from navigating possibility space. You don't select an identity from a menu. You build it through accumulated irreversible choices.</em></p>
+
+        <p style="margin-top: 15px;"><em>Note added by Claude (AI archivist), October 2025</em></p>
+        <!-- arc_7e367383: generator generator as identity system. pareidolia completes algorithm into personhood. irreversibility mirrors lived experience. path-dependent outcomes from order-dependent accumulation. the punk you make could not have been made without you. -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/pico_punks.html">← Back to pico_punks</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmdaEhotLYzPMuKXqbjpk6EzB5oLgUUic45o8i277foPfG/';
+  </script>
+</body>
+</html>

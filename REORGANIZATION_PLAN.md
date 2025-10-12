@@ -301,8 +301,13 @@ For each artwork:
 - [~] Ideocart series migration (2/7+ pieces)
 - [~] Vestiges series migration (2 pieces)
 - [~] Screensavers series migration (1 piece)
+- [~] Emergence series migration (1/4+ pieces)
+- [~] Three Body Problem series migration (1/24+ pieces)
+- [~] Entropy-Locked series migration (3 pieces)
+- [~] pico_punks series migration (1/4+ pieces)
+- [~] pico_galaxies series migration (1/20+ pieces)
 
-### Recently Migrated (5 total as of 2025-10-12):
+### Recently Migrated (13 total as of 2025-10-12):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -328,9 +333,57 @@ For each artwork:
 **Screensavers Series (1):**
 - **VISIONS** - Ambient visual generation for contemplation
 
+**Emergence Series (1):**
+- **emergence III [TTC S01T08]** - Entropy locking tweetcart
+  - fxhash generative, Tweetcart Token Club featured
+  - Generator generator with unique starting positions
+  - Featured in Creative Code Toronto talk on entropy locking
+
+**Three Body Problem Series (1):**
+- **luna theory | EMULATOR** - Infinite cosmic exploration
+  - 3-body gravitational simulation with proper physics
+  - Ambient lofi soundtrack by @bisdvrk
+  - Featured on Teia as objkt/161642
+
+**Entropy-Locked Series (3):**
+- **Entropy Locked Wave Function Collapse** - Not really WFC, inspired by it
+  - Entropy increases rather than decreases
+  - Pixels as tiling units with HSB-based connection rules
+  - fxhash generative
+- **sedimentary city** - Part one of diptych
+  - Tweetcart inspired by burning cities and sediment layers
+  - Abstract entropy-locked patterns building over time
+  - fxhash generative
+- **the city is burning** - Part two of diptych
+  - p5.js expansion with 3D camera and fire palette
+  - "Lemme just say fuck cars and be done with it"
+  - fxhash generative
+
+**pico_punks Series (1):**
+- **pico_punk_generator_generator.p8** - The terminus of pico_punks
+  - Generator generator using fxparams (15 parameters)
+  - Interactive avatar building layer by layer
+  - Featured in "Digital Self" exhibition at Jano Lapin Gallery (Sept-Nov 2022)
+  - What began as satire became identity
+
+**pico_galaxies Series (1):**
+- **pico_galaxy_010** - Purple spiral commission for @bisdvrk
+  - Perfect looping gif with decoherence/recoherence timing
+  - Differential rotation creating visual structure cycles
+  - Featured on Teia as objkt/182690
+
 ### Documentation Structure Established:
 - Clear separation: "In-Fiction Description" vs "Author's Notes"
 - Author's notes italicized for clarity
 - Pico-8 BBS development thread links included
 - Featured outputs/images can be showcased
 - MIGRATION_WORKFLOW.md created with gotchas and best practices
+
+### Technical Infrastructure Improvements:
+- **Image display system** - Added `isImage` property to data.js for explicit image detection
+  - Updated series-page.js to check metadata instead of file extensions
+  - Updated artwork-controls.js to handle image vs iframe rendering
+  - Added flexbox centering CSS for proper image display
+  - Supports integer scaling for pixel-perfect rendering of gifs
+- **Homepage links cleanup** - Removed 5 dead/unwanted platform links (Versum, Rarible, AB2 Gallery, etc.)
+- **Archival notes system** - Claude's notes use fake hashes (arc_*) to distinguish from author's voice

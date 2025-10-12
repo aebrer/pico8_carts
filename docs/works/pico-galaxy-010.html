@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="pico-galaxy-010">
+  <title>pico_galaxy_010 - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Purple spiral commission for @bisdvrk. When things are feeling dark just remember that most people are compassionate, and together we are strong.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL, IS_IMAGE)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>pico_galaxy_010</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/pico_galaxies.html">pico_galaxies</a></p>
+            <p><strong>Year:</strong> 2021</p>
+            <p><strong>Platform:</strong> Teia (hicetnunc)</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>Statement</h3>
+            <p><em>When things are feeling dark just remember that most people are compassionate, and together we are strong.</em></p>
+
+            <h3 style="margin-top: 30px;">About</h3>
+            <p>A purple spiral commission for @bisdvrk, who wanted these specific colors. This is one of my favorite pieces from the pico_galaxies series.</p>
+
+            <p>What makes this particular galaxy special is the timing—the way the spiral seems to <strong>decohere and recohere at exactly the right moment</strong>. The rotation angles interact with the shrinking halo points to create a visual rhythm where structure dissolves into chaos, then reforms perfectly as the loop completes.</p>
+
+            <p>It's a perfect loop—5 seconds of continuous animation that tiles seamlessly.</p>
+
+            <h3 style="margin-top: 30px;">The Series Context</h3>
+            <p>pico_galaxies was created with an early emphasis on looping gifs. This was partly for market reasons—looping gifs were the dominant format on hicetnunc in 2021—but also because I had just started learning how to control the RNG to create random loops that repeat perfectly (or mostly perfect).</p>
+
+            <p>Eventually I broke free of that constraint and started minting looping <strong>code artifacts</strong> instead of specific gif outputs. This shift let me publish generators rather than individual outputs. I am "code art native"—the art is the code and must be running live to really get it. That's the stance I came to in the end.</p>
+
+            <p>But these early gifs from the series still hold up. They're explorations of what you can achieve within severe constraints: 128×128 pixels, 32 colors, perfect loops, Pico-8 fantasy console.</p>
+
+            <h3 style="margin-top: 30px;">On Separate Wallets</h3>
+            <p>This piece (and the pico_galaxies series) was minted on a separate wallet from my main profile. At the time, hicetnunc didn't have good ways to set up collections that were grouped together, so minting on a dedicated wallet was my solution for keeping the series organized.</p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>The decoherence/recoherence timing is what makes this work. If you watch closely, the spiral arms blur and fragment, points drift out of sync, and then—right before the loop restarts—everything clicks back into alignment.</em></p>
+
+            <p><em>This wasn't planned in the traditional sense. I didn't sit down and calculate the exact rotation rates needed. Instead, I set up the system (shrinking halo points, differential rotation angles, dithering feedback) and iterated until I found a seed that produced this behavior.</em></p>
+
+            <p><em>The purple palette was @bisdvrk's request. They wanted something specific, and this was the output that matched. Commission work sometimes produces the best results because it pushes you into color spaces or parameter ranges you wouldn't explore on your own.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>The Spiral Mechanism</h3>
+        <p>The spiral is generated using a halo function that creates points arranged radially:</p>
+        <ul>
+          <li><strong>12 points</strong> arranged in a circle (360° in -72° increments, extending to -480°)</li>
+          <li><strong>Shrinking factor</strong>: Each point is scaled by 0.9^n where n is its position, creating the spiral taper</li>
+          <li><strong>Differential rotation</strong>: Adjacent points rotate at different rates—one at angle <code>a</code>, the next at <code>a²</code></li>
+          <li><strong>Symmetry</strong>: Lines are drawn twice, once at (x,y) and once at (-x,-y), creating the double-arm structure</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Decoherence Through Rotation</h3>
+        <p>The decoherence effect comes from the differential rotation scheme:</p>
+        <pre><code>pt_i = rotate(a, x, y, pt_i[1], pt_i[2])
+pt_im1 = rotate(a^2, x, y, pt_im1[1], pt_im1[2])</code></pre>
+
+        <p>One point rotates linearly with time, its neighbor rotates with the square of that angle. Over a 5-second loop, these rates drift apart and then sync back up when the loop restarts. The spiral appears to unwind and rewind.</p>
+
+        <h3 style="margin-top: 20px;">Dithering Feedback</h3>
+        <p>The piece uses dithering feedback—sampling pixels from the previous frame, applying the burn function to shift colors, then re-drawing transformed shapes:</p>
+        <pre><code>function dither(cx,cy,loops,pull)
+  for i=loops,1,-1 do
+    pxl = rnd_pixel()
+    c = pget(pxl.x, pxl.y)
+    x = pxl.x * pull
+    y = pxl.y * pull
+
+    if c == 7 then
+      circ(x,y,1,burn(c))
+    elseif c == 5 then
+      circfill(x,y,2,burn(c))
+    -- [additional color-specific rules]
+  end
+end</code></pre>
+
+        <p>This creates trails and texture—the galaxy isn't just lines, it's accumulated light from previous frames bleeding through.</p>
+
+        <h3 style="margin-top: 20px;">Perfect Looping via Seed Reset</h3>
+        <p>The loop is enforced by detecting when the outer angle completes a cycle, then reseeding the RNG:</p>
+        <pre><code>if oa > 0.001 and oa_zero then
+  oa_zero = false
+  loop_counter += 1
+  srand(seed)  -- reset to initial seed
+end</code></pre>
+
+        <p>This ensures the dithering randomness repeats identically each loop. The same random pixels get sampled in the same order, creating perfect tiling.</p>
+
+        <h3 style="margin-top: 20px;">On Controlled Loops</h3>
+        <p><em>Learning to create perfect loops from random processes was a breakthrough moment for the author. Most generative art either loops trivially (because there's no randomness) or doesn't loop at all (because randomness accumulates).</em></p>
+
+        <p><em>The trick is resetting the RNG state at loop boundaries while keeping everything else (time, angles, positions) continuous. The dithering can use randomness freely within a loop because it'll reset to the same sequence next iteration.</em></p>
+
+        <p><em>This opened up a huge design space: heavy randomization for texture and detail while still guaranteeing perfect loops. Most of the pico_galaxies series uses this technique.</em></p>
+
+        <p style="margin-top: 15px;"><em>Note added by Claude (AI archivist), October 2025</em></p>
+        <!-- arc_decohere: differential rotation creating visual coherence cycles. controlled randomness through seed reset enables perfect loops with heavy stochastic texture. the spiral knows when to fall apart and when to reform. timing emerges from parameter interaction not explicit planning. -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/pico_galaxies.html">← Back to pico_galaxies</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false;
+    const IS_IMAGE = true;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/QmXQraiBtNg1ZN8JqKAXappS5L2BFLBevejfn1UwvHdNam';
+  </script>
+</body>
+</html>

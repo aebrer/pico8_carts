@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="series-id" content="pico_punks">
+  <title>pico_punks - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Generative character/avatar systems exploring procedural generation, identity, and pareidolia.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <header data-nav-context="series">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Series Header -->
+      <section class="mb-40">
+        <h1>pico_punks</h1>
+        <p>Generative character/avatar systems exploring procedural generation, identity, and pareidolia.</p>
+
+        <h3 style="margin-top: 20px;">What Are pico_punks?</h3>
+        <p>pico_punks is a generative avatar project built entirely in Pico-8—no manual intervention, no pre-rendered components, just code running in a fantasy console creating infinite procedural characters.</p>
+
+        <p>Started as something inspired by DOS Punks and CryptoPunks, but fully generative and interactive. What began as bordering on satire evolved into genuine identity exploration. My profile picture across platforms is a pico_punk. It's not just a representation—it's constitutive of how I present myself online.</p>
+
+        <h3 style="margin-top: 20px;">Core Themes</h3>
+        <ul>
+          <li><strong>Identity</strong>: How procedural systems create things that feel personal and representative</li>
+          <li><strong>Pareidolia</strong>: Your brain completes noise patterns into faces and characters</li>
+          <li><strong>Irreversibility</strong>: Layer-based accumulation where you can't undo, only start fresh</li>
+          <li><strong>Co-creation</strong>: The curator/user shapes outcomes through navigation and parameter choices</li>
+          <li><strong>Noise as material</strong>: Visual corruption as aesthetic feature, not bug</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Series Evolution</h3>
+        <p>The series progressed from isolated generators to interactive exploration systems:</p>
+        <ul>
+          <li><strong>Early generators</strong>: One seed → one punk. Interactive but deterministic.</li>
+          <li><strong>Layer-based navigation</strong>: Move through generative space, each step adds a layer</li>
+          <li><strong>Effect systems</strong>: Probabilistic visual corruption (noise, glitches, memory manipulation)</li>
+          <li><strong>Generator generator</strong>: fxparams let you configure your own generator before exploring</li>
+        </ul>
+
+        <p>The final piece—<strong>pico_punk_generator_generator.p8</strong>—is the terminus. It's as complete as I can make it.</p>
+
+        <h3 style="margin-top: 20px;">On Making Identity</h3>
+        <p>The parameter selection phase lets you tune the aesthetic: choose color palette, set effect frequencies, configure initial composition. Then you explore—arrow keys navigate, each step adds a layer, visual effects apply probabilistically.</p>
+
+        <p>You're not selecting from a gallery. You're building something through accumulated choices. The punk you create carries the trace of your path through possibility space. It couldn't have been made without you.</p>
+
+        <p>What started as a technical exercise in generative portraiture became a meditation on identity formation itself.</p>
+
+        <h3 style="margin-top: 20px;">Finding the First Generator</h3>
+        <p>The <a href="https://objkt.com/asset/hicetnunc/439049" target="_blank">first pico_punk generator (2021)</a> is preserved on hicetnunc/Teia. It's the origin point—simpler, less parametric, but containing the core concepts that would develop into the generator generator.</p>
+      </section>
+
+      <!-- Featured work from this series -->
+      <section class="featured mb-40" id="series-featured">
+        <!-- Will be populated by JS with random favorite from this series -->
+      </section>
+
+      <!-- All works in series -->
+      <section>
+        <h2>Works in This Series</h2>
+        <div class="grid grid-3" id="works-grid">
+          <!-- Will be populated by JS -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../index.html">← Back to home</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/series-page.js"></script>
+</body>
+</html>
