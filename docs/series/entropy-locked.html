@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="series-id" content="entropy-locked">
+  <title>Entropy-Locked - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Pieces showcasing entropy locking—probabilistic RNG reseeding creating controlled chaos.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <header data-nav-context="series">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Series Header -->
+      <section class="mb-40">
+        <h1>Entropy-Locked</h1>
+        <p>Pieces showcasing entropy locking—probabilistic RNG reseeding creating controlled chaos.</p>
+
+        <h3 style="margin-top: 20px;">What Is Entropy Locking?</h3>
+        <p>Entropy locking is a technique for creating emergent variety in generative systems. The core concept: <strong>probabilistically reseed the random number generator based on current state</strong>.</p>
+
+        <p>The key is the <strong>randomness of when</strong> the seed resets, not just that it resets:</p>
+        <pre><code>if(rnd() > 0.7) srand(seed)  // probabilistic timing is KEY</code></pre>
+
+        <p><strong>Why this matters:</strong></p>
+        <ul>
+          <li>Deterministic reset → predictable, no emergence</li>
+          <li>Probabilistic reset → guaranteed bounds without knowable path</li>
+          <li>You know entropy will reduce, but not when or how much will accumulate first</li>
+          <li>This uncertainty creates emergent variety beyond expectation</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Examples Across the Practice</h3>
+        <p>Entropy locking appears throughout this practice:</p>
+        <ul>
+          <li><strong>emergence III</strong>: Multi-gate pattern where seed resets at different probabilities, catching emergent loops</li>
+          <li><strong>VISIONS</strong>: Entropy locking meets wave function collapse—gods and temples from controlled chaos</li>
+          <li><strong>Entropy Locked Wave Function Collapse</strong>: Inverted WFC where entropy <em>increases</em>, locked probabilistically to create structure</li>
+          <li><strong>vestige_005: CONTAINMENT BREACH</strong>: The crash itself is entropy locked—destabilization timing is probabilistic</li>
+          <li><strong>intermediate_ideocartography</strong>: Entropy networks preventing seed adjacency, metalayer navigation</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Entropy Definition</h3>
+        <p><em>"Entropy is that within a given system which cannot be measured, plus that which is deliberately not measured."</em></p>
+
+        <p>This definition is system-agnostic and builds on Gödel: every system must contain unknowable entropy. Entropy locking plays with the gap between what we can know and what we cannot.</p>
+
+        <h3 style="margin-top: 20px;">Further Reading</h3>
+        <p>Featured in the <a href="https://www.youtube.com/watch?v=YdBr_9pmVXg" target="_blank">Creative Code Toronto talk on entropy locking (January 25, 2025)</a> with live demonstrations and threshold adjustments.</p>
+      </section>
+
+      <!-- Featured work from this series -->
+      <section class="featured mb-40" id="series-featured">
+        <!-- Will be populated by JS with random favorite from this series -->
+      </section>
+
+      <!-- All works in series -->
+      <section>
+        <h2>Works in This Series</h2>
+        <div class="grid grid-3" id="works-grid">
+          <!-- Will be populated by JS -->
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../index.html">← Back to home</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/series-page.js"></script>
+</body>
+</html>

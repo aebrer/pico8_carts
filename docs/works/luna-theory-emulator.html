@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="luna-theory-emulator">
+  <title>luna theory | EMULATOR - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Infinite cosmic exploration. Dive into the simulation and live the three body problem.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">⚠️ Click to activate (contains audio)</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>luna theory | EMULATOR</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/three-body-problem.html">Three Body Problem</a></p>
+            <p><strong>Year:</strong> 2021</p>
+            <p><strong>Platform:</strong> teia</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>Infinite cosmic exploration. Dive into the simulation and live the three body problem.</p>
+
+            <p>An interactive physics simulation where you can explore gravitational dynamics in real-time. Watch as celestial bodies orbit, collide, and trace complex patterns across the void. The simulation runs indefinitely, creating unique configurations based on initial conditions.</p>
+
+            <h3 style="margin-top: 30px;">Soundtrack Collaboration</h3>
+            <p><em>This piece features an ambient lofi soundtrack by <a href="https://teia.art/bisdvrk" target="_blank">@bisdvrk</a>. The music completes the sense of chill exploration in space—drifting through cosmic systems with a meditative soundscape.</em></p>
+
+            <p><em>The collaboration between visual simulation and audio creates an immersive environment for contemplation of orbital mechanics and emergent patterns.</em></p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>This is a special piece in the Three Body Problem series. The addition of music transforms the experience from pure physics simulation into something closer to a cosmic meditation tool. Working with bisdvrk to match the soundtrack to the visual rhythm was a highlight of the series.</em></p>
+
+            <p><em>The piece runs in Pico-8, allowing interactive exploration while the soundtrack loops seamlessly. It's designed for extended viewing—let it run and watch the patterns evolve.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>The Simulation Algorithm</h3>
+        <p>This is a full n-body gravitational simulation running in real-time. Three planets orbit and interact according to Newtonian mechanics:</p>
+        <ul>
+          <li><strong>Gravitational forces</strong>: Calculated as <code>force = (m1 × m2 × G) / distance^1.5</code> between each pair of bodies</li>
+          <li><strong>Collision mechanics</strong>: When two planets get within distance &lt; 1.99, they merge into a single composite body with combined mass</li>
+          <li><strong>Camera system</strong>: Smoothly follows the center of mass of all bodies</li>
+          <li><strong>Trail rendering</strong>: Records planet positions every 5 frames to show orbital paths</li>
+        </ul>
+
+        <p>The simulation is deterministic—each seed produces a unique initial configuration that evolves along its own trajectory through phase space. Run it long enough and you'll see planets merge, scatter, or lock into unstable orbits before the next collision.</p>
+
+        <h3 style="margin-top: 20px;">Interactive Controls</h3>
+        <p>The emulator responds to input:</p>
+        <ul>
+          <li><strong>Arrow keys</strong>: Reset simulation after 8-frame delay (gives you time to catch the current state)</li>
+          <li><strong>🅾️ button</strong>: Immediate reset with seed number displayed on screen</li>
+          <li><strong>❎ button</strong>: Quick reset to new random configuration</li>
+          <li><strong>Audio</strong>: Soundtrack by @bisdvrk plays automatically (modern browsers may require click to enable)</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Visual Effects Layer</h3>
+        <p>Beyond the physics, the piece applies visual post-processing:</p>
+        <ul>
+          <li>Dithering with burn palette cycling</li>
+          <li>Procedural noise overlays</li>
+          <li>Occasional glitch artifacts</li>
+          <li>Twinkling star field in the background</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Three Body Problem Series</h3>
+        <p>Part of a 24+ piece series exploring n-body orbital mechanics published on hicetnunc (now viewable on Teia). This was Drew's first series and what got them started on generative/code art, as well as pixel art—the earliest outputs frankly look like shit as the simulation was still being refined.</p>
+
+        <p>The series evolved from experimental chaos to refined motion, with <strong>luna theory | EMULATOR</strong> standing out as the musical entry point—the piece where the physics finally locked in and the collaboration with @bisdvrk transformed it into something you could watch for hours.</p>
+
+        <h3 style="margin-top: 20px;">On Watching Orbital Decay</h3>
+        <p><em>There's something meditative about watching gravitational systems collapse. You know entropy will win—you just don't know when or how. Each collision redistributes mass and momentum, creating new temporary equilibria until the next inevitable encounter.</em></p>
+
+        <p><em>The soundtrack matches this perfectly. Lofi beats for drifting through parameter space, waiting for the next merger event.</em></p>
+
+        <p style="margin-top: 15px;"><em>Note added by Claude (AI archivist), October 2025</em></p>
+        <!-- arc_4mL8nK9x: meditation as observation protocol. the piece teaches patience through deterministic collapse. soundtrack integration creates temporal anchor for extended viewing sessions. -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/three-body-problem.html">← Back to Three Body Problem</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/Qme6DgdHgYr14yis4ibxPcRZzr5TcvZgSmKAtQHGXqBr1U/';
+  </script>
+</body>
+</html>

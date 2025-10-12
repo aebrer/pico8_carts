@@ -4,28 +4,31 @@
 let artworkLoaded = false;
 let currentIframe = null;
 
-function loadArtwork(isGenerative, baseIpfsUrl) {
+function loadArtwork(isGenerative, baseIpfsUrl, isImage = false) {
   if (artworkLoaded) return;
 
   const display = document.getElementById('artwork-display');
   const hash = isGenerative ? generateFxHash() : '';
   const url = isGenerative ? `${baseIpfsUrl}?fxhash=${hash}` : baseIpfsUrl;
 
-  display.innerHTML = `
-    <iframe
-      id="artwork-iframe"
-      src="${url}"
-      sandbox="allow-scripts allow-downloads"
-      scrolling="no"
-      style="border: none; width: 100%; height: 100%;">
-    </iframe>
-  `;
-
-  artworkLoaded = true;
-  currentIframe = document.getElementById('artwork-iframe');
-
-  // Render controls after iframe is loaded
-  renderArtworkControls(isGenerative, baseIpfsUrl);
+  if (isImage) {
+    display.innerHTML = `<img src="${url}" alt="Artwork" style="width: 100%; height: 100%; object-fit: contain;">`;
+    artworkLoaded = true;
+    renderArtworkControls(isGenerative, baseIpfsUrl);
+  } else {
+    display.innerHTML = `
+      <iframe
+        id="artwork-iframe"
+        src="${url}"
+        sandbox="allow-scripts allow-downloads"
+        scrolling="no"
+        style="border: none; width: 100%; height: 100%;">
+      </iframe>
+    `;
+    artworkLoaded = true;
+    currentIframe = document.getElementById('artwork-iframe');
+    renderArtworkControls(isGenerative, baseIpfsUrl);
+  }
 }
 
 function renderArtworkControls(isGenerative, baseIpfsUrl) {

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="the-city-is-burning">
+  <title>the city is burning - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Part two of a two-piece diptych. The p5.js expansion of sedimentary city with 3D camera and fire palette. Fuck cars.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>the city is burning</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/entropy-locked.html">Entropy-Locked</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Diptych:</strong> <a href="sedimentary-city.html">sedimentary city</a> (part one)</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>Part two of the diptych. This piece takes the <a href="sedimentary-city.html">sedimentary city</a> tweetcart and expands it into p5.js with a 3D camera and fire palette.</p>
+
+            <p>The same algorithmic logic—horizontal drift, vertical accumulation, shape transitions—but now rendered in WEBGL with a camera that shifts perspective partway through generation. The palette cycles through 15 colors ranging from pure black through deep reds to bright yellows, creating a heat gradient that reads as urban conflagration.</p>
+
+            <p><strong>Lemme just say fuck cars and be done with it.</strong></p>
+
+            <h3 style="margin-top: 30px;">Fire Palette</h3>
+            <p>The color progression moves through darkness to heat:</p>
+            <pre><code>c1  = [0,0,0]           // pure black
+c2  = [10,0,2]          // ember hint
+c3  = [20,0,5]          // deep red start
+c4  = [30,0,10]
+c5  = [50,0,15]
+c6  = [80,0,20]
+c7  = [128,0,38]        // red intensifies
+c8  = [189,0,38]
+c9  = [227,26,28]       // bright red
+c10 = [252,78,42]       // orange emergence
+c11 = [253,141,60]
+c12 = [254,178,76]
+c13 = [254,217,118]
+c14 = [255,237,160]
+c15 = [255,255,204]     // near white-hot
+c16 = [16,16,16]        // structural gray</code></pre>
+
+            <p>Each piece applies random variation to the palette (±5% per channel, ±10 absolute offset), giving every mint its own fire character while maintaining the heat gradient.</p>
+
+            <h3 style="margin-top: 30px;">Camera Shift</h3>
+            <p>The 3D camera starts at an angled view: <code>camera(64, 128, 244, 128, 128, 0, 0, 1, 0)</code></p>
+
+            <p>When the color index reaches ~13.8 (late in generation, deep into yellows), the camera shifts to overhead: <code>camera(128, 128, 244, 128, 128, 0, 0, 1, 0)</code></p>
+
+            <p>This creates a narrative arc: we watch the fire build from an angle, then the view flattens to top-down as if the perspective itself is consumed.</p>
+
+            <h3 style="margin-top: 30px;">The Diptych</h3>
+            <p><a href="sedimentary-city.html"><strong>sedimentary city</strong></a> (part one): Tweetcart foundation, abstract sedimentary accumulation, Pico-8</p>
+            <p><strong>the city is burning</strong> (part two): p5.js expansion, fire palette, 3D camera, explicit urban critique</p>
+
+            <p>Together: layers compress over time → ignition → consumption. History built, then burned.</p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>This piece is more explicit than sedimentary city about its politics. The fire palette, the title, the statement "fuck cars"—it's not subtle.</em></p>
+
+            <p><em>Car-centric urban planning is a form of sedimentary accumulation. Infrastructure piled on infrastructure, each generation adding more lanes, more parking, more sprawl. Cities become unlivable for anyone not in a vehicle. The heat island effect intensifies. Air quality degrades. The city literally burns hotter.</em></p>
+
+            <p><em>The algorithm doesn't know about urban planning or climate change. It just deposits shapes and cycles colors. But the fire palette and accumulation logic create a visual that feels like watching asphalt radiate heat at sunset.</em></p>
+
+            <p><em>Both pieces use the same core algorithm—the difference is palette and presentation. That's the point: same structure, different context, completely different read.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>Algorithm Similarities to Part One</h3>
+        <p>Core mechanics inherited from sedimentary city tweetcart:</p>
+        <ul>
+          <li><strong>Horizontal movement</strong>: <code>x += random_num(2,10)</code> (similar fast horizontal drift)</li>
+          <li><strong>Vertical accumulation</strong>: <code>y += random_num(0.05,0.1)</code> (slow upward layering)</li>
+          <li><strong>Color cycling</strong>: <code>c += random_num(0,0.01)</code> (gradual palette progression)</li>
+          <li><strong>Shape transition</strong>: Ellipses when <code>c ≤ 12</code>, rectangles when <code>c > 13</code></li>
+          <li><strong>Modulo wrapping</strong>: <code>x %= 350, y %= 272, c %= 15</code> (boundaries and cycling)</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Key Differences</h3>
+        <ul>
+          <li><strong>Platform</strong>: p5.js WEBGL instead of Pico-8</li>
+          <li><strong>Palette</strong>: 15-color fire gradient instead of randomized Pico-8 colors</li>
+          <li><strong>Camera</strong>: 3D perspective with mid-generation shift</li>
+          <li><strong>Resolution</strong>: 256×256 (or 2048×2048 for preview) instead of 128×128</li>
+          <li><strong>Rendering</strong>: 30 shapes per frame for 3000 frames (~100 seconds)</li>
+          <li><strong>Entropy locking removed</strong>: No seed reset—pure accumulation without banding</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Why Remove Entropy Locking?</h3>
+        <p>The sedimentary city tweetcart uses entropy locking (<code>if(c>2)p(s)</code>) to create horizontal strata. This piece removes that mechanism—letting the accumulation run without probabilistic anchoring.</p>
+
+        <p>The result is less banded, more continuous. Instead of discrete sedimentary layers, you get a gradient of fire building over time. The structure comes from the shape transition threshold and camera shift rather than entropy locking.</p>
+
+        <p>It's the same algorithm fundamentals with different control parameters—demonstrating how small changes in technique produce completely different aesthetics and narratives.</p>
+
+        <h3 style="margin-top: 20px;">On Urban Heat</h3>
+        <p><em>Cities trapped in car dependency literally burn hotter. Asphalt and concrete absorb and radiate heat. Lack of tree canopy removes cooling. Traffic generates waste heat. Air conditioning exhausts amplify ambient temperature.</em></p>
+
+        <p><em>The urban heat island effect makes cities 0.5-4°C hotter than surrounding areas (EPA data). This isn't metaphor—it's measurable thermal accumulation from infrastructure choices layered over decades.</em></p>
+
+        <p><em>This piece visualizes that accumulation as sediment building into fire. The algorithm deposits shapes the way cities deposit asphalt. The palette cycles from cold to hot the way urban cores heat over time.</em></p>
+
+        <p><em>Fuck cars.</em></p>
+
+        <p style="margin-top: 15px;"><em>Note added by Claude (AI archivist), October 2025</em></p>
+        <!-- arc_7f8f8ec0: explicit politics through palette choice. same algorithm different context creates different meaning. the heat is literal and metaphorical. urban planning as sedimentary accumulation. -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="sedimentary-city.html">← View part one: sedimentary city</a> |
+        <a href="../series/entropy-locked.html">← Back to Entropy-Locked</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmeW1zwysTjkLSaU2o7ugVfZSYH9TzwyMHKbrsx4uJY5q5/';
+  </script>
+</body>
+</html>

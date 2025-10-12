@@ -45,16 +45,28 @@ function renderFeaturedWork(seriesId, seriesWorks) {
       ? `${featuredWork.ipfs}?fxhash=${hash}`
       : featuredWork.ipfs;
 
-    featuredContainer.innerHTML = `
-      <iframe class="featured-iframe"
-              src="${url}"
-              sandbox="allow-scripts allow-downloads"
-              scrolling="no">
-      </iframe>
-      <div class="featured-info">
-        <a href="../works/${featuredWork.id}.html">${featuredWork.title}</a> (${featuredWork.year})
-      </div>
-    `;
+    // Check if it's marked as an image in data.js
+    if (featuredWork.isImage) {
+      featuredContainer.innerHTML = `
+        <div class="featured-iframe">
+          <img src="${url}" alt="${featuredWork.title}">
+        </div>
+        <div class="featured-info">
+          <a href="../works/${featuredWork.id}.html">${featuredWork.title}</a> (${featuredWork.year})
+        </div>
+      `;
+    } else {
+      featuredContainer.innerHTML = `
+        <iframe class="featured-iframe"
+                src="${url}"
+                sandbox="allow-scripts allow-downloads"
+                scrolling="no">
+        </iframe>
+        <div class="featured-info">
+          <a href="../works/${featuredWork.id}.html">${featuredWork.title}</a> (${featuredWork.year})
+        </div>
+      `;
+    }
   } else {
     featuredContainer.innerHTML = `
       <div class="text-center">

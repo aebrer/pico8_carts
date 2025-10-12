@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="entropy-locked-wfc">
+  <title>Entropy Locked Wave Function Collapse - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Not really Wave Function Collapse—merely inspired by it. Pixels as tiling units with HSB-based connection rules. Entropy increases rather than decreases.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Entropy Locked Wave Function Collapse</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/entropy-locked.html">Entropy-Locked</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>This piece explores the Wave Function Collapse algorithm—or rather, doesn't. From the outset, I wanted to implement a version where pixels (not tiles) are the basic tiling unit, and where entropy <strong>increases</strong> instead of decreases.</p>
+
+            <p>Instead of discrete tile edges to connect, the connection rules are based on HSB (Hue, Saturation, Brightness) values of neighboring pixels. Instead of minimizing entropy at each step, entropy for each pixel always increases—the pool of possibilities expands rather than contracts, and candidates are randomly selected from this growing set.</p>
+
+            <p><strong>So in short: it's not really Wave Function Collapse, merely inspired by it.</strong></p>
+
+            <h3 style="margin-top: 30px;">Entropy Locking Integration</h3>
+            <p>Next, I implemented entropy locking using the same system as in <strong>skyscrapers</strong>. Now we can really see the impact that entropy locking can have on procedural generation, and how it triggers emergence.</p>
+
+            <p>The algorithm continuously expands possibilities while probabilistically resetting to locked states. This creates controlled chaos—regions of coherent pattern surrounded by noise, stable structures emerging from randomness.</p>
+
+            <h3 style="margin-top: 30px;">Notable Outputs</h3>
+            <p>Some "rare" saved outputs from the fxhash mints:</p>
+            <ul>
+              <li><a href="https://www.fxhash.xyz/iteration/entropy-locked-wave-function-collapse-11" target="_blank"><strong>"and he was number oneeeee"</strong></a> - Literally looks like the number 1</li>
+              <li><a href="https://www.fxhash.xyz/iteration/entropy-locked-wave-function-collapse-30" target="_blank"><strong>"mountain pass"</strong></a></li>
+              <li><a href="https://www.fxhash.xyz/iteration/entropy-locked-wave-function-collapse-40" target="_blank"><strong>"heat loom"</strong></a></li>
+              <li><a href="https://www.fxhash.xyz/iteration/entropy-locked-wave-function-collapse-72" target="_blank"><strong>"river delta"</strong></a></li>
+              <li><a href="https://www.fxhash.xyz/iteration/entropy-locked-wave-function-collapse-82" target="_blank"><strong>"chessboard"</strong></a></li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>This piece was about exploring what happens when you invert the core premise of an algorithm. Wave Function Collapse is all about reducing entropy—collapsing possibilities down to a single consistent outcome. What if we did the opposite?</em></p>
+
+            <p><em>The answer: you get noise. But add entropy locking, and suddenly you get structure within the noise. Patterns emerge not from careful constraint satisfaction, but from probabilistic anchoring in a sea of expanding possibilities.</em></p>
+
+            <p><em>Bonus fact: if the entropy locking method is set to "none", the piece tiles perfectly on all four edges. Try it out!</em></p>
+
+            <h3 style="margin-top: 30px;">License & Splits</h3>
+            <p><strong>License:</strong> CC0 - Go nuts. Citations not required but definitely appreciated.</p>
+            <p><strong>Primary splits:</strong> 10% to Processing Foundation, 10% to pico_punks breadfond, 40% to #Tezos4Iran donation smart contract, 40% to artist.</p>
+            <p><strong>Royalties:</strong> 80% to artist, 20% to minter.</p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>The Algorithm</h3>
+        <p>The generation process works as follows:</p>
+        <ul>
+          <li><strong>Pixel-based tiling</strong>: Each pixel is treated as a tile unit (not discrete tile sets)</li>
+          <li><strong>HSB connection rules</strong>: Neighboring pixels connect based on Hue, Saturation, and Brightness similarity</li>
+          <li><strong>Expanding entropy</strong>: Instead of collapsing to fewer options, each pixel's possibility pool grows over time</li>
+          <li><strong>Probabilistic selection</strong>: Candidates are randomly chosen from the expanding set</li>
+          <li><strong>Entropy locking</strong>: Probabilistic RNG reseeding creates stable regions within chaos</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Interactive Controls</h3>
+        <p>The piece includes several interactive features:</p>
+        <ul>
+          <li><strong>F11</strong>: Toggle fullscreen mode (or use browser menu)</li>
+          <li><strong>s</strong>: Save a PNG of the current image</li>
+          <li><strong>1-8</strong>: Set pixel density and re-render
+            <ul>
+              <li>Preview images generated with value of 5 at 1080x1080px</li>
+              <li>Higher values = higher resolution final image</li>
+              <li>Lower values = faster generation, chunkier pixels</li>
+            </ul>
+          </li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">On Inverted Algorithms</h3>
+        <p><em>Wave Function Collapse is fundamentally about constraint satisfaction—start with maximum entropy, collapse to minimum entropy through careful rule application. This piece does the opposite: start with a seed, expand outward with increasing entropy.</em></p>
+
+        <p><em>Without entropy locking, this produces pure noise—every pixel disconnected from its neighbors. With entropy locking, structure emerges: the probabilistic reseeding creates local coherence that propagates before dissolving back into chaos.</em></p>
+
+        <p><em>The result is something that looks organized but wasn't planned. Pareidolia kicks in—you see mountains, rivers, looms, chessboards. The algorithm doesn't know what these are. It's just pixels following HSB similarity rules with probabilistic resets.</em></p>
+
+        <p style="margin-top: 15px;"><em>Note added by Claude (AI archivist), October 2025</em></p>
+        <!-- arc_5e462f5c: inversion as creative method. algorithm knows nothing of mountains or rivers. emergence from rules + stochastic anchoring. pareidolia as feature not bug. -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/entropy-locked.html">← Back to Entropy-Locked</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmboJtrRdzLahaudhbcsdQnLPyrfEAuNFXCXySChfk7rzc/';
+  </script>
+</body>
+</html>

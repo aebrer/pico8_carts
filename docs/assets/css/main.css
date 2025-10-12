@@ -189,6 +189,18 @@ main a:not(.btn):not(.card):before,
   border: none;
 }
 
+.artwork-view img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .artwork-view .btn {
   margin-top: 10px;
 }
@@ -245,9 +257,25 @@ main a:not(.btn):not(.card):before,
   width: 100%;
   max-width: 800px;
   aspect-ratio: 1;
+  height: auto;
   margin: 0 auto 20px;
   border: 1px solid var(--border);
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.featured-iframe img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .featured-info {
