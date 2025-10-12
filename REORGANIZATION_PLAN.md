@@ -299,8 +299,12 @@ For each artwork:
 
 ### In Progress:
 - [~] Ideocart series migration (2/7+ pieces)
+- [~] Vestiges series migration (2 pieces)
+- [~] Screensavers series migration (1 piece)
 
-### Recently Migrated (2025-10-11):
+### Recently Migrated (5 total as of 2025-10-12):
+
+**Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
   - fxhash generative, 300 editions
   - Konami code easter egg documented
@@ -310,6 +314,19 @@ For each artwork:
   - Mentor note fiction, entropy network preventing seed adjacency
   - Featured output: "The Demon King" image included
   - Self-randomizing (not fxhash generative)
+
+**Vestiges Series (2):**
+- **vestige_005: CONTAINMENT BREACH** - The overflow bug as containment mechanism
+  - Origin of User ID 127402 ("hierophant") and The Trace Gallery lore
+  - Crash = good (contained), stability = bad (breach)
+  - Featured on Teia as objkt/127402
+- **The Trace Gallery** - Full interactive gallery/game experience
+  - 18 achievements, doom timer, mirror world, multiple endings
+  - Most complex piece in practice
+  - Inspired by vestige_005
+
+**Screensavers Series (1):**
+- **VISIONS** - Ambient visual generation for contemplation
 
 ### Documentation Structure Established:
 - Clear separation: "In-Fiction Description" vs "Author's Notes"
