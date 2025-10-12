@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="emergence-iii">
+  <title>emergence III [TTC S01T08] - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A Pico-8 tweetcart demonstrating entropy locking. Generator generator where each piece has its own unique starting position in a massive linear sequence.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>emergence III [TTC S01T08]</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/emergence.html">Emergence</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>The eighth tweetcart for the Tweetcart Token Club (TTC). This piece is a Pico-8 tweetcart—the entire source code fits into a single tweet (280 characters).</p>
+
+            <p>It's also a <strong>generator generator</strong>. Each minted piece is itself a generator that has its own unique starting position in an insanely massive linear sequence of outputs (determined by the random seed).</p>
+
+            <h3 style="margin-top: 30px;">Entropy Locking (Originally "Seed Looping")</h3>
+            <p><em>This piece demonstrates the technique called <strong>entropy locking</strong>, originally referred to as "seed looping" in this piece's documentation.</em></p>
+
+            <p><em>The technique is best exemplified by commenting out these two lines:</em></p>
+            <pre><code>if(r()>.5)p(s)
+if(r()>.9)p(s)</code></pre>
+
+            <p><em>With those lines commented out, random lines are generated in a highly noisy way. This is <strong>maximum entropy</strong>.</em></p>
+
+            <p><em>If you try different seeds, you technically get a unique animation, however, to a human they all look the same.</em></p>
+
+            <p><em>But by introducing the entropy locking (probabilistic seed reset), you "catch" individual loops and they become discernible. The system finds its own equilibrium—it creates patterns that repeat in ways only predictable to itself, not to the human observer.</em></p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>This piece was featured in the <a href="https://www.youtube.com/watch?v=YdBr_9pmVXg" target="_blank">Creative Code Toronto talk on entropy locking (January 25, 2025)</a> as the primary demonstration of the technique. The talk includes live code interaction and real-time threshold adjustments showing how entropy locking creates visual diversity from simple rules.</em></p>
+
+            <p><em>Part of Tweetcart Token Club Series 1. Snapshot was taken on June 1st 2022 of holders of the <a href="https://objkt.com/asset/hicetnunc/414400" target="_blank">Tweetcart Token Club utility token</a>.</em></p>
+
+            <p><em>Interactive via <a href="https://www.pico-8-edu.com/?c=AHB4YQEUANZPcE5x-9n5C1RvkJ3tk_ABDniLMy66oyhOKo45JkmCorgmKV4jaU65Pe7rKBkYiPIwW4i65vYwb5PwKZJ04S08ED-DKzxAH6eHvcDMllbAccEDFMHaI2TpULFz4WmxXpCd5_yWn6YlMNPN2GxraCldCYJ2yzXNTBnfFY4dd17uosGd1bWddrIrkpmlKu1Xki406sbCjrDQ5EPMFu3GffVMMKNicNfW3FoWr4ShZlGVzEmEc0wi1BlLSwMj7zC6cdpT7EXlcDWx_gxRXOwMAw==&g=w-w-w-w1HQHw-w2Xw-w3Xw-w2HQH" target="_blank">Pico-8 Education Edition</a>.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <h3>Tweetcart Source Code (280 characters)</h3>
+        <pre><code>r=rnd
+p=srand
+pal({-8,8,9,10,11,12,2},1)cls()s=r(-1)p(s)b=0c=1x=-8y=-8poke(0x5f2d,1)::_::
+if(r()>.5)p(s)
+if(r()>.9)p(s)
+x+=r(8)y+=r(8)b-=.0005c+=r(.2)x%=136y%=136line(x,y,x+r(6)-6,y+r(6)-6,c%8)
+if(stat(34)==1and 0>b)s+=1cls()b=9
+if(stat(34)==2and 0>b)b=9extcmd("video")
+goto _</code></pre>
+
+        <h3 style="margin-top: 20px;">Controls</h3>
+        <ul>
+          <li>Left click - Get next loop in the generator sequence</li>
+          <li>Right click - Save a gif of the last 16 seconds</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Entropy Locking Lines</h3>
+        <p>The two critical lines that implement entropy locking:</p>
+        <pre><code>if(r()>.5)p(s)
+if(r()>.9)p(s)</code></pre>
+        <p>These create a multi-gate pattern where the seed resets probabilistically, catching emergent loops and making them visible.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/emergence.html">← Back to Emergence</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmQPNXi1Yf9eajWQVgw99jzW6hDwntg8PhdB1rTCDX5NGA/';
+  </script>
+</body>
+</html>

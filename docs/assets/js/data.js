@@ -15,25 +15,25 @@ const SERIES = {
   emergence: {
     name: 'Emergence',
     description: 'Complex patterns arising from simple rules across platforms.',
-    works: []
+    works: ['emergence-iii']
   },
   'three-body-problem': {
     name: 'Three Body Problem',
-    description: 'Physics simulation exploring n-body orbital mechanics and chaos theory.',
-    works: []
+    description: 'Physics simulation exploring n-body orbital mechanics and chaos theory. This was my first series and what got me started on generative/code art, as well as pixel art—the earliest outputs frankly look like shit.',
+    works: ['luna-theory-emulator']
   },
   'entropy-locked': {
     name: 'Entropy-Locked',
     description: 'Pieces showcasing entropy locking—probabilistic RNG reseeding creating controlled chaos.',
-    works: []
+    works: ['entropy-locked-wfc', 'sedimentary-city', 'the-city-is-burning']
   },
-  'pico-punks': {
-    name: 'Pico Punks',
+  'pico_punks': {
+    name: 'pico_punks',
     description: 'Generative character/avatar systems exploring procedural generation.',
     works: []
   },
-  'pico-galaxies': {
-    name: 'Pico Galaxies',
+  'pico_galaxies': {
+    name: 'pico_galaxies',
     description: 'Looping gif project exploring spirals, recursion, and dynamic equilibria on Pico-8.',
     works: []
   },
@@ -111,7 +111,7 @@ const WORKS = {
     provenance: 'ipfs://QmYt25faE3S8cypApJfv4Fq2YdoLMujokEMCxcbB3Fs8hJ',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/the_trace',
     favorite: true,
-    themes: ['vestiges', 'ideocart', 'game', 'interactive', 'narrative', 'infohazard', 'cognitohazard', 'memetic', 'pico-8', 'gif export', 'multiple endings', 'neoretro', 'achievement system', 'doom timer', 'easter egg', 'secret hunting', 'entropy locking', 'text-based', 'CYOA', 'the hierophant']
+    themes: ['vestiges', 'ideocart', 'game', 'interactive', 'narrative', 'infohazard', 'cognitohazard', 'memetic', 'pico-8', 'gif export', 'multiple endings', 'neoretro', 'achievement system', 'doom timer', 'easter egg', 'secret hunting', 'entropy locking', 'text-based', 'CYOA', 'the hierophant', 'music', 'audio']
   },
   'containment-breach': {
     id: 'containment-breach',
@@ -129,6 +129,95 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/vestige_005',
     favorite: true,
     themes: ['vestiges', 'infohazard', 'entropy locking', 'pico-8', 'intentional crash', 'the hierophant', 'containment failure', 'neoretro', 'SCP aesthetics', 'generative', 'ambient', 'infinite']
+  },
+  'emergence-iii': {
+    id: 'emergence-iii',
+    title: 'emergence III [TTC S01T08]',
+    series: 'emergence',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'A Pico-8 tweetcart demonstrating entropy locking (originally called "seed looping"). Generator generator where each piece has its own unique starting position in a massive linear sequence. Featured in the Creative Code Toronto talk on entropy locking.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmQPNXi1Yf9eajWQVgw99jzW6hDwntg8PhdB1rTCDX5NGA/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/slug/emergence-iii-ttc-s01t08',
+      ttc: 'https://objkt.com/asset/hicetnunc/414400'
+    },
+    provenance: 'ipfs://QmUaJin2BiJJczVLvk4REyDYtGWmMbidFj5mcbXtwV5Usz',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/emergence/emergence_iii',
+    favorite: true,
+    themes: ['emergence', 'tweetcart', 'entropy locking', 'pico-8', 'generator generator', 'seed looping', 'TTC', 'tweetcart token club', 'opensource', 'lua', 'neoretro', 'rainbow', 'animated', 'pixelart', 'constrained code']
+  },
+  'luna-theory-emulator': {
+    id: 'luna-theory-emulator',
+    title: 'luna theory | EMULATOR',
+    series: 'three-body-problem',
+    year: 2021,
+    platform: 'teia',
+    description: 'Infinite cosmic exploration. Dive into the simulation and live the three body problem. Features ambient lofi soundtrack by @bisdvrk.',
+    ipfs: 'https://ipfs.io/ipfs/Qme6DgdHgYr14yis4ibxPcRZzr5TcvZgSmKAtQHGXqBr1U/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/161642',
+      bisdvrk: 'https://teia.art/bisdvrk'
+    },
+    provenance: 'ipfs://QmRmoaTBx7MBKGLBt3ZKzsG8Zgo9ARJGALk6wWh4kb8X6r',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/three-body-problem/luna_theory_emulator',
+    favorite: true,
+    themes: ['three body problem', 'animated', 'noise', 'interactive', 'simulation', 'pico-8', 'pixelart', 'space', 'cosmic', '3bodyprob', 'generative', 'sciart', 'lofi', 'music', 'audio', 'collaboration', 'soundtrack']
+  },
+  'entropy-locked-wfc': {
+    id: 'entropy-locked-wfc',
+    title: 'Entropy Locked Wave Function Collapse',
+    series: 'entropy-locked',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'Not really Wave Function Collapse—merely inspired by it. Pixels as tiling units with HSB-based connection rules. Entropy increases rather than decreases, possibilities expand rather than contract. Entropy locking triggers emergence from controlled chaos.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmboJtrRdzLahaudhbcsdQnLPyrfEAuNFXCXySChfk7rzc/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/project/entropy-locked-wave-function-collapse'
+    },
+    provenance: 'ipfs://QmdZwda29bdrtGL666srfXVpv53esUcySjDsPgSG2YzzM2',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/entropy_locked_wave_function_collapse',
+    favorite: true,
+    themes: ['entropy locking', 'wave function collapse', 'p5js', 'generative', 'abstract', 'pixelart', 'neoretro', 'opensource', 'creative coding', 'fullscreen', 'CC0', 'tileable']
+  },
+  'sedimentary-city': {
+    id: 'sedimentary-city',
+    title: 'sedimentary city',
+    series: 'entropy-locked',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'Part one of a two-piece diptych. A tweetcart inspired by burning cities and layers of sediment—like the sins of those who came before us, piling up forever. Abstract entropy-locked patterns building over time.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmUZfwEkJ1zzBtgQckU47jHqNYi3BSttUFr2mogS3Zyr1v/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/project/sedimentary-city',
+      diptych: 'the-city-is-burning'
+    },
+    provenance: 'ipfs://QmVB5LhUZbMxUFp8ZoH8BPMjBtTzh5mmhn2ftUkXfsB8ZJ',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/sedimentary_city',
+    favorite: true,
+    themes: ['entropy locking', 'tweetcart', 'pico-8', 'lua', 'neoretro', 'pixelart', 'abstract', 'still', 'opensource', 'diptych', 'landscape', 'city', 'sediment']
+  },
+  'the-city-is-burning': {
+    id: 'the-city-is-burning',
+    title: 'the city is burning',
+    series: 'entropy-locked',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'Part two of a two-piece diptych. The p5.js expansion of sedimentary city—3D camera, fire palette cycling through dark to bright yellows. Lemme just say fuck cars and be done with it.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmeW1zwysTjkLSaU2o7ugVfZSYH9TzwyMHKbrsx4uJY5q5/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/project/the-city-is-burning',
+      diptych: 'sedimentary-city'
+    },
+    provenance: 'ipfs://QmNoEC2TZpRaCML514WGoEDmk6XPqoh2pmEpESFhhzFQH4',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/the_city_is_burning',
+    favorite: true,
+    themes: ['entropy locking', 'p5js', 'minimal', 'creative coding', 'neoretro', 'pixelart', 'landscape', 'city', 'fire', 'breadfond', 'diptych', 'fuck cars']
   }
 };
 

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="sedimentary-city">
+  <title>sedimentary city - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A tweetcart inspired by burning cities and layers of sediment—like the sins of those who came before us, piling up forever.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>sedimentary city</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/entropy-locked.html">Entropy-Locked</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Diptych:</strong> <a href="the-city-is-burning.html">the city is burning</a> (part two)</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>Part one of a two-piece diptych exploring urban decay and accumulation through code.</p>
+
+            <p>This piece started as a tweetcart—an abstract exploration inspired by burning cities and layers of sediment. Like the sins of those who came before us, piling up forever. Shapes accumulate, colors shift, patterns emerge from entropy-locked randomness.</p>
+
+            <p>The title references sedimentary rock formation: layer upon layer compressing over time, each strata recording a moment in history. The visual builds the same way—ovals and rectangles depositing in horizontal bands, creating stratified patterns that feel geological and urban simultaneously.</p>
+
+            <h3 style="margin-top: 30px;">Tweetcart Source Code</h3>
+            <p>The original Pico-8 tweetcart that sparked this piece:</p>
+            <pre><code>r=rnd
+p=srand
+cls()
+s=r(-1)
+p(s)
+for i=0,15do pal(i,r(33)-17,1)end
+c=1
+x=-8
+y=-8
+clip(16,16,96,96)
+for i=0,2^13do
+if(c>2)p(s)
+x+=10
+y+=r(.1)
+c+=.01
+x%=136
+y%=136
+c%=8
+ovalfill(x,y,x+r(c*2),y+r(c*2),c)
+if(c>6)rectfill(x,y,x+r(c*2),y+r(c*2),c+1)
+end::_::goto _</code></pre>
+
+            <h3 style="margin-top: 30px;">The Diptych</h3>
+            <p>This piece is the conceptual and technical foundation for <a href="the-city-is-burning.html"><strong>the city is burning</strong></a>, which expands the tweetcart into p5.js with a 3D camera and fire palette.</p>
+
+            <p>Together they form a narrative: sedimentary layers building over time → ignition → the city burns. History compressed, then consumed.</p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>I fucking love this one. There's something about the constraint of the tweetcart format forcing absolute economy of expression—every character has to earn its place.</em></p>
+
+            <p><em>The entropy locking line <code>if(c>2)p(s)</code> is doing a lot of work here. Without it, you get noise. With it, you get strata. The probabilistic reset creates bands of coherence that feel intentional but emerge from pure randomness.</em></p>
+
+            <p><em>The palette randomization <code>pal(i,r(33)-17,1)</code> shifts all 16 colors within a tight range, giving each piece its own character while maintaining the sedimentary feel.</em></p>
+
+            <p><em>And the clip region <code>clip(16,16,96,96)</code> creates borders—framing the accumulation like a window into a cross-section of earth.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>The Algorithm</h3>
+        <p>The generation process is deceptively simple:</p>
+        <ul>
+          <li><strong>Entropy locking</strong>: When <code>c > 2</code>, reseed the RNG—creates horizontal bands of coherence</li>
+          <li><strong>Horizontal drift</strong>: <code>x += 10</code> moves quickly left-to-right, wrapping at edges</li>
+          <li><strong>Slow vertical accumulation</strong>: <code>y += r(.1)</code> creates gradual upward layering</li>
+          <li><strong>Color cycling</strong>: <code>c += .01</code> slowly transitions through palette</li>
+          <li><strong>Shape transition</strong>: Ovals when <code>c ≤ 6</code>, rectangles when <code>c > 6</code></li>
+          <li><strong>Random sizing</strong>: <code>r(c*2)</code> scales shapes based on current color index</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Why It Feels Sedimentary</h3>
+        <p>The vertical accumulation rate (<code>y += r(.1)</code>) is an order of magnitude slower than horizontal movement (<code>x += 10</code>). This creates the layered, stratified appearance—shapes deposit horizontally much faster than the "camera" rises vertically.</p>
+
+        <p>The entropy locking at threshold <code>c > 2</code> means early layers have more coherence (frequent resets to seed state), while later layers (when c cycles back low) accumulate more variation before resetting.</p>
+
+        <h3 style="margin-top: 20px;">On Cities and Sediment</h3>
+        <p><em>Cities are sedimentary structures. Roads paved over roads, buildings built on foundations of demolished buildings, utilities layered beneath streets. Each generation adds its strata.</em></p>
+
+        <p><em>Archaeological digs reveal this compression: pottery fragments, coins, ash layers from fires, foundations sinking into accumulated debris. The city rises as it buries itself.</em></p>
+
+        <p><em>This piece visualizes that process in abstract—not depicting cities, but capturing the logic of their accumulation. Entropy locked to create pattern within chaos. Layers building forever.</em></p>
+
+        <p style="margin-top: 15px;"><em>Note added by Claude (AI archivist), October 2025</em></p>
+        <!-- arc_b37004ad: tweetcart as compression artifact. 280 characters containing geological time. the algorithm knows nothing of cities or sediment. pattern emerges from movement ratios and probabilistic anchoring. pareidolia completes the metaphor. -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="the-city-is-burning.html">→ View part two: the city is burning</a> |
+        <a href="../series/entropy-locked.html">← Back to Entropy-Locked</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmUZfwEkJ1zzBtgQckU47jHqNYi3BSttUFr2mogS3Zyr1v/';
+  </script>
+</body>
+</html>
