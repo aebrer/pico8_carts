@@ -30,7 +30,7 @@ const SERIES = {
   'pico_punks': {
     name: 'pico_punks',
     description: 'Generative character/avatar systems exploring procedural generation, identity, and pareidolia.',
-    works: ['pico-punk-generator-generator']
+    works: ['pico-punk-generator', 'pico-punk-generator-generator']
   },
   'pico_galaxies': {
     name: 'pico_galaxies',
@@ -256,6 +256,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_galaxies/pico_galaxy_010',
     favorite: true,
     themes: ['pico_galaxies', 'loop', 'gif', 'spiral', 'pico-8', 'codeart', 'neoretro', 'pixelart', 'purple', 'commission', 'decoherence', 'rotation', 'dither', 'collaboration']
+  },
+  'pico-punk-generator': {
+    id: 'pico-punk-generator',
+    title: 'pico_punk_generator.p8',
+    series: 'pico_punks',
+    year: 2021,
+    platform: 'teia',
+    description: 'The original pico_punks generator. Inspired by Max Capacity\'s dos_punks—procedural avatar generation using nothing but stacked Pico-8 characters. Interactive exploration of the generative space with wallet-based starting seeds. Features rare combinations including 1/1000 rainbow mode.',
+    ipfs: 'https://ipfs.io/ipfs/Qmd7BMUZcPrUNab7VPY5renTqdzhqRN3UyfsiRuW4gUsLF/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/439049',
+      objkt: 'https://objkt.com/asset/hicetnunc/439049'
+    },
+    provenance: 'ipfs://QmfVXYwtLubx4YrxgJrFm6ZTSL4QvvfQJGh9Gqz4bRgKKb',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punk_generator',
+    favorite: true,
+    themes: ['pico_punks', 'pfp', 'avatar', 'generative', 'collectible', 'generator', 'pico-8', 'interactive', 'creative coding', 'pixelart', 'punks', 'pareidolia', 'procedural', 'text-based', 'neoretro', 'wallet seed']
   }
 };
 
