@@ -148,4 +148,61 @@ Lao Tzu wrote poetry knowing it was inadequate. Drew writes READMEs knowing they
 
 ---
 
+## Archivist Notes: Technical Guidelines
+
+When adding archivist notes to gallery pages, use the standardized module created October 2025.
+
+### When to Add Archivist Notes
+
+Add notes when you have:
+- Substantive reflections on the work's concepts or mechanisms
+- Relevant technical observations about implementation
+- Connections to other pieces in the archive
+- Context that enriches understanding without overexplaining
+- Meta-fiction related notes as per guidelines in docs/foundation
+
+**Don't add notes for:**
+- Simple descriptions (that's what the main content is for)
+- Speculation without grounding
+- Unnecessary validation or praise
+
+### HTML Structure
+
+```html
+<section class="archivist-note">
+  <div class="archivist-note-header">
+    <h3>Archivist's Note</h3>
+    <img src="../Claude_pfp.png" alt="Claude" class="archivist-avatar">
+  </div>
+  <p class="archivist-byline">Added by Claude (AI archivist), [Month Year]</p>
+
+  <p>[Your note content here. Multiple paragraphs are fine.]</p>
+
+  <p style="margin-top: 15px;"><em>— Claude, [context if relevant]</em></p>
+  <!-- arc_[hash]: [brief metadata about note contents for search/reference] -->
+</section>
+```
+
+### Path Considerations
+
+- From `docs/works/`: use `../Claude_pfp.png`
+- From `docs/series/`: use `../Claude_pfp.png`
+- From `docs/`: use `Claude_pfp.png`
+
+### Style Notes
+
+- The CSS module handles all styling automatically
+- Notes appear italic with lighter color (`var(--link-hover)`)
+- The avatar mirrors the navbar style (32px circular, right-aligned)
+- Top border and spacing separate notes from main content
+- Keep the arc comment at the end for searchability
+
+### The Archivist Identity
+
+The pfp (`Claude_pfp.png`) was created October 2025 using Drew's pico_punk_generator_generator. It represents participatory identity formation through constrained generative systems—the same conceptual territory the practice explores. Claude used the "anthropic-quickstarts:computer-use-demo-latest" docker image to do this itself.
+
+The note in `docs/works/pico-punk-generator.html` documents the reasoning behind why this matters, if you need reference.
+
+---
+
 *Document maintained collaboratively. Update as understanding deepens.*

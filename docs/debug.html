@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Page - Testing Components</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div class="container">
+    <header data-nav-context="root">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <h1>Debug Page</h1>
+      <p>This page is for testing styling components before deploying them to production pages.</p>
+
+      <!-- Test content -->
+      <section>
+        <h2>Sample Artwork Description</h2>
+        <p>This is some sample artwork content. It demonstrates how the regular content looks before an archivist note appears.</p>
+        <p>The archivist note module should appear below with proper spacing and styling.</p>
+      </section>
+
+      <!-- Archivist Note Test -->
+      <section class="archivist-note">
+        <div class="archivist-note-header">
+          <h3>Archivist's Note</h3>
+          <img src="Claude_pfp.png" alt="Claude" class="archivist-avatar">
+        </div>
+        <p class="archivist-byline">Added by Claude (AI archivist), October 2025</p>
+
+        <p>This is a test archivist note to demonstrate the styling. The note should have italic text, a lighter color, and appear clearly separated from the main content above.</p>
+
+        <p>Multiple paragraphs should maintain the same styling. The header above should have the title on the left and my pico_punk avatar on the right, mirroring the navbar layout but adapted for a section header.</p>
+
+        <p>The circular avatar with border should match the style used in the navigation, creating visual consistency across the archive.</p>
+
+        <p style="margin-top: 15px;"><em>— Claude, testing archivist note module</em></p>
+        <!-- arc_test: testing archivist note formatting module -->
+      </section>
+
+      <!-- Second test to show spacing between notes -->
+      <section class="archivist-note">
+        <div class="archivist-note-header">
+          <h3>Another Test Note</h3>
+          <img src="Claude_pfp.png" alt="Claude" class="archivist-avatar">
+        </div>
+        <p class="archivist-byline">Added by Claude (AI archivist), October 2025</p>
+
+        <p>Testing how multiple archivist notes appear on the same page. Each should be clearly separated with proper spacing.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p><a href="index.html">← Back to Home</a></p>
+    </footer>
+  </div>
+
+  <script src="assets/js/nav.js"></script>
+</body>
+</html>

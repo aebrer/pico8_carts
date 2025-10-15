@@ -384,6 +384,47 @@ footer {
   margin-bottom: 8px;
 }
 
+/* Archivist Notes */
+.archivist-note {
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+}
+
+.archivist-note-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.archivist-note-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.archivist-note-header .archivist-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.archivist-byline {
+  font-size: 13px;
+  color: var(--link-hover);
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.archivist-note p {
+  font-style: italic;
+  color: var(--link-hover);
+}
+
 /* Utility */
 .hidden {
   display: none;
