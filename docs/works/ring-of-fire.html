@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="ring-of-fire">
+  <title>Ring of Fire - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Flames rising from a ring. A tweetcart/tootcart exploring realistic fire simulation using entropy locking—with default seed 6 creating the intended effect.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Ring of Fire</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/tweetcarts.html">Tweetcarts</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> teia</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>Flames rising from a ring. This tweetcart/tootcart (351 characters) explores realistic fire simulation using entropy locking. The default starting seed is always 6, which creates the intended fire effect.</p>
+
+            <p>Click or tap the screen to generate a new random seed—some rare outcomes can be quite bizarre, demonstrating how different entropy lock patterns produce wildly different behaviors from the same underlying code.</p>
+
+            <p>Part of a diptych with <a href="blue.html">BLUE</a>. Where BLUE has rain falling, Ring of Fire has flames rising. Both feature a prominent circle as the source of all the pixel cascades.</p>
+
+            <h3 style="margin-top: 30px;">Exhibition History</h3>
+            <p><em>This piece was curated for <a href="https://rgbmtl.com/" target="_blank">RGBMTL</a> (then called TEZARTMTL) in August 2022—a Montreal-based collective exhibition showcasing digital art from the Tezos blockchain. The event features a unique "collective curation" model where 25 artists each select 5-10 artists, creating an extensive showcase displayed on projections, CRT monitors, and LED panels.</em></p>
+
+            <h3 style="margin-top: 30px;">Entropy Locking as Generator</h3>
+            <p><em>This piece demonstrates entropy locking as a generative tool. The default seed (6) creates the "correct" fire effect. But by clicking to reseed, you can explore how different entropy lock patterns create entirely different visual outcomes.</em></p>
+
+            <p><em>Some seeds produce chaotic explosions, some create smooth flows, some generate rare geometric patterns. The entropy locking line <code>if(r()>.9 and r()>.9)srand(s)</code> acts as a filter that amplifies certain random sequences while dampening others, making each seed's behavior unique and discoverable.</em></p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>A classic Pico-8 tweetcart motif is to render flames. For this piece I wanted to create realistic-looking flames using entropy locking to achieve the desired effect. The companion piece to BLUE demonstrates the technique's versatility—same core idea (pixels cascading from a circle), opposite direction, completely different feel.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <h3>Tweetcart Source Code (351 Characters)</h3>
+        <pre><code>_set_fps(60)poke(0x5f2d, 1)r=rnd
+s=6srand(s)cls()x=64y=64?"\^!5f10000▒1😐<67♥:9웃🅾️8☉"
+function g(c)if(c==0)return r({0,0,0,15})
+return r({c-1,c,c+1})end
+::_::for i=0,200do
+if(r()>.9 and r()>.9)srand(s)
+x+=r({r(10),-r(10)})y+=r({-r(10)})x%=128y%=128c=pget(x,y)pset(x+r({-1,0,1}),y+r({-1,-1,0}),g(c))end
+circ(64,64,32,7)
+if(stat(34)==1)s=r(-1)cls()
+goto _</code></pre>
+
+        <h3 style="margin-top: 20px;">Controls</h3>
+        <ul>
+          <li>Click/tap screen - Generate new random seed and reset</li>
+        </ul>
+
+        <h3 style="margin-top: 20px;">Entropy Locking Line</h3>
+        <p>The critical line that creates the fire effect:</p>
+        <pre><code>if(r()>.9 and r()>.9)srand(s)</code></pre>
+        <p>This double-gate pattern (both conditions must pass) creates a ~1% chance of resetting the seed on each iteration. This probabilistic reset catches certain random sequences and amplifies them, creating the flickering flame behavior.</p>
+
+        <h3 style="margin-top: 20px;">Color Function</h3>
+        <p>The color progression simulates fire heat:</p>
+        <pre><code>function g(c)if(c==0)return r({0,0,0,15})
+return r({c-1,c,c+1})end</code></pre>
+        <p>Pixels can shift to adjacent colors in the palette, creating the gradient from dark to bright yellows/oranges as "heat" propagates upward.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/tweetcarts.html">← Back to Tweetcarts</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/bafybeiby6evmdoajih64js7qnjmqixgphx5xm2xfroozbyhydqjy6ql6hi/';
+  </script>
+</body>
+</html>

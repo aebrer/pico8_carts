@@ -41,6 +41,11 @@ const SERIES = {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
     works: ['visions']
+  },
+  tweetcarts: {
+    name: 'Tweetcarts',
+    description: 'Code golf as art form—generative pieces constrained to 280 characters or less. Working within extreme limitations to create emergence from minimal code.',
+    works: ['blue', 'ring-of-fire']
   }
 };
 
@@ -274,6 +279,42 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punk_generator',
     favorite: true,
     themes: ['pico_punks', 'pfp', 'avatar', 'generative', 'collectible', 'generator', 'pico-8', 'interactive', 'creative coding', 'pixelart', 'punks', 'pareidolia', 'procedural', 'text-based', 'neoretro', 'wallet seed']
+  },
+  'blue': {
+    id: 'blue',
+    title: 'BLUE',
+    series: 'tweetcarts',
+    year: 2021,
+    platform: 'teia',
+    description: 'Rain falling into a pool. A tweetcart exploring particle simulation and memory manipulation—pixels cascade downward, creating ripples of color within the circle. Press Circle Button (Z) to slow-mo. Part of a diptych with Ring of Fire.',
+    ipfs: 'https://ipfs.io/ipfs/QmQZ2YLSmmvFkFSsYz4CbzBqyU4GuBxDA66hxJWA9Te3KN/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/390303',
+      diptych: 'ring-of-fire'
+    },
+    provenance: 'ipfs://QmdULx1K168RU6MtNfJfgpystCjGLYcK8NAULUZCxc627h',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/tweetcarts/blue.p8',
+    favorite: true,
+    themes: ['tweetcart', 'pico-8', 'lua', 'interactive', 'generative', 'pixelart', 'opensource', 'codeart', 'loop', 'neoretro', 'constrained code', 'diptych', 'rain', 'water', 'particles', 'RGBMTL 2022']
+  },
+  'ring-of-fire': {
+    id: 'ring-of-fire',
+    title: 'Ring of Fire',
+    series: 'tweetcarts',
+    year: 2022,
+    platform: 'teia',
+    description: 'Flames rising from a ring. A tweetcart/tootcart exploring realistic fire simulation using entropy locking—with default seed 6 creating the intended effect. Click/tap to reseed and discover rare, bizarre outcomes. Part of a diptych with BLUE.',
+    ipfs: 'https://ipfs.io/ipfs/bafybeiby6evmdoajih64js7qnjmqixgphx5xm2xfroozbyhydqjy6ql6hi/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/797976',
+      diptych: 'blue'
+    },
+    provenance: 'ipfs://QmbxxbTsVsEcBftUUkHFnUsegXQMpmg2Xh649V4rxGQXMu',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/tweetcarts/ring_of_fire.p8',
+    favorite: true,
+    themes: ['tweetcart', 'tootcart', 'pico-8', 'fire', 'interactive', 'generative', 'generator', 'neoretro', 'pixelart', 'procedural', 'entropy locking', 'opensource', 'creative coding', 'CC0', 'diptych', 'RGBMTL 2022']
   }
 };
 

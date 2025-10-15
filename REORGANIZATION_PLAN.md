@@ -278,6 +278,21 @@ For each artwork:
 - Documentation: breadcrumbs not encyclopedias
 - Portfolio at www.aebrer.xyz
 
+### Exhibition History
+
+**RGBMTL (formerly TEZARTMTL)**
+- Montreal-based non-profit collective celebrating digital art and blockchain creativity
+- Annual exhibition (end of August) featuring collective curation model
+- 25 artists each select 5-10 artists, creating extensive showcase
+- Artworks displayed on projections, CRT monitors, and LED panels (1 minute each)
+- Free and open to public, supported by Tezos Foundation and Objkt.com
+- Website: https://rgbmtl.com/
+
+**Drew's works featured in RGBMTL:**
+- **2022 (as TEZARTMTL):** BLUE and Ring of Fire (tweetcart diptych)
+  - Photo documentation: `rgbmtl(tezartmtl)_2022.jpg`
+- **2024:** [Additional pieces - TODO: identify which works were curated]
+
 ---
 
 ## Progress Tracking
@@ -304,10 +319,11 @@ For each artwork:
 - [~] Emergence series migration (1/4+ pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
 - [~] Entropy-Locked series migration (3 pieces)
-- [~] pico_punks series migration (1/4+ pieces)
+- [~] pico_punks series migration (2/4+ pieces)
 - [~] pico_galaxies series migration (1/20+ pieces)
+- [~] Tweetcarts series migration (2 pieces)
 
-### Recently Migrated (13 total as of 2025-10-12):
+### Recently Migrated (15 total as of 2025-10-15):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -371,6 +387,34 @@ For each artwork:
   - Perfect looping gif with decoherence/recoherence timing
   - Differential rotation creating visual structure cycles
   - Featured on Teia as objkt/182690
+
+**Tweetcarts Series (2):**
+- **BLUE** - Rain falling into a pool (2021)
+  - Tweetcart using memory manipulation for particle cascades
+  - Slo-mo feature via Circle Button (Z key)
+  - Featured in RGBMTL 2022 (then called TEZARTMTL)
+  - Part of diptych with Ring of Fire
+- **Ring of Fire** - Flames rising from a ring (2022)
+  - Tweetcart/tootcart (351 characters) with entropy locking
+  - Default seed 6 creates intended fire effect
+  - Click to reseed and discover rare, bizarre outcomes
+  - Featured in RGBMTL 2022 (then called TEZARTMTL)
+  - Part of diptych with BLUE
+
+### Next Migration Session Plan:
+
+1. ~~**blue + ring of fire tweetcarts** - Diptych pair, gallery featured~~ ✅ COMPLETED 2025-10-15
+2. **Entropy Generator (TIC-80)** - The origin piece for entropy locking
+3. **Petite Chute + other screensavers** - Focus on the ambient pieces
+4. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
+
+This progression makes sense:
+- Tweetcarts show constraint-based work and have exhibition history ✅
+- Entropy Generator provides historical context for the entropy locking technique
+- Screensavers series needs more content for contemplative ambiance pieces
+- pico_punk_generator completes the pico_punks origin story
+
+The screensavers can be batched efficiently once the first couple are done.
 
 ### Documentation Structure Established:
 - Clear separation: "In-Fiction Description" vs "Author's Notes"

@@ -56,10 +56,23 @@ Add piece ID to the series works array in SERIES.
 
 ### 3. Move Code to Series Folder (1 min)
 
+**For pieces with folders:**
 ```bash
-mkdir -p series/[series-name]/[piece-name]
-mv [old-location] series/[series-name]/[piece-name]/
+mkdir -p series/[series-name]/
+git mv [old-location] series/[series-name]/[piece-folder-name]
 ```
+
+**For single-file pieces (e.g., tweetcarts):**
+```bash
+mkdir -p series/[series-name]/
+git mv [old-location]/piece.p8 series/[series-name]/piece.p8
+```
+
+**CRITICAL:** After moving files, update the `sourceCode` link in data.js:
+- For folders: `https://github.com/aebrer/pico8_carts/tree/master/series/[series]/[folder]`
+- For single files: `https://github.com/aebrer/pico8_carts/blob/master/series/[series]/file.p8`
+- Note: Use `blob` for files, `tree` for folders
+- Point to the specific file when possible (not ambiguous folder)
 
 ### 4. Create Gallery Page (2 min)
 
