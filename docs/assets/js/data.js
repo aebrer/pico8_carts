@@ -40,7 +40,7 @@ const SERIES = {
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
-    works: ['visions']
+    works: ['visions', 'petite-chute', 'deja-hue']
   },
   tweetcarts: {
     name: 'Tweetcarts',
@@ -315,6 +315,43 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/tweetcarts/ring_of_fire.p8',
     favorite: true,
     themes: ['tweetcart', 'tootcart', 'pico-8', 'fire', 'interactive', 'generative', 'generator', 'neoretro', 'pixelart', 'procedural', 'entropy locking', 'opensource', 'creative coding', 'CC0', 'diptych', 'RGBMTL 2022']
+  },
+  'petite-chute': {
+    id: 'petite-chute',
+    title: 'petite chute',
+    series: 'screensavers',
+    year: 2024,
+    platform: 'objkt',
+    description: 'A piece about color exploration and palettes. Just something soothing to stare at that makes you feel good. A 16x16 grid of pixels with background color cycling. Derived from THE FALL. Sometimes the color cycle perfectly loops—look out for that. Also surprisingly, thanks to entropy locking, it\'s possible to generate a rare black and white output (seen once out of thousands).',
+    ipfs: 'https://ipfs.io/ipfs/QmViV7khUsodP81bwG3JUrq4eLaiKmAjhVzdzCt7okDD9W/',
+    isGenerative: true,
+    links: {
+      objkt: 'https://objkt.com/tokens/KT1LNtgRnfyFgP85M9znLorh2anKSZAgBRrd/13',
+      'the fall': 'https://www.fxhash.xyz/generative/slug/the-fall-2',
+      diptych: 'deja-hue'
+    },
+    provenance: 'ipfs://QmcdvwmvFUmRqX3yyJEoiTE4wy7uqT97FpqQDYPd2S1r6r',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/petite_chute',
+    favorite: true,
+    themes: ['screensaver', 'ambient', 'colors', 'palettes', 'entropy locking', 'p5js', 'generative', 'lofi', 'soothing', 'pixels', 'animation', 'derivative', 'objkt4objkt4', 'CC0', 'interactive', 'diptych']
+  },
+  'deja-hue': {
+    id: 'deja-hue',
+    title: 'deja hue',
+    series: 'screensavers',
+    year: 2024,
+    platform: 'manifold',
+    description: 'A generative art screensaver using totally destroyed cellular automata to move pixels around. Entropy locking creates emergent patterns and soothing visuals with infinite subtle colorshifts and movements. ETH genesis piece (not counting one botched mint years ago). Files stored on Arweave for maximum longevity.',
+    ipfs: 'https://arweave.net/QhoCCmNvCK3S1-VfnSZELc2vLsvAjQljZ3dZBBB_HsE/',
+    isGenerative: true,
+    links: {
+      manifold: 'https://app.manifold.xyz/c/deja-hue',
+      diptych: 'petite-chute'
+    },
+    provenance: 'https://arweave.net/Zc6ueb3GLbFhE0p2miNrTdd3Bxo_xW7ssenSpni8KsU',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/deja_roux',
+    favorite: true,
+    themes: ['screensaver', 'ambient', 'colors', 'cellular automata', 'entropy locking', 'p5js', 'generative', 'soothing', 'infinite', 'arweave', 'ETH', 'ETH genesis', 'interactive', 'diptych']
   }
 };
 

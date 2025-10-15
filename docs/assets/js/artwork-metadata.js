@@ -34,6 +34,9 @@ function renderArtworkMetadata(workId) {
     if (work.links.versum) {
       linksHTML += `<a href="${work.links.versum}" target="_blank">View on Versum</a>\n            `;
     }
+    if (work.links.manifold) {
+      linksHTML += `<a href="${work.links.manifold}" target="_blank">View on Manifold</a>\n            `;
+    }
 
     // Provenance link
     if (work.provenance) {

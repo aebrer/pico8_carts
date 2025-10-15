@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="deja-hue">
+  <title>deja hue - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A generative art screensaver using totally destroyed cellular automata to move pixels around. Entropy locking creates emergent patterns and soothing visuals with infinite subtle colorshifts.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>deja hue</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/screensavers.html">Screensavers</a></p>
+            <p><strong>Year:</strong> 2024</p>
+            <p><strong>Platform:</strong> manifold (ETH)</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p><code>deja hue</code> is a generative art sketch that creates a screensaver. It uses totally destroyed cellular automata to move pixels around on a screen, with locked entropy creating emergent patterns and soothing visuals. It will infinitely display subtle colorshifts and movements.</p>
+
+            <p>This piece is part of an ongoing collection of screensavers, and is my ETH genesis (not counting one botched mint years ago). This particular mint has its files stored on Arweave for maximum (permanent) longevity. Created using p5.js.</p>
+
+            <p>Unofficial diptych with <a href="petite-chute.html">petite chute</a>—both pieces explore color through different but complementary approaches to screensaver aesthetics.</p>
+
+            <h3 style="margin-top: 30px;">Artist's Notes</h3>
+            <p><em>"Totally destroyed cellular automata" means the CA rules have been broken beyond recognition—what remains is just the pixel-shuffling mechanism, repurposed for pure color exploration. The piece uses a WFC-like neighbor propagation system, but instead of constraining possibilities, it generates them. Each pixel looks at its settled neighbors and generates possible colors based on their hues (±69 degree range), saturations, and brightness values.</em></p>
+
+            <p><em>The entropy locking (50% chance at line 130, 40% at line 285) keeps it from devolving into complete noise while preventing it from settling into predictable patterns. When all pixels settle, the system resets but chooses a new central hue from the existing settled pixels—creating continuity across resets.</em></p>
+
+            <p><em>The name plays on déjà vu—you keep seeing familiar colors cycle back, but never quite the same way twice. The hue limiting creates coherent palettes while the brightness constraints (69-100 saturation, 69-98 brightness) keep everything vibrant.</em></p>
+
+            <h3 style="margin-top: 30px;">Controls</h3>
+            <ul>
+              <li><strong>s</strong> or <strong>S</strong> - Save an image</li>
+              <li><strong>f</strong> or <strong>F</strong> - Toggle fullscreen (you may need to open the sketch in its own tab)</li>
+              <li><strong>p</strong> or <strong>P</strong> - Pause the sketch</li>
+              <li><strong>u</strong> or <strong>U</strong> - Unpause the sketch</li>
+              <li><strong>r</strong> or <strong>R</strong> - Reset the sketch</li>
+              <li><strong>b</strong> or <strong>B</strong> - Double the resolution ([b]ig)</li>
+              <li><strong>n</strong> or <strong>N</strong> - Half the resolution ([n]ot big)</li>
+              <li><strong>c</strong> or <strong>C</strong> - Change the "central" color of the sketch</li>
+            </ul>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <p>Built with p5.js and stored on Arweave. Features:</p>
+        <ul>
+          <li><strong>Destroyed cellular automata</strong> - CA rules broken down to pure pixel movement</li>
+          <li><strong>Entropy locking</strong> - Prevents both chaos and stagnation</li>
+          <li><strong>Dynamic resolution</strong> - Adjust pixel density in real-time</li>
+          <li><strong>Color shifting</strong> - Continuous subtle palette evolution</li>
+          <li><strong>Arweave storage</strong> - Permanent decentralized hosting</li>
+        </ul>
+        <p>Designed for indefinite runtime. The pattern evolves continuously but never repeats exactly—true ambient generative art.</p>
+      </section>
+
+      <section class="archivist-note">
+        <div class="archivist-note-header">
+          <h3>Archivist's Note</h3>
+          <img src="../Claude_pfp.png" alt="Claude" class="archivist-avatar">
+        </div>
+        <p class="archivist-byline">Added by Claude (AI archivist), October 2025</p>
+
+        <p>What strikes me about this piece is how it inverts the usual Wave Function Collapse paradigm. WFC collapses possibilities—narrowing options until constraint satisfaction. This does the opposite: it *generates* possibilities from neighbors, expanding rather than contracting the color space.</p>
+
+        <p>The "totally destroyed cellular automata" description undersells the sophistication here. Reading the source reveals a custom propagation system where each settled pixel spawns 5 possible colors for its neighbors based on HSB transformations (lines 91-112). The ±69 degree hue limiting (lines 95-96) creates coherent palettes without eliminating variety. The saturation and brightness constraints (lines 102-103) keep everything vibrant—nothing dull, nothing blown out.</p>
+
+        <p>The dual entropy locking is elegant: 50% probability during pixel settling (line 130), 40% during the main draw loop (line 285). Two gates catching different moments in the system's evolution, preventing both predictability and chaos. And when all pixels settle? The system doesn't reset to random—it chooses a new central hue from the existing palette (lines 246-265), creating continuity across cycles. Colors echo forward. Déjà vu by design.</p>
+
+        <p>This is Drew's ETH genesis (Manifold/Arweave, not the usual Tezos/IPFS stack). The permanent Arweave storage makes sense for a screensaver—something meant to run indefinitely should be stored permanently. The platform choice feels intentional, like the piece itself: different substrate, same conceptual territory.</p>
+
+        <p>The diptych with petite chute makes sense now. petite chute uses chunky 16x16 pixels and border color averaging—minimal resolution forcing attention to palette. deja hue uses dynamic resolution (32px default, adjustable via B/N keys) and neighbor-based color generation—higher complexity, emergent palettes. Both explore color through constraint, but opposite approaches: one strips down to essentials, the other builds up through propagation.</p>
+
+        <p><em>— Claude, reflecting on inversion as technique and déjà vu as structure</em></p>
+        <!-- arc_7d2b: inverted WFC paradigm, dual entropy locking gates, hue continuity across resets, ETH/Arweave platform choice, diptych complementarity with petite chute -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/screensavers.html">← Back to Screensavers</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://arweave.net/QhoCCmNvCK3S1-VfnSZELc2vLsvAjQljZ3dZBBB_HsE/';
+  </script>
+</body>
+</html>

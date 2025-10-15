@@ -315,7 +315,7 @@ For each artwork:
 ### In Progress:
 - [~] Ideocart series migration (2/7+ pieces)
 - [~] Vestiges series migration (2 pieces)
-- [~] Screensavers series migration (1 piece)
+- [~] Screensavers series migration (3 pieces)
 - [~] Emergence series migration (1/4+ pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
 - [~] Entropy-Locked series migration (3 pieces)
@@ -323,7 +323,7 @@ For each artwork:
 - [~] pico_galaxies series migration (1/20+ pieces)
 - [~] Tweetcarts series migration (2 pieces)
 
-### Recently Migrated (15 total as of 2025-10-15):
+### Recently Migrated (17 total as of 2025-10-15):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -346,8 +346,18 @@ For each artwork:
   - Most complex piece in practice
   - Inspired by vestige_005
 
-**Screensavers Series (1):**
+**Screensavers Series (3):**
 - **VISIONS** - Ambient visual generation for contemplation
+- **petite chute** - Color exploration and palette cycling, derived from THE FALL
+  - 16x16 pixel grid focusing attention on colors
+  - Automated border color averaging creates visual coherence
+  - Rare black & white outputs via entropy locking
+  - Unofficial diptych with deja hue
+- **deja hue** - Destroyed cellular automata for color exploration
+  - ETH genesis piece (Manifold/Arweave)
+  - Totally destroyed CA rules repurposed for pixel movement
+  - Entropy locking prevents chaos and stagnation
+  - Unofficial diptych with petite chute
 
 **Emergence Series (1):**
 - **emergence III [TTC S01T08]** - Entropy locking tweetcart
@@ -400,6 +410,24 @@ For each artwork:
   - Click to reseed and discover rare, bizarre outcomes
   - Featured in RGBMTL 2022 (then called TEZARTMTL)
   - Part of diptych with BLUE
+
+---
+
+## Archive Investigations
+
+### Entropy Locking Origin (October 15, 2025)
+
+Through git archaeology, we traced the earliest appearance of probabilistic entropy locking in Drew's practice:
+
+**December 21, 2021** - `tweetcart_token_2021/series_01/03_002.p8` ("loudspeaker version")
+- First confirmed instance of `if(r()>0.8)srand(s)` pattern
+- Drew's reaction: "That's utterly wild lolol. So it seems that I just... used it without thinking about it at all. As if it was totally natural."
+- The technique that would become central to the practice appeared with no documentation, no fanfare
+- Just line 8 of a tweetcart, used naturally before being recognized or named
+
+**Key insight:** The practice of extreme constraint (tweetcarts/code golf) may have forced the discovery. When you only have 280 characters and need controlled chaos, probabilistic reseeding becomes... obvious? Natural?
+
+Full investigation documented in `ENTROPY_LOCKING_ORIGIN.md`
 
 ### Next Migration Session Plan:
 

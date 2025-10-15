@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="petite-chute">
+  <title>petite chute - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A piece about color exploration and palettes. Just something soothing to stare at that makes you feel good. A 16x16 grid of pixels with background color cycling.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>petite chute</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/screensavers.html">Screensavers</a></p>
+            <p><strong>Year:</strong> 2024</p>
+            <p><strong>Platform:</strong> objkt</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p><code>petite chute</code> is a piece about color exploration and palettes. It's just something soothing that I like to stare at, and makes me feel good.</p>
+
+            <p>It's a 16x16 grid of pixels, with a background color cycling through palettes. The name <code>petite chute</code> means "little fall" or "little waterfall" and comes from the fact that this piece is a derivative of <a href="https://www.fxhash.xyz/generative/slug/the-fall-2" target="_blank">THE FALL</a>.</p>
+
+            <p>Sometimes, the color cycle will perfectly loop, so look out for that if you like it.</p>
+
+            <p>Also, I didn't originally intend for this but to my surprise thanks to the entropy locking it is possible to generate a black and white output... I have seen it once out of thousands of outputs so keep an eye out for that too.</p>
+
+            <p>Unofficial diptych with <a href="deja-hue.html">deja hue</a>—both pieces explore color through different but complementary approaches to screensaver aesthetics.</p>
+
+            <h3 style="margin-top: 30px;">Artist's Notes</h3>
+            <p><em>With this piece there are two things that I tried that really worked.</em></p>
+
+            <p><em>One was easy... 16x16 means super chunky pixels, which means you really focus on the colors. The grid is deliberately tiny to force attention onto the palette itself rather than any emergent patterns.</em></p>
+
+            <p><em>The second took a lot of trial and error to figure out, which was the automated border colors based on color averaging. The background continuously recalculates as the average of all pixels in the 16x16 grid. That makes the whole piece feel coherent somehow—the frame always harmonizes with the content, creating visual unity even as the palette cycles and shifts.</em></p>
+
+            <h3 style="margin-top: 30px;">Minting Context</h3>
+            <p><em>Minted for Objkt4Objkt4 on 2024-04-18—a community event where artists gift generative pieces to each other, celebrating the collaborative spirit of the tezos art community.</em></p>
+
+            <h3 style="margin-top: 30px;">Controls</h3>
+            <ul>
+              <li><strong>s</strong> - Save PNG</li>
+              <li><strong>n</strong> - Resume animation</li>
+              <li><strong>p</strong> - Pause animation</li>
+              <li><strong>r</strong> - Change randomness and generate new output</li>
+            </ul>
+
+            <p><em>Scales to any aspect ratio and display size automatically, but will reload the page so you'll lose the one you're looking at.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <p>Built with p5.js. A minimalist color study featuring:</p>
+        <ul>
+          <li><strong>16x16 pixel grid</strong> - Simple, lofi aesthetic</li>
+          <li><strong>Background color cycling</strong> - Creates ambient palette shifts</li>
+          <li><strong>Entropy locking</strong> - Enables rare outputs like the black & white variant</li>
+          <li><strong>Derivative work</strong> - Conceptually descended from THE FALL</li>
+        </ul>
+        <p>Designed for indefinite runtime as an ambient screensaver. Sometimes loops perfectly, sometimes cycles endlessly—part of the charm.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/screensavers.html">← Back to Screensavers</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/QmViV7khUsodP81bwG3JUrq4eLaiKmAjhVzdzCt7okDD9W/';
+  </script>
+</body>
+</html>
