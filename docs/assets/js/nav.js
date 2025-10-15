@@ -6,19 +6,21 @@ function renderNav(context = 'root') {
   // This determines relative paths (../ for nested pages)
   const prefix = context === 'root' ? '' : '../';
 
+  // Generate series links dynamically from SERIES data
+  // SERIES is loaded from data.js which must be included before nav.js
+  let seriesLinks = '';
+  if (typeof SERIES !== 'undefined') {
+    seriesLinks = Object.entries(SERIES)
+      .map(([id, series]) => `<a href="${prefix}series/${id}.html">${series.name}</a>`)
+      .join('\n      ');
+  }
+
   const nav = `
     <h1 class="site-title">Drew Brereton <span style="color: var(--link-hover);">(aebrer)</span></h1>
     <nav>
       <a href="${prefix}index.html">Home</a>
       <a href="${prefix}themes.html">Themes</a>
-      <a href="${prefix}series/ideocart.html">Ideocart</a>
-      <a href="${prefix}series/vestiges.html">Vestiges</a>
-      <a href="${prefix}series/emergence.html">Emergence</a>
-      <a href="${prefix}series/three-body-problem.html">Three Body Problem</a>
-      <a href="${prefix}series/entropy-locked.html">Entropy-Locked</a>
-      <a href="${prefix}series/pico_punks.html">pico_punks</a>
-      <a href="${prefix}series/pico_galaxies.html">pico_galaxies</a>
-      <a href="${prefix}series/screensavers.html">Screensavers</a>
+      ${seriesLinks}
       <a href="${prefix}faq.html">FAQ</a>
       <a href="${prefix}index.html#contact">Contact</a>
       <img src="${prefix}aebrer_pfp.png" alt="aebrer" class="avatar">
