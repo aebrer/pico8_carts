@@ -1,0 +1,70 @@
+{
+  "beginner-ideocartography": {
+    "thumbnail": "https://ipfs.io/ipfs/Qmbw5qKk7G1MdgiS3pd4FyRyw6g7qpv2SbSFJk46rM3sTP",
+    "display": "https://ipfs.io/ipfs/QmNmcAmfcfBLz3bKPfLFB3xcrQWjggccpFh3gqCzCMLGML"
+  },
+  "intermediate-ideocartography": {
+    "thumbnail": "https://ipfs.io/ipfs/QmY7npznSASiN61trocXBbYe43iRKKicx2ZtZgQZNJRjtA",
+    "display": "https://ipfs.io/ipfs/Qme2jYHSLa2nqmvYc1r5t92TSF1wHwSp7y4xugyTNKTZsr"
+  },
+  "visions": {
+    "thumbnail": "https://ipfs.io/ipfs/QmPXPUhhbhniedCrn7U9ZM23CdmPG6tJucRuz1c8PAp7bu",
+    "display": "https://ipfs.io/ipfs/QmQkNdMiGQFhK99W2J1SYtKXxK4nrUNgndnpuyEkmXUqXK"
+  },
+  "the-trace-gallery": {
+    "thumbnail": "https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc",
+    "display": "https://ipfs.io/ipfs/QmNv6r4LDVhhj6AabQQVtmNTGK2UcPjZSoLpuFcuXJ6yNc"
+  },
+  "containment-breach": {
+    "thumbnail": "https://ipfs.io/ipfs/QmYdV76bXNtPTWBEbvJRECnZZP4cVjg4fnEH1jfsUsJpa8",
+    "display": "https://ipfs.io/ipfs/QmYdV76bXNtPTWBEbvJRECnZZP4cVjg4fnEH1jfsUsJpa8"
+  },
+  "emergence-iii": {
+    "thumbnail": "https://ipfs.io/ipfs/QmUmVKJyWMey27zjNs4MGnj7QCcy5V6BLEunJyZwsRsprX",
+    "display": "https://ipfs.io/ipfs/QmeiiV3DSC3QirY9aJKSKPrq7F6XchUJDWr9fnJ2JxFSoJ"
+  },
+  "luna-theory-emulator": {
+    "thumbnail": "https://ipfs.io/ipfs/QmVd79wPHiWA4ivJ1vxSBkFasfpUqs2QgjXXRdDjHZEyzd",
+    "display": "https://ipfs.io/ipfs/QmVd79wPHiWA4ivJ1vxSBkFasfpUqs2QgjXXRdDjHZEyzd"
+  },
+  "entropy-locked-wfc": {
+    "thumbnail": "https://ipfs.io/ipfs/QmVTEoPbJMfFQnTgQvxBFbyoAJ4amtYqnXSELa84NxYuJJ",
+    "display": "https://ipfs.io/ipfs/QmbYfutiPV71AQGTwv1TqZ2SXY5TTRWW5nJA5Pqwkuuq7t"
+  },
+  "sedimentary-city": {
+    "thumbnail": "https://ipfs.io/ipfs/QmW8hXat8yQ1PWx7qVfRtaa95e1b6G2YwPpvDvVvKvYmyr",
+    "display": "https://ipfs.io/ipfs/QmNW6yGUZyfFfc44zuPrYb12WkuKdpfLqdseTPyLuWKM4c"
+  },
+  "the-city-is-burning": {
+    "thumbnail": "https://ipfs.io/ipfs/QmWFgcwSZU1hW5bgfUBSRYk7aCu4U3taqaVoZnjdwCtown",
+    "display": "https://ipfs.io/ipfs/QmcgYKW5eDyo2q9z7YG2ue3VXz9P7TABsMj6adNPMexPnr"
+  },
+  "pico-punk-generator-generator": {
+    "thumbnail": "https://ipfs.io/ipfs/QmW2HhAb7BzkqQCHvBwioKVozXydtsFszGFWZ1LmW4xLf6",
+    "display": "https://ipfs.io/ipfs/QmSGhKaKGLCn8subGhmAN7VFBrsF8bnc33n4aNXNtEjUhF"
+  },
+  "pico-galaxy-010": {
+    "thumbnail": "https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc",
+    "display": "https://ipfs.io/ipfs/QmXQraiBtNg1ZN8JqKAXappS5L2BFLBevejfn1UwvHdNam"
+  },
+  "pico-punk-generator": {
+    "thumbnail": "https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc",
+    "display": "https://ipfs.io/ipfs/QmVDaLWWCfGYAuCZSaTaqSqxzdheHcCH6WXUuTABwETjGd"
+  },
+  "blue": {
+    "thumbnail": "https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc",
+    "display": "https://ipfs.io/ipfs/Qmchyoxxh6ANsp8KXf4saDA8gDpj5wkEQ9PbD9if8Ljq5G"
+  },
+  "ring-of-fire": {
+    "thumbnail": "https://ipfs.io/ipfs/QmSGRydpJbNUMBTL4fjDvu6AZjeMGig1jtLr4rFLF2cJMm",
+    "display": "https://ipfs.io/ipfs/QmSGRydpJbNUMBTL4fjDvu6AZjeMGig1jtLr4rFLF2cJMm"
+  },
+  "petite-chute": {
+    "thumbnail": "https://ipfs.io/ipfs/QmYLaDCTVptiuE4oAqS4b8r7Zk63P3RF9tQAvDzjHgDzgq",
+    "display": "https://ipfs.io/ipfs/QmY57px2cVbmtcnyVTzCqn8gkVtaXB8h7d4GWFUfdsRwKe"
+  },
+  "deja-hue": {
+    "thumbnail": "",
+    "display": "https://arweave.net/fI_Cn8BgJ1RLiZc2CTIhl36RsI4tOPH31Iv99ksF0ks"
+  }
+}

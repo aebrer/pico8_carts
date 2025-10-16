@@ -61,4 +61,4 @@ gallery/
 
 ## Deployment
 
-This will be deployed to GitHub Pages at aebrer.xyz once migration is complete.
+This will be deployed to GitHub Pages at entropist.ca once migration is complete.

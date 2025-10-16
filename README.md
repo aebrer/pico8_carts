@@ -2,7 +2,7 @@
 
 A collection of generative art exploring **entropy, emergence, and pareidolia** through constrained platforms.
 
-**Portfolio:** [aebrer.xyz](https://aebrer.xyz)
+**Portfolio:** [entropist.ca](https://entropist.ca)
 **Platforms:** Pico-8, p5.js, TIC-80
 **Published on:** fxhash, hicetnunc/objkt, versum
 
@@ -211,7 +211,7 @@ Most work is **CC0** (public domain) unless otherwise specified in individual pi
 Citations not required but definitely appreciated!
 
 **Contact:**
-- Portfolio/Links: [aebrer.xyz](https://aebrer.xyz)
+- Portfolio/Links: [entropist.ca](https://entropist.ca)
 - Ethereum: `0xD2b1DF574564F4da4775f8bDf79BDF29b42D8BD7`
 - Tezos: `tz1ZBMhTa7gxSpaeXoqyc6bTCrxEHfZYSpPt`
 

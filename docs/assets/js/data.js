@@ -63,6 +63,7 @@ const WORKS = {
       fxhash: 'https://www.fxhash.xyz/generative/5529',
     },
     provenance: 'ipfs://QmXb4vXaF1T89HkXaY6PPMMNCokrunaraAnxMn9PR1EVzP',
+    thumbnail: 'https://ipfs.io/ipfs/Qmbw5qKk7G1MdgiS3pd4FyRyw6g7qpv2SbSFJk46rM3sTP',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/beginner_ideocartography',
     favorite: true,
     themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'generative', 'pico-8', 'easter egg']
@@ -80,6 +81,7 @@ const WORKS = {
       objkt: 'https://objkt.com/tokens/versum_items/10',
     },
     provenance: 'ipfs://QmQ8gj1rqYFzqyZwCeLRfMuBUMJ2ATT7MTqTUV7dJYPgWy',
+    thumbnail: 'https://ipfs.io/ipfs/QmY7npznSASiN61trocXBbYe43iRKKicx2ZtZgQZNJRjtA',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/intermediate_ideocartography',
     favorite: true,
     themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'entropy locking', 'pico-8', 'dark']
@@ -97,6 +99,7 @@ const WORKS = {
       teia: 'https://teia.art/objkt/844464'
     },
     provenance: 'ipfs://QmT6sc5d7MP3gG9sdnqFNifmYRVbRWcSdVcLW6C9R7LGPD',
+    thumbnail: 'https://ipfs.io/ipfs/QmPXPUhhbhniedCrn7U9ZM23CdmPG6tJucRuz1c8PAp7bu',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/VISIONS',
     favorite: true,
     themes: ['screensaver', 'entropy locking', 'wave function collapse', 'ideocart', 'pareidolia', 'ambient', 'infinite', 'p5js']
@@ -114,6 +117,7 @@ const WORKS = {
       teia: 'https://teia.art/objkt/717500'
     },
     provenance: 'ipfs://QmYt25faE3S8cypApJfv4Fq2YdoLMujokEMCxcbB3Fs8hJ',
+    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/the_trace',
     favorite: true,
     themes: ['vestiges', 'ideocart', 'game', 'interactive', 'narrative', 'infohazard', 'cognitohazard', 'memetic', 'pico-8', 'gif export', 'multiple endings', 'neoretro', 'achievement system', 'doom timer', 'easter egg', 'secret hunting', 'entropy locking', 'text-based', 'CYOA', 'the hierophant', 'music', 'audio']
@@ -131,6 +135,7 @@ const WORKS = {
       teia: 'https://teia.art/objkt/127402'
     },
     provenance: 'ipfs://Qmb8c79wVDBLzKLCXHzMWDxzKRD5vFXh9aKYLbxw6V5rVH',
+    thumbnail: 'https://ipfs.io/ipfs/QmYdV76bXNtPTWBEbvJRECnZZP4cVjg4fnEH1jfsUsJpa8',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/vestige_005',
     favorite: true,
     themes: ['vestiges', 'infohazard', 'entropy locking', 'pico-8', 'intentional crash', 'the hierophant', 'containment failure', 'neoretro', 'SCP aesthetics', 'generative', 'ambient', 'infinite']
@@ -149,6 +154,7 @@ const WORKS = {
       ttc: 'https://objkt.com/asset/hicetnunc/414400'
     },
     provenance: 'ipfs://QmUaJin2BiJJczVLvk4REyDYtGWmMbidFj5mcbXtwV5Usz',
+    thumbnail: 'https://ipfs.io/ipfs/QmUmVKJyWMey27zjNs4MGnj7QCcy5V6BLEunJyZwsRsprX',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/emergence/emergence_iii',
     favorite: true,
     themes: ['emergence', 'tweetcart', 'entropy locking', 'pico-8', 'generator generator', 'seed looping', 'TTC', 'tweetcart token club', 'opensource', 'lua', 'neoretro', 'rainbow', 'animated', 'pixelart', 'constrained code']
@@ -167,6 +173,7 @@ const WORKS = {
       bisdvrk: 'https://teia.art/bisdvrk'
     },
     provenance: 'ipfs://QmRmoaTBx7MBKGLBt3ZKzsG8Zgo9ARJGALk6wWh4kb8X6r',
+    thumbnail: 'https://ipfs.io/ipfs/QmVd79wPHiWA4ivJ1vxSBkFasfpUqs2QgjXXRdDjHZEyzd',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/three-body-problem/luna_theory_emulator',
     favorite: true,
     themes: ['three body problem', 'animated', 'noise', 'interactive', 'simulation', 'pico-8', 'pixelart', 'space', 'cosmic', '3bodyprob', 'generative', 'sciart', 'lofi', 'music', 'audio', 'collaboration', 'soundtrack']
@@ -184,6 +191,7 @@ const WORKS = {
       fxhash: 'https://www.fxhash.xyz/project/entropy-locked-wave-function-collapse'
     },
     provenance: 'ipfs://QmdZwda29bdrtGL666srfXVpv53esUcySjDsPgSG2YzzM2',
+    thumbnail: 'https://ipfs.io/ipfs/QmVTEoPbJMfFQnTgQvxBFbyoAJ4amtYqnXSELa84NxYuJJ',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/entropy_locked_wave_function_collapse',
     favorite: true,
     themes: ['entropy locking', 'wave function collapse', 'p5js', 'generative', 'abstract', 'pixelart', 'neoretro', 'opensource', 'creative coding', 'fullscreen', 'CC0', 'tileable']
@@ -202,6 +210,7 @@ const WORKS = {
       diptych: 'the-city-is-burning'
     },
     provenance: 'ipfs://QmVB5LhUZbMxUFp8ZoH8BPMjBtTzh5mmhn2ftUkXfsB8ZJ',
+    thumbnail: 'https://ipfs.io/ipfs/QmW8hXat8yQ1PWx7qVfRtaa95e1b6G2YwPpvDvVvKvYmyr',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/sedimentary_city',
     favorite: true,
     themes: ['entropy locking', 'tweetcart', 'pico-8', 'lua', 'neoretro', 'pixelart', 'abstract', 'still', 'opensource', 'diptych', 'landscape', 'city', 'sediment']
@@ -220,6 +229,7 @@ const WORKS = {
       diptych: 'sedimentary-city'
     },
     provenance: 'ipfs://QmNoEC2TZpRaCML514WGoEDmk6XPqoh2pmEpESFhhzFQH4',
+    thumbnail: 'https://ipfs.io/ipfs/QmWFgcwSZU1hW5bgfUBSRYk7aCu4U3taqaVoZnjdwCtown',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/the_city_is_burning',
     favorite: true,
     themes: ['entropy locking', 'p5js', 'minimal', 'creative coding', 'neoretro', 'pixelart', 'landscape', 'city', 'fire', 'breadfond', 'diptych', 'fuck cars']
@@ -238,6 +248,7 @@ const WORKS = {
       'first generator': 'https://objkt.com/asset/hicetnunc/439049'
     },
     provenance: 'ipfs://QmWwtD357wYmVhewCy1g5XhnpWSTMj8dcZMsm2sKLyrEr6',
+    thumbnail: 'https://ipfs.io/ipfs/QmW2HhAb7BzkqQCHvBwioKVozXydtsFszGFWZ1LmW4xLf6',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punks_final_form',
     favorite: true,
     themes: ['pico_punks', 'pico-8', 'pfp', 'avatar', 'identity', 'pareidolia', 'interactive', 'generator generator', 'fxparams', 'neoretro', 'pixelart', 'lofi', 'entropy locking', 'irreversibility', 'noise', 'punks', 'aebrer_pfp']
@@ -258,6 +269,7 @@ const WORKS = {
       bisdvrk: 'https://teia.art/bisdvrk'
     },
     provenance: 'ipfs://QmZY9GgNs2WYyUUqeFFskn9FouSe3dTGnSXZLcaSb6MfMh',
+    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_galaxies/pico_galaxy_010',
     favorite: true,
     themes: ['pico_galaxies', 'loop', 'gif', 'spiral', 'pico-8', 'codeart', 'neoretro', 'pixelart', 'purple', 'commission', 'decoherence', 'rotation', 'dither', 'collaboration']
@@ -276,6 +288,7 @@ const WORKS = {
       objkt: 'https://objkt.com/asset/hicetnunc/439049'
     },
     provenance: 'ipfs://QmfVXYwtLubx4YrxgJrFm6ZTSL4QvvfQJGh9Gqz4bRgKKb',
+    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punk_generator',
     favorite: true,
     themes: ['pico_punks', 'pfp', 'avatar', 'generative', 'collectible', 'generator', 'pico-8', 'interactive', 'creative coding', 'pixelart', 'punks', 'pareidolia', 'procedural', 'text-based', 'neoretro', 'wallet seed']
@@ -294,6 +307,7 @@ const WORKS = {
       diptych: 'ring-of-fire'
     },
     provenance: 'ipfs://QmdULx1K168RU6MtNfJfgpystCjGLYcK8NAULUZCxc627h',
+    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/tweetcarts/blue.p8',
     favorite: true,
     themes: ['tweetcart', 'pico-8', 'lua', 'interactive', 'generative', 'pixelart', 'opensource', 'codeart', 'loop', 'neoretro', 'constrained code', 'diptych', 'rain', 'water', 'particles', 'RGBMTL 2022']
@@ -312,6 +326,7 @@ const WORKS = {
       diptych: 'blue'
     },
     provenance: 'ipfs://QmbxxbTsVsEcBftUUkHFnUsegXQMpmg2Xh649V4rxGQXMu',
+    thumbnail: 'https://ipfs.io/ipfs/QmSGRydpJbNUMBTL4fjDvu6AZjeMGig1jtLr4rFLF2cJMm',
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/tweetcarts/ring_of_fire.p8',
     favorite: true,
     themes: ['tweetcart', 'tootcart', 'pico-8', 'fire', 'interactive', 'generative', 'generator', 'neoretro', 'pixelart', 'procedural', 'entropy locking', 'opensource', 'creative coding', 'CC0', 'diptych', 'RGBMTL 2022']
@@ -331,6 +346,7 @@ const WORKS = {
       diptych: 'deja-hue'
     },
     provenance: 'ipfs://QmcdvwmvFUmRqX3yyJEoiTE4wy7uqT97FpqQDYPd2S1r6r',
+    thumbnail: 'https://ipfs.io/ipfs/QmYLaDCTVptiuE4oAqS4b8r7Zk63P3RF9tQAvDzjHgDzgq',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/petite_chute',
     favorite: true,
     themes: ['screensaver', 'ambient', 'colors', 'palettes', 'entropy locking', 'p5js', 'generative', 'lofi', 'soothing', 'pixels', 'animation', 'derivative', 'objkt4objkt4', 'CC0', 'interactive', 'diptych']
@@ -349,6 +365,7 @@ const WORKS = {
       diptych: 'petite-chute'
     },
     provenance: 'https://arweave.net/Zc6ueb3GLbFhE0p2miNrTdd3Bxo_xW7ssenSpni8KsU',
+    thumbnail: 'https://arweave.net/fI_Cn8BgJ1RLiZc2CTIhl36RsI4tOPH31Iv99ksF0ks',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/deja_roux',
     favorite: true,
     themes: ['screensaver', 'ambient', 'colors', 'cellular automata', 'entropy locking', 'p5js', 'generative', 'soothing', 'infinite', 'arweave', 'ETH', 'ETH genesis', 'interactive', 'diptych']

@@ -40,6 +40,7 @@ Add entry to `docs/assets/js/data.js`:
     objkt: 'https://...',
   },
   provenance: 'ipfs://Qm...', // IPFS metadata link
+  thumbnail: 'https://ipfs.io/ipfs/Qm...', // Extract from metadata (see step 2a)
   sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/[series]/[folder_name]', // IMPORTANT: Use exact folder name (underscores, capitalization, etc.)
   favorite: true/false, // Mark favorites
   themes: ['theme1', 'theme2', 'theme3']
@@ -53,6 +54,29 @@ Add entry to `docs/assets/js/data.js`:
 - Example: `beginner_ideocartography` NOT `beginner-ideocartography`
 
 Add piece ID to the series works array in SERIES.
+
+### 2a. Extract Thumbnail from Metadata (1 min)
+
+**For published pieces with provenance:**
+
+Fetch the metadata from the provenance IPFS/Arweave link to get the thumbnail URL:
+
+```bash
+# If you have a single new piece, manually fetch:
+curl https://ipfs.io/ipfs/QmXXXX... | jq '.thumbnailUri, .displayUri, .image'
+
+# For batch extraction, use the script:
+python3 scripts/fetch_thumbnails.py
+# This outputs to scripts/thumbnail_urls.json
+```
+
+**Metadata format differences:**
+- **IPFS (fxhash/teia/objkt):** Uses `thumbnailUri` (smaller) and `displayUri` (larger)
+- **Arweave:** Uses `image` field
+
+Add the thumbnail URL to your data.js entry (see example above). Place it after the `provenance` field.
+
+**For unpublished pieces:** Leave thumbnail as empty string or omit the field.
 
 ### 3. Move Code to Series Folder (1 min)
 
@@ -89,8 +113,17 @@ Find/replace placeholders:
 - `[DESCRIPTION]` → Full description (with proper structure - see below)
 - `[IPFS_URL]` → IPFS link (with trailing slash!)
 - `[IS_GENERATIVE]` → true or false
+- `[THUMBNAIL_URL]` → Thumbnail URL from step 2a (for Open Graph social media previews)
 
 **Auto-rendered from data.js:** Themes, links, provenance, and favorite star all render automatically!
+
+**Open Graph / Social Media Tags:**
+The template includes Open Graph and Twitter Card meta tags for rich social media previews. These tags use the thumbnail URL from step 2a:
+```html
+<meta property="og:image" content="[THUMBNAIL_URL]">
+<meta name="twitter:image" content="[THUMBNAIL_URL]">
+```
+Replace `[THUMBNAIL_URL]` with the thumbnail URL extracted from the metadata. This ensures proper link previews on Twitter, Discord, Facebook, etc.
 
 **Description Structure:**
 Use clear headings to separate fiction from author commentary:
@@ -104,6 +137,7 @@ Use clear headings to separate fiction from author commentary:
 - Themes, links, provenance, and stars automatically render from data.js
 - Add trailing slash to IPFS URLs
 - For PNG/image files, use `git add -f` to override .gitignore
+- `[THUMBNAIL_URL]` should be the `thumbnail` field from data.js (extracted in step 2a)
 
 ### 5. Review Tags (1 min)
 
@@ -121,13 +155,19 @@ Open in browser:
 - `docs/series/[series].html` → Check series page
 - `docs/works/[piece].html` → Check piece page, randomize button (if generative)
 
-### 7. Commit (1 min)
+### 7. Validate and Commit (1 min)
 
 ```bash
+# Validate before committing (optional - pre-commit hook runs automatically)
+python3 scripts/validate_gallery.py
+
+# Commit (pre-commit hook validates automatically)
 git add -A
 git commit -m "Migrate [piece-name] to gallery"
 git push
 ```
+
+**Note:** A pre-commit hook automatically validates gallery consistency. If validation fails, the commit is rejected. See `docs/VALIDATION.md` for details.
 
 ## Tips for Speed
 
@@ -178,6 +218,8 @@ Featured work, works grid, favorite stars → all auto-render
 - ✅ Structure descriptions with headings: "In-Fiction Description" and "Author's Notes"
 - ✅ Italicize all author's notes content
 - ✅ Include Pico-8 BBS development thread links when available
+- ✅ **Extract thumbnail from metadata** (step 2a) and add to both data.js AND HTML Open Graph tags
+- ✅ Open Graph `og:image` and `twitter:image` tags must use full HTTPS URLs (not ipfs:// format)
 
 ## Estimated Time Per Piece
 
