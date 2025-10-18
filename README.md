@@ -94,14 +94,14 @@ Generative character/avatar systems:
 - **uncurated_pico_punks** (fxhash)
 - **pXco_pXnks** (fxhash)
 
-### Entropy-Locked Pieces
-Works showcasing the entropy locking technique:
-- **Entropy Generator** (TIC-80) ⭐ - Origin piece for many entropy-locked cascades
+### Entropy-Locked & Related Pieces
+Works showcasing entropy locking and related seed-looping techniques:
+- **[Entropy Generator](https://entropist.ca/works/entropy-generator.html)** (TIC-80, 2021) ⭐ - Visual entropy gradient generator using deterministic seed-looping
+- **[THE FALL](https://entropist.ca/works/the-fall.html)** (p5.js, 2024) ⭐ - Non-constrained reimagining of Entropy Generator, onchain Base
+- **[Petite Chute](https://entropist.ca/works/petite-chute.html)** (p5.js, 2024) ⭐ - Derivative of THE FALL
 - **entropy_locked_starburst**
 - **entropy_locked_wave_function_collapse** (fxhash) ⭐
 - **entropy_locked_recursive_glitch_textures** (fxhash)
-- **Petite Chute** (p5.js) ⭐
-- **The Fall** (p5.js) ⭐ - JS version of Entropy Generator with more color
 
 ---
 

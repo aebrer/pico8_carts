@@ -11,12 +11,13 @@ The screensavers series creates generative visual experiences that evolve slowly
 ## Works in This Series
 
 ### Published
-- **VISIONS** ⭐ - Ambient visual generation
-- **Colorscapes** ⭐ - Color field explorations
-- **Deja Hue** (published as "deja_roux") ⭐ - Color drift and recurrence
+- **[VISIONS](https://entropist.ca/works/visions.html)** (Teia, 2024) ⭐ - Ambient visual generation with entropy locking and WFC
+- **[THE FALL](https://entropist.ca/works/the-fall.html)** (fxhash Base, 2024) ⭐ - Cascade and landscape generation, onchain storage
+- **[Petite Chute](https://entropist.ca/works/petite-chute.html)** (Objkt, 2024) ⭐ - 16x16 pixel grid, derivative of THE FALL
+- **[Deja Hue](https://entropist.ca/works/deja-hue.html)** (Manifold/Arweave, 2024) ⭐ - Destroyed cellular automata for color exploration
 
 ### Unpublished
-- **Petite Chute** (working title: o4o3) ⭐ - Entropy-locked cascade, p5.js
+- **Colorscapes** ⭐ - Color field explorations (WIP)
 - **ssvr01** - Early screensaver experiment
 
 ## Technical Approach

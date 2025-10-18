@@ -41,20 +41,22 @@ Based on Gödel's incompleteness theorems, every system MUST contain some unknow
 
 **Entropy locking embraces this:** It plays with the gap between what we can know (the seed will reset) and what we cannot know (when, and how much entropy accumulated). The emergence comes from the unmeasurable.
 
-## Origin Piece
+## Origin Context
 
-**Entropy Generator** (`tic80/noise_gen.lua`) ⭐
+**Entropy Generator** (`series/entropy-locked/entropy_generator.lua`) ⭐
 
-The foundational piece that established the entropy locking technique. A TIC-80 experiment that became the basis for many subsequent cascade-based works. More colorful evolutions followed.
+Published 2021-2022. While titled "Entropy Generator," this TIC-80 piece uses deterministic frame-based reseeding (`if frame%360==0 then srand(seed)`) rather than probabilistic entropy locking. It generates visual entropy gradients with looping pixel states—an important exploratory piece in the practice, though not the origin of the probabilistic technique itself.
+
+The first confirmed probabilistic entropy locking appeared December 21, 2021 in a tweetcart (`tweetcart_token_2021/series_01/03_002.p8`). See `ENTROPY_LOCKING_ORIGIN.md` for the full timeline.
 
 ## Major Works in This Series
 
 ### Published
-- **Entropy Generator** (TIC-80) ⭐ - The origin
-- **The Fall** (p5.js, fxhash) ⭐ - JS version with expanded color palette
-- **Petite Chute** (p5.js) ⭐ - Refined entropy cascade
-- **Entropy Locked Wave Function Collapse** (fxhash) ⭐ - Combining entropy lock with WFC algorithms
-- **Entropy Locked Recursive Glitch Textures** (fxhash) - Recursive texture generation with controlled decay
+- **[Entropy Generator](https://entropist.ca/works/entropy-generator.html)** (TIC-80, 2021) ⭐ - Visual entropy gradient generator using deterministic seed-looping
+- **[THE FALL](https://entropist.ca/works/the-fall.html)** (p5.js, fxhash Base, 2024) ⭐ - Non-constrained reimagining of Entropy Generator
+- **[Entropy Locked Wave Function Collapse](https://entropist.ca/works/entropy-locked-wfc.html)** (fxhash, 2022) ⭐ - Combining entropy lock with WFC-inspired algorithms
+- **[Sedimentary City](https://entropist.ca/works/sedimentary-city.html)** (fxhash, 2022) ⭐⭐ - Tweetcart diptych part 1
+- **[The City is Burning](https://entropist.ca/works/the-city-is-burning.html)** (fxhash, 2022) - Tweetcart diptych part 2
 
 ### Unpublished
 - **entropy_locked_starburst** - Radiating patterns with entropy lock
@@ -67,13 +69,13 @@ These pieces try to help people think about entropy in a way closer to what it r
 
 ## Technical Variations
 
-Different pieces implement entropy locking differently:
-- **Probability-based**: Reset seed with X% chance per frame
-- **Time-based**: Reset every N frames
+Different pieces implement variations:
+- **Probability-based (entropy locking)**: Reset seed with X% chance per frame - creates emergent equilibria
+- **Time-based (deterministic)**: Reset every N frames - creates predictable loops
 - **Event-based**: Reset on user interaction or state change
 - **Conditional**: Reset when certain visual conditions are met
 
-The specific implementation changes the character of the decay.
+The specific implementation changes the character of the decay. Only probabilistic timing creates true entropy locking with unknowable paths.
 
 ## Common Features
 
