@@ -432,9 +432,10 @@ Full investigation documented in `ENTROPY_LOCKING_ORIGIN.md`
 ### Next Migration Session Plan:
 
 1. ~~**blue + ring of fire tweetcarts** - Diptych pair, gallery featured~~ ✅ COMPLETED 2025-10-15
-2. **Entropy Generator (TIC-80)** - The origin piece for entropy locking
-3. **Petite Chute + other screensavers** - Focus on the ambient pieces
-4. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
+2. **The Fall** - Derivative parent of petite chute (currently has broken link on petite-chute.html)
+3. **Entropy Generator (TIC-80)** - The origin piece for entropy locking
+4. **Petite Chute + other screensavers** - Focus on the ambient pieces
+5. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
 
 This progression makes sense:
 - Tweetcarts show constraint-based work and have exhibition history ✅
