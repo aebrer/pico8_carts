@@ -207,7 +207,10 @@ Featured work, works grid, favorite stars → all auto-render
 
 - ✅ IPFS URLs need trailing slash: `.../QmXXX/`
 - ✅ IPFS URLs must be complete - check objkt if truncated
+- ✅ **For onchfs URLs:** Full URL with query params, use exact link from fxhash page source
+- ✅ **Double-check fxhash links** - use project page, NOT someone else's work by similar name
 - ✅ Provenance uses `ipfs://` format in data.js (auto-converted to https)
+- ✅ Provenance should be direct IPFS link, not fxhash server URL
 - ✅ `[WORK_ID]` in HTML must exactly match key in data.js
 - ✅ **Source code link MUST use exact folder name** - use `ls` to check! (underscores, caps, etc.)
 - ✅ Themes, links, provenance, and stars auto-render from data.js - don't hardcode!
@@ -220,6 +223,7 @@ Featured work, works grid, favorite stars → all auto-render
 - ✅ Include Pico-8 BBS development thread links when available
 - ✅ **Extract thumbnail from metadata** (step 2a) and add to both data.js AND HTML Open Graph tags
 - ✅ Open Graph `og:image` and `twitter:image` tags must use full HTTPS URLs (not ipfs:// format)
+- ✅ **Stick to exact user wording** - don't add "flavor" to artist's notes
 
 ## Estimated Time Per Piece
 

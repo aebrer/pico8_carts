@@ -315,10 +315,10 @@ For each artwork:
 ### In Progress:
 - [~] Ideocart series migration (2/7+ pieces)
 - [~] Vestiges series migration (2 pieces)
-- [~] Screensavers series migration (3 pieces)
+- [~] Screensavers series migration (4 pieces)
 - [~] Emergence series migration (1/4+ pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
-- [~] Entropy-Locked series migration (3 pieces)
+- [~] Entropy-Locked series migration (4 pieces)
 - [~] pico_punks series migration (2/4+ pieces)
 - [~] pico_galaxies series migration (1/20+ pieces)
 - [~] Tweetcarts series migration (2 pieces)
@@ -350,9 +350,10 @@ For each artwork:
 - **VISIONS** - Ambient visual generation for contemplation
 - **THE FALL** - Non-constrained reimagining of Entropy Generator
   - Single black pixel cascades creating emergent landscapes
-  - Entropy locking (0.1% reset probability) prevents chaos and stagnation
-  - Feedback loops create cycles, eventually settling into stable equilibria
-  - Onchain storage via Base/onchfs
+  - Uses probabilistic entropy locking (0.1% reset probability)
+  - Shows visible entropy gradient - regularity of stripes decay over distance/time
+  - Eventually stable loop occurs despite randomness (the artifice revealed)
+  - Onchain storage via Base/onchfs (fxhash)
   - Parent work of petite chute derivative
 - **petite chute** - Color exploration and palette cycling, derived from THE FALL
   - 16x16 pixel grid focusing attention on colors
@@ -378,13 +379,14 @@ For each artwork:
   - Featured on Teia as objkt/161642
 
 **Entropy-Locked Series (4):**
-- **Entropy Generator** - TIC-80 origin piece for entropy locking technique
-  - First exploration of seed-looping (entropy locking)
+- **Entropy Generator** - TIC-80 origin piece using deterministic seed-looping
+  - Uses deterministic frame-based reseeding (not probabilistic entropy locking)
   - Coded in Lua on TIC-80 Fantasy Computer
   - Palette generation via decay functions
-  - Published 2022, code written 2021
+  - Code provably existed November 2021 (curated outputs), generator minted 2022
   - Featured at RGBMTL 2024
   - Parent work of THE FALL
+  - Archivist note clarifies deterministic vs probabilistic reseeding distinction
 - **Entropy Locked Wave Function Collapse** - Not really WFC, inspired by it
   - Entropy increases rather than decreases
   - Pixels as tiling units with HSB-based connection rules
@@ -446,9 +448,10 @@ Full investigation documented in `ENTROPY_LOCKING_ORIGIN.md`
 
 1. ~~**blue + ring of fire tweetcarts** - Diptych pair, gallery featured~~ ✅ COMPLETED 2025-10-15
 2. ~~**THE FALL** - Derivative parent of petite chute~~ ✅ COMPLETED 2025-10-18
-3. ~~**Entropy Generator (TIC-80)** - The origin piece for entropy locking~~ ✅ COMPLETED 2025-10-18
-4. **colorscapes + other screensavers** - Focus on the ambient pieces
-5. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
+3. ~~**Entropy Generator (TIC-80)** - Origin piece using deterministic seed-looping~~ ✅ COMPLETED 2025-10-18
+4. ~~**Documentation updates** - Clarified entropy locking vs seed-looping terminology across all READMEs~~ ✅ COMPLETED 2025-10-18
+5. **colorscapes + other screensavers** - Focus on the ambient pieces
+6. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
 
 This progression makes sense:
 - Tweetcarts show constraint-based work and have exhibition history ✅
