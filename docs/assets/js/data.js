@@ -12,11 +12,6 @@ const SERIES = {
     description: 'Explorations of remnants, traces, and what remains after something has passed.',
     works: ['the-trace-gallery', 'containment-breach']
   },
-  emergence: {
-    name: 'Emergence',
-    description: 'Complex patterns arising from simple rules across platforms.',
-    works: ['emergence-iii']
-  },
   'three-body-problem': {
     name: 'Three Body Problem',
     description: 'Physics simulation exploring n-body orbital mechanics and chaos theory. This was my first series and what got me started on generative/code art, as well as pixel art—the earliest outputs frankly look like shit.',
@@ -45,7 +40,7 @@ const SERIES = {
   tweetcarts: {
     name: 'Tweetcarts',
     description: 'Code golf as art form—generative pieces constrained to 280 characters or less. Working within extreme limitations to create emergence from minimal code.',
-    works: ['blue', 'ring-of-fire']
+    works: ['blue', 'ring-of-fire', 'emergence-iii']
   }
 };
 
@@ -143,7 +138,7 @@ const WORKS = {
   'emergence-iii': {
     id: 'emergence-iii',
     title: 'emergence III [TTC S01T08]',
-    series: 'emergence',
+    series: 'tweetcarts',
     year: 2022,
     platform: 'fxhash',
     description: 'A Pico-8 tweetcart demonstrating entropy locking (originally called "seed looping"). Generator generator where each piece has its own unique starting position in a massive linear sequence. Featured in the Creative Code Toronto talk on entropy locking.',
@@ -155,7 +150,7 @@ const WORKS = {
     },
     provenance: 'ipfs://QmUaJin2BiJJczVLvk4REyDYtGWmMbidFj5mcbXtwV5Usz',
     thumbnail: 'https://ipfs.io/ipfs/QmUmVKJyWMey27zjNs4MGnj7QCcy5V6BLEunJyZwsRsprX',
-    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/emergence/emergence_iii',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/emergence_iii',
     favorite: true,
     themes: ['emergence', 'tweetcart', 'entropy locking', 'pico-8', 'generator generator', 'seed looping', 'TTC', 'tweetcart token club', 'opensource', 'lua', 'neoretro', 'rainbow', 'animated', 'pixelart', 'constrained code']
   },

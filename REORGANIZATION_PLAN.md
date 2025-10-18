@@ -94,20 +94,13 @@ Clear documentation helps turn "wait, what?" into "oh, I see" through striking v
    - ideocart_planar_slices
    - p5_ideocart
 
-3. **emergence series** (fxhash + tweetcarts)
-   - emergence (I)
-   - emergence II
-   - emergence_iv
-   - emergence_V (tootcart)
-   - Note: emergence III was a tweetcart token
-
-4. **vestiges series** (ongoing)
+3. **vestiges series** (ongoing)
    - vestiges_of_the_dead_god (fxhash)
    - vestiges/ folder (numbered 001-016)
    - "eyeballs" subseries
    - Some are "iconic"
 
-5. **pico_punks series**
+4. **pico_punks series**
    - pico_punk_generator ⭐
    - pico_punks_final_form (fxhash)
    - uncurated_pico_punks (fxhash)
@@ -316,12 +309,11 @@ For each artwork:
 - [~] Ideocart series migration (2/7+ pieces)
 - [~] Vestiges series migration (2 pieces)
 - [~] Screensavers series migration (4 pieces)
-- [~] Emergence series migration (1/4+ pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
 - [~] Entropy-Locked series migration (4 pieces)
 - [~] pico_punks series migration (2/4+ pieces)
 - [~] pico_galaxies series migration (1/20+ pieces)
-- [~] Tweetcarts series migration (2 pieces)
+- [~] Tweetcarts series migration (3 pieces)
 
 ### Recently Migrated (19 total as of 2025-10-18):
 
@@ -366,12 +358,6 @@ For each artwork:
   - Entropy locking prevents chaos and stagnation
   - Unofficial diptych with petite chute
 
-**Emergence Series (1):**
-- **emergence III [TTC S01T08]** - Entropy locking tweetcart
-  - fxhash generative, Tweetcart Token Club featured
-  - Generator generator with unique starting positions
-  - Featured in Creative Code Toronto talk on entropy locking
-
 **Three Body Problem Series (1):**
 - **luna theory | EMULATOR** - Infinite cosmic exploration
   - 3-body gravitational simulation with proper physics
@@ -413,7 +399,7 @@ For each artwork:
   - Differential rotation creating visual structure cycles
   - Featured on Teia as objkt/182690
 
-**Tweetcarts Series (2):**
+**Tweetcarts Series (3):**
 - **BLUE** - Rain falling into a pool (2021)
   - Tweetcart using memory manipulation for particle cascades
   - Slo-mo feature via Circle Button (Z key)
@@ -425,6 +411,11 @@ For each artwork:
   - Click to reseed and discover rare, bizarre outcomes
   - Featured in RGBMTL 2022 (then called TEZARTMTL)
   - Part of diptych with BLUE
+- **emergence III [TTC S01T08]** - Entropy locking tweetcart (2022)
+  - fxhash generative, Tweetcart Token Club featured
+  - Generator generator with unique starting positions
+  - Featured in Creative Code Toronto talk on entropy locking
+  - Demonstrates multi-gate entropy locking pattern
 
 ---
 
