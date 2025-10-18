@@ -9,7 +9,21 @@ function loadArtwork(isGenerative, baseIpfsUrl, isImage = false) {
 
   const display = document.getElementById('artwork-display');
   const hash = isGenerative ? generateFxHash() : '';
-  const url = isGenerative ? `${baseIpfsUrl}?fxhash=${hash}` : baseIpfsUrl;
+  const iteration = isGenerative ? Math.floor(Math.random() * 1000) : 0;
+
+  let url = baseIpfsUrl;
+  if (isGenerative) {
+    if (baseIpfsUrl.includes('?')) {
+      // URL already has query parameters - update fxhash and fxiteration
+      const urlObj = new URL(baseIpfsUrl);
+      urlObj.searchParams.set('fxhash', hash);
+      urlObj.searchParams.set('fxiteration', iteration);
+      url = urlObj.toString();
+    } else {
+      // Simple case: no existing parameters
+      url = `${baseIpfsUrl}?fxhash=${hash}`;
+    }
+  }
 
   if (isImage) {
     display.innerHTML = `<img src="${url}" alt="Artwork" style="width: 100%; height: 100%; object-fit: contain;">`;
@@ -55,7 +69,19 @@ function renderArtworkControls(isGenerative, baseIpfsUrl) {
 function randomizeArtwork(isGenerative, baseIpfsUrl) {
   if (!isGenerative || !currentIframe) return;
   const hash = generateFxHash();
-  currentIframe.src = `${baseIpfsUrl}?fxhash=${hash}`;
+  const iteration = Math.floor(Math.random() * 1000);
+
+  // Check if URL already has query parameters
+  if (baseIpfsUrl.includes('?')) {
+    // Parse URL and update fxhash and fxiteration parameters
+    const url = new URL(baseIpfsUrl);
+    url.searchParams.set('fxhash', hash);
+    url.searchParams.set('fxiteration', iteration);
+    currentIframe.src = url.toString();
+  } else {
+    // Simple case: no existing parameters
+    currentIframe.src = `${baseIpfsUrl}?fxhash=${hash}`;
+  }
 }
 
 function fullscreenArtwork() {

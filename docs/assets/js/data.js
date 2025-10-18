@@ -25,7 +25,7 @@ const SERIES = {
   'entropy-locked': {
     name: 'Entropy-Locked',
     description: 'Pieces showcasing entropy locking—probabilistic RNG reseeding creating controlled chaos.',
-    works: ['entropy-locked-wfc', 'sedimentary-city', 'the-city-is-burning']
+    works: ['entropy-generator', 'entropy-locked-wfc', 'sedimentary-city', 'the-city-is-burning']
   },
   'pico_punks': {
     name: 'pico_punks',
@@ -40,7 +40,7 @@ const SERIES = {
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
-    works: ['visions', 'petite-chute', 'deja-hue']
+    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue']
   },
   tweetcarts: {
     name: 'Tweetcarts',
@@ -234,6 +234,25 @@ const WORKS = {
     favorite: true,
     themes: ['entropy locking', 'p5js', 'minimal', 'creative coding', 'neoretro', 'pixelart', 'landscape', 'city', 'fire', 'breadfond', 'diptych', 'fuck cars']
   },
+  'entropy-generator': {
+    id: 'entropy-generator',
+    title: 'Entropy Generator',
+    series: 'entropy-locked',
+    year: 2021,
+    platform: 'versum',
+    description: 'The generator for the Entropy series. Coded in Lua on the TIC-80 Fantasy Computer. Uses seed-looping (entropy locking) to create feedback loops. Click/tap to change pseudorandom seeds. Refresh to restart and generate a new palette. Palettes generated via decay function applied to a high-visibility data visualization palette.',
+    ipfs: 'https://ipfs.io/ipfs/QmafvZY8L8PXDJEfWaQwg8XXKC3odXRweTLN32PAygKdbE/',
+    isGenerative: false,
+    links: {
+      objkt: 'https://objkt.com/tokens/versum_items/17224',
+      'entropy series': 'https://objkt.com/tokens?tags=aebrer_entropy&sort=timestamp:asc'
+    },
+    provenance: 'ipfs://Qmbnhkbg3w6aXprsfmVCFSwuXwwpdenPS2GPkPAZLaKfct',
+    thumbnail: 'https://ipfs.io/ipfs/QmUFt69akLcZTBZeVZ4994zdsFN5mZaVBbBfuSjusTqqHZ',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/entropy-locked/entropy_generator.lua',
+    favorite: true,
+    themes: ['entropy locking', 'tic-80', 'tic80', 'generative', 'generator', 'interactive', 'pixelart', 'neoretro', 'lua', 'creative coding', '4bit', '4-bit', 'seed looping', 'feedback loops', 'palette generation', 'RGBMTL 2024']
+  },
   'pico-punk-generator-generator': {
     id: 'pico-punk-generator-generator',
     title: 'pico_punk_generator_generator.p8',
@@ -342,7 +361,6 @@ const WORKS = {
     isGenerative: true,
     links: {
       objkt: 'https://objkt.com/tokens/KT1LNtgRnfyFgP85M9znLorh2anKSZAgBRrd/13',
-      'the fall': 'https://www.fxhash.xyz/generative/slug/the-fall-2',
       diptych: 'deja-hue'
     },
     provenance: 'ipfs://QmcdvwmvFUmRqX3yyJEoiTE4wy7uqT97FpqQDYPd2S1r6r',
@@ -350,6 +368,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/petite_chute',
     favorite: true,
     themes: ['screensaver', 'ambient', 'colors', 'palettes', 'entropy locking', 'p5js', 'generative', 'lofi', 'soothing', 'pixels', 'animation', 'derivative', 'objkt4objkt4', 'CC0', 'interactive', 'diptych']
+  },
+  'the-fall': {
+    id: 'the-fall',
+    title: 'THE FALL',
+    series: 'screensavers',
+    year: 2024,
+    platform: 'fxhash',
+    description: 'waves upon waves upon waves. A single black pixel cascades and creates a landscape. Entropy locked, uniform randomness drifts into recursive patterns. Feedback creates cycles, cycles create cycles. Life is a balance of living equilibria.',
+    ipfs: 'https://onchfs.fxhash2.xyz/a853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b/?cid=onchfs%3A%2F%2Fa853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b&fxhash=0xbc28123bc7730ae1d5c858931e48b7120604095758cb05e5db081e9ed856bd22&fxminter=0x7cb09983c9bde3fdce87f92ec2724c8cf8b296ef&fxiteration=1&fxcontext=standalone&fxchain=BASE&legacy=false',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/project/the-fall'
+    },
+    provenance: 'ipfs://QmQFnmjSdwxCNt2CVAaNXXKEZgXP1q9hePcH3daiTZwFkP',
+    thumbnail: 'https://ipfs.io/ipfs/QmTs2GDFnyaR8TiT9B6PrWHAfFG86b9xwNFmUHQZTyzZT7',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/the_fall',
+    favorite: true,
+    themes: ['screensaver', 'ambient', 'entropy locking', 'p5js', 'generative', 'waves', 'landscape', 'cascade', 'feedback', 'loop', 'equilibrium', 'onchain', 'base', 'animated', 'lofi', 'noise', 'pixelart']
   },
   'deja-hue': {
     id: 'deja-hue',

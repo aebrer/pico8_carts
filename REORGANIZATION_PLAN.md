@@ -323,7 +323,7 @@ For each artwork:
 - [~] pico_galaxies series migration (1/20+ pieces)
 - [~] Tweetcarts series migration (2 pieces)
 
-### Recently Migrated (17 total as of 2025-10-15):
+### Recently Migrated (19 total as of 2025-10-18):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -346,8 +346,14 @@ For each artwork:
   - Most complex piece in practice
   - Inspired by vestige_005
 
-**Screensavers Series (3):**
+**Screensavers Series (4):**
 - **VISIONS** - Ambient visual generation for contemplation
+- **THE FALL** - Non-constrained reimagining of Entropy Generator
+  - Single black pixel cascades creating emergent landscapes
+  - Entropy locking (0.1% reset probability) prevents chaos and stagnation
+  - Feedback loops create cycles, eventually settling into stable equilibria
+  - Onchain storage via Base/onchfs
+  - Parent work of petite chute derivative
 - **petite chute** - Color exploration and palette cycling, derived from THE FALL
   - 16x16 pixel grid focusing attention on colors
   - Automated border color averaging creates visual coherence
@@ -371,7 +377,14 @@ For each artwork:
   - Ambient lofi soundtrack by @bisdvrk
   - Featured on Teia as objkt/161642
 
-**Entropy-Locked Series (3):**
+**Entropy-Locked Series (4):**
+- **Entropy Generator** - TIC-80 origin piece for entropy locking technique
+  - First exploration of seed-looping (entropy locking)
+  - Coded in Lua on TIC-80 Fantasy Computer
+  - Palette generation via decay functions
+  - Published 2022, code written 2021
+  - Featured at RGBMTL 2024
+  - Parent work of THE FALL
 - **Entropy Locked Wave Function Collapse** - Not really WFC, inspired by it
   - Entropy increases rather than decreases
   - Pixels as tiling units with HSB-based connection rules
@@ -432,9 +445,9 @@ Full investigation documented in `ENTROPY_LOCKING_ORIGIN.md`
 ### Next Migration Session Plan:
 
 1. ~~**blue + ring of fire tweetcarts** - Diptych pair, gallery featured~~ ✅ COMPLETED 2025-10-15
-2. **The Fall** - Derivative parent of petite chute (currently has broken link on petite-chute.html)
-3. **Entropy Generator (TIC-80)** - The origin piece for entropy locking
-4. **Petite Chute + other screensavers** - Focus on the ambient pieces
+2. ~~**THE FALL** - Derivative parent of petite chute~~ ✅ COMPLETED 2025-10-18
+3. ~~**Entropy Generator (TIC-80)** - The origin piece for entropy locking~~ ✅ COMPLETED 2025-10-18
+4. **colorscapes + other screensavers** - Focus on the ambient pieces
 5. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
 
 This progression makes sense:

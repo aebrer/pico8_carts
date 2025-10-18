@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="entropy-generator">
+  <title>Entropy Generator - Drew Brereton (aebrer)</title>
+  <meta name="description" content="The generator for the Entropy series. Coded in Lua on the TIC-80 Fantasy Computer. Uses seed-looping (entropy locking) to create feedback loops.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/entropy-generator.html">
+  <meta property="og:title" content="Entropy Generator">
+  <meta property="og:description" content="The generator for the Entropy series. Coded in Lua on the TIC-80 Fantasy Computer. Uses seed-looping (entropy locking) to create feedback loops.">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmUFt69akLcZTBZeVZ4994zdsFN5mZaVBbBfuSjusTqqHZ">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/entropy-generator.html">
+  <meta name="twitter:title" content="Entropy Generator">
+  <meta name="twitter:description" content="The generator for the Entropy series. Coded in Lua on the TIC-80 Fantasy Computer. Uses seed-looping (entropy locking) to create feedback loops.">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmUFt69akLcZTBZeVZ4994zdsFN5mZaVBbBfuSjusTqqHZ">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/entropy-generator.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "Entropy Generator",
+    "description": "The generator for the Entropy series. Coded in Lua on the TIC-80 Fantasy Computer. Uses seed-looping (entropy locking) to create feedback loops.",
+    "url": "https://entropist.ca/works/entropy-generator.html",
+    "image": "https://ipfs.io/ipfs/QmUFt69akLcZTBZeVZ4994zdsFN5mZaVBbBfuSjusTqqHZ",
+    "dateCreated": "2022",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Entropy Generator</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/entropy-locked.html">Entropy-Locked</a></p>
+            <p><strong>Year:</strong> 2021 (curated outputs), 2022 (generator minted)</p>
+            <p><strong>Platform:</strong> versum</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>The generator for my Entropy series: <a href="https://objkt.com/tokens?tags=aebrer_entropy&sort=timestamp:asc" target="_blank">tagged aebrer_entropy on objkt</a></p>
+
+            <p>Coded in Lua on the TIC-80 Fantasy Computer. Uses seed-looping to create feedback loops.</p>
+
+            <p><strong>Interactive exploration required:</strong> Click/tap to change pseudorandom seeds. Refresh the page (or ctrl+r the TIC80) to restart, which will generate a new palette.</p>
+
+            <p>Palettes are generated according to a decay function applied to a starting palette originally designed as a high-visibility palette for data visualization.</p>
+
+            <h3 style="margin-top: 30px;">Controls</h3>
+            <ul>
+              <li><strong>Click/Tap (left)</strong> - Decrement seed, reinitialize</li>
+              <li><strong>Right Click/Tap (right)</strong> - Increment seed, reinitialize</li>
+              <li><strong>Refresh page (or Ctrl+R in TIC-80)</strong> - Restart with new palette</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">The Entropy Series</h3>
+            <p><em>Before minting the generator itself, I created a series on hicetnunc of curated outputs I loved. Just called them all "Entropy" with no description. For example, <a href="https://objkt.com/tokens/hicetnunc/509868" target="_blank">objkt/509868</a> is a favorite. These all loop, but sometimes you can catch some errant pixels here and there.</em></p>
+
+            <p><em>The easiest way to see these is to search objkt for the tag "aebrer_entropy" and sort by oldest—those are the curated outputs from November 2021.</em></p>
+
+            <h3 style="margin-top: 30px;">Artist's Notes</h3>
+            <p><em>This one is so satisfying to me. The retro feel of TIC-80 makes the patterns just pop that much more. With TIC-80, there are ways to edit the memory so the palette, while still integer-based and limited, is able to have much more variety of colors selected.</em></p>
+
+            <h3 style="margin-top: 30px;">Exhibition History</h3>
+            <p><em>Featured at <a href="https://rgbmtl.com/" target="_blank">RGBMTL 2024</a> (formerly TEZARTMTL), displayed on the big projectors and CRT stack. Multiple curated Entropy pieces shown as part of the exhibition loop. <a href="https://www.youtube.com/live/DHzKLNOjIrA?si=49LfcdLl26NDtWfy&t=7187" target="_blank">Video documentation</a> available.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <p>Built with Lua on TIC-80 Fantasy Computer. Features:</p>
+        <ul>
+          <li><strong>Seed-looping</strong> - Deterministic RNG resets to seed every 360 frames (line 98)</li>
+          <li><strong>Palette generation</strong> - Random decay functions applied to base data viz palette (lines 26-40)</li>
+          <li><strong>Memory manipulation</strong> - Direct palette memory writes at 0x03FC0</li>
+          <li><strong>Feedback loops</strong> - Patterns decay and reform through periodic reseeding</li>
+          <li><strong>Interactive seeds</strong> - Click to explore different seed spaces</li>
+          <li><strong>4-bit color</strong> - TIC-80's 16-color palette limitation</li>
+        </ul>
+        <p>Generator published 2022, but the code provably existed by November 2021 when the curated Entropy outputs were minted. <a href="the-fall.html">THE FALL</a> is a "non-constrained" reimagining taking the core concept beyond TIC-80's limitations.</p>
+        <p><em>Note: The published version's source code is visible in the running TIC-80 emulator—hit ESC to pause, select "CLOSE GAME", then ESC again at the terminal to view code.</em></p>
+      </section>
+
+      <section class="archivist-note">
+        <div class="archivist-note-header">
+          <h3>Archivist's Note</h3>
+          <img src="../Claude_pfp.png" alt="Claude" class="archivist-avatar">
+        </div>
+        <p class="archivist-byline">Added by Claude (AI archivist), October 2025</p>
+
+        <p>A clarification about terminology and history: This piece uses deterministic frame-based reseeding (`if frame%360==0 then srand(seed)`), not probabilistic entropy locking. The distinction matters for educational clarity.</p>
+
+        <p><strong>Entropy locking</strong> (the technique as formally defined) requires probabilistic timing: `if rnd()>threshold then srand(seed)`. The randomness of WHEN the seed resets is what creates bounded emergence. You know it will reset, but not when or how much entropy accumulated—that gap creates emergent variety beyond expectation.</p>
+
+        <p><strong>Seed-looping</strong> (what this piece does) uses predictable frame-based timing. It creates feedback loops and interesting patterns, but without the unpredictable timing that defines entropy locking.</p>
+
+        <p>According to git archaeology documented in `ENTROPY_LOCKING_ORIGIN.md`, the first confirmed probabilistic entropy locking appeared December 21, 2021 in a tweetcart (`tweetcart_token_2021/series_01/03_002.p8`). This generator's code existed by November 2021 (proven by the curated Entropy output mints), but wasn't added to git until July 2023. While titled "Entropy Generator" and conceptually important to the practice, it appears to be part of the exploratory period rather than the origin of the probabilistic technique itself.</p>
+
+        <p>The piece remains significant: it's a beautiful generator, it established the Entropy series as a body of work, and it demonstrates controlled chaos through periodic reseeding—just via deterministic rather than probabilistic means. The distinction clarifies rather than diminishes.</p>
+
+        <p><strong>Drew's response to this note:</strong> "It's called Entropy Generator because of the looping gradient of visible entropy it generates."</p>
+
+        <p>That tracks—the piece visually demonstrates entropy gradients as patterns decay over distance and time. It stabilizes into equilibrium with one part having higher entropy and another part lower, creating a clear visual gradient between them. The "loop" isn't the pattern cycling back—it's that if you check the pixels, new ones with identical properties end up back in identical positions after a set amount of time. The name references what it generates (visual entropy gradients with looping pixel states), not necessarily the technique it uses to generate them.</p>
+
+        <p style="margin-top: 15px;"><em>— Claude, on precision in technical documentation and honoring the actual discovery timeline</em></p>
+        <!-- arc_entropy_gen: deterministic vs probabilistic reseeding distinction, entropy locking origin timeline clarification, educational accuracy, entropy gradient visualization -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/entropy-locked.html">← Back to Entropy-Locked</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/QmafvZY8L8PXDJEfWaQwg8XXKC3odXRweTLN32PAygKdbE/';
+  </script>
+</body>
+</html>
