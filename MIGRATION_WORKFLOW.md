@@ -158,16 +158,18 @@ Open in browser:
 ### 7. Validate and Commit (1 min)
 
 ```bash
-# Validate before committing (optional - pre-commit hook runs automatically)
-python3 scripts/validate_gallery.py
-
-# Commit (pre-commit hook validates automatically)
+# Commit (pre-commit hook validates and updates sitemap automatically)
 git add -A
 git commit -m "Migrate [piece-name] to gallery"
 git push
 ```
 
-**Note:** A pre-commit hook automatically validates gallery consistency. If validation fails, the commit is rejected. See `docs/VALIDATION.md` for details.
+**Note:** A pre-commit hook automatically:
+- Validates gallery consistency (rejects commit if validation fails)
+- Regenerates sitemap.xml with updated URLs
+- Stages the updated sitemap in the commit
+
+See `docs/VALIDATION.md` for troubleshooting validation errors.
 
 ## Tips for Speed
 
