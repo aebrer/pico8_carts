@@ -7,40 +7,19 @@ GPU-accelerated rendering for maximum smoothness
 // Character set
 const CHARS = " ·∙•○●◘◙▪▫■□▬▀▄▌▐█░▒▓╎╵╷│─┼├┤┴┬┐┌┘└╏╹╻┃━╋┣┫┻┳┓┏┛┗╗╔╝╚╬╠╣╩╦║═╕╒╛╘╪╞╡╧╤╖╓╜╙╫╟╢╨╥▁▂▃▅▆▇▊▋▍▎▏▕▞▚♠♣♥♦☺☻♂♀♪♫☼►◄▲▼↑↓→←↕¿~°√∑";
 
-// RNG
-class SeededRandom {
-  constructor(seed = Date.now()) {
-    this.seed = seed;
-    this.m = 0x80000000;
-    this.a = 1103515245;
-    this.c = 12345;
-    this.state = seed;
-  }
+// RNG helpers (using fxhash)
+function random_num(a, b) {
+  return a + (b - a) * $fx.rand();
+}
 
-  next() {
-    this.state = (this.a * this.state + this.c) % this.m;
-    return this.state / (this.m - 1);
-  }
-
-  reset() {
-    this.state = this.seed;
-  }
-
-  randInt(min, max) {
-    return Math.floor(this.next() * (max - min + 1)) + min;
-  }
-
-  randFloat(min, max) {
-    return min + (max - min) * this.next();
-  }
+function random_int(a, b) {
+  return Math.floor(random_num(a, b + 1));
 }
 
 // Global state
-let rng;
 let grid;
-let width = 80;
-let height = 40;
-let entropy_lock_prob = 0.001;
+let width, height;
+let entropy_lock_prob = 0.001; // 0.1% - checked per pixel iteration now
 let rfac, gfac, bfac;
 let dfacs = [];
 let fc = 0;
@@ -85,29 +64,44 @@ class Cell {
 }
 
 function getDfacs() {
-  let xf2 = rng.randInt(0, 3);
-  let xf1 = xf2 - rng.randInt(0, 3);
-  let yf2 = rng.randInt(0, 3);
-  let yf1 = yf2 - rng.randInt(0, 3);
+  let xf2 = random_int(0, 3);
+  let xf1 = xf2 - random_int(0, 3);
+  let yf2 = random_int(0, 3);
+  let yf1 = yf2 - random_int(0, 3);
+
+  // Ensure some variation in movement (avoid degenerate cases)
+  // If x range is too small, expand it
+  if (xf2 - xf1 < 2) {
+    xf1 = Math.max(-3, xf1 - 1);
+    xf2 = Math.min(3, xf2 + 1);
+  }
+  // If y range is too small, expand it
+  if (yf2 - yf1 < 2) {
+    yf1 = Math.max(-3, yf1 - 1);
+    yf2 = Math.min(3, yf2 + 1);
+  }
+
   return [xf1, xf2, yf1, yf2];
 }
 
 function burnColor(r, g, b) {
-  r = r * rng.randFloat(0.98, 1.00) - rfac;
+  r = r * random_num(0.98, 1.00) - rfac;
   if (r < 0) r = 255 + r;
 
-  g = g * rng.randFloat(0.98, 1.00) - gfac;
+  g = g * random_num(0.98, 1.00) - gfac;
   if (g < 0) g = 255 + g;
 
-  b = b * rng.randFloat(0.98, 1.00) - bfac;
+  b = b * random_num(0.98, 1.00) - bfac;
   if (b < 0) b = 255 + b;
 
   return [r, g, b];
 }
 
-function rngReset() {
-  if (rng.next() < entropy_lock_prob) {
-    rng.reset();
+function rngReset(odds = 999003) {
+  // Original logic: if random_int(1, 1000000) > odds, reset
+  // Higher odds = less frequent resets
+  if (random_int(1, 1000000) > odds) {
+    $fx.rand.reset();
   }
 }
 
@@ -145,7 +139,7 @@ function createProgram(gl, vertSource, fragSource) {
 
 // Create font texture atlas
 function createFontTexture(gl) {
-  const fontSize = 16;
+  const fontSize = 32; // Higher res for sharper rendering
   const charWidth = Math.ceil(fontSize * 0.6);
   const charHeight = fontSize;
 
@@ -180,8 +174,8 @@ function createFontTexture(gl) {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, fontCanvas);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 
@@ -197,12 +191,22 @@ function setup() {
     return;
   }
 
-  // Set canvas size
-  canvas.width = width * 8;
-  canvas.height = height * 12;
-  const scale = Math.min(window.innerWidth / canvas.width, window.innerHeight / canvas.height);
-  canvas.style.width = (canvas.width * scale) + 'px';
-  canvas.style.height = (canvas.height * scale) + 'px';
+  // Calculate grid size based on viewport aspect ratio
+  const charWidth = 8;
+  const charHeight = 12;
+  const aspectRatio = window.innerWidth / window.innerHeight;
+
+  // Larger grid since WebGL can handle it
+  height = 120;
+  width = Math.floor(height * aspectRatio);
+
+  // Set canvas size to match grid exactly
+  canvas.width = width * charWidth;
+  canvas.height = height * charHeight;
+
+  // Scale to fill viewport completely (stretch to fit both dimensions)
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
 
   gl.viewport(0, 0, canvas.width, canvas.height);
 
@@ -276,18 +280,17 @@ function setup() {
   colorBuffer = gl.createBuffer();
 
   // Initialize RNG
-  const seed = Math.floor(Math.random() * 1000000);
-  rng = new SeededRandom(seed);
+  $fx.rand.reset();
 
   // Random background color
-  const bg_r = rng.randInt(0, 255);
-  const bg_g = rng.randInt(0, 255);
-  const bg_b = rng.randInt(0, 255);
+  const bg_r = random_int(0, 255);
+  const bg_g = random_int(0, 255);
+  const bg_b = random_int(0, 255);
 
   // Color burn factors
-  rfac = rng.randFloat(0.5, 5);
-  gfac = rng.randFloat(0.5, 5);
-  bfac = rng.randFloat(0.5, 5);
+  rfac = random_num(0.5, 5);
+  gfac = random_num(0.5, 5);
+  bfac = random_num(0.5, 5);
 
   // Movement factors
   dfacs = getDfacs();
@@ -302,28 +305,32 @@ function setup() {
   }
 
   console.log('THE FALL (ASCII) - WebGL');
-  console.log('Seed:', seed);
+  console.log('RGB burn factors:', rfac, gfac, bfac);
+  console.log('Movement factors (dfacs):', dfacs);
+  console.log('Grid size:', width, 'x', height);
 }
 
 function draw() {
   if (paused) return;
 
-  rngReset();
+  // Check for entropy lock once per frame (like original)
+  rngReset(999003);
 
-  // Process pixels
-  const iterations = Math.floor(width * height * 0.1);
+  // Process pixels - reduced for ASCII version to see patterns better
+  const iterations = 10000;
 
   for (let i = 0; i < iterations; i++) {
-    const x = rng.randInt(0, width - 1);
-    const y = rng.randInt(0, height - 1);
+    const x = random_int(0, width - 1);
+    const y = random_int(0, height - 1);
 
-    let x_new = x + rng.randInt(dfacs[0], dfacs[1]);
-    if (x_new < 0) x_new = width - 1 + x_new;
-    else if (x_new >= width) x_new = 0 + (x_new - width);
+    let x_new = x + random_int(dfacs[0], dfacs[1]);
+    // Simple wrap-around (since dfacs are small [-3,3], this should be fine)
+    while (x_new < 0) x_new += width;
+    while (x_new >= width) x_new -= width;
 
-    let y_new = y + rng.randInt(dfacs[2], dfacs[3]);
-    if (y_new < 0) y_new = height - 1 + y_new;
-    else if (y_new >= height) y_new = 0 + (y_new - height);
+    let y_new = y + random_int(dfacs[2], dfacs[3]);
+    while (y_new < 0) y_new += height;
+    while (y_new >= height) y_new -= height;
 
     const neighbor = grid[y_new][x_new];
     const [r, g, b] = burnColor(neighbor.r, neighbor.g, neighbor.b);
@@ -462,12 +469,22 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-// Animation loop
-function animate() {
-  draw();
+// Animation loop with FPS cap
+let lastFrameTime = 0;
+const targetFPS = 30; // Cap at 30fps to see patterns
+const targetFrameTime = 1000 / targetFPS;
+
+function animate(currentTime) {
+  const elapsed = currentTime - lastFrameTime;
+
+  if (elapsed >= targetFrameTime) {
+    draw();
+    lastFrameTime = currentTime - (elapsed % targetFrameTime);
+  }
+
   requestAnimationFrame(animate);
 }
 
 // Start
 setup();
-animate();
+requestAnimationFrame(animate);
