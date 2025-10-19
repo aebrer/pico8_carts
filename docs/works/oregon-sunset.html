@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="oregon-sunset">
+  <title>Oregon Sunset - Drew Brereton (aebrer)</title>
+  <meta name="description" content="made with love for my little sister">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/oregon-sunset.html">
+  <meta property="og:title" content="Oregon Sunset">
+  <meta property="og:description" content="made with love for my little sister">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmTJEncw1HE1z9YMqUGDGid9XuoJ7QgTxj1yCrnVytKCy5">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/oregon-sunset.html">
+  <meta name="twitter:title" content="Oregon Sunset">
+  <meta name="twitter:description" content="made with love for my little sister">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmTJEncw1HE1z9YMqUGDGid9XuoJ7QgTxj1yCrnVytKCy5">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/oregon-sunset.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "Oregon Sunset",
+    "description": "made with love for my little sister",
+    "url": "https://entropist.ca/works/oregon-sunset.html",
+    "image": "https://ipfs.io/ipfs/QmTJEncw1HE1z9YMqUGDGid9XuoJ7QgTxj1yCrnVytKCy5",
+    "dateCreated": "2021",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Oregon Sunset</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/loops.html">Loops</a></p>
+            <p><strong>Year:</strong> 2021</p>
+            <p><strong>Platform:</strong> teia</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>Statement</h3>
+            <p>made with love for my little sister</p>
+
+            <h3 style="margin-top: 30px;">Controls</h3>
+            <ul>
+              <li><strong>X</strong> - Toggle debug menu</li>
+              <li><strong>Mouse</strong> - Navigate options and adjust parameters</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">GIF Export</h3>
+            <p>How to save a gif:</p>
+            <ol>
+              <li>Put the objkt in its own browser window</li>
+              <li>Click the screen once to reset the console</li>
+              <li>Wait ~20 seconds</li>
+              <li>Press <kbd>Ctrl+9</kbd> on your keyboard</li>
+              <li>Right click + save as</li>
+            </ol>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>The aebrer_engine</h3>
+        <p>Oregon Sunset is built on the aebrer_engine—a generative system for creating looping gif scenes with interactive real-time parameter tweaking. The engine features a debug menu (press X) that allows you to modify the piece while it runs.</p>
+
+        <h3 style="margin-top: 20px;">Interactive Menu System</h3>
+        <p>When you press X, the debug menu reveals the internal parameters. The menu uses a nested navigation system:</p>
+
+        <p><strong>Primary Navigation (Right Mouse Button):</strong></p>
+        <ul>
+          <li><strong>dither</strong> - Visual dithering/noise effects</li>
+          <li><strong>colors</strong> - Palette selection</li>
+          <li><strong>brush</strong> - Drawing tool configuration</li>
+        </ul>
+
+        <p style="margin-top: 15px;"><strong>Method Selection (Left Mouse Button):</strong><br>
+        Within each parameter category, cycle through different methods. For example:</p>
+        <ul>
+          <li><strong>dither methods:</strong> ovalfill_burn, pset_burn</li>
+          <li><strong>color methods:</strong> heatmap, heatmap_green, blue_white_green, yellow_orange_red, purple_white_blue, and many more</li>
+          <li><strong>brush methods:</strong> circfill, circ</li>
+        </ul>
+
+        <p style="margin-top: 15px;"><strong>Fine-Tuning (Middle Mouse + Scroll Wheel):</strong><br>
+        Some parameters have sub-parameters you can adjust. Click middle mouse to select a sub-parameter, then use the scroll wheel to increment/decrement its value:</p>
+        <ul>
+          <li><strong>dither params:</strong> cx (center x), cy (center y), loops, pull, rectw, recth, x_loops, y_loops, fudge_factor</li>
+          <li><strong>brush params:</strong> circ_r (circle radius), color</li>
+        </ul>
+
+        <p style="margin-top: 15px;">The menu system provides real-time visual feedback as you tweak parameters, letting you explore the generative space and find unique combinations. Each configuration produces different emergent patterns in the looping output.</p>
+
+        <h3 style="margin-top: 30px;">Author's Note</h3>
+        <p><em>Fair warning: the controls in this menu are pretty bad. This was the first piece built with the aebrer_engine, and I made significant improvements to the UI/UX over time in later works. The menu is functional but clunky—apologies for the awkward navigation!</em></p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/loops.html">← Back to Loops</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/QmXXxBR3dy1zBsQnnmZEe6kCyY92WuepQcc6eG9QVgXHED/';
+  </script>
+</body>
+</html>

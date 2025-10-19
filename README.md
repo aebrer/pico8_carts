@@ -103,6 +103,10 @@ Works showcasing entropy locking and related seed-looping techniques:
 - **entropy_locked_wave_function_collapse** (fxhash) ⭐
 - **entropy_locked_recursive_glitch_textures** (fxhash)
 
+### Loops
+Perfect looping gifs—animated pieces designed to seamlessly repeat forever:
+- **[Oregon Sunset](https://entropist.ca/works/oregon-sunset.html)** (Pico-8, 2021) ⭐ - Interactive looping gif generator with real-time parameter tweaking
+
 ---
 
 ## Featured Works

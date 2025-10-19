@@ -241,6 +241,7 @@ For each artwork:
 - [ ] Entropy-Locked series
 - [ ] Pico Punks series
 - [ ] Screensavers series
+- [ ] Loops series
 - [ ] Featured standalone works
 - [ ] Tweetcarts
 
@@ -314,8 +315,9 @@ For each artwork:
 - [~] pico_punks series migration (2/4+ pieces)
 - [~] pico_galaxies series migration (1/20+ pieces)
 - [~] Tweetcarts series migration (3 pieces)
+- [~] Loops series migration (1 piece)
 
-### Recently Migrated (20 total as of 2025-10-19):
+### Recently Migrated (21 total as of 2025-10-19):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -421,6 +423,13 @@ For each artwork:
   - Generator generator with unique starting positions
   - Featured in Creative Code Toronto talk on entropy locking
   - Demonstrates multi-gate entropy locking pattern
+
+**Loops Series (1):**
+- **Oregon Sunset** - Looping gif generator with interactive parameter tweaking (2021)
+  - Built on aebrer_engine framework for creating perfect looping gifs
+  - Interactive menu system (press X) with three-level navigation
+  - Made for user's little sister
+  - Featured on Teia as objkt/290242
 
 ---
 

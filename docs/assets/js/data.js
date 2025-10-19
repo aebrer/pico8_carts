@@ -41,6 +41,11 @@ const SERIES = {
     name: 'Tweetcarts',
     description: 'Code golf as art form—generative pieces constrained to 280 characters or less. Working within extreme limitations to create emergence from minimal code.',
     works: ['blue', 'ring-of-fire', 'emergence-iii']
+  },
+  loops: {
+    name: 'Loops',
+    description: 'Perfect looping gifs—animated pieces designed to seamlessly repeat forever.',
+    works: ['oregon-sunset']
   }
 };
 
@@ -454,6 +459,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/skyscrapers',
     favorite: true,
     themes: ['screensaver', 'ambient', 'entropy locking', 'p5js', 'generative', 'fullscreen', 'infinite', 'glitch', 'noise', 'texture', 'wallpaper', 'pixelart', 'neoretro', 'CC0', 'interactive', '4k', 'Tezos4Iran']
+  },
+  'oregon-sunset': {
+    id: 'oregon-sunset',
+    title: 'Oregon Sunset',
+    series: 'loops',
+    year: 2021,
+    platform: 'teia',
+    description: 'made with love for my little sister',
+    ipfs: 'https://ipfs.io/ipfs/QmXXxBR3dy1zBsQnnmZEe6kCyY92WuepQcc6eG9QVgXHED/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/290242'
+    },
+    provenance: 'ipfs://QmVZyzRScNy7v876XgoeDc3JvR5hKUNHskgewb7syEmmyY',
+    thumbnail: 'https://ipfs.io/ipfs/QmTJEncw1HE1z9YMqUGDGid9XuoJ7QgTxj1yCrnVytKCy5',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/loops/oregon_sunset.p8',
+    favorite: true,
+    themes: ['loop', 'gif', 'pico-8', 'generative', 'generator', 'lua', 'codeart', 'noise', 'aebrer_engine', 'interactive', 'menu system', 'palette']
   }
 };
 
