@@ -197,6 +197,9 @@ Clear documentation helps turn "wait, what?" into "oh, I see" through striking v
   - Source code access
 - Random selector on series pages (chooses from favorites)
 - For unpublished Pico-8: link to edu edition with preloaded code
+- Hidden pages for WIP/testing (noindex, not in sitemap):
+  - `debug.html` - Component testing
+  - `WIP.html` - Work-in-progress previews for feedback/permission
 - Hosted via GitHub Pages at aebrer.xyz
 
 **Migration Strategy:**
@@ -488,3 +491,9 @@ The screensavers can be batched efficiently once the first couple are done.
   - Supports integer scaling for pixel-perfect rendering of gifs
 - **Homepage links cleanup** - Removed 5 dead/unwanted platform links (Versum, Rarible, AB2 Gallery, etc.)
 - **Archival notes system** - Claude's notes use fake hashes (arc_*) to distinguish from author's voice
+- **WIP preview pages** - Hidden preview pages for works-in-progress
+  - `docs/WIP.html` - Preview page for THE FALL (ASCII) to share with collaborators
+  - `docs/wip/` - Folder containing WIP artwork files
+  - Uses `noindex, nofollow` to keep hidden from search engines
+  - Purpose: seek publication permission, gather feedback, test on devices
+  - Similar to `docs/debug.html` pattern for testing components
