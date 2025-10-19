@@ -182,15 +182,44 @@ function createFontTexture(gl) {
   return { texture, charWidth, charHeight, charsPerRow, atlasWidth, atlasHeight };
 }
 
-function setup() {
-  canvas = document.querySelector('canvas');
-  gl = canvas.getContext('webgl');
+// Background color (persists across resizes)
+let bg_r, bg_g, bg_b;
 
-  if (!gl) {
-    console.error('WebGL not supported');
-    return;
+// Initialize once - RNG state and color/movement factors
+function initRNG(newSeed = false) {
+  // For 'r' key (new seed), modify the hash with timestamp
+  if (newSeed) {
+    const timestamp = Date.now();
+    // Modify the internal RNG state by mixing in timestamp
+    $fx.rand.reset();
+    // Burn some random numbers based on timestamp to get different state
+    for (let i = 0; i < (timestamp % 1000); i++) {
+      $fx.rand();
+    }
+  } else {
+    $fx.rand.reset();
   }
 
+  // Random background color
+  bg_r = random_int(0, 255);
+  bg_g = random_int(0, 255);
+  bg_b = random_int(0, 255);
+
+  // Color burn factors
+  rfac = random_num(0.5, 5);
+  gfac = random_num(0.5, 5);
+  bfac = random_num(0.5, 5);
+
+  // Movement factors
+  dfacs = getDfacs();
+
+  console.log('THE FALL (ASCII) - WebGL' + (newSeed ? ' (new seed)' : ''));
+  console.log('RGB burn factors:', rfac, gfac, bfac);
+  console.log('Movement factors (dfacs):', dfacs);
+}
+
+// Recalculate grid when viewport changes
+function resizeCanvas() {
   // Calculate grid size based on viewport aspect ratio
   const charWidth = 8;
   const charHeight = 12;
@@ -209,6 +238,30 @@ function setup() {
   canvas.style.height = window.innerHeight + 'px';
 
   gl.viewport(0, 0, canvas.width, canvas.height);
+
+  // Update resolution uniform
+  gl.uniform2f(gl.getUniformLocation(program, 'u_resolution'), canvas.width, canvas.height);
+
+  // Initialize grid with background color
+  grid = [];
+  for (let y = 0; y < height; y++) {
+    grid[y] = [];
+    for (let x = 0; x < width; x++) {
+      grid[y][x] = new Cell(bg_r, bg_g, bg_b);
+    }
+  }
+
+  console.log('Grid resized:', width, 'x', height);
+}
+
+function setup() {
+  canvas = document.querySelector('canvas');
+  gl = canvas.getContext('webgl');
+
+  if (!gl) {
+    console.error('WebGL not supported');
+    return;
+  }
 
   // Create shaders
   const vertSource = `
@@ -266,8 +319,7 @@ function setup() {
   const fontData = createFontTexture(gl);
   texture = fontData.texture;
 
-  // Set uniforms
-  gl.uniform2f(gl.getUniformLocation(program, 'u_resolution'), canvas.width, canvas.height);
+  // Set uniforms (resolution will be updated in resizeCanvas)
   gl.uniform2f(gl.getUniformLocation(program, 'u_charSize'), fontData.charWidth, fontData.charHeight);
   gl.uniform1f(gl.getUniformLocation(program, 'u_charsPerRow'), fontData.charsPerRow);
   gl.uniform2f(gl.getUniformLocation(program, 'u_atlasSize'), fontData.atlasWidth, fontData.atlasHeight);
@@ -279,35 +331,30 @@ function setup() {
   charBuffer = gl.createBuffer();
   colorBuffer = gl.createBuffer();
 
-  // Initialize RNG
-  $fx.rand.reset();
+  // Initialize RNG and factors (once)
+  initRNG();
 
-  // Random background color
-  const bg_r = random_int(0, 255);
-  const bg_g = random_int(0, 255);
-  const bg_b = random_int(0, 255);
+  // Size the canvas and create grid
+  resizeCanvas();
 
-  // Color burn factors
-  rfac = random_num(0.5, 5);
-  gfac = random_num(0.5, 5);
-  bfac = random_num(0.5, 5);
+  // Mobile tap to reset (like 'r' key)
+  let touchStartTime = 0;
+  canvas.addEventListener('touchstart', (e) => {
+    console.log('Touch start');
+    touchStartTime = Date.now();
+  });
 
-  // Movement factors
-  dfacs = getDfacs();
-
-  // Initialize grid
-  grid = [];
-  for (let y = 0; y < height; y++) {
-    grid[y] = [];
-    for (let x = 0; x < width; x++) {
-      grid[y][x] = new Cell(bg_r, bg_g, bg_b);
+  canvas.addEventListener('touchend', (e) => {
+    console.log('Touch end');
+    const touchDuration = Date.now() - touchStartTime;
+    console.log('Touch duration:', touchDuration);
+    // Only trigger on quick taps (not long presses or drags)
+    if (touchDuration < 300) {
+      console.log('Reloading!');
+      e.preventDefault();
+      window.location.reload();
     }
-  }
-
-  console.log('THE FALL (ASCII) - WebGL');
-  console.log('RGB burn factors:', rfac, gfac, bfac);
-  console.log('Movement factors (dfacs):', dfacs);
-  console.log('Grid size:', width, 'x', height);
+  });
 }
 
 function draw() {
@@ -316,8 +363,10 @@ function draw() {
   // Check for entropy lock once per frame (like original)
   rngReset(999003);
 
-  // Process pixels - reduced for ASCII version to see patterns better
-  const iterations = 10000;
+  // Process pixels - scale iterations based on grid size to maintain consistent movement speed
+  // On widescreen (307x120 = 36,840 cells), 10k iterations ≈ 0.27 per cell
+  const totalCells = width * height;
+  const iterations = Math.floor(totalCells * 0.27);
 
   for (let i = 0; i < iterations; i++) {
     const x = random_int(0, width - 1);
@@ -466,6 +515,18 @@ document.addEventListener('keyup', (e) => {
     link.download = 'the_fall_ascii.png';
     link.href = canvas.toDataURL();
     link.click();
+  } else if (e.key === 'f') {
+    // Toggle fullscreen (grid will be recalculated on fullscreenchange event)
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  } else if (e.key === 'r') {
+    // Reset with new seed (without reloading - stays in fullscreen)
+    // Generates different seed by burning timestamp-based number of RNG calls
+    initRNG(true);
+    resizeCanvas();
   }
 });
 
@@ -484,6 +545,15 @@ function animate(currentTime) {
 
   requestAnimationFrame(animate);
 }
+
+// Handle fullscreen and resize by recalculating grid (no reload needed)
+document.addEventListener('fullscreenchange', () => {
+  resizeCanvas();
+});
+
+window.addEventListener('resize', () => {
+  resizeCanvas();
+});
 
 // Start
 setup();

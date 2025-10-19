@@ -6,7 +6,7 @@ ASCII art interpretation of THE FALL screensaver. Collaborative experiment betwe
 
 ## Current Status
 
-WebGL version is almost working - characters are rendering but there are still some visual issues to resolve.
+WebGL version is working well. Smooth performance with entropy locking, bidirectional symbol gradients, and interactive controls.
 
 ## Credits & Attribution
 
@@ -25,6 +25,8 @@ This piece uses WebGL rendering techniques inspired by [ertdfgcvb](https://ertdf
 - `i` - toggle info
 - `p` - pause
 - `s` - save PNG
+- `f` - fullscreen toggle
+- `r` - new seed (stays in fullscreen)
 
 ## Technical Details
 
