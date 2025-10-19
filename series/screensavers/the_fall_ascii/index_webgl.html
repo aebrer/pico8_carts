@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>THE FALL (ASCII)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+  <style>
+    html {
+      height: 100%;
+    }
+    body {
+      background-color: black;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+    #info {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      color: #666;
+      font-family: monospace;
+      font-size: 12px;
+      text-align: right;
+      user-select: none;
+      pointer-events: none;
+      display: none;
+    }
+    #info.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas></canvas>
+  <div id="info">
+    THE FALL (ASCII)<br>
+    i - toggle info<br>
+    p - pause<br>
+    s - save PNG
+  </div>
+  <script type="module" src="index_webgl.js"></script>
+</body>
+</html>
