@@ -35,7 +35,7 @@ const SERIES = {
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
-    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue', 'colorscapes']
+    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue', 'colorscapes', 'skyscrapers']
   },
   tweetcarts: {
     name: 'Tweetcarts',
@@ -436,6 +436,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/colorscapes_wip',
     favorite: true,
     themes: ['screensaver', 'ambient', 'colors', 'cellular automata', 'entropy locking', 'p5js', 'generative', 'fullscreen', 'infinite', 'landscape', 'mountains', 'genotype']
+  },
+  'skyscrapers': {
+    id: 'skyscrapers',
+    title: 'skyscapers',
+    series: 'screensavers',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'A showcase of entropy locking with three different modes: Random Chance, Consistent by Frame Count, or None. This allows appreciation of how entropy locking creates emergent patterns from highly random generators, and how subtle differences in locking method have large consequences. Visually inspired by sedimentary city, Device 1, and Grid Rules and Cells.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmTTbTcjmuGC9dinFSxPa7swz5z7ZbGfsNxHAJ39yRFH73/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/project/skyscapers'
+    },
+    provenance: 'ipfs://QmWpvB4V47F9rZVC1EiwcaBYtGs55eLRquEHhn7py8KwqL',
+    thumbnail: 'https://ipfs.io/ipfs/QmWTMksQyqYqH2dTMJ97YUADCqF7mdKUZ4tbSG8NHBW8Ai',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/skyscrapers',
+    favorite: true,
+    themes: ['screensaver', 'ambient', 'entropy locking', 'p5js', 'generative', 'fullscreen', 'infinite', 'glitch', 'noise', 'texture', 'wallpaper', 'pixelart', 'neoretro', 'CC0', 'interactive', '4k', 'Tezos4Iran']
   }
 };
 

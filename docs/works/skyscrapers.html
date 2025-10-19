@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="skyscrapers">
+  <title>skyscapers - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A showcase of entropy locking with three different modes. Appreciate how entropy locking creates emergent patterns from highly random generators.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/skyscrapers.html">
+  <meta property="og:title" content="skyscapers">
+  <meta property="og:description" content="A showcase of entropy locking with three different modes. Appreciate how entropy locking creates emergent patterns from highly random generators.">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmWTMksQyqYqH2dTMJ97YUADCqF7mdKUZ4tbSG8NHBW8Ai">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/skyscrapers.html">
+  <meta name="twitter:title" content="skyscapers">
+  <meta name="twitter:description" content="A showcase of entropy locking with three different modes. Appreciate how entropy locking creates emergent patterns from highly random generators.">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmWTMksQyqYqH2dTMJ97YUADCqF7mdKUZ4tbSG8NHBW8Ai">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/skyscrapers.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "skyscapers",
+    "description": "A showcase of entropy locking with three different modes. Appreciate how entropy locking creates emergent patterns from highly random generators.",
+    "url": "https://entropist.ca/works/skyscrapers.html",
+    "image": "https://ipfs.io/ipfs/QmWTMksQyqYqH2dTMJ97YUADCqF7mdKUZ4tbSG8NHBW8Ai",
+    "dateCreated": "2022",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>skyscapers</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/screensavers.html">Screensavers</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>Statement</h3>
+            <p>skyscapers is a showcase of entropy locking. There are three different modes of entropy locking possible for a given piece:</p>
+            <ul>
+              <li><strong>Random Chance</strong> - A random number determines if the seed is reset</li>
+              <li><strong>Consistent by Frame Count</strong> - The seed is reset every five frames</li>
+              <li><strong>None</strong> - No entropy locking is used</li>
+            </ul>
+
+            <p>This allows one to appreciate the way entropy locking creates emergent patterns out of highly random generators, and how subtle differences in how you lock the entropy can have large consequences for the art.</p>
+
+            <p>I called this piece skyscrapers because I often see two (related) things when viewing it. One is skyscrapers close up from the side, showing the condo balconies and windows, with vines and plants maybe hanging down at times. The other is a city from far above, as if from a satellite image, but the city, once modern, is now ancient and abandoned. Perhaps humanity is extinct in this world.</p>
+
+            <p>The intended viewing is in fullscreen mode. Just set it up and leave it running, it should never repeat a sequence. Once it's fullscreen press ctrl+r to get it to refresh and scale for the display.</p>
+
+            <h3 style="margin-top: 30px;">Controls</h3>
+            <ul>
+              <li><strong>F11</strong> - Toggle fullscreen mode</li>
+              <li><strong>S</strong> - Save PNG of the current image</li>
+              <li><strong>1-8</strong> - Set pixel density and re-render (default 5, higher = higher resolution)</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">Inspiration</h3>
+            <p>This piece is visually inspired in part by:</p>
+            <ul>
+              <li><a href="https://www.fxhash.xyz/generative/13978" target="_blank">sedimentary city</a> by me</li>
+              <li><a href="https://www.fxhash.xyz/generative/16111" target="_blank">Device 1</a> by ertdfgcvb</li>
+              <li><a href="https://www.fxhash.xyz/generative/slug/grid-rules-and-cells" target="_blank">Grid, Rules and Cells</a> by Algorithm Art</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">Tezos4Iran</h3>
+            <p>100% of primary revenues from this piece went to <code>KT1KYfj97fpdomqyKsZSBdSVvh9afh93b4Ge</code>, the smart contract set up for donations for #Tezos4Iran, an event in solidarity with the protests and to raise awareness for women's rights in Iran.</p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/screensavers.html">← Back to Screensavers</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmTTbTcjmuGC9dinFSxPa7swz5z7ZbGfsNxHAJ39yRFH73/';
+  </script>
+</body>
+</html>
