@@ -35,7 +35,7 @@ const SERIES = {
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
-    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue']
+    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue', 'colorscapes']
   },
   tweetcarts: {
     name: 'Tweetcarts',
@@ -400,6 +400,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/deja_roux',
     favorite: true,
     themes: ['screensaver', 'ambient', 'colors', 'cellular automata', 'entropy locking', 'p5js', 'generative', 'soothing', 'infinite', 'arweave', 'ETH', 'ETH genesis', 'interactive', 'diptych']
+  },
+  'colorscapes': {
+    id: 'colorscapes',
+    title: 'COLORSCAPES',
+    series: 'screensavers',
+    year: 2024,
+    platform: 'teia',
+    description: 'COLORSCAPES is a cellular automata, where all the rules for movement and color have been converted to random events. This should produce nonsense, but by adding Entropy Locking, we see each seed acting as a "genotype" creating emergent rules and cool visuals. The original base for this was the same WFC algo that I was using in my previous pieces... but after many refactors for performance almost none of the original remains.',
+    ipfs: 'https://ipfs.io/ipfs/bafybeidufgxl7qyy2i7yympdn5fgrnncmblrkuxwadb7rv4zurbsjzjnlq/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/844581'
+    },
+    provenance: 'ipfs://QmS1oJdEkm8XSWy3HA16xv5EkxMW82zGtUTXd76mK6WSky',
+    thumbnail: 'https://ipfs.io/ipfs/QmfHidMgTt1AhMd8MZKrLJw55P4DzJYYCvRx4yQzjZa5FQ',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/colorscapes_wip',
+    favorite: true,
+    themes: ['screensaver', 'ambient', 'colors', 'cellular automata', 'entropy locking', 'p5js', 'generative', 'fullscreen', 'infinite', 'landscape', 'mountains', 'genotype']
   }
 };
 

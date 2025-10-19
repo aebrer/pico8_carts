@@ -4,7 +4,7 @@
   <!-- Main page -->
   <url>
     <loc>https://entropist.ca/</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,49 +12,49 @@
   <!-- Series pages -->
   <url>
     <loc>https://entropist.ca/series/entropy-locked.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://entropist.ca/series/ideocart.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://entropist.ca/series/pico_galaxies.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://entropist.ca/series/pico_punks.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://entropist.ca/series/screensavers.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://entropist.ca/series/three-body-problem.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://entropist.ca/series/tweetcarts.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://entropist.ca/series/vestiges.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -62,115 +62,121 @@
   <!-- Work pages -->
   <url>
     <loc>https://entropist.ca/works/beginner-ideocartography.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/blue.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://entropist.ca/works/colorscapes.html</loc>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/containment-breach.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/deja-hue.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/emergence-iii.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/entropy-generator.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/entropy-locked-wfc.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/intermediate-ideocartography.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/luna-theory-emulator.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/petite-chute.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/pico-galaxy-010.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/pico-punk-generator.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/pico-punk-generator-generator.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/ring-of-fire.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/sedimentary-city.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/the-city-is-burning.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/the-fall.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/the-trace-gallery.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://entropist.ca/works/visions.html</loc>
-    <lastmod>2025-10-18</lastmod>
+    <lastmod>2025-10-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
