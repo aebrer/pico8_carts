@@ -25,7 +25,7 @@ const SERIES = {
   'pico_punks': {
     name: 'pico_punks',
     description: 'Generative character/avatar systems exploring procedural generation, identity, and pareidolia.',
-    works: ['pico-punk-generator', 'pico-punk-generator-generator']
+    works: ['pico-punk-generator', 'pico-punk-compositions', 'pico-punk-generator-generator']
   },
   'pico_galaxies': {
     name: 'pico_galaxies',
@@ -306,6 +306,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punk_generator',
     favorite: true,
     themes: ['pico_punks', 'pfp', 'avatar', 'generative', 'collectible', 'generator', 'pico-8', 'interactive', 'creative coding', 'pixelart', 'punks', 'pareidolia', 'procedural', 'text-based', 'neoretro', 'wallet seed']
+  },
+  'pico-punk-compositions': {
+    id: 'pico-punk-compositions',
+    title: 'pico_punk_compositions.p8',
+    series: 'pico_punks',
+    year: 2022,
+    platform: 'objkt',
+    description: 'Explore the generative space through arrow key navigation. Each step builds up layers of random events until faces emerge from noise through pareidolia. Screenshots capture discovered punks—but they\'re gone forever once you move away. Even recreating the same path yields different results due to irreversibility.',
+    ipfs: 'https://ipfs.io/ipfs/QmSWEGS348niMyEWHF8L5NSmepxmTkajYwipjFpwpPgFwy/',
+    isGenerative: false,
+    links: {
+      objkt: 'https://objkt.com/tokens/KT1Dwf728rqUQhHCaFCauCYDQHKCWoUncD9F/2'
+    },
+    provenance: 'ipfs://Qmbby9Q5Uu2pEMehhUYunxioJw5WUhxuLXn1T9HJkZ5fh8',
+    thumbnail: 'https://ipfs.io/ipfs/QmRrjs47VFJ8PAkUkNgPEqvcFvEAFujknUVb4yyQa4pLJQ',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/pico_punks/pico_punk_compositions.p8',
+    favorite: true,
+    themes: ['pico_punks', 'pfp', 'avatar', 'generative', 'generator', 'pico-8', 'interactive', 'creative coding', 'pixelart', 'punks', 'pareidolia', 'irreversibility', 'entropy', 'neoretro', 'CC0', 'Jano Lapin Gallery']
   },
   'blue': {
     id: 'blue',
