@@ -4,8 +4,8 @@ THE FALL (ASCII) - WebGL Version
 GPU-accelerated rendering for maximum smoothness
 */
 
-// Character set
-const CHARS = " ·∙•○●◘◙▪▫■□▬▀▄▌▐█░▒▓╎╵╷│─┼├┤┴┬┐┌┘└╏╹╻┃━╋┣┫┻┳┓┏┛┗╗╔╝╚╬╠╣╩╦║═╕╒╛╘╪╞╡╧╤╖╓╜╙╫╟╢╨╥▁▂▃▅▆▇▊▋▍▎▏▕▞▚♠♣♥♦☺☻♂♀♪♫☼►◄▲▼↑↓→←↕¿~°√∑";
+// Character set - with bidirectional gradients for visual symmetry
+const CHARS = " ·∙•○●○•∙· ◘◙▪▫■□▫▪◙◘ ▬▀▄▌▐█▐▌▄▀▬ ░▒▓▒░ ╎╵╷│╷╵╎ ─┼├┤┴┬┐┌┘└┌┐┬┴┤├┼─ ╏╹╻┃━╋┣┫┻┳┓┏┛┗┏┓┳┻┫┣╋━┃╻╹╏ ╗╔╝╚╬╠╣╩╦║═║╦╩╣╠╬╚╝╔╗ ▁▂▃▅▆▇▊▋▍▎▏▕ ▕▏▎▍▋▊▇▆▅▃▂▁ ▞▚▞ ♠♣♥♦♥♣♠ ☺☻☺ ♂♀♂ ♪♫♪ ☼►◄▲▼↑↓→←↕←→↓↑▼▲◄►☼ ¿~°√∑√°~¿";
 
 // RNG helpers (using fxhash)
 function random_num(a, b) {
