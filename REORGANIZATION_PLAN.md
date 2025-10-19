@@ -308,14 +308,14 @@ For each artwork:
 ### In Progress:
 - [~] Ideocart series migration (2/7+ pieces)
 - [~] Vestiges series migration (2 pieces)
-- [~] Screensavers series migration (4 pieces)
+- [~] Screensavers series migration (5 pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
 - [~] Entropy-Locked series migration (4 pieces)
 - [~] pico_punks series migration (2/4+ pieces)
 - [~] pico_galaxies series migration (1/20+ pieces)
 - [~] Tweetcarts series migration (3 pieces)
 
-### Recently Migrated (19 total as of 2025-10-18):
+### Recently Migrated (20 total as of 2025-10-19):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -338,7 +338,7 @@ For each artwork:
   - Most complex piece in practice
   - Inspired by vestige_005
 
-**Screensavers Series (4):**
+**Screensavers Series (5):**
 - **VISIONS** - Ambient visual generation for contemplation
 - **THE FALL** - Non-constrained reimagining of Entropy Generator
   - Single black pixel cascades creating emergent landscapes
@@ -357,6 +357,11 @@ For each artwork:
   - Totally destroyed CA rules repurposed for pixel movement
   - Entropy locking prevents chaos and stagnation
   - Unofficial diptych with petite chute
+- **COLORSCAPES** - CA with totally destroyed rules creating emergent color patterns
+  - All movement and color rules converted to random events
+  - Seeds act as "genotypes" creating emergent visual rules through entropy locking
+  - Refactored from WFC algorithm base (performance improvements removed most original code)
+  - Outputs often resemble mountain landscapes (both map view and perspective)
 
 **Three Body Problem Series (1):**
 - **luna theory | EMULATOR** - Infinite cosmic exploration
@@ -441,13 +446,14 @@ Full investigation documented in `ENTROPY_LOCKING_ORIGIN.md`
 2. ~~**THE FALL** - Derivative parent of petite chute~~ ✅ COMPLETED 2025-10-18
 3. ~~**Entropy Generator (TIC-80)** - Origin piece using deterministic seed-looping~~ ✅ COMPLETED 2025-10-18
 4. ~~**Documentation updates** - Clarified entropy locking vs seed-looping terminology across all READMEs~~ ✅ COMPLETED 2025-10-18
-5. **colorscapes + other screensavers** - Focus on the ambient pieces
-6. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
+5. ~~**COLORSCAPES** - CA screensaver with genotype seeds~~ ✅ COMPLETED 2025-10-19
+6. **Other screensavers (ssvr01)** - Continue filling out screensavers series
+7. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
 
 This progression makes sense:
 - Tweetcarts show constraint-based work and have exhibition history ✅
-- Entropy Generator provides historical context for the entropy locking technique
-- Screensavers series needs more content for contemplative ambiance pieces
+- Entropy Generator provides historical context for the entropy locking technique ✅
+- Screensavers series building out contemplative ambiance pieces ✅
 - pico_punk_generator completes the pico_punks origin story
 
 The screensavers can be batched efficiently once the first couple are done.
