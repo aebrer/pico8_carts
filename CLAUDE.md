@@ -114,8 +114,7 @@ When adding notes to gallery pages:
 3. **Read completely** `MIGRATION_WORKFLOW.md` (the ENTIRE file, not just the first section)
 4. **Read** `foundation_protocol/README.md` for ideocart/vestiges worldbuilding
 5. **Read** `docs/assets/js/data.js` to see what's in the gallery (favorites marked `favorite: true`)
-6. **Read** at least 2-3 series pages from `docs/series/` (e.g., `ideocart.html`, `vestiges.html`)
-7. **Read** at least 2-3 work pages from `docs/works/` (e.g., `beginner-ideocartography.html`, `intermediate-ideocartography.html`)
+6. **Run** `python3 scripts/fetch_readinglist.py` to get your randomly selected reading list, then read all the pages it outputs
 
 **Why this matters:** These files show you the structure, patterns, and voice of the gallery. You need to understand the format before you can work with it properly.
 
