@@ -312,7 +312,7 @@ For each artwork:
 - [~] Screensavers series migration (5 pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
 - [~] Entropy-Locked series migration (4 pieces)
-- [~] pico_punks series migration (2/4+ pieces)
+- [~] pico_punks series migration (3/4+ pieces)
 - [~] pico_galaxies series migration (1/20+ pieces)
 - [~] Tweetcarts series migration (3 pieces)
 - [~] Loops series migration (1 piece)
@@ -393,7 +393,15 @@ For each artwork:
   - "Lemme just say fuck cars and be done with it"
   - fxhash generative
 
-**pico_punks Series (1):**
+**pico_punks Series (3):**
+- **pico_punk_generator.p8** - The original from 2021
+  - Interactive generative avatar exploration with wallet-based seeds
+  - 1/1000 rainbow mode rare outputs
+  - Featured on Teia as objkt/439049
+- **pico_punk_compositions.p8** - Arrow key navigation through generative space
+  - Layer-by-layer buildup through random events
+  - Irreversibility as feature - can't recreate same path twice
+  - Featured in "Digital Self" exhibition at Jano Lapin Gallery (Sept-Nov 2022)
 - **pico_punk_generator_generator.p8** - The terminus of pico_punks
   - Generator generator using fxparams (15 parameters)
   - Interactive avatar building layer by layer
@@ -457,13 +465,11 @@ Full investigation documented in `ENTROPY_LOCKING_ORIGIN.md`
 4. ~~**Documentation updates** - Clarified entropy locking vs seed-looping terminology across all READMEs~~ ✅ COMPLETED 2025-10-18
 5. ~~**COLORSCAPES** - CA screensaver with genotype seeds~~ ✅ COMPLETED 2025-10-19
 6. **Other screensavers (ssvr01)** - Continue filling out screensavers series
-7. **pico_punk_generator.p8** - The original from 2021, precursor to generator_generator
 
 This progression makes sense:
 - Tweetcarts show constraint-based work and have exhibition history ✅
 - Entropy Generator provides historical context for the entropy locking technique ✅
 - Screensavers series building out contemplative ambiance pieces ✅
-- pico_punk_generator completes the pico_punks origin story
 
 The screensavers can be batched efficiently once the first couple are done.
 

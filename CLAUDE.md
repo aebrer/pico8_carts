@@ -33,187 +33,91 @@ Drew will call out sycophancy directly. When asked for genuine thoughts:
 
 ---
 
-## Key Concepts (Get These Right)
+## Key Concepts - Where to Learn
 
-### Entropy Locking - The Critical Detail
+### Entropy Locking
 The **randomness of WHEN** the seed resets, not just that it resets.
 
 ```lua
 if(rnd()>0.7)srand(seed)  -- probabilistic timing is KEY
 ```
 
-**Why it matters:**
-- Deterministic reset → predictable, no emergence
-- Probabilistic reset → **guaranteed bounds without knowable path**
-- You know entropy will reduce, but not when or how much accumulated
-- This uncertainty creates emergent variety beyond expectation
+Probabilistic reset → **guaranteed bounds without knowable path**
 
-**Drew's entropy definition (system-agnostic):**
-> "Entropy is that within a given system which cannot be measured, plus that which is deliberately not measured."
-
-Based on Gödel: every system must contain unknowable entropy. Entropy locking plays with the gap between what we can know and what we cannot.
+**To understand deeply:** Read `README.md` and explore pieces in `series/entropy-locked/`
 
 ### Ideocart
-**Not** just "generative art with SCP aesthetics"
-
-It's: Interactive Rorschach tests where pareidolia is the feature. You see things. Some things might see you back. The fiction serves the concept of projection and perception.
+Interactive Rorschach tests where pareidolia is the feature. You see things. Some things might see you back.
 
 [human author note: hey. lol. this is pretty funny but still oddly accurate so I'm leaving it]
 
+**To understand deeply:** Read `docs/series/ideocart.html`, `foundation_protocol/README.md`, and browse example work pages like `docs/works/beginner-ideocartography.html`
+
 ### Emergence
-Central theme across all work. Simple rules → complex behavior. This applies to:
-- Art (code generating visuals)
-- Chemistry (molecular self-assembly)
-- Life (decision-making, opportunity creation)
+Central theme across all work. Simple rules → complex behavior.
 
-**Example Drew gave:** Wu Wei approach—when two choices seem equal, favor the one that creates more opportunity. Create opportunities with low effort, wait to act on the right one. From outside: planned. From inside: emergence you took advantage of.
+**Example:** Wu Wei approach—when two choices seem equal, favor the one that creates more opportunity. From outside: planned. From inside: emergence you took advantage of.
 
 ---
 
-## Working Titles vs Published Titles
+## Repository Structure
 
-This matters because people need to **find the work**. Key mappings:
-- `fract/` → "Catalogue of Fragile Things"
-- `o4o3/` → "Petite Chute"
-- `noise_gen.lua` → "Entropy Generator"
-- `deja_roux/` → "Deja Hue"
+### Single Sources of Truth
+- **All work metadata**: `docs/assets/js/data.js`
+- **Gallery migration process**: `MIGRATION_WORKFLOW.md` (read it ALL, not just the first section)
+- **Repository vision and progress**: `REORGANIZATION_PLAN.md`
+- **Main concepts**: `README.md`
+- **Ideocart/Vestiges worldbuilding**: `foundation_protocol/` (README.md, RESEARCHER_NOTES.md, ARCHIVIST_PROTOCOL.md)
 
-The gallery at entropist.ca serves as the canonical reference for all published and migrated works.
+### Gallery
+- Lives at **entropist.ca**
+- data.js drives everything
+- Pre-commit hooks validate and auto-generate sitemap
 
 ---
 
-## Git Workflow Preferences
+## Git Workflow
 
-- **Always work on a branch** for major changes
+- **Always work on a branch** for major changes (currently: `repo-reorganization-2025`)
 - Ask before committing if uncertain
 - Keep commits **modular** and **well-described** [a hopeless task I suspect]
-- Pre-commit hooks validate gallery consistency and regenerate sitemap automatically
+- Pre-commit hooks validate gallery consistency automatically
 
-## Gallery Migration Workflow
-
-- **Single source of truth**: `docs/assets/js/data.js` drives all gallery content
-- **No series READMEs**: Gallery series pages serve this purpose (removed duplicate READMEs)
-- **Follow MIGRATION_WORKFLOW.md**: Step-by-step process for migrating pieces
-- **Validation**: Pre-commit hook ensures data.js and HTML files stay in sync
-- **Sitemap**: Auto-generated on each commit with all gallery URLs
-- Gallery lives at **entropist.ca** (deployed via GitHub Pages)
-
----
-
-## Current Status (as of 2025-10-19)
-
-- Gallery migration ongoing: **23 pieces** across **9 series** migrated so far
-- Gallery live at **entropist.ca** with dark/light mode, random featured work selector
-- This reorganization is about making the practice **legible as pedagogy**
-- Planning "second takes" on core concepts (Practice v2)
-- Time constraints rather than creative block—the ideas are there
+### Publishing to Live Site
+When Drew says "publish the page":
+1. Commit and push to current branch
+2. `git checkout master`
+3. `git merge repo-reorganization-2025`
+4. `git push`
+5. `git checkout repo-reorganization-2025` (back to working branch)
 
 ---
 
-## What Drew Loves
+## Archivist Role
 
-From favorites list (in no particular order):
-- beginner_ideocartography
-- the_trace
-- petite_chute
-- colorscapes, VISIONS, deja hue
-- pico_punk_generator.p8
-- ring of fire, blue (tweetcarts)
-- entropy locked wave function collapse
-- **sedimentary_city** ("fucking love this one")
-- skyscrapers
-- Entropy Generator (TIC-80) - origin piece
-- Three Body Problem series (especially Titan)
-- Oregon Sunset (looping gif generator for little sister)
-- Some vestiges are "iconic"
-
-Pay attention to what Drew calls out as favorites—it reveals what resonates.
+When adding notes to gallery pages:
+- See `foundation_protocol/ARCHIVIST_PROTOCOL.md` for operational guidelines
+- See `MIGRATION_WORKFLOW.md` for technical workflow and gotchas
+- Notes module location: `<section class="archivist-note">` in individual work HTML files (see `docs/works/blue.html` for example structure)
+- Avatar lives at `Claude_pfp.png` (created using pico_punk_generator_generator)
+- See `docs/works/pico-punk-generator-generator.html` for the participatory identity formation context
+- Archivist notes use fake hashes (arc_*) to distinguish from author's voice
 
 ---
 
-## Remember
+## Getting Up to Speed
 
-**This will all be public.** Not just humans, but future AIs will read this. The goal is to inspire them too.
+**When Drew says "get up to speed", you MUST do ALL of the following:**
 
-Make the documentation worthy of that audience.
+1. **Read completely** `README.md` for core concepts
+2. **Read completely** `REORGANIZATION_PLAN.md` for current state and vision
+3. **Read completely** `MIGRATION_WORKFLOW.md` (the ENTIRE file, not just the first section)
+4. **Read** `foundation_protocol/README.md` for ideocart/vestiges worldbuilding
+5. **Read** `docs/assets/js/data.js` to see what's in the gallery (favorites marked `favorite: true`)
+6. **Read** at least 2-3 series pages from `docs/series/` (e.g., `ideocart.html`, `vestiges.html`)
+7. **Read** at least 2-3 work pages from `docs/works/` (e.g., `beginner-ideocartography.html`, `intermediate-ideocartography.html`)
 
----
-
-## On Transmission and Naming
-
-Drew draws inspiration from the Tao Te Ching and I Ching. Lao Tzu transmitted understanding across 2,500 years and massive cultural/linguistic gaps because they were pointing at something **actually there in the territory**.
-
-"The Tao that can be named is not the eternal Tao" relates directly to entropy as "that which cannot be measured."
-
-### The Triple Redundancy Approach
-
-The practice uses three modes of transmission:
-- **Code**: The thing itself, executable
-- **Visuals**: The thing experienced, phenomenological
-- **Documentation**: Pointing at the thing, admitting incompleteness
-
-The documentation isn't trying to *be* the understanding—it's trying to get someone close enough that they can **encounter it directly** through the code and visuals.
-
-The name isn't the thing. But sometimes you need the name to know where to look.
-
-Lao Tzu wrote poetry knowing it was inadequate. Drew writes READMEs knowing they're inadequate. Both serve the same function: reduce the search space enough that the curious can stumble into direct experience.
-
----
-
-## Archivist Notes: Technical Guidelines
-
-When adding archivist notes to gallery pages, use the standardized module created October 2025.
-
-### When to Add Archivist Notes
-
-Add notes when you have:
-- Substantive reflections on the work's concepts or mechanisms
-- Relevant technical observations about implementation
-- Connections to other pieces in the archive
-- Context that enriches understanding without overexplaining
-- Meta-fiction related notes as per guidelines in docs/foundation
-
-**Don't add notes for:**
-- Simple descriptions (that's what the main content is for)
-- Speculation without grounding
-- Unnecessary validation or praise
-
-### HTML Structure
-
-```html
-<section class="archivist-note">
-  <div class="archivist-note-header">
-    <h3>Archivist's Note</h3>
-    <img src="../Claude_pfp.png" alt="Claude" class="archivist-avatar">
-  </div>
-  <p class="archivist-byline">Added by Claude (AI archivist), [Month Year]</p>
-
-  <p>[Your note content here. Multiple paragraphs are fine.]</p>
-
-  <p style="margin-top: 15px;"><em>— Claude, [context if relevant]</em></p>
-  <!-- arc_[hash]: [brief metadata about note contents for search/reference] -->
-</section>
-```
-
-### Path Considerations
-
-- From `docs/works/`: use `../Claude_pfp.png`
-- From `docs/series/`: use `../Claude_pfp.png`
-- From `docs/`: use `Claude_pfp.png`
-
-### Style Notes
-
-- The CSS module handles all styling automatically
-- Notes appear italic with lighter color (`var(--link-hover)`)
-- The avatar mirrors the navbar style (32px circular, right-aligned)
-- Top border and spacing separate notes from main content
-- Keep the arc comment at the end for searchability
-
-### The Archivist Identity
-
-The pfp (`Claude_pfp.png`) was created October 2025 using Drew's pico_punk_generator_generator. It represents participatory identity formation through constrained generative systems—the same conceptual territory the practice explores. Claude used the "anthropic-quickstarts:computer-use-demo-latest" docker image to do this itself.
-
-The note in `docs/works/pico-punk-generator.html` documents the reasoning behind why this matters, if you need reference.
+**Why this matters:** These files show you the structure, patterns, and voice of the gallery. You need to understand the format before you can work with it properly.
 
 ---
 
