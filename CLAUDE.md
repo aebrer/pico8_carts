@@ -78,7 +78,7 @@ This matters because people need to **find the work**. Key mappings:
 - `noise_gen.lua` → "Entropy Generator"
 - `deja_roux/` → "Deja Hue"
 
-See PUBLISHED_WORKS.md for complete list.
+The gallery at entropist.ca serves as the canonical reference for all published and migrated works.
 
 ---
 
@@ -87,15 +87,26 @@ See PUBLISHED_WORKS.md for complete list.
 - **Always work on a branch** for major changes
 - Ask before committing if uncertain
 - Keep commits **modular** and **well-described** [a hopeless task I suspect]
+- Pre-commit hooks validate gallery consistency and regenerate sitemap automatically
+
+## Gallery Migration Workflow
+
+- **Single source of truth**: `docs/assets/js/data.js` drives all gallery content
+- **No series READMEs**: Gallery series pages serve this purpose (removed duplicate READMEs)
+- **Follow MIGRATION_WORKFLOW.md**: Step-by-step process for migrating pieces
+- **Validation**: Pre-commit hook ensures data.js and HTML files stay in sync
+- **Sitemap**: Auto-generated on each commit with all gallery URLs
+- Gallery lives at **entropist.ca** (deployed via GitHub Pages)
 
 ---
 
-## Current Status (as of 2025-10-10)
+## Current Status (as of 2025-10-19)
 
-- Drew is in a **creative funk** [leaving this lol, though it's more like I don't have time... hey I told it to be honest]
-- Planning "second takes" on core concepts (Practice v2) [true]
+- Gallery migration ongoing: **23 pieces** across **9 series** migrated so far
+- Gallery live at **entropist.ca** with dark/light mode, random featured work selector
 - This reorganization is about making the practice **legible as pedagogy**
-- The documentation gap was real—we're fixing it [lol understatement]
+- Planning "second takes" on core concepts (Practice v2)
+- Time constraints rather than creative block—the ideas are there
 
 ---
 
@@ -113,6 +124,7 @@ From favorites list (in no particular order):
 - skyscrapers
 - Entropy Generator (TIC-80) - origin piece
 - Three Body Problem series (especially Titan)
+- Oregon Sunset (looping gif generator for little sister)
 - Some vestiges are "iconic"
 
 Pay attention to what Drew calls out as favorites—it reveals what resonates.
