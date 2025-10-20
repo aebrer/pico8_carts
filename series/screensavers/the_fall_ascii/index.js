@@ -1,5 +1,5 @@
 /*
-THE FALL (ASCII) - WebGL Version
+CORAL HUNTING (THE FALL - ASCII) - WebGL Version
 
 GPU-accelerated rendering for maximum smoothness
 */
@@ -268,7 +268,7 @@ function initRNG(newSeed = false) {
   // Movement factors
   dfacs = getDfacs();
 
-  console.log('THE FALL (ASCII) - WebGL' + (newSeed ? ' (new seed)' : ''));
+  console.log('CORAL HUNTING' + (newSeed ? ' (new seed)' : ''));
   console.log('Custom charset:', CHARS);
   console.log('RGB burn factors:', rfac, gfac, bfac);
   console.log('Movement factors (dfacs):', dfacs);
@@ -434,7 +434,7 @@ function draw() {
   if (paused) return;
 
   // Check for entropy lock once per frame (like original)
-  rngReset(999003);
+  rngReset(990003);
 
   // Process pixels - scale iterations based on grid size to maintain consistent movement speed
   // On widescreen (307x120 = 36,840 cells), 10k iterations ≈ 0.27 per cell
