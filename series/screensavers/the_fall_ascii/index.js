@@ -4,8 +4,11 @@ THE FALL (ASCII) - WebGL Version
 GPU-accelerated rendering for maximum smoothness
 */
 
-// Character set - with bidirectional gradients for visual symmetry
-const CHARS = " ·∙•○●○•∙· ◘◙▪▫■□▫▪◙◘ ▬▀▄▌▐█▐▌▄▀▬ ░▒▓▒░ ╎╵╷│╷╵╎ ─┼├┤┴┬┐┌┘└┌┐┬┴┤├┼─ ╏╹╻┃━╋┣┫┻┳┓┏┛┗┏┓┳┻┫┣╋━┃╻╹╏ ╗╔╝╚╬╠╣╩╦║═║╦╩╣╠╬╚╝╔╗ ▁▂▃▅▆▇▊▋▍▎▏▕ ▕▏▎▍▋▊▇▆▅▃▂▁ ▞▚▞ ♠♣♥♦♥♣♠ ☺☻☺ ♂♀♂ ♪♫♪ ☼►◄▲▼↑↓→←↕←→↓↑▼▲◄►☼ ¿~°√∑√°~¿";
+// Master character set - with bidirectional gradients for visual symmetry
+const MASTER_CHARS = " ·∙•○●○•∙· ◘◙▪▫■□▫▪◙◘ ▬▀▄▌▐█▐▌▄▀▬ ░▒▓▒░ ╎╵╷│╷╵╎ ─┼├┤┴┬┐┌┘└┌┐┬┴┤├┼─ ╏╹╻┃━╋┣┫┻┳┓┏┛┗┏┓┳┻┫┣╋━┃╻╹╏ ╗╔╝╚╬╠╣╩╦║═║╦╩╣╠╬╚╝╔╗ ▁▂▃▅▆▇▊▋▍▎▏▕ ▕▏▎▍▋▊▇▆▅▃▂▁ ▞▚▞ ♠♣♥♦♥♣♠ ☺☻☺ ♂♀♂ ♪♫♪ ☼►◄▲▼↑↓→←↕←→↓↑▼▲◄►☼ ¿~°√∑√°~¿";
+
+// Runtime character set - generated per seed via entropy-locked walk
+let CHARS = MASTER_CHARS;
 
 // RNG helpers (using fxhash)
 function random_num(a, b) {
@@ -30,6 +33,7 @@ let canvas, gl;
 let program;
 let posBuffer, texBuffer, charBuffer, colorBuffer;
 let texture;
+let fontData; // Store font data for texture recreation
 
 // Color/char mapping
 function rgbToBrightness(r, g, b) {
@@ -182,23 +186,74 @@ function createFontTexture(gl) {
   return { texture, charWidth, charHeight, charsPerRow, atlasWidth, atlasHeight };
 }
 
+// Update font texture (called when CHARS changes)
+function updateFontTexture() {
+  if (!gl || !program) return;
+
+  // Delete old texture
+  if (texture) {
+    gl.deleteTexture(texture);
+  }
+
+  // Create new texture with current CHARS
+  fontData = createFontTexture(gl);
+  texture = fontData.texture;
+
+  // Update uniforms
+  gl.uniform2f(gl.getUniformLocation(program, 'u_charSize'), fontData.charWidth, fontData.charHeight);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_charsPerRow'), fontData.charsPerRow);
+  gl.uniform2f(gl.getUniformLocation(program, 'u_atlasSize'), fontData.atlasWidth, fontData.atlasHeight);
+}
+
 // Background color (persists across resizes)
 let bg_r, bg_g, bg_b;
+
+// Build custom character set via random walk through master palette
+function buildCharSet() {
+  const len = MASTER_CHARS.length;
+  let result = '';
+  let pos = random_int(0, len - 1);
+
+  for (let i = 0; i < len; i++) {
+    // Add current character
+    result += MASTER_CHARS[pos];
+
+    // Random walk: -1, 0, or 1
+    const step = random_int(-1, 1);
+    pos = (pos + step + len) % len; // Wrap around
+  }
+
+  // Filter out if result is all whitespace (edge case)
+  const trimmed = result.trim();
+  if (trimmed.length === 0) {
+    // All whitespace - regenerate with different approach
+    // Just use the whole master set to avoid empty display
+    return MASTER_CHARS;
+  }
+
+  return result;
+}
 
 // Initialize once - RNG state and color/movement factors
 function initRNG(newSeed = false) {
   // For 'r' key (new seed), modify the hash with timestamp
   if (newSeed) {
     const timestamp = Date.now();
-    // Modify the internal RNG state by mixing in timestamp
+    // Reset and burn calls based on timestamp to get different starting state
     $fx.rand.reset();
-    // Burn some random numbers based on timestamp to get different state
     for (let i = 0; i < (timestamp % 1000); i++) {
       $fx.rand();
     }
   } else {
     $fx.rand.reset();
   }
+
+  // Build custom character set via entropy-locked walk
+  // This will leave RNG in varied state depending on the walk
+  CHARS = buildCharSet();
+
+  // Continue from wherever buildCharSet() left us - DON'T reset!
+  // The entropy locking in buildCharSet() creates natural variation
 
   // Random background color
   bg_r = random_int(0, 255);
@@ -214,6 +269,7 @@ function initRNG(newSeed = false) {
   dfacs = getDfacs();
 
   console.log('THE FALL (ASCII) - WebGL' + (newSeed ? ' (new seed)' : ''));
+  console.log('Custom charset:', CHARS);
   console.log('RGB burn factors:', rfac, gfac, bfac);
   console.log('Movement factors (dfacs):', dfacs);
   console.log('  X range: [' + dfacs[0] + ', ' + dfacs[1] + '] | Y range: [' + dfacs[2] + ', ' + dfacs[3] + ']');
@@ -221,10 +277,9 @@ function initRNG(newSeed = false) {
 
 // Recalculate grid when viewport changes
 function resizeCanvas() {
-  // Fixed grid size for deterministic output
-  // Non-uniform stretching to viewport creates moiré effect
-  width = 500;
-  height = 480;
+  // Fixed square grid
+  width = 420;
+  height = 420;
 
   // Fixed character dimensions
   const charWidth = 8;
@@ -234,9 +289,23 @@ function resizeCanvas() {
   canvas.width = width * charWidth;
   canvas.height = height * charHeight;
 
-  // Scale to fill viewport completely (stretch to fit both dimensions)
-  canvas.style.width = window.innerWidth + 'px';
-  canvas.style.height = window.innerHeight + 'px';
+  // Scale uniformly to cover viewport (like object-fit: cover)
+  // This maintains aspect ratio and allows cropping at edges
+  const scaleX = window.innerWidth / canvas.width;
+  const scaleY = window.innerHeight / canvas.height;
+  const scale = Math.max(scaleX, scaleY); // Use larger scale to cover
+
+  const displayWidth = canvas.width * scale;
+  const displayHeight = canvas.height * scale;
+
+  canvas.style.width = displayWidth + 'px';
+  canvas.style.height = displayHeight + 'px';
+
+  // Center the canvas (may overflow viewport edges)
+  canvas.style.position = 'absolute';
+  canvas.style.left = '50%';
+  canvas.style.top = '50%';
+  canvas.style.transform = 'translate(-50%, -50%)';
 
   gl.viewport(0, 0, canvas.width, canvas.height);
 
@@ -252,7 +321,7 @@ function resizeCanvas() {
     }
   }
 
-  console.log('Grid size:', width, 'x', height, '| Canvas:', canvas.width, 'x', canvas.height);
+  console.log('Grid size:', width, 'x', height, '| Canvas:', canvas.width, 'x', canvas.height, '| Display:', Math.round(displayWidth) + 'x' + Math.round(displayHeight));
 }
 
 function setup() {
@@ -316,8 +385,17 @@ function setup() {
   program = createProgram(gl, vertSource, fragSource);
   gl.useProgram(program);
 
-  // Create font texture
-  const fontData = createFontTexture(gl);
+  // Create buffers
+  posBuffer = gl.createBuffer();
+  texBuffer = gl.createBuffer();
+  charBuffer = gl.createBuffer();
+  colorBuffer = gl.createBuffer();
+
+  // Initialize RNG and factors FIRST (so CHARS is set before creating texture)
+  initRNG();
+
+  // Create font texture (after CHARS is set)
+  fontData = createFontTexture(gl);
   texture = fontData.texture;
 
   // Set uniforms (resolution will be updated in resizeCanvas)
@@ -325,15 +403,6 @@ function setup() {
   gl.uniform1f(gl.getUniformLocation(program, 'u_charsPerRow'), fontData.charsPerRow);
   gl.uniform2f(gl.getUniformLocation(program, 'u_atlasSize'), fontData.atlasWidth, fontData.atlasHeight);
   gl.uniform1i(gl.getUniformLocation(program, 'u_texture'), 0);
-
-  // Create buffers
-  posBuffer = gl.createBuffer();
-  texBuffer = gl.createBuffer();
-  charBuffer = gl.createBuffer();
-  colorBuffer = gl.createBuffer();
-
-  // Initialize RNG and factors (once)
-  initRNG();
 
   // Size the canvas and create grid
   resizeCanvas();
@@ -355,6 +424,7 @@ function setup() {
       e.preventDefault();
       // Use same approach as 'r' key - generate new seed without reloading
       initRNG(true);
+      updateFontTexture(); // Recreate texture with new CHARS
       resizeCanvas();
     }
   });
@@ -530,6 +600,7 @@ document.addEventListener('keyup', (e) => {
     // Reset with new seed (without reloading - stays in fullscreen)
     // Generates different seed by burning timestamp-based number of RNG calls
     initRNG(true);
+    updateFontTexture(); // Recreate texture with new CHARS
     resizeCanvas();
   }
 });
