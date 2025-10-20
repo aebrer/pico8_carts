@@ -6,19 +6,13 @@ ASCII art interpretation of THE FALL screensaver. Collaborative experiment betwe
 
 ## Current Status
 
-WebGL version is complete. Smooth performance with entropy locking, bidirectional symbol gradients, and interactive controls.
+Complete and ready for publication. WebGL implementation with smooth performance, entropy locking, bidirectional symbol gradients, and interactive controls.
 
 ## Credits & Attribution
 
 This piece uses WebGL rendering techniques inspired by [ertdfgcvb](https://ertdfgcvb.xyz/)'s work (specifically Device 1). While our implementation was written from scratch, we relied heavily on their code as a reference for GPU-accelerated ASCII rendering.
 
 **Permission to use rendering techniques granted by ertdfgcvb on 2025-10-20** ([Bluesky post](https://bsky.app/profile/ertdfgcvb.xyz/post/3m3naspbngc2d))
-
-## Versions
-
-- `index.html` / `index.js` - Original DOM-based version (deprecated - performance issues)
-- `index_canvas.html` / `index_canvas.js` - Canvas 2D version (deprecated - GC stutters)
-- `index_webgl.html` / `index_webgl.js` - Current WebGL version (complete)
 
 ## Controls
 

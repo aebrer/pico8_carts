@@ -350,9 +350,11 @@ function setup() {
     console.log('Touch duration:', touchDuration);
     // Only trigger on quick taps (not long presses or drags)
     if (touchDuration < 300) {
-      console.log('Reloading!');
+      console.log('Generating new seed!');
       e.preventDefault();
-      window.location.reload();
+      // Use same approach as 'r' key - generate new seed without reloading
+      initRNG(true);
+      resizeCanvas();
     }
   });
 }
