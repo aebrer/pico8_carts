@@ -216,20 +216,21 @@ function initRNG(newSeed = false) {
   console.log('THE FALL (ASCII) - WebGL' + (newSeed ? ' (new seed)' : ''));
   console.log('RGB burn factors:', rfac, gfac, bfac);
   console.log('Movement factors (dfacs):', dfacs);
+  console.log('  X range: [' + dfacs[0] + ', ' + dfacs[1] + '] | Y range: [' + dfacs[2] + ', ' + dfacs[3] + ']');
 }
 
 // Recalculate grid when viewport changes
 function resizeCanvas() {
-  // Calculate grid size based on viewport aspect ratio
+  // Fixed grid size for deterministic output
+  // Non-uniform stretching to viewport creates moiré effect
+  width = 500;
+  height = 480;
+
+  // Fixed character dimensions
   const charWidth = 8;
   const charHeight = 12;
-  const aspectRatio = window.innerWidth / window.innerHeight;
 
-  // Larger grid since WebGL can handle it
-  height = 120;
-  width = Math.floor(height * aspectRatio);
-
-  // Set canvas size to match grid exactly
+  // Set canvas size
   canvas.width = width * charWidth;
   canvas.height = height * charHeight;
 
@@ -251,7 +252,7 @@ function resizeCanvas() {
     }
   }
 
-  console.log('Grid resized:', width, 'x', height);
+  console.log('Grid size:', width, 'x', height, '| Canvas:', canvas.width, 'x', canvas.height);
 }
 
 function setup() {
@@ -414,6 +415,7 @@ function render() {
   let charIdx = 0;
   let colorIdx = 0;
 
+  // Render full grid
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       const cell = grid[y][x];
