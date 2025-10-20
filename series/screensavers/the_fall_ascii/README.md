@@ -1,12 +1,12 @@
 # THE FALL (ASCII)
 
-**Status:** Ready for publication - Permission granted by ertdfgcvb
+**Status:** Work in Progress - Permission granted by ertdfgcvb
 
 ASCII art interpretation of THE FALL screensaver. Collaborative experiment between Drew Brereton and Claude Code.
 
 ## Current Status
 
-Complete and ready for publication. WebGL implementation with smooth performance, entropy locking, bidirectional symbol gradients, and interactive controls.
+WebGL implementation with entropy locking, bidirectional symbol gradients, and interactive controls. Working on refinements and testing before publication.
 
 ## Credits & Attribution
 
