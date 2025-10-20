@@ -19,7 +19,6 @@ This piece uses WebGL rendering techniques inspired by [ertdfgcvb](https://ertdf
 
 - `i` - toggle info
 - `p` - pause
-- `s` - save PNG
 - `f` - fullscreen toggle
 - `r` - new seed (stays in fullscreen)
 

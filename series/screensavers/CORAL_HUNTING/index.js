@@ -584,11 +584,6 @@ document.addEventListener('keyup', (e) => {
     infoEl.classList.toggle('show');
   } else if (e.key === 'p') {
     paused = !paused;
-  } else if (e.key === 's') {
-    const link = document.createElement('a');
-    link.download = 'the_fall_ascii.png';
-    link.href = canvas.toDataURL();
-    link.click();
   } else if (e.key === 'f') {
     // Toggle fullscreen (grid will be recalculated on fullscreenchange event)
     if (!document.fullscreenElement) {
