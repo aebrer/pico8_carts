@@ -311,8 +311,8 @@ For each artwork:
 
 ### In Progress:
 - [~] Ideocart series migration (2/7+ pieces)
-- [~] Vestiges series migration (2 pieces)
-- [~] Screensavers series migration (5 pieces)
+- [~] Vestiges series migration (3 pieces)
+- [~] Screensavers series migration (7 pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
 - [~] Entropy-Locked series migration (4 pieces)
 - [~] pico_punks series migration (3/4+ pieces)
@@ -320,7 +320,7 @@ For each artwork:
 - [~] Tweetcarts series migration (3 pieces)
 - [~] Loops series migration (1 piece)
 
-### Recently Migrated (21 total as of 2025-10-19):
+### Recently Migrated (25 total as of 2025-10-21):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -333,7 +333,7 @@ For each artwork:
   - Featured output: "The Demon King" image included
   - Self-randomizing (not fxhash generative)
 
-**Vestiges Series (2):**
+**Vestiges Series (3):**
 - **vestige_005: CONTAINMENT BREACH** - The overflow bug as containment mechanism
   - Origin of User ID 127402 ("hierophant") and The Trace Gallery lore
   - Crash = good (contained), stability = bad (breach)
@@ -342,8 +342,13 @@ For each artwork:
   - 18 achievements, doom timer, mirror world, multiple endings
   - Most complex piece in practice
   - Inspired by vestige_005
+- **Local Ontology Secured Transistor** - Collaboration with Guandanarian
+  - Mixed media: pixel art circuit board (Guandanarian) + entropy-locked micro-animations (Drew)
+  - Debug log fiction with degrading container integrity
+  - Multiple looping gifs integrated into single composition
+  - Featured on Teia as objkt/588238
 
-**Screensavers Series (5):**
+**Screensavers Series (7):**
 - **VISIONS** - Ambient visual generation for contemplation
 - **THE FALL** - Non-constrained reimagining of Entropy Generator
   - Single black pixel cascades creating emergent landscapes
@@ -367,6 +372,16 @@ For each artwork:
   - Seeds act as "genotypes" creating emergent visual rules through entropy locking
   - Refactored from WFC algorithm base (performance improvements removed most original code)
   - Outputs often resemble mountain landscapes (both map view and perspective)
+- **skyscrapers** - Entropy locking showcase with three modes
+  - Random Chance, Consistent by Frame Count, or None
+  - Demonstrates how entropy locking creates emergent patterns
+  - Visually inspired by sedimentary city, Device 1, and Grid Rules and Cells
+  - fxhash generative
+- **CORAL HUNTING** - Entropy-locked ASCII screensaver collaboration with Claude
+  - Seed-specific character vocabularies via tight entropy locking during generation
+  - Hunt for coral-like moiré patterns by resizing viewport
+  - WebGL rendering for 420×420 character grid at 30 FPS
+  - Collaboration between Drew and Archivist Entity Claude-2025-10
 
 **Three Body Problem Series (1):**
 - **luna theory | EMULATOR** - Infinite cosmic exploration
