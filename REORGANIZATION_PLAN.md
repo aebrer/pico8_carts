@@ -311,7 +311,7 @@ For each artwork:
 
 ### In Progress:
 - [~] Ideocart series migration (2/7+ pieces)
-- [~] Vestiges series migration (3 pieces)
+- [~] Vestiges series migration (4 pieces)
 - [~] Screensavers series migration (7 pieces)
 - [~] Three Body Problem series migration (1/24+ pieces)
 - [~] Entropy-Locked series migration (4 pieces)
@@ -320,7 +320,7 @@ For each artwork:
 - [~] Tweetcarts series migration (3 pieces)
 - [~] Loops series migration (1 piece)
 
-### Recently Migrated (25 total as of 2025-10-21):
+### Recently Migrated (26 total as of 2025-10-21):
 
 **Ideocart Series (2):**
 - **beginner_ideocartography** - Entry point, intern's first assignment
@@ -333,7 +333,7 @@ For each artwork:
   - Featured output: "The Demon King" image included
   - Self-randomizing (not fxhash generative)
 
-**Vestiges Series (3):**
+**Vestiges Series (4):**
 - **vestige_005: CONTAINMENT BREACH** - The overflow bug as containment mechanism
   - Origin of User ID 127402 ("hierophant") and The Trace Gallery lore
   - Crash = good (contained), stability = bad (breach)
@@ -347,6 +347,12 @@ For each artwork:
   - Debug log fiction with degrading container integrity
   - Multiple looping gifs integrated into single composition
   - Featured on Teia as objkt/588238
+- **marblez #23 ♎ 1.21 GDGP ♎** - Collaboration with @jmh_wwyg
+  - Part of the marblez project (Game Maker Studio, PSX aesthetic)
+  - Cracked marble containing quantified Dead God Pulse unit
+  - Secret member of vestiges series (forgotten tag on release)
+  - Time-dependent secrets, planar mapping of 2D gifs into 3D space
+  - Featured on Teia as objkt/153445
 
 **Screensavers Series (7):**
 - **VISIONS** - Ambient visual generation for contemplation

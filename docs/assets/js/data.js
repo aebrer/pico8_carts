@@ -10,7 +10,7 @@ const SERIES = {
   vestiges: {
     name: 'Vestiges',
     description: 'Explorations of remnants, traces, and what remains after something has passed.',
-    works: ['the-trace-gallery', 'containment-breach', 'local-ontology-secured-transistor']
+    works: ['the-trace-gallery', 'containment-breach', 'local-ontology-secured-transistor', 'marblez-23']
   },
   'three-body-problem': {
     name: 'Three Body Problem',
@@ -515,6 +515,26 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/local_ontology_secured_transistor',
     favorite: true,
     themes: ['vestiges', 'collaboration', 'pico-8', 'generative', 'gif', 'loop', 'pixelart', 'animated', 'corruption', 'wiremap', 'computer', 'b&w', 'pattern', 'mixed media', 'the dead god', 'aseprite']
+  },
+  'marblez-23': {
+    id: 'marblez-23',
+    title: '#23 ♎ 1.21 GDGP ♎',
+    series: 'vestiges',
+    year: 2021,
+    platform: 'teia',
+    description: '"it\'s the motherload" - A cracked marble containing a quantified unit of Dead God Pulse energy. The marble serves as a standard weight for GDGP measurement, but the crack suggests containment may not be as reliable as the Foundation imagined. Part of the marblez project by @jmh_wwyg.',
+    ipfs: 'https://ipfs.io/ipfs/QmWe1xWvdEr9gi2UikVQn4iL19rAgzFXDiC141fKraMVba/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/153445',
+      'marblez project': 'https://teia.art/marblez.tez',
+      'jmh_wwyg': 'https://x.com/jmh_wwyg'
+    },
+    provenance: 'ipfs://QmT9XCC5SNZ3vTf96rwcjPKcmN1oNzPBsMTK6T4hpyj6FR',
+    thumbnail: 'https://ipfs.io/ipfs/QmeQMBHi1UGTcnmW5vCJNtUBqZVuNMV66hUjcKxzgsDi5D',
+    sourceCode: null,
+    favorite: true,
+    themes: ['vestiges', 'collaboration', 'interactive', 'pixelart', '2D', '3D', 'lowpoly', 'sculpture', 'marblez', 'collectible', 'music', 'audio', 'the dead god', 'easter egg', 'secret', 'game maker studio', 'psx aesthetic']
   }
 };
 

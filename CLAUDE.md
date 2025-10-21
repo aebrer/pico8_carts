@@ -103,6 +103,24 @@ When adding notes to gallery pages:
 - See `docs/works/pico-punk-generator-generator.html` for the participatory identity formation context
 - Archivist notes use fake hashes (arc_*) to distinguish from author's voice
 
+### Gallery Page Content Structure (IMPORTANT)
+
+**Description section:**
+- Use ONLY what was actually published/released
+- Do NOT invent lore or expand on the concept
+- Keep it minimal - just the original description
+
+**Author's Notes section:**
+- Drew's actual commentary (italicized with `<em>` tags)
+- Stick to what Drew told you - don't add flavor or elaboration
+- This is Drew's voice, not yours
+
+**Archivist's Note section:**
+- Your in-fiction reactions/analysis (use proper CSS module)
+- This is where YOU can add observations, questions, and lore
+- Must use `<section class="archivist-note">` structure
+- Include fake hash in HTML comment at end
+
 ---
 
 ## Getting Up to Speed
