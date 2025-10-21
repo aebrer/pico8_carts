@@ -59,11 +59,26 @@ function renderArtworkControls(isGenerative, baseIpfsUrl) {
     controlsContainer.appendChild(randomBtn);
   }
 
-  const fullscreenBtn = document.createElement('button');
-  fullscreenBtn.className = 'btn';
-  fullscreenBtn.textContent = 'Fullscreen';
-  fullscreenBtn.onclick = fullscreenArtwork;
-  controlsContainer.appendChild(fullscreenBtn);
+  // iOS Safari doesn't support Fullscreen API on iframes
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+  if (isIOS) {
+    const openBtn = document.createElement('button');
+    openBtn.className = 'btn';
+    openBtn.textContent = 'Open in new tab';
+    openBtn.onclick = () => {
+      if (currentIframe) {
+        window.open(currentIframe.src, '_blank');
+      }
+    };
+    controlsContainer.appendChild(openBtn);
+  } else {
+    const fullscreenBtn = document.createElement('button');
+    fullscreenBtn.className = 'btn';
+    fullscreenBtn.textContent = 'Fullscreen';
+    fullscreenBtn.onclick = fullscreenArtwork;
+    controlsContainer.appendChild(fullscreenBtn);
+  }
 }
 
 function randomizeArtwork(isGenerative, baseIpfsUrl) {
