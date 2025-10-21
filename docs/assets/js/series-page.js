@@ -82,7 +82,11 @@ function renderWorksGrid(seriesWorks) {
 
   if (seriesWorks.length > 0) {
     worksGrid.innerHTML = ''; // Clear existing content
-    seriesWorks.forEach(work => {
+
+    // Sort by year (oldest first)
+    const sortedWorks = [...seriesWorks].sort((a, b) => a.year - b.year);
+
+    sortedWorks.forEach(work => {
       const card = document.createElement('a');
       card.href = `../works/${work.id}.html`;
       card.className = 'card';
