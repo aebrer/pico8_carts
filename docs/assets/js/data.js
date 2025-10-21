@@ -35,7 +35,7 @@ const SERIES = {
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
-    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue', 'colorscapes', 'skyscrapers']
+    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue', 'colorscapes', 'skyscrapers', 'coral-hunting']
   },
   tweetcarts: {
     name: 'Tweetcarts',
@@ -477,6 +477,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/loops/oregon_sunset.p8',
     favorite: true,
     themes: ['loop', 'gif', 'pico-8', 'generative', 'generator', 'lua', 'codeart', 'noise', 'aebrer_engine', 'interactive', 'menu system', 'palette']
+  },
+  'coral-hunting': {
+    id: 'coral-hunting',
+    title: 'CORAL HUNTING',
+    series: 'screensavers',
+    year: 2025,
+    platform: 'objkt',
+    description: 'Entropy-locked ASCII screensaver where each seed generates its own character vocabulary through a random walk. Hunt for coral-like moiré patterns by resizing your viewport, or press \'r\' to explore new seeds. Tight entropy locking during character generation creates distinct visual identities - matrixy equation-heavy outputs, pipe patterns, varied coherent aesthetics per seed. Loose entropy locking during simulation guarantees eventual loops but never predictably.',
+    ipfs: 'https://ipfs.io/ipfs/bafybeiax6n2vcggv2doybyfvthjelu5vrtimoes2flshhwwjxj3px35kmy/',
+    isGenerative: true,
+    links: {
+      objkt: 'https://objkt.com/tokens/KT1URVzdQNsdXULazJcK6TtS5mUCY82aEvwL/12'
+    },
+    provenance: 'ipfs://Qmdt29Aw4TrkqaedRXjcVLcSMWi4ocfef2JyLMRDUTLh12',
+    thumbnail: 'https://ipfs.io/ipfs/bafybeibxrh5wf2cqcfq2s7mmzxccw4d26r4q7kuadhsdozux6pfm22y3aa',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/CORAL_HUNTING',
+    favorite: true,
+    themes: ['screensaver', 'ascii art', 'entropy locking', 'webgl', 'interactive', 'pattern hunting', 'character art', 'emergence', 'p5js', 'moiré', 'collaboration', 'CC0']
   }
 };
 
