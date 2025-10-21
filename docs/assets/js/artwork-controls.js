@@ -115,22 +115,13 @@ function loadArtwork(isGenerative, baseIpfsUrl, isImage = false) {
     `;
 
     currentIframe = document.getElementById('artwork-iframe');
+    artworkLoaded = true;
+    renderArtworkControls(isGenerative, baseIpfsUrl);
 
-    // Set timeout for iframe loading (more generous timeout for interactive pieces)
-    loadTimeout = setTimeout(() => {
-      console.log('Iframe load timeout, trying next gateway...');
-      tryNextGateway(isGenerative, baseIpfsUrl, isImage);
-    }, 15000); // 15 second timeout
-
-    // Detect successful iframe load
-    currentIframe.onload = () => {
-      clearTimeout(loadTimeout);
-      artworkLoaded = true;
-      renderArtworkControls(isGenerative, baseIpfsUrl);
-    };
-
-    // Note: iframe errors are hard to detect due to sandbox/CORS
-    // We rely on timeout for failure detection
+    // Note: We don't use fallback for iframes because:
+    // 1. CORS/sandbox prevents reliable error detection
+    // 2. Most IPFS gateways work for the fxhash/onchfs content
+    // 3. Users can use the platform links if iframe fails
   }
 }
 
