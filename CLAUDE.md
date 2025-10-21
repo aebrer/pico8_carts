@@ -115,6 +115,7 @@ When adding notes to gallery pages:
 4. **Read** `foundation_protocol/README.md` for ideocart/vestiges worldbuilding
 5. **Read** `docs/assets/js/data.js` to see what's in the gallery (favorites marked `favorite: true`)
 6. **Run** `python3 scripts/fetch_readinglist.py` to get your randomly selected reading list, then read all the pages it outputs
+7. **Find and read** the most recent gallery addition: `ls -t docs/works/*.html | head -1` (excludes template)
 
 **Why this matters:** These files show you the structure, patterns, and voice of the gallery. You need to understand the format before you can work with it properly.
 

@@ -10,7 +10,7 @@ const SERIES = {
   vestiges: {
     name: 'Vestiges',
     description: 'Explorations of remnants, traces, and what remains after something has passed.',
-    works: ['the-trace-gallery', 'containment-breach']
+    works: ['the-trace-gallery', 'containment-breach', 'local-ontology-secured-transistor']
   },
   'three-body-problem': {
     name: 'Three Body Problem',
@@ -495,6 +495,26 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/CORAL_HUNTING',
     favorite: true,
     themes: ['screensaver', 'ascii art', 'entropy locking', 'webgl', 'interactive', 'pattern hunting', 'character art', 'emergence', 'p5js', 'moiré', 'collaboration', 'CC0']
+  },
+  'local-ontology-secured-transistor': {
+    id: 'local-ontology-secured-transistor',
+    title: 'Local Ontology Secured Transistor',
+    series: 'vestiges',
+    year: 2021,
+    platform: 'teia',
+    description: 'A collaborative circuit board vestige - Guandanarian\'s pixel art composition integrated with Drew\'s entropy-locked micro-animations. Container integrity degrading, pulse strength fluctuating, network state uncertain.',
+    ipfs: 'https://ipfs.io/ipfs/QmTokAhnEbYXYn9ERcgBTDwJ6LRGY818EwM6kjGtqJRnSo',
+    isGenerative: false,
+    isImage: true,
+    links: {
+      teia: 'https://teia.art/objkt/588238',
+      guandanarian: 'https://guandanarian.com/'
+    },
+    provenance: 'ipfs://QmQ1T28PiEhE4QXfptwNzRX14Gr4ajQAmbZdcANj5jZUzJ',
+    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/local_ontology_secured_transistor',
+    favorite: true,
+    themes: ['vestiges', 'collaboration', 'pico-8', 'generative', 'gif', 'loop', 'pixelart', 'animated', 'corruption', 'wiremap', 'computer', 'b&w', 'pattern', 'mixed media', 'the dead god', 'aseprite']
   }
 };
 
