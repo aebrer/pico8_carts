@@ -511,7 +511,7 @@ const WORKS = {
       guandanarian: 'https://guandanarian.com/'
     },
     provenance: 'ipfs://QmQ1T28PiEhE4QXfptwNzRX14Gr4ajQAmbZdcANj5jZUzJ',
-    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    thumbnail: 'https://entropist.ca/assets/images/local-ontology-secured-transistor.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/local_ontology_secured_transistor',
     favorite: true,
     themes: ['vestiges', 'collaboration', 'pico-8', 'generative', 'gif', 'loop', 'pixelart', 'animated', 'corruption', 'wiremap', 'computer', 'b&w', 'pattern', 'mixed media', 'the dead god', 'aseprite']
