@@ -318,24 +318,35 @@ function createFontTexture(gl) {
   return { texture, charWidth, charHeight, charsPerRow, atlasWidth, atlasHeight };
 }
 
+// Track how many tiles to render
+let tilesX = 1;
+let tilesY = 1;
+
 function resizeCanvas() {
   // Minimal grid - "just a bite" (8x8 characters, like petite chute's 8x8 pixels)
   width = 8;
   height = 8;
 
-  const charWidth = 8;
+  // Square character cells for square pixels when scaled
+  const charWidth = 12;
   const charHeight = 12;
 
-  // Calculate pixel-perfect integer scale
+  // Calculate pixel-perfect integer scale that fits at least once
   const baseWidth = width * charWidth;
   const baseHeight = height * charHeight;
   const maxScaleX = Math.floor(window.innerWidth / baseWidth);
   const maxScaleY = Math.floor(window.innerHeight / baseHeight);
   renderScale = Math.max(1, Math.min(maxScaleX, maxScaleY));
 
-  // Render at final display resolution (no CSS scaling)
-  const displayWidth = baseWidth * renderScale;
-  const displayHeight = baseHeight * renderScale;
+  // Calculate how many tiles we need to fill the viewport
+  const tileWidth = baseWidth * renderScale;
+  const tileHeight = baseHeight * renderScale;
+  tilesX = Math.ceil(window.innerWidth / tileWidth);
+  tilesY = Math.ceil(window.innerHeight / tileHeight);
+
+  // Render full tiled canvas
+  const displayWidth = tileWidth * tilesX;
+  const displayHeight = tileHeight * tilesY;
 
   canvas.width = displayWidth;
   canvas.height = displayHeight;
@@ -354,7 +365,7 @@ function resizeCanvas() {
     }
   }
 
-  console.log('Grid size:', width, 'x', height, '| Canvas:', canvas.width, 'x', canvas.height);
+  console.log('Grid size:', width, 'x', height, '| Tiles:', tilesX, 'x', tilesY, '| Canvas:', canvas.width, 'x', canvas.height);
 }
 
 function setupWebGL() {
@@ -467,9 +478,11 @@ function updateFrame() {
 }
 
 function render() {
-  const charW = 8 * renderScale;
+  const charW = 12 * renderScale;
   const charH = 12 * renderScale;
-  const numCells = width * height;
+  const totalTiles = tilesX * tilesY;
+  const cellsPerTile = width * height;
+  const numCells = totalTiles * cellsPerTile;
 
   const positions = new Float32Array(numCells * 12);
   const texCoords = new Float32Array(numCells * 12);
@@ -481,55 +494,67 @@ function render() {
   let charIdx = 0;
   let colorIdx = 0;
 
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const cell = grid[y][x];
-      const px = x * charW;
-      const py = y * charH;
+  const tileWidth = width * charW;
+  const tileHeight = height * charH;
 
-      const r = cell.r / 255;
-      const g = cell.g / 255;
-      const b = cell.b / 255;
-      const charIndex = cell.charIndex;
+  // Render each tile
+  for (let tileY = 0; tileY < tilesY; tileY++) {
+    for (let tileX = 0; tileX < tilesX; tileX++) {
+      const offsetX = tileX * tileWidth;
+      const offsetY = tileY * tileHeight;
 
-      // Two triangles
-      positions[posIdx++] = px;
-      positions[posIdx++] = py;
-      positions[posIdx++] = px + charW;
-      positions[posIdx++] = py;
-      positions[posIdx++] = px;
-      positions[posIdx++] = py + charH;
+      // Render 8x8 grid for this tile
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const cell = grid[y][x];
+          const px = offsetX + x * charW;
+          const py = offsetY + y * charH;
 
-      positions[posIdx++] = px;
-      positions[posIdx++] = py + charH;
-      positions[posIdx++] = px + charW;
-      positions[posIdx++] = py;
-      positions[posIdx++] = px + charW;
-      positions[posIdx++] = py + charH;
+          const r = cell.r / 255;
+          const g = cell.g / 255;
+          const b = cell.b / 255;
+          const charIndex = cell.charIndex;
 
-      // Texture coordinates
-      texCoords[texIdx++] = 0;
-      texCoords[texIdx++] = 0;
-      texCoords[texIdx++] = 1;
-      texCoords[texIdx++] = 0;
-      texCoords[texIdx++] = 0;
-      texCoords[texIdx++] = 1;
+          // Two triangles
+          positions[posIdx++] = px;
+          positions[posIdx++] = py;
+          positions[posIdx++] = px + charW;
+          positions[posIdx++] = py;
+          positions[posIdx++] = px;
+          positions[posIdx++] = py + charH;
 
-      texCoords[texIdx++] = 0;
-      texCoords[texIdx++] = 1;
-      texCoords[texIdx++] = 1;
-      texCoords[texIdx++] = 0;
-      texCoords[texIdx++] = 1;
-      texCoords[texIdx++] = 1;
+          positions[posIdx++] = px;
+          positions[posIdx++] = py + charH;
+          positions[posIdx++] = px + charW;
+          positions[posIdx++] = py;
+          positions[posIdx++] = px + charW;
+          positions[posIdx++] = py + charH;
 
-      for (let i = 0; i < 6; i++) {
-        chars[charIdx++] = charIndex;
-      }
+          // Texture coordinates
+          texCoords[texIdx++] = 0;
+          texCoords[texIdx++] = 0;
+          texCoords[texIdx++] = 1;
+          texCoords[texIdx++] = 0;
+          texCoords[texIdx++] = 0;
+          texCoords[texIdx++] = 1;
 
-      for (let i = 0; i < 6; i++) {
-        colors[colorIdx++] = r;
-        colors[colorIdx++] = g;
-        colors[colorIdx++] = b;
+          texCoords[texIdx++] = 0;
+          texCoords[texIdx++] = 1;
+          texCoords[texIdx++] = 1;
+          texCoords[texIdx++] = 0;
+          texCoords[texIdx++] = 1;
+          texCoords[texIdx++] = 1;
+
+          for (let i = 0; i < 6; i++) {
+            chars[charIdx++] = charIndex;
+          }
+
+          for (let i = 0; i < 6; i++) {
+            colors[colorIdx++] = r;
+            colors[colorIdx++] = g;
+            colors[colorIdx++] = b;
+          }
+        }
       }
     }
   }
