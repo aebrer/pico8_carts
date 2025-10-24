@@ -94,6 +94,7 @@ function rngReset() {
 // Global state
 let grid;
 let width, height;
+let renderScale = 1; // Pixel-perfect integer scale for rendering
 let entropy_lock_prob = 0.001;
 let rfac, gfac, bfac;
 let dfacs = [];
@@ -276,7 +277,7 @@ function createFontTexture(gl) {
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, atlasWidth, atlasHeight);
   ctx.fillStyle = '#fff';
-  ctx.font = `${fontSize}px "Courier New", monospace`;
+  ctx.font = `${fontSize}px "Iosevka", monospace`;
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
 
@@ -298,27 +299,30 @@ function createFontTexture(gl) {
 }
 
 function resizeCanvas() {
-  width = 420;
-  height = 420;
+  // Minimal grid - "just a bite" (8x8 characters, like petite chute's 8x8 pixels)
+  width = 8;
+  height = 8;
 
   const charWidth = 8;
   const charHeight = 12;
 
-  canvas.width = width * charWidth;
-  canvas.height = height * charHeight;
+  // Calculate pixel-perfect integer scale
+  const baseWidth = width * charWidth;
+  const baseHeight = height * charHeight;
+  const maxScaleX = Math.floor(window.innerWidth / baseWidth);
+  const maxScaleY = Math.floor(window.innerHeight / baseHeight);
+  renderScale = Math.max(1, Math.min(maxScaleX, maxScaleY));
 
-  const scaleX = window.innerWidth / canvas.width;
-  const scaleY = window.innerHeight / canvas.height;
-  const scale = Math.max(scaleX, scaleY);
+  // Render at final display resolution (no CSS scaling)
+  const displayWidth = baseWidth * renderScale;
+  const displayHeight = baseHeight * renderScale;
 
-  const displayWidth = canvas.width * scale;
-  const displayHeight = canvas.height * scale;
-
+  canvas.width = displayWidth;
+  canvas.height = displayHeight;
   canvas.style.width = displayWidth + 'px';
   canvas.style.height = displayHeight + 'px';
 
   gl.viewport(0, 0, canvas.width, canvas.height);
-
   gl.uniform2f(gl.getUniformLocation(program, 'u_resolution'), canvas.width, canvas.height);
 
   // Initialize grid with background color
@@ -436,12 +440,15 @@ function updateFrame() {
     grid[y][x].updateChar();
   }
 
+  // Future iteration: applyEntropyLockedSelfCopy() here
+  // (homage to beginner_ideocartography - copy parts of frame onto itself before display)
+
   render();
 }
 
 function render() {
-  const charW = 8;
-  const charH = 12;
+  const charW = 8 * renderScale;
+  const charH = 12 * renderScale;
   const numCells = width * height;
 
   const positions = new Float32Array(numCells * 12);
@@ -550,10 +557,17 @@ function animate(currentTime) {
 }
 
 // EditART entry point - called on slider change and resize
-function drawArt() {
+async function drawArt() {
   // Stop any existing animation
   if (animationId) {
     cancelAnimationFrame(animationId);
+  }
+
+  // Ensure Iosevka font is loaded before creating texture
+  try {
+    await document.fonts.load('32px "Iosevka"');
+  } catch (e) {
+    console.warn('Font loading failed, falling back to system monospace:', e);
   }
 
   // Initialize RNG from editart
