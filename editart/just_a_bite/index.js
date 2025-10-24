@@ -260,7 +260,7 @@ function createProgram(gl, vertSource, fragSource) {
 
 // Create font texture atlas
 function createFontTexture(gl) {
-  const fontSize = 32;
+  const fontSize = 64; // Higher resolution to reduce aliasing
   const charWidth = Math.ceil(fontSize * 0.6);
   const charHeight = fontSize;
 
@@ -272,7 +272,16 @@ function createFontTexture(gl) {
   const fontCanvas = document.createElement('canvas');
   fontCanvas.width = atlasWidth;
   fontCanvas.height = atlasHeight;
-  const ctx = fontCanvas.getContext('2d');
+  const ctx = fontCanvas.getContext('2d', {
+    alpha: true,
+    willReadFrequently: false
+  });
+
+  // Try to disable font smoothing (browser-dependent)
+  ctx.imageSmoothingEnabled = false;
+  ctx.webkitImageSmoothingEnabled = false;
+  ctx.mozImageSmoothingEnabled = false;
+  ctx.msImageSmoothingEnabled = false;
 
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, atlasWidth, atlasHeight);
@@ -290,10 +299,21 @@ function createFontTexture(gl) {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, fontCanvas);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  // Use NEAREST for crisp pixel-perfect rendering
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+  // Debug: log font rendering info
+  console.log('Font texture created:', {
+    fontSize,
+    charWidth,
+    charHeight,
+    atlasSize: `${atlasWidth}x${atlasHeight}`,
+    numChars: CHARS.length,
+    fontUsed: ctx.font
+  });
 
   return { texture, charWidth, charHeight, charsPerRow, atlasWidth, atlasHeight };
 }
@@ -565,7 +585,12 @@ async function drawArt() {
 
   // Ensure Iosevka font is loaded before creating texture
   try {
-    await document.fonts.load('32px "Iosevka"');
+    await document.fonts.load('64px "Iosevka"');
+    const fontLoaded = document.fonts.check('64px "Iosevka"');
+    console.log('Iosevka font loaded:', fontLoaded);
+    if (!fontLoaded) {
+      console.warn('Font check failed - Iosevka may not be available');
+    }
   } catch (e) {
     console.warn('Font loading failed, falling back to system monospace:', e);
   }
