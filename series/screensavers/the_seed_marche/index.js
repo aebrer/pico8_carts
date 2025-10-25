@@ -1,9 +1,13 @@
 /*
-just a bite - EditART Version
+the seed marche - EditART Version
+(Working title: "just a bite")
 Based on CORAL HUNTING engine
 
 Minimal unit derivative: 420x420 → 8x8 characters
 Reveals atomic behavior: character vocabulary generation + burn dynamics
+
+Play on "marsh" (returning to coral theme), "march" (seed navigation),
+and "marché" (market - exploring/trading seeds)
 
 Features:
 - Seed-specific character vocabularies via entropy-locked walk

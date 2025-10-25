@@ -1,16 +1,20 @@
-# just a bite
+# the seed marche
+
+**Working title:** "just a bite"
 
 Minimal unit derivative of CORAL HUNTING (for editart.xyz)
 
+A play on "marsh" (returning to the coral theme), "march" (the seed navigation mechanic), and "marché" (market - exploring/trading seeds)
+
 Follows the THE FALL → petite chute relationship:
 - **CORAL HUNTING**: 420x420 chars, moiré hunting through viewport resizing
-- **just a bite**: 8x8 chars, isolated character vocabulary + burn dynamics
+- **the seed marche**: 8x8 chars, isolated character vocabulary + burn dynamics
 
 The minimal "bite" reveals the atomic behavior: seed-specific character vocabulary generation and color burn propagation at their smallest viable scale.
 
 ## Design Intent
 
-Like petite chute strips THE FALL down to 8x8 pixels to reveal pure color harmony, "just a bite" strips CORAL HUNTING down to 8x8 characters to reveal:
+Like petite chute strips THE FALL down to 8x8 pixels to reveal pure color harmony, "the seed marche" strips CORAL HUNTING down to 8x8 characters to reveal:
 - Character vocabulary identity (matrixy, pipe patterns, varied aesthetics per seed)
 - Pure burn dynamics without spatial moiré emergence
 - The atomic unit that, when multiplied 420x420 times, becomes CORAL HUNTING
@@ -19,7 +23,7 @@ Like petite chute strips THE FALL down to 8x8 pixels to reveal pure color harmon
 
 Start a local server:
 ```bash
-cd /home/andrew/pico8_carts/editart/just_a_bite
+cd /home/andrew/pico8_carts/series/screensavers/the_seed_marche
 python3 -m http.server 8069
 ```
 
