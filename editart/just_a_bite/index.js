@@ -112,6 +112,7 @@ let animationId = null;
 let lastFrameTime = 0;
 const targetFPS = 30;
 const targetFrameTime = 1000 / targetFPS;
+let paused = false;
 
 // Color/char mapping
 function rgbToBrightness(r, g, b) {
@@ -220,7 +221,8 @@ function initSeedParams() {
   // Movement factors
   dfacs = getDfacs();
 
-  console.log('just a bite');
+  console.log('=== just a bite ===');
+  console.log('SEED:', initialSeed);
   console.log('Custom charset:', CHARS);
   console.log('RGB burn factors:', rfac, gfac, bfac);
   console.log('Movement factors (dfacs):', dfacs);
@@ -445,6 +447,8 @@ function setupWebGL() {
 }
 
 function updateFrame() {
+  if (paused) return;
+
   entropyLock(990003);
 
   const totalCells = width * height;
@@ -655,3 +659,57 @@ async function drawArt() {
     triggerPreview();
   }, 100);
 }
+
+// Controls
+const infoEl = document.getElementById('info');
+
+document.addEventListener('keyup', (e) => {
+  if (e.key === 'i') {
+    infoEl.classList.toggle('show');
+  } else if (e.key === 'p') {
+    paused = !paused;
+    console.log(paused ? 'Paused' : 'Resumed');
+  } else if (e.key === 'f') {
+    // Toggle fullscreen
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  } else if (e.key === 'r') {
+    // Generate new seed by using timestamp
+    const newSeed = Date.now() / 1000000; // Normalize to 0-1 range
+    console.log('Generating new seed:', newSeed);
+
+    // Stop animation and reinitialize with new seed
+    if (animationId) {
+      cancelAnimationFrame(animationId);
+    }
+
+    // Override initialSeed
+    initialSeed = newSeed;
+    const seedStr = randomSeedEditArt + initialSeed.toString();
+    rng = getRNG(seedStr);
+
+    // Regenerate everything
+    initSeedParams();
+
+    // Update font texture with new CHARS
+    if (texture) {
+      gl.deleteTexture(texture);
+    }
+    fontData = createFontTexture(gl);
+    texture = fontData.texture;
+    gl.uniform2f(gl.getUniformLocation(program, 'u_charSize'), fontData.charWidth, fontData.charHeight);
+    gl.uniform1f(gl.getUniformLocation(program, 'u_charsPerRow'), fontData.charsPerRow);
+    gl.uniform2f(gl.getUniformLocation(program, 'u_atlasSize'), fontData.atlasWidth, fontData.atlasHeight);
+
+    // Reset grid
+    resizeCanvas();
+
+    // Restart animation
+    lastFrameTime = performance.now();
+    paused = false;
+    animate(lastFrameTime);
+  }
+});
