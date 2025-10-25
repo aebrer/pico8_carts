@@ -15,10 +15,14 @@ function loadArtwork(isGenerative, baseIpfsUrl, isImage = false, platform = 'fxh
 
   if (isGenerative) {
     if (platform === 'editart') {
-      // EditART: just add sliderLess=true
-      url = baseIpfsUrl.includes('?')
-        ? `${baseIpfsUrl}&sliderLess=true`
-        : `${baseIpfsUrl}?sliderLess=true`;
+      // EditART: generate random m0-m4 values (0.000 to 0.999)
+      const m0 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+      const m1 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+      const m2 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+      const m3 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+      const m4 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+
+      url = `${baseIpfsUrl}?m0=${m0}&m1=${m1}&m2=${m2}&m3=${m3}&m4=${m4}`;
     } else {
       // fxhash: use fxhash and fxiteration parameters
       const hash = generateFxHash();
@@ -95,8 +99,14 @@ function randomizeArtwork(isGenerative, baseIpfsUrl, platform) {
   if (!isGenerative || !currentIframe) return;
 
   if (platform === 'editart') {
-    // EditART: just reload the iframe (uses randomFull() internally)
-    currentIframe.src = currentIframe.src;
+    // EditART: generate random m0-m4 values (0.000 to 0.999)
+    const m0 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+    const m1 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+    const m2 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+    const m3 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+    const m4 = (Math.floor(Math.random() * 1000) / 1000).toFixed(3);
+
+    currentIframe.src = `${baseIpfsUrl}?m0=${m0}&m1=${m1}&m2=${m2}&m3=${m3}&m4=${m4}`;
   } else {
     // fxhash: generate new hash and iteration
     const hash = generateFxHash();
