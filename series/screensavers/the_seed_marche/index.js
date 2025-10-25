@@ -680,10 +680,10 @@ async function drawArt() {
   lastFrameTime = performance.now();
   animate(lastFrameTime);
 
-  // Trigger preview after a few frames have rendered
+  // Trigger preview after ~5 seconds
   setTimeout(() => {
     triggerPreview();
-  }, 100);
+  }, 5000);
 }
 
 // Controls
