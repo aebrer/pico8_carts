@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THE FALL (ASCII) - Work in Progress - Drew Brereton</title>
+  <title>WIP: the_seed_marche - Drew Brereton</title>
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Fonts -->
@@ -27,80 +27,64 @@
         <!-- Artwork View -->
         <div>
           <div class="artwork-view" id="artwork-display">
-            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL, false, PLATFORM)">Click to view artwork</button>
           </div>
           <div class="artwork-controls" id="artwork-controls"></div>
         </div>
 
         <!-- Artwork Info -->
         <div class="artwork-info">
-          <h1>THE FALL (ASCII)</h1>
+          <h1>the_seed_marche</h1>
           <p><strong style="color: #ff6b6b;">⚠️ WORK IN PROGRESS - NOT FOR PUBLICATION</strong></p>
 
           <div class="artwork-meta">
             <p><strong>Series:</strong> Screensavers</p>
             <p><strong>Year:</strong> 2025</p>
-            <p><strong>Status:</strong> Seeking publication permission</p>
+            <p><strong>Platform:</strong> editart.xyz</p>
           </div>
 
           <div class="artwork-description">
             <h3>About</h3>
-            <p>An ASCII art interpretation of THE FALL, using GPU-accelerated WebGL rendering to display entropy-locked patterns through colored characters.</p>
+            <p>Minimal unit derivative of CORAL HUNTING - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics.</p>
 
-            <p>Each character's brightness maps to RGB color values, creating a flowing, burning pattern that's guaranteed to loop but never predictably. The character set uses bidirectional gradients for visual symmetry, creating wave-like patterns as colors flow through brightness ranges.</p>
-
-            <h3 style="margin-top: 30px;">Current Status</h3>
-            <p><strong>This piece cannot be published without permission.</strong></p>
-
-            <p>The WebGL rendering techniques were inspired by <a href="https://ertdfgcvb.xyz/" target="_blank">ertdfgcvb</a>'s work (specifically Device 1). While our implementation was written from scratch, we relied heavily on their code as a reference for GPU-accelerated ASCII rendering.</p>
-
-            <p>This preview page exists to:</p>
-            <ul>
-              <li>Share the work with ertdfgcvb to request publication permission</li>
-              <li>Gather feedback from trusted collaborators</li>
-              <li>Test the piece across different devices and screens</li>
-            </ul>
+            <p>A play on "marsh" (returning to the coral theme), "march" (the seed navigation mechanic), and "marché" (market - exploring/trading seeds). Like petite_chute strips THE FALL to 8x8 pixels, the_seed_marche strips CORAL HUNTING to 8x8 characters to reveal pure burn dynamics at their smallest viable scale.</p>
 
             <h3 style="margin-top: 30px;">Technical Details</h3>
             <ul>
-              <li><strong>Algorithm:</strong> Same as original THE FALL (entropy locking, pixel burning, random movement)</li>
-              <li><strong>Character Set:</strong> Curated palette from Pico-8 font with bidirectional gradients</li>
-              <li><strong>Grid:</strong> Dynamic sizing (120 chars tall, width scales with aspect ratio)</li>
-              <li><strong>Rendering:</strong> WebGL with font texture atlas and custom shaders</li>
-              <li><strong>RNG:</strong> fxhash for deterministic generation (no Math.random)</li>
+              <li><strong>Grid:</strong> 8x8 characters (64 cells total)</li>
+              <li><strong>Rendering:</strong> WebGL with font texture atlas and viewport tiling</li>
+              <li><strong>Font:</strong> Iosevka monospace embedded for Unicode coverage</li>
+              <li><strong>Platform:</strong> editart.xyz (sliderless mode, randomFull())</li>
+              <li><strong>Iterations:</strong> ~17 per frame (auto-scaled from CORAL HUNTING's ~47k)</li>
+              <li><strong>Character Vocabulary:</strong> Seed-specific via entropy-locked walk</li>
+              <li><strong>Determinism:</strong> Same seed always produces same output</li>
             </ul>
 
             <h3 style="margin-top: 30px;">Controls</h3>
             <ul>
               <li><strong>i</strong> - Toggle info overlay</li>
-              <li><strong>p</strong> - Pause animation</li>
-              <li><strong>s</strong> - Save PNG</li>
+              <li><strong>p</strong> - Pause/resume animation</li>
               <li><strong>f</strong> - Toggle fullscreen</li>
-              <li><strong>r</strong> - New seed (stays in fullscreen)</li>
+              <li><strong>r</strong> - Deterministic seed march</li>
+              <li><strong>← →</strong> - Linear seed navigation (±0.01)</li>
+              <li><strong>Tap</strong> (mobile) - Same as 'r' key</li>
             </ul>
-            <p>The piece automatically scales to any display size and recalculates the grid dynamically on resize without reloading.</p>
 
             <h3 style="margin-top: 30px;">Credits</h3>
-            <p><strong>Concept & Core Algorithm:</strong> Drew Brereton (aebrer)<br>
-            <strong>WebGL Implementation:</strong> Collaborative work between Drew Brereton and Claude Code<br>
-            <strong>Inspiration:</strong> <a href="https://ertdfgcvb.xyz/" target="_blank">ertdfgcvb</a> - Device 1</p>
+            <p><strong>Concept & Algorithm:</strong> Drew Brereton (aebrer)<br>
+            <strong>Based on:</strong> CORAL HUNTING engine<br>
+            <strong>Implementation:</strong> Collaborative work between Drew Brereton and Claude Code</p>
           </div>
         </div>
       </div>
 
-      <!-- Attribution Notice -->
+      <!-- Note -->
       <section style="background-color: #1a1a1a; padding: 20px; margin-top: 40px; border-left: 4px solid #ff6b6b;">
-        <h2>Attribution & Permission</h2>
-        <p>This work was created as a collaborative experiment between Drew Brereton and Claude Code. The WebGL ASCII rendering techniques were inspired by and learned from <a href="https://ertdfgcvb.xyz/" target="_blank">ertdfgcvb's Device 1</a>.</p>
+        <h2>Work in Progress</h2>
+        <p>This piece is being prepared for publication on editart.xyz. This preview page exists for testing across different devices and gathering feedback before the official release.</p>
 
-        <p>While the implementation was written from scratch, we acknowledge the significant influence of ertdfgcvb's pioneering work in GPU-accelerated ASCII art. <strong>This piece will not be published or shared publicly without explicit permission from ertdfgcvb.</strong></p>
-
-        <p>If you are ertdfgcvb and have feedback or concerns about this work, please reach out via:</p>
-        <ul>
-          <li>Email: drew [at] brereton.me</li>
-          <li>Bluesky: <a href="https://bsky.app/profile/aebrer.xyz" target="_blank">@aebrer.xyz</a></li>
-          <li>Mastodon: <a href="https://genart.social/@aebrer" target="_blank">@aebrer</a></li>
-        </ul>
+        <p><strong>Working title:</strong> "just a bite"<br>
+        <strong>Final title:</strong> "the_seed_marche"</p>
       </section>
     </main>
 
@@ -118,7 +102,8 @@
     // Configure artwork settings for this page
     const IS_GENERATIVE = true;
     // Point to WIP version in docs
-    const BASE_IPFS_URL = 'wip/the_fall_ascii/index_webgl.html';
+    const BASE_IPFS_URL = 'wip/the_seed_marche/index.html';
+    const PLATFORM = 'editart';
   </script>
 </body>
 </html>

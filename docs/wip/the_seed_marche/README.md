@@ -47,7 +47,7 @@ The seed march ('r' or tap) is deterministic: starting from any seed, pressing '
 
 - **Grid size**: 420x420 → 8x8 characters (64 cells total)
 - **Iterations**: ~47k → ~17 per frame (auto-scaled by cell count)
-- **Display**: Scale to cover viewport (like CORAL HUNTING, no viewport hunting mechanic)
+- **Display**: Fixed centered scaling with viewport tiling (no viewport hunting mechanic)
 - **Platform**: editart's `randomFull()` instead of fxhash RNG
 - **Determinism**: Same seed always produces same output
 - **Seed exploration**: Deterministic seed march for infinite exploration
@@ -55,10 +55,10 @@ The seed march ('r' or tap) is deterministic: starting from any seed, pressing '
 ## Technical
 
 - WebGL-accelerated rendering
-- 8x8 character grid (96x96px canvas base, 12x12px characters)
+- 8x8 character grid (96x96px canvas base, upscaled with crisp pixel rendering)
 - 30fps with ~17 iterations per frame
 - Entropy locking at 0.1% probability per frame
 - Seed-specific character sets via tight entropy-locked walk through master palette
 - Character vocabulary generation creates distinct visual identities per seed
-- System monospace font (fully self-contained, no external resources)
-- Symmetric tiling with center grid always centered, overflow cropped
+- Iosevka monospace font embedded for complete Unicode glyph coverage (box-drawing, arrows, symbols)
+- Viewport tiling fills non-square displays seamlessly

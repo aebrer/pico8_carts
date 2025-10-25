@@ -3,32 +3,42 @@
 
 let artworkLoaded = false;
 let currentIframe = null;
+let currentPlatform = 'fxhash'; // 'fxhash' or 'editart'
 
-function loadArtwork(isGenerative, baseIpfsUrl, isImage = false) {
+function loadArtwork(isGenerative, baseIpfsUrl, isImage = false, platform = 'fxhash') {
   if (artworkLoaded) return;
 
+  currentPlatform = platform;
   const display = document.getElementById('artwork-display');
-  const hash = isGenerative ? generateFxHash() : '';
-  const iteration = isGenerative ? Math.floor(Math.random() * 1000) : 0;
 
   let url = baseIpfsUrl;
+
   if (isGenerative) {
-    if (baseIpfsUrl.includes('?')) {
-      // URL already has query parameters - update fxhash and fxiteration
-      const urlObj = new URL(baseIpfsUrl);
-      urlObj.searchParams.set('fxhash', hash);
-      urlObj.searchParams.set('fxiteration', iteration);
-      url = urlObj.toString();
+    if (platform === 'editart') {
+      // EditART: just add sliderLess=true
+      url = baseIpfsUrl.includes('?')
+        ? `${baseIpfsUrl}&sliderLess=true`
+        : `${baseIpfsUrl}?sliderLess=true`;
     } else {
-      // Simple case: no existing parameters
-      url = `${baseIpfsUrl}?fxhash=${hash}`;
+      // fxhash: use fxhash and fxiteration parameters
+      const hash = generateFxHash();
+      const iteration = Math.floor(Math.random() * 1000);
+
+      if (baseIpfsUrl.includes('?')) {
+        const urlObj = new URL(baseIpfsUrl);
+        urlObj.searchParams.set('fxhash', hash);
+        urlObj.searchParams.set('fxiteration', iteration);
+        url = urlObj.toString();
+      } else {
+        url = `${baseIpfsUrl}?fxhash=${hash}`;
+      }
     }
   }
 
   if (isImage) {
     display.innerHTML = `<img src="${url}" alt="Artwork" style="width: 100%; height: 100%; object-fit: contain;">`;
     artworkLoaded = true;
-    renderArtworkControls(isGenerative, baseIpfsUrl);
+    renderArtworkControls(isGenerative, baseIpfsUrl, platform);
   } else {
     display.innerHTML = `
       <iframe
@@ -41,11 +51,11 @@ function loadArtwork(isGenerative, baseIpfsUrl, isImage = false) {
     `;
     artworkLoaded = true;
     currentIframe = document.getElementById('artwork-iframe');
-    renderArtworkControls(isGenerative, baseIpfsUrl);
+    renderArtworkControls(isGenerative, baseIpfsUrl, platform);
   }
 }
 
-function renderArtworkControls(isGenerative, baseIpfsUrl) {
+function renderArtworkControls(isGenerative, baseIpfsUrl, platform) {
   const controlsContainer = document.getElementById('artwork-controls');
   if (!controlsContainer) return;
 
@@ -55,7 +65,7 @@ function renderArtworkControls(isGenerative, baseIpfsUrl) {
     const randomBtn = document.createElement('button');
     randomBtn.className = 'btn';
     randomBtn.textContent = 'Randomize';
-    randomBtn.onclick = () => randomizeArtwork(isGenerative, baseIpfsUrl);
+    randomBtn.onclick = () => randomizeArtwork(isGenerative, baseIpfsUrl, platform);
     controlsContainer.appendChild(randomBtn);
   }
 
@@ -81,21 +91,25 @@ function renderArtworkControls(isGenerative, baseIpfsUrl) {
   }
 }
 
-function randomizeArtwork(isGenerative, baseIpfsUrl) {
+function randomizeArtwork(isGenerative, baseIpfsUrl, platform) {
   if (!isGenerative || !currentIframe) return;
-  const hash = generateFxHash();
-  const iteration = Math.floor(Math.random() * 1000);
 
-  // Check if URL already has query parameters
-  if (baseIpfsUrl.includes('?')) {
-    // Parse URL and update fxhash and fxiteration parameters
-    const url = new URL(baseIpfsUrl);
-    url.searchParams.set('fxhash', hash);
-    url.searchParams.set('fxiteration', iteration);
-    currentIframe.src = url.toString();
+  if (platform === 'editart') {
+    // EditART: just reload the iframe (uses randomFull() internally)
+    currentIframe.src = currentIframe.src;
   } else {
-    // Simple case: no existing parameters
-    currentIframe.src = `${baseIpfsUrl}?fxhash=${hash}`;
+    // fxhash: generate new hash and iteration
+    const hash = generateFxHash();
+    const iteration = Math.floor(Math.random() * 1000);
+
+    if (baseIpfsUrl.includes('?')) {
+      const url = new URL(baseIpfsUrl);
+      url.searchParams.set('fxhash', hash);
+      url.searchParams.set('fxiteration', iteration);
+      currentIframe.src = url.toString();
+    } else {
+      currentIframe.src = `${baseIpfsUrl}?fxhash=${hash}`;
+    }
   }
 }
 
