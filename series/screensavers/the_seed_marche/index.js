@@ -123,6 +123,8 @@ let lastFrameTime = 0;
 const targetFPS = 30;
 const targetFrameTime = 1000 / targetFPS;
 let paused = false;
+let firstFrameRendered = false;
+let previewTriggered = false;
 
 // Color/char mapping
 function rgbToBrightness(r, g, b) {
@@ -612,6 +614,18 @@ function animate(currentTime) {
   if (elapsed >= targetFrameTime) {
     updateFrame();
     lastFrameTime = currentTime - (elapsed % targetFrameTime);
+
+    // After first frame is rendered, trigger preview for EditART
+    if (!firstFrameRendered) {
+      firstFrameRendered = true;
+      // Wait a bit to ensure GPU has finished rendering
+      setTimeout(() => {
+        if (!previewTriggered) {
+          previewTriggered = true;
+          triggerPreview();
+        }
+      }, 100);
+    }
   }
 
   animationId = requestAnimationFrame(animate);
@@ -623,6 +637,10 @@ function drawArt() {
   if (animationId) {
     cancelAnimationFrame(animationId);
   }
+
+  // Reset preview flags
+  firstFrameRendered = false;
+  previewTriggered = false;
 
   // Initialize RNG from editart
   initRNG();
@@ -672,11 +690,7 @@ function drawArt() {
   // Start animation
   lastFrameTime = performance.now();
   animate(lastFrameTime);
-
-  // Trigger preview after ~5 seconds
-  setTimeout(() => {
-    triggerPreview();
-  }, 500);
+  // Preview will be triggered automatically after first frame renders
 }
 
 // Controls

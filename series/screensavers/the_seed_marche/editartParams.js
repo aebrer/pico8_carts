@@ -67,7 +67,7 @@ window.addEventListener("message", (e) => {
 function triggerDraw() {
     seedRandomness();
     drawArt();
-    parent.postMessage("editArtSketchLoaded", "*");
+    // Don't post immediately - let drawArt() call triggerPreview() after delay
 }
 
 window.addEventListener("resize", (e) => triggerDraw());
