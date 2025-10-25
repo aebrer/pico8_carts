@@ -60,5 +60,4 @@ The seed march ('r' or tap) is deterministic: starting from any seed, pressing '
 - Entropy locking at 0.1% probability per frame
 - Seed-specific character sets via tight entropy-locked walk through master palette
 - Character vocabulary generation creates distinct visual identities per seed
-- Iosevka monospace font embedded for complete Unicode glyph coverage (box-drawing, arrows, symbols)
 - Viewport tiling fills non-square displays seamlessly
