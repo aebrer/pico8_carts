@@ -123,7 +123,7 @@ let lastFrameTime = 0;
 const targetFPS = 30;
 const targetFrameTime = 1000 / targetFPS;
 let paused = false;
-let firstFrameRendered = false;
+let framesRendered = 0;
 let previewTriggered = false;
 
 // Color/char mapping
@@ -392,7 +392,9 @@ function setupWebGL() {
   canvas.id = 'artCanvas';
   document.body.appendChild(canvas);
 
-  gl = canvas.getContext('webgl');
+  gl = canvas.getContext('webgl', {
+    preserveDrawingBuffer: true  // Required for canvas.toDataURL() and EditART preview capture
+  });
 
   if (!gl) {
     console.error('WebGL not supported');
@@ -614,17 +616,18 @@ function animate(currentTime) {
   if (elapsed >= targetFrameTime) {
     updateFrame();
     lastFrameTime = currentTime - (elapsed % targetFrameTime);
+    framesRendered++;
 
-    // After first frame is rendered, trigger preview for EditART
-    if (!firstFrameRendered) {
-      firstFrameRendered = true;
-      // Wait a bit to ensure GPU has finished rendering
-      setTimeout(() => {
-        if (!previewTriggered) {
-          previewTriggered = true;
-          triggerPreview();
-        }
-      }, 100);
+    // After 60 frames have rendered (~2 seconds at 30fps), trigger preview for EditART
+    if (framesRendered === 60 && !previewTriggered) {
+      previewTriggered = true;
+
+      // Wait for next frame to ensure GPU has finished rendering
+      requestAnimationFrame(() => {
+        // Force WebGL to finish all pending operations
+        gl.finish();
+        triggerPreview();
+      });
     }
   }
 
@@ -639,7 +642,7 @@ function drawArt() {
   }
 
   // Reset preview flags
-  firstFrameRendered = false;
+  framesRendered = 0;
   previewTriggered = false;
 
   // Initialize RNG from editart
@@ -730,6 +733,66 @@ function changeSeed(newSeed) {
   animate(lastFrameTime);
 }
 
+// GIF capture
+let isCapturingGif = false;
+
+function captureGif() {
+  if (isCapturingGif) {
+    console.log('Already capturing GIF...');
+    return;
+  }
+
+  isCapturingGif = true;
+  console.log('Starting GIF capture (8 seconds at 30fps, 512x512)...');
+
+  // Create temporary canvas at fixed resolution for smaller file size
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = 512;
+  tempCanvas.height = 512;
+  const tempCtx = tempCanvas.getContext('2d');
+
+  const gif = new GIF({
+    workers: 2,
+    quality: 10,
+    width: 512,
+    height: 512,
+    workerScript: './gif.worker.js'
+  });
+
+  const framesToCapture = 240; // 8 seconds at 30fps
+  const frameDelay = 33; // ~33ms = 30fps
+  let framesCaptured = 0;
+
+  const captureInterval = setInterval(() => {
+    if (framesCaptured >= framesToCapture) {
+      clearInterval(captureInterval);
+      console.log('Rendering GIF...');
+      gif.render();
+      return;
+    }
+
+    // Scale main canvas down to 512x512 on temp canvas
+    tempCtx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, 512, 512);
+    gif.addFrame(tempCtx, { copy: true, delay: frameDelay });
+    framesCaptured++;
+
+    if (framesCaptured % 30 === 0) {
+      console.log(`Captured ${framesCaptured}/${framesToCapture} frames`);
+    }
+  }, frameDelay);
+
+  gif.on('finished', (blob) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = `the_seed_marche_m0=${m0.toFixed(3)}.gif`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+    isCapturingGif = false;
+    console.log('GIF saved!');
+  });
+}
+
 document.addEventListener('keyup', (e) => {
   if (e.key === 'i') {
     infoEl.classList.toggle('show');
@@ -760,5 +823,8 @@ document.addEventListener('keyup', (e) => {
     const newSeed = (initialSeed - 0.01 + 1.0) % 1.0;
     console.log('SEED:', initialSeed, '→', newSeed, '(-0.01)');
     changeSeed(newSeed);
+  } else if (e.key === 'g') {
+    // Capture GIF
+    captureGif();
   }
 });
