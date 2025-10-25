@@ -676,7 +676,7 @@ function drawArt() {
   // Trigger preview after ~5 seconds
   setTimeout(() => {
     triggerPreview();
-  }, 5000);
+  }, 500);
 }
 
 // Controls
