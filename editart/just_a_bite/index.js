@@ -2,7 +2,13 @@
 just a bite - EditART Version
 Based on CORAL HUNTING engine
 
-Entropy-locked ASCII screensaver with seed-specific character vocabularies
+Minimal unit derivative: 420x420 → 8x8 characters
+Reveals atomic behavior: character vocabulary generation + burn dynamics
+
+Features:
+- Seed-specific character vocabularies via entropy-locked walk
+- Deterministic seed march for infinite exploration
+- WebGL-accelerated rendering with viewport tiling
 */
 
 // Master character set - with bidirectional gradients for visual symmetry
@@ -475,9 +481,6 @@ function updateFrame() {
     grid[y][x].updateChar();
   }
 
-  // Future iteration: applyEntropyLockedSelfCopy() here
-  // (homage to beginner_ideocartography - copy parts of frame onto itself before display)
-
   render();
 }
 
@@ -650,6 +653,25 @@ async function drawArt() {
   // Size canvas and create grid
   resizeCanvas();
 
+  // Mobile tap to advance seed (like 'r' key)
+  let touchStartTime = 0;
+  canvas.addEventListener('touchstart', (e) => {
+    touchStartTime = Date.now();
+  });
+
+  canvas.addEventListener('touchend', (e) => {
+    const touchDuration = Date.now() - touchStartTime;
+    // Only trigger on quick taps (not long presses or drags)
+    if (touchDuration < 300) {
+      e.preventDefault();
+      // Generate next seed deterministically (same as 'r' key)
+      const seedMarchRNG = getRNG(randomSeedEditArt + 'march_' + initialSeed.toString());
+      const newSeed = seedMarchRNG();
+      console.log('SEED:', initialSeed, '→', newSeed, '(tap)');
+      changeSeed(newSeed);
+    }
+  });
+
   // Start animation
   lastFrameTime = performance.now();
   animate(lastFrameTime);
@@ -662,6 +684,40 @@ async function drawArt() {
 
 // Controls
 const infoEl = document.getElementById('info');
+
+// Helper function to change seed and reinitialize
+function changeSeed(newSeed) {
+  // Stop animation and reinitialize with new seed
+  if (animationId) {
+    cancelAnimationFrame(animationId);
+  }
+
+  // Override initialSeed
+  initialSeed = newSeed;
+  const seedStr = randomSeedEditArt + initialSeed.toString();
+  rng = getRNG(seedStr);
+
+  // Regenerate everything
+  initSeedParams();
+
+  // Update font texture with new CHARS
+  if (texture) {
+    gl.deleteTexture(texture);
+  }
+  fontData = createFontTexture(gl);
+  texture = fontData.texture;
+  gl.uniform2f(gl.getUniformLocation(program, 'u_charSize'), fontData.charWidth, fontData.charHeight);
+  gl.uniform1f(gl.getUniformLocation(program, 'u_charsPerRow'), fontData.charsPerRow);
+  gl.uniform2f(gl.getUniformLocation(program, 'u_atlasSize'), fontData.atlasWidth, fontData.atlasHeight);
+
+  // Reset grid
+  resizeCanvas();
+
+  // Restart animation
+  lastFrameTime = performance.now();
+  paused = false;
+  animate(lastFrameTime);
+}
 
 document.addEventListener('keyup', (e) => {
   if (e.key === 'i') {
@@ -677,39 +733,21 @@ document.addEventListener('keyup', (e) => {
       document.exitFullscreen();
     }
   } else if (e.key === 'r') {
-    // Generate new seed by using timestamp
-    const newSeed = Date.now() / 1000000; // Normalize to 0-1 range
-    console.log('Generating new seed:', newSeed);
-
-    // Stop animation and reinitialize with new seed
-    if (animationId) {
-      cancelAnimationFrame(animationId);
-    }
-
-    // Override initialSeed
-    initialSeed = newSeed;
-    const seedStr = randomSeedEditArt + initialSeed.toString();
-    rng = getRNG(seedStr);
-
-    // Regenerate everything
-    initSeedParams();
-
-    // Update font texture with new CHARS
-    if (texture) {
-      gl.deleteTexture(texture);
-    }
-    fontData = createFontTexture(gl);
-    texture = fontData.texture;
-    gl.uniform2f(gl.getUniformLocation(program, 'u_charSize'), fontData.charWidth, fontData.charHeight);
-    gl.uniform1f(gl.getUniformLocation(program, 'u_charsPerRow'), fontData.charsPerRow);
-    gl.uniform2f(gl.getUniformLocation(program, 'u_atlasSize'), fontData.atlasWidth, fontData.atlasHeight);
-
-    // Reset grid
-    resizeCanvas();
-
-    // Restart animation
-    lastFrameTime = performance.now();
-    paused = false;
-    animate(lastFrameTime);
+    // Generate next seed deterministically from current seed
+    // Create a temporary RNG from current seed to get the next one
+    const seedMarchRNG = getRNG(randomSeedEditArt + 'march_' + initialSeed.toString());
+    const newSeed = seedMarchRNG();
+    console.log('SEED:', initialSeed, '→', newSeed);
+    changeSeed(newSeed);
+  } else if (e.key === 'ArrowRight') {
+    // Increment seed by fixed amount
+    const newSeed = (initialSeed + 0.01) % 1.0;
+    console.log('SEED:', initialSeed, '→', newSeed, '(+0.01)');
+    changeSeed(newSeed);
+  } else if (e.key === 'ArrowLeft') {
+    // Decrement seed by fixed amount
+    const newSeed = (initialSeed - 0.01 + 1.0) % 1.0;
+    console.log('SEED:', initialSeed, '→', newSeed, '(-0.01)');
+    changeSeed(newSeed);
   }
 });
