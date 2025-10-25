@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>the seed marche - EditART</title>
+  <script>
+    const randomSeedEditArt = 'the_seed_marche_2025_aebrer_entropy_locked_ascii'
+  </script>
+  <style>
+    body {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      width: 100vw;
+      height: 100vh;
+      padding: 0;
+      margin: 0;
+      background-color: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      /* Crisp pixel rendering when upscaled */
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+      -ms-interpolation-mode: nearest-neighbor;
+    }
+    #info {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      color: #666;
+      font-family: monospace;
+      font-size: 12px;
+      text-align: right;
+      user-select: none;
+      pointer-events: none;
+      display: none;
+      z-index: 1000;
+    }
+    #info.show {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="info">
+    the seed marche<br>
+    i - toggle info<br>
+    p - pause<br>
+    f - fullscreen<br>
+    r/tap - seed march<br>
+    ← → - seed ±0.01
+  </div>
+  <script src="./index.js"></script>
+  <script src='./editartParams.js'></script>
+</body>
+
+</html>
