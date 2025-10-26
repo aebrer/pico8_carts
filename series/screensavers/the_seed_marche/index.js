@@ -123,6 +123,8 @@ let lastFrameTime = 0;
 const targetFPS = 30;
 const targetFrameTime = 1000 / targetFPS;
 let paused = false;
+let framesRendered = 0;
+let previewTriggered = false;
 
 // Color/char mapping
 function rgbToBrightness(r, g, b) {
@@ -333,6 +335,14 @@ function createFontTexture(gl) {
 // Track how many tiles to render
 let tilesX = 1;
 let tilesY = 1;
+// Base offset for centering tiles on canvas
+let baseOffsetX = 0;
+let baseOffsetY = 0;
+// Center grid bounds (for GIF/preview capture)
+let centerGridX = 0;
+let centerGridY = 0;
+let centerGridWidth = 0;
+let centerGridHeight = 0;
 
 function resizeCanvas() {
   // Minimal grid - "just a bite" (8x8 characters, like petite chute's 8x8 pixels)
@@ -361,14 +371,28 @@ function resizeCanvas() {
   if (tilesX % 2 === 0) tilesX++;
   if (tilesY % 2 === 0) tilesY++;
 
-  // Render full tiled canvas (may be larger than viewport - will crop via CSS centering)
-  const displayWidth = tileWidth * tilesX;
-  const displayHeight = tileHeight * tilesY;
+  // Canvas matches viewport exactly (no oversizing!)
+  // This prevents huge canvases on large displays and headless mode
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.width = window.innerWidth + 'px';
+  canvas.style.height = window.innerHeight + 'px';
 
-  canvas.width = displayWidth;
-  canvas.height = displayHeight;
-  canvas.style.width = displayWidth + 'px';
-  canvas.style.height = displayHeight + 'px';
+  // Calculate total size of all tiles
+  const totalTilesWidth = tileWidth * tilesX;
+  const totalTilesHeight = tileHeight * tilesY;
+
+  // Center the tiles on the canvas
+  baseOffsetX = Math.floor((canvas.width - totalTilesWidth) / 2);
+  baseOffsetY = Math.floor((canvas.height - totalTilesHeight) / 2);
+
+  // Calculate center grid bounds for capture (GIF/preview)
+  const centerTileX = Math.floor(tilesX / 2);
+  const centerTileY = Math.floor(tilesY / 2);
+  centerGridX = baseOffsetX + centerTileX * tileWidth;
+  centerGridY = baseOffsetY + centerTileY * tileHeight;
+  centerGridWidth = tileWidth;
+  centerGridHeight = tileHeight;
 
   gl.viewport(0, 0, canvas.width, canvas.height);
   gl.uniform2f(gl.getUniformLocation(program, 'u_resolution'), canvas.width, canvas.height);
@@ -382,7 +406,7 @@ function resizeCanvas() {
     }
   }
 
-  console.log('Grid size:', width, 'x', height, '| Tiles:', tilesX, 'x', tilesY, '| Canvas:', canvas.width, 'x', canvas.height);
+  console.log('Grid size:', width, 'x', height, '| Scale:', renderScale + 'x', '| Tiles:', tilesX, 'x', tilesY, '| Canvas:', canvas.width, 'x', canvas.height, '| Center grid:', centerGridX, centerGridY, centerGridWidth, centerGridHeight);
 }
 
 function setupWebGL() {
@@ -390,7 +414,9 @@ function setupWebGL() {
   canvas.id = 'artCanvas';
   document.body.appendChild(canvas);
 
-  gl = canvas.getContext('webgl');
+  gl = canvas.getContext('webgl', {
+    preserveDrawingBuffer: true  // Required for canvas.toDataURL() and EditART preview capture
+  });
 
   if (!gl) {
     console.error('WebGL not supported');
@@ -513,11 +539,11 @@ function render() {
   const tileWidth = width * charW;
   const tileHeight = height * charH;
 
-  // Render each tile
+  // Render each tile (centered on canvas using base offset)
   for (let tileY = 0; tileY < tilesY; tileY++) {
     for (let tileX = 0; tileX < tilesX; tileX++) {
-      const offsetX = tileX * tileWidth;
-      const offsetY = tileY * tileHeight;
+      const offsetX = baseOffsetX + tileX * tileWidth;
+      const offsetY = baseOffsetY + tileY * tileHeight;
 
       // Render 8x8 grid for this tile
       for (let y = 0; y < height; y++) {
@@ -612,6 +638,19 @@ function animate(currentTime) {
   if (elapsed >= targetFrameTime) {
     updateFrame();
     lastFrameTime = currentTime - (elapsed % targetFrameTime);
+    framesRendered++;
+
+    // After 60 frames have rendered (~2 seconds at 30fps), trigger preview for EditART
+    if (framesRendered === 60 && !previewTriggered) {
+      previewTriggered = true;
+
+      // Wait for next frame to ensure GPU has finished rendering
+      requestAnimationFrame(() => {
+        // Force WebGL to finish all pending operations
+        gl.finish();
+        triggerPreview();
+      });
+    }
   }
 
   animationId = requestAnimationFrame(animate);
@@ -623,6 +662,10 @@ function drawArt() {
   if (animationId) {
     cancelAnimationFrame(animationId);
   }
+
+  // Reset preview flags
+  framesRendered = 0;
+  previewTriggered = false;
 
   // Initialize RNG from editart
   initRNG();
@@ -672,11 +715,7 @@ function drawArt() {
   // Start animation
   lastFrameTime = performance.now();
   animate(lastFrameTime);
-
-  // Trigger preview after ~5 seconds
-  setTimeout(() => {
-    triggerPreview();
-  }, 5000);
+  // Preview will be triggered automatically after first frame renders
 }
 
 // Controls
@@ -716,6 +755,68 @@ function changeSeed(newSeed) {
   animate(lastFrameTime);
 }
 
+// GIF capture
+let isCapturingGif = false;
+
+function captureGif() {
+  if (isCapturingGif) {
+    console.log('Already capturing GIF...');
+    return;
+  }
+
+  isCapturingGif = true;
+  console.log('Starting GIF capture (8 seconds at 30fps, 512x512)...');
+
+  // Create temporary canvas at fixed resolution for smaller file size
+  const tempCanvas = document.createElement('canvas');
+  tempCanvas.width = 512;
+  tempCanvas.height = 512;
+  const tempCtx = tempCanvas.getContext('2d');
+
+  const gif = new GIF({
+    workers: 2,
+    quality: 10,
+    width: 512,
+    height: 512,
+    workerScript: './gif.worker.js'
+  });
+
+  const framesToCapture = 240; // 8 seconds at 30fps
+  const frameDelay = 33; // ~33ms = 30fps
+  let framesCaptured = 0;
+
+  const captureInterval = setInterval(() => {
+    if (framesCaptured >= framesToCapture) {
+      clearInterval(captureInterval);
+      console.log('Rendering GIF...');
+      gif.render();
+      return;
+    }
+
+    // Capture only the center grid (not full tiled canvas) and scale to 512x512
+    tempCtx.drawImage(canvas,
+      centerGridX, centerGridY, centerGridWidth, centerGridHeight,  // source: center grid only
+      0, 0, 512, 512);  // destination: 512x512
+    gif.addFrame(tempCtx, { copy: true, delay: frameDelay });
+    framesCaptured++;
+
+    if (framesCaptured % 30 === 0) {
+      console.log(`Captured ${framesCaptured}/${framesToCapture} frames`);
+    }
+  }, frameDelay);
+
+  gif.on('finished', (blob) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.download = `the_seed_marche_m0=${m0.toFixed(3)}.gif`;
+    link.href = url;
+    link.click();
+    URL.revokeObjectURL(url);
+    isCapturingGif = false;
+    console.log('GIF saved!');
+  });
+}
+
 document.addEventListener('keyup', (e) => {
   if (e.key === 'i') {
     infoEl.classList.toggle('show');
@@ -746,5 +847,8 @@ document.addEventListener('keyup', (e) => {
     const newSeed = (initialSeed - 0.01 + 1.0) % 1.0;
     console.log('SEED:', initialSeed, '→', newSeed, '(-0.01)');
     changeSeed(newSeed);
+  } else if (e.key === 'g') {
+    // Capture GIF
+    captureGif();
   }
 });
