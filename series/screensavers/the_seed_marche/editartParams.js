@@ -36,15 +36,15 @@ triggerDraw();
 function getParam(urlParams, p) {
     const param = urlParams.get(p);
     if (param) {
-        let validParam = /^0\.\d{3}$/.test(param);
-        if (validParam) {
-            return parseFloat(param);
+        const value = parseFloat(param);
+        if (!isNaN(value) && value >= 0 && value <= 1) {
+            return value;
         }
     }
     document.write("");
     window.stop && window.stop();
     throw new Error(
-        `Invalid parameter: ${p}=${param}. Must be a number between 0.000 and 0.999.`
+        `Invalid parameter: ${p}=${param}. Must be a number between 0.0 and 1.0 (inclusive).`
     );
 }
 
