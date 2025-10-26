@@ -126,3 +126,5 @@ one_off/fract/catalogue_of_fragile_things.preview1.mp4
 one_off/fract/cart_html/index.html
 claude_stuff/*
 *.tmp
+test_results/
+.venv
