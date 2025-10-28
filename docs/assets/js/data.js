@@ -511,7 +511,7 @@ const WORKS = {
     thumbnail: '../assets/images/the_seed_marche_m0=0.325.gif',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/the_seed_marche',
     favorite: false,
-    themes: ['screensaver', 'ascii art', 'entropy locking', 'seed-based', 'text-based', 'exploration', 'interactive', 'infinite', 'webgl', 'collaboration', 'tezos']
+    themes: ['screensaver', 'ascii art', 'entropy locking', 'seed-based', 'text-based', 'exploration', 'interactive', 'infinite', 'webgl', 'brutalism', 'collaboration', 'tezos']
   },
   'local-ontology-secured-transistor': {
     id: 'local-ontology-secured-transistor',
