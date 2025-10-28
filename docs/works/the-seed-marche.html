@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="the-seed-marche">
+  <title>the seed marche - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Minimal unit derivative of CORAL HUNTING - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/the-seed-marche.html">
+  <meta property="og:title" content="the seed marche">
+  <meta property="og:description" content="Minimal unit derivative of CORAL HUNTING - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics.">
+  <meta property="og:image" content="https://entropist.ca/assets/images/the_seed_marche_m0=0.325.gif">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/the-seed-marche.html">
+  <meta name="twitter:title" content="the seed marche">
+  <meta name="twitter:description" content="Minimal unit derivative of CORAL HUNTING - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics.">
+  <meta name="twitter:image" content="https://entropist.ca/assets/images/the_seed_marche_m0=0.325.gif">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/the-seed-marche.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "the seed marche",
+    "description": "Minimal unit derivative of CORAL HUNTING - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics.",
+    "url": "https://entropist.ca/works/the-seed-marche.html",
+    "image": "https://entropist.ca/assets/images/the_seed_marche_m0=0.325.gif",
+    "dateCreated": "2025",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL, false, 'editart')">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>the seed marche</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/screensavers.html">Screensavers</a></p>
+            <p><strong>Year:</strong> 2025</p>
+            <p><strong>Platform:</strong> EditART</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <p>Minimal unit derivative of <a href="coral-hunting.html">CORAL HUNTING</a> - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics.</p>
+
+            <p>A play on "marsh" (returning to the coral theme), "march" (the seed navigation mechanic), and "marché" (market - exploring/trading seeds). Like <a href="petite-chute.html">petite_chute</a> strips <a href="the-fall.html">THE FALL</a> to 8x8 pixels, the_seed_marche strips CORAL HUNTING to 8x8 characters to reveal pure burn dynamics at their smallest viable scale.</p>
+
+            <p>In this piece you can also "hunt", but much like editart lets you have a slider to move through the seed space, each seed here acts as a starting position for a generator that you can explore deterministically. If you find a path from your start point to an interesting output, you can always get there again by following the exact same steps.</p>
+
+            <h3 style="margin-top: 30px;">Technical Details</h3>
+            <ul>
+              <li><strong>Grid:</strong> 8x8 characters (64 cells total)</li>
+              <li><strong>Rendering:</strong> WebGL with font texture atlas and viewport tiling</li>
+              <li><strong>Platform:</strong> editart.xyz (sliderless mode, randomFull())</li>
+              <li><strong>Iterations:</strong> ~17 per frame (auto-scaled from CORAL HUNTING's ~47k)</li>
+              <li><strong>Character Vocabulary:</strong> Seed-specific via entropy-locked walk</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">Controls</h3>
+            <ul>
+              <li><strong>i</strong> - Toggle info overlay</li>
+              <li><strong>p</strong> - Pause/resume animation</li>
+              <li><strong>f</strong> - Toggle fullscreen</li>
+              <li><strong>r</strong> - Deterministic seed march</li>
+              <li><strong>← →</strong> - Linear seed navigation (±0.01)</li>
+              <li><strong>Tap (mobile)</strong> - Same as 'r' key</li>
+              <li><strong>g</strong> - Save a GIF (~8 seconds long)</li>
+            </ul>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>Like petite_chute strips THE FALL down to 8x8 pixels to reveal pure color harmony, the_seed_marche strips CORAL HUNTING down to 8x8 characters to reveal character vocabulary identity (matrixy, pipe patterns, varied aesthetics per seed) and pure burn dynamics without spatial moiré emergence. The atomic unit that, when multiplied 420x420 times, becomes CORAL HUNTING.</em></p>
+
+            <p><em>The seed march ('r' or tap) is deterministic: starting from any seed, pressing 'r' will always give you the same next seed. This creates an explorable infinite sequence unique to your starting point. The arrow keys provide linear exploration, incrementing/decrementing the seed by 0.01 with wraparound at 0/1.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Credits</h2>
+        <p><strong>Concept & Algorithm:</strong> Drew Brereton (<a href="https://entropist.ca" target="_blank">aebrer</a>)</p>
+        <p><strong>Based on:</strong> <a href="coral-hunting.html">CORAL HUNTING</a> engine</p>
+        <p><strong>Series:</strong> <a href="../series/screensavers.html">SCREENSAVERS</a></p>
+        <p><strong>Implementation:</strong> Collaborative work between Drew Brereton and Claude Code</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/screensavers.html">← Back to Screensavers</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/QmYM4e5WZB5BGpswgQe8M5cgeiDQr9hh9hsNrZPLbWNKC5/';
+  </script>
+</body>
+</html>
