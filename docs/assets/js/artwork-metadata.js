@@ -43,8 +43,13 @@ function renderArtworkMetadata(workId) {
 
     // Provenance link
     if (work.provenance) {
-      const ipfsUrl = work.provenance.replace('ipfs://', 'https://ipfs.io/ipfs/');
-      linksHTML += `<a href="${ipfsUrl}" target="_blank">Provenance (IPFS Metadata)</a>\n            `;
+      // Determine if it's IPFS or on-chain metadata
+      const isOnChain = work.provenance.includes('tzkt.io') || work.provenance.includes('api.') || !work.provenance.startsWith('ipfs://');
+      const provenanceUrl = work.provenance.startsWith('ipfs://')
+        ? work.provenance.replace('ipfs://', 'https://ipfs.io/ipfs/')
+        : work.provenance;
+      const provenanceLabel = isOnChain ? 'Provenance (On-Chain Metadata)' : 'Provenance (IPFS Metadata)';
+      linksHTML += `<a href="${provenanceUrl}" target="_blank">${provenanceLabel}</a>\n            `;
     }
 
     // Source code link (always include)

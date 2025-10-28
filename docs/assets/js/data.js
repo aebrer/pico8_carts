@@ -508,6 +508,7 @@ const WORKS = {
     links: {
       editart: 'https://www.editart.xyz/series/KT1CwHqA6CEcLWr2oDnuET1McFiD4kuraB96'
     },
+    provenance: 'https://api.tzkt.io/v1/contracts/KT1CwHqA6CEcLWr2oDnuET1McFiD4kuraB96/storage',
     thumbnail: '../assets/images/the_seed_marche_m0=0.325.gif',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/the_seed_marche',
     favorite: false,
