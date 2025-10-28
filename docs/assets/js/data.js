@@ -35,7 +35,7 @@ const SERIES = {
   screensavers: {
     name: 'Screensavers',
     description: 'Ambient generative pieces designed to run indefinitely.',
-    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue', 'colorscapes', 'skyscrapers', 'coral-hunting']
+    works: ['visions', 'the-fall', 'petite-chute', 'deja-hue', 'colorscapes', 'skyscrapers', 'coral-hunting', 'the-seed-marche']
   },
   tweetcarts: {
     name: 'Tweetcarts',
@@ -495,6 +495,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/CORAL_HUNTING',
     favorite: true,
     themes: ['screensaver', 'ascii art', 'entropy locking', 'webgl', 'interactive', 'pattern hunting', 'character art', 'emergence', 'p5js', 'moiré', 'collaboration', 'CC0']
+  },
+  'the-seed-marche': {
+    id: 'the-seed-marche',
+    title: 'the_seed_marche',
+    series: 'screensavers',
+    year: 2025,
+    platform: 'editart',
+    description: 'Minimal unit derivative of CORAL HUNTING - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics. A play on "marsh" (returning to the coral theme), "march" (the seed navigation mechanic), and "marché" (market - exploring/trading seeds). Like petite_chute strips THE FALL to 8x8 pixels, the_seed_marche strips CORAL HUNTING to 8x8 characters to reveal pure burn dynamics at their smallest viable scale. In this piece you can also "hunt", but each seed acts as a starting position for a generator that you can explore deterministically—if you find a path from your start point to an interesting output, you can always get there again by following the exact same steps.',
+    ipfs: 'https://ipfs.io/ipfs/QmYM4e5WZB5BGpswgQe8M5cgeiDQr9hh9hsNrZPLbWNKC5/',
+    isGenerative: true,
+    links: {
+      editart: 'https://www.editart.xyz/series/KT1CwHqA6CEcLWr2oDnuET1McFiD4kuraB96'
+    },
+    provenance: 'https://api.tzkt.io/v1/contracts/KT1CwHqA6CEcLWr2oDnuET1McFiD4kuraB96/storage',
+    thumbnail: '../assets/images/the_seed_marche_m0=0.325.gif',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/the_seed_marche',
+    favorite: false,
+    themes: ['screensaver', 'ascii art', 'entropy locking', 'seed-based', 'text-based', 'exploration', 'interactive', 'infinite', 'webgl', 'brutalism', 'collaboration', 'tezos']
   },
   'local-ontology-secured-transistor': {
     id: 'local-ontology-secured-transistor',
