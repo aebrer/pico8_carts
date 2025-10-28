@@ -498,7 +498,7 @@ const WORKS = {
   },
   'the-seed-marche': {
     id: 'the-seed-marche',
-    title: 'the seed marche',
+    title: 'the_seed_marche',
     series: 'screensavers',
     year: 2025,
     platform: 'editart',
