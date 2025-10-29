@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="entropy-locked-recursive-glitch-textures">
+  <title>Entropy-Locked Recursive Glitch Textures - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Recursive glitch textures generated through entropy locking and self-referential feed-forward loops. Uses probabilistic seed resets to create intricate fractal-like patterns at high resolutions.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/entropy-locked-recursive-glitch-textures.html">
+  <meta property="og:title" content="Entropy-Locked Recursive Glitch Textures">
+  <meta property="og:description" content="Recursive glitch textures generated through entropy locking and self-referential feed-forward loops. Uses probabilistic seed resets to create intricate fractal-like patterns at high resolutions.">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmXyoYEXWt9i9xbWJv5j2T454jHb7R1tH941mb3yZ9iau5">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/entropy-locked-recursive-glitch-textures.html">
+  <meta name="twitter:title" content="Entropy-Locked Recursive Glitch Textures">
+  <meta name="twitter:description" content="Recursive glitch textures generated through entropy locking and self-referential feed-forward loops. Uses probabilistic seed resets to create intricate fractal-like patterns at high resolutions.">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmXyoYEXWt9i9xbWJv5j2T454jHb7R1tH941mb3yZ9iau5">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/entropy-locked-recursive-glitch-textures.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "Entropy-Locked Recursive Glitch Textures",
+    "description": "Recursive glitch textures generated through entropy locking and self-referential feed-forward loops. Uses probabilistic seed resets to create intricate fractal-like patterns at high resolutions.",
+    "url": "https://entropist.ca/works/entropy-locked-recursive-glitch-textures.html",
+    "image": "https://ipfs.io/ipfs/QmXyoYEXWt9i9xbWJv5j2T454jHb7R1tH941mb3yZ9iau5",
+    "dateCreated": "2022",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Entropy-Locked Recursive Glitch Textures</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/entropy-locked.html">Entropy-Locked</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>About</h3>
+            <p>Everything in this piece is primarily driven by uniform random noise. Entropy locking refers to a technique used to limit the sampling space of this random noise, artificially constraining it to a restricted set of still totally random values, in an unpredictable way.</p>
+
+            <p>Specifically, these two lines control the entropy locking in this sketch:</p>
+            <pre><code>if (random_int(1,1000)>997) fxrand=sfc32(...hashes)
+if (random_int(1,1000)>997) fxrand=sfc32(...hashes)</code></pre>
+
+            <p>Basically, if a certain random condition is met (3/1000 odds), the pseudorandom number generator will have its seed reset. The combination of the standard technique of controlling randomness via resetting the random seed, and the decision to do it at random—in a way controlled by the random seed—creates interesting recursive structures in the "entropy-space" of the sketch.</p>
+
+            <p>Sometimes these will be extremely short loops, sometimes they remain unstable and never repeat. Sometimes, they get trapped in a loop, only for something to change in the drawing, reaching some mysterious threshold of difference that causes a new random number to be generated, breaking free from the temporary loop and becoming "more random" again.</p>
+
+            <h3 style="margin-top: 30px;">Recursive Techniques</h3>
+            <p>More recursion and self-reference is included throughout the sketch. A recursive "shredding" process is used to render small samples of the image back onto itself, either smaller or larger. A similar technique is used to create the horizontal or vertical "tears" that slice up the screen.</p>
+
+            <p>These create feed-forward loops where pixel information stored on the screen is used to generate the next change to the image. When the pixel density is high enough (controllable via buttons 1-8 on the keyboard), immense and complicated structures arise in the minute details. An almost fractal-like pattern arises due to the intersection of the recursive nature of these feed-forward loops, and the recursive nature of the seed-loops created by entropy locking.</p>
+
+            <p>Additionally, the textures are allowed to propagate in an interesting way, due to the use of transparent backgrounds. The color and positioning of the underlying pixel art is also controlled strictly through randomization and self-reference.</p>
+
+            <h3 style="margin-top: 30px;">Interactive Controls</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+              <li><strong>F11</strong> - Fullscreen mode (or use browser menu)</li>
+              <li><strong>s</strong> - Save a PNG of the image</li>
+              <li><strong>1-8</strong> - Set pixel density and re-render (default is 2, higher = higher resolution; preview uses 5 at 1080x1080px)</li>
+              <li><strong>m</strong> - Toggle mobile/compatibility mode and re-render</li>
+              <li><strong>w</strong> - Re-render with white background</li>
+              <li><strong>b</strong> - Re-render with black background</li>
+              <li><strong>t</strong> - Re-render with transparent background</li>
+              <li><strong>r</strong> - Re-render with random background</li>
+            </ul>
+
+            <p style="margin-top: 20px;"><strong>I HIGHLY encourage you to increase the pixel density and export an ultra-high render of your output, if you have a PC capable of it.</strong></p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>This was my attempt to make something more "serious", and one of my first attempts to play in earnest with my themes in p5.js. Or at least it feels that way sometimes. That's also why it's a jpeg generator, I didn't have enough courage at the time to stand by my convictions about infinite variety. It does scale nicely though which I'm proud of.</em></p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+
+        <h3>Rendering Details</h3>
+        <p>The image is rendered in the flat 2D engine, rather than WebGL, because the weird pixel artifacts it creates (especially at ultra-high resolution) are very satisfying visually, even though the exact mechanics aren't fully understood.</p>
+
+        <p><strong>Platform:</strong> p5.js</p>
+        <p><strong>Minted:</strong> 2022 on fxhash</p>
+        <p><strong>License:</strong> CC0 - go nuts; citations not required but definitely appreciated</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/entropy-locked.html">← Back to Entropy-Locked</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmeakkfhooFi9cQtfghxx85HaZRtbDCj9NmUVtDL4mdx1w/';
+  </script>
+</body>
+</html>

@@ -20,7 +20,7 @@ const SERIES = {
   'entropy-locked': {
     name: 'Entropy-Locked',
     description: 'Pieces showcasing entropy locking—probabilistic RNG reseeding creating controlled chaos.',
-    works: ['entropy-generator', 'entropy-locked-wfc', 'sedimentary-city', 'the-city-is-burning']
+    works: ['entropy-generator', 'entropy-locked-wfc', 'entropy-locked-recursive-glitch-textures', 'sedimentary-city', 'the-city-is-burning']
   },
   'pico_punks': {
     name: 'pico_punks',
@@ -195,6 +195,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/entropy_locked_wave_function_collapse',
     favorite: true,
     themes: ['entropy locking', 'wave function collapse', 'p5js', 'generative', 'abstract', 'pixelart', 'neoretro', 'opensource', 'creative coding', 'fullscreen', 'CC0', 'tileable']
+  },
+  'entropy-locked-recursive-glitch-textures': {
+    id: 'entropy-locked-recursive-glitch-textures',
+    title: 'Entropy-Locked Recursive Glitch Textures',
+    series: 'entropy-locked',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'Recursive glitch textures generated through entropy locking and self-referential feed-forward loops. Uses probabilistic seed resets to create intricate fractal-like patterns at high resolutions. Interactive controls allow real-time re-rendering at different pixel densities and backgrounds.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmeakkfhooFi9cQtfghxx85HaZRtbDCj9NmUVtDL4mdx1w/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/project/entropy-locked-recursive-glitch-textures'
+    },
+    provenance: 'ipfs://QmZEnoL1L5UsHWEdChHGjCP6B2GjiW8XVGUrvotNy5N2Y5',
+    thumbnail: 'https://ipfs.io/ipfs/QmXyoYEXWt9i9xbWJv5j2T454jHb7R1tH941mb3yZ9iau5',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/entropy_locked_recursive_glitch_textures',
+    favorite: false,
+    themes: ['entropy locking', 'p5js', 'creative coding', 'glitch', 'noise', 'recursion', 'texture', '4k', 'fullscreen', 'interactive', 'wallpaper', 'pixelart', 'CC0']
   },
   'sedimentary-city': {
     id: 'sedimentary-city',
