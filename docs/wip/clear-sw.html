@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Service Workers</title>
+    <style>
+        body {
+            font-family: monospace;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            background: #333;
+            border-left: 3px solid #0f0;
+        }
+        .error {
+            border-left-color: #f00 !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Service Worker Debugger</h1>
+
+    <button onclick="listServiceWorkers()">List Service Workers</button>
+    <button onclick="clearAll()">Clear All Service Workers</button>
+    <button onclick="clearCache()">Clear Cache Storage</button>
+
+    <div id="status"></div>
+
+    <script>
+        const status = document.getElementById('status');
+
+        function log(msg, isError = false) {
+            const div = document.createElement('div');
+            div.textContent = msg;
+            if (isError) div.style.color = '#f00';
+            status.appendChild(div);
+        }
+
+        async function listServiceWorkers() {
+            status.innerHTML = '<h3>Registered Service Workers:</h3>';
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                if (registrations.length === 0) {
+                    log('No service workers registered');
+                } else {
+                    registrations.forEach((reg, i) => {
+                        log(`${i + 1}. Scope: ${reg.scope}`);
+                        log(`   Active: ${reg.active ? reg.active.scriptURL : 'none'}`);
+                        log(`   Installing: ${reg.installing ? 'yes' : 'no'}`);
+                        log(`   Waiting: ${reg.waiting ? 'yes' : 'no'}`);
+                    });
+                }
+            } catch (err) {
+                log(`Error: ${err.message}`, true);
+            }
+        }
+
+        async function clearAll() {
+            status.innerHTML = '<h3>Clearing Service Workers...</h3>';
+            try {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let registration of registrations) {
+                    log(`Unregistering: ${registration.scope}`);
+                    await registration.unregister();
+                }
+                log('✓ All service workers cleared!');
+                log('Reload the game page now.');
+            } catch (err) {
+                log(`Error: ${err.message}`, true);
+            }
+        }
+
+        async function clearCache() {
+            status.innerHTML = '<h3>Clearing Cache...</h3>';
+            try {
+                const cacheNames = await caches.keys();
+                for (let name of cacheNames) {
+                    log(`Deleting cache: ${name}`);
+                    await caches.delete(name);
+                }
+                log('✓ All caches cleared!');
+            } catch (err) {
+                log(`Error: ${err.message}`, true);
+            }
+        }
+
+        // Auto-list on load
+        window.addEventListener('load', listServiceWorkers);
+    </script>
+</body>
+</html>
