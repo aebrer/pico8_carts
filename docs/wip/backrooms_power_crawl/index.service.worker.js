@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1763850771|3743257315';
+const CACHE_VERSION = '1763858913|2385394141';
 /** @type {string} */
 const CACHE_PREFIX = 'Backrooms Power -sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
