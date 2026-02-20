@@ -10,7 +10,7 @@ const SERIES = {
   vestiges: {
     name: 'Vestiges',
     description: 'Explorations of remnants, traces, and what remains after something has passed.',
-    works: ['the-trace-gallery', 'containment-breach', 'local-ontology-secured-transistor', 'marblez-23']
+    works: ['the-trace-gallery', 'containment-breach', 'pulse-of-the-dead-god', 'local-ontology-secured-transistor', 'marblez-23']
   },
   'three-body-problem': {
     name: 'Three Body Problem',
@@ -46,6 +46,11 @@ const SERIES = {
     name: 'Loops',
     description: 'Perfect looping gifs—animated pieces designed to seamlessly repeat forever.',
     works: ['oregon-sunset']
+  },
+  misc: {
+    name: 'Miscellaneous',
+    description: 'Standalone pieces that don\'t belong to a series.',
+    works: ['voidroses']
   }
 };
 
@@ -571,6 +576,42 @@ const WORKS = {
     sourceCode: null,
     favorite: true,
     themes: ['vestiges', 'collaboration', 'interactive', 'pixelart', '2D', '3D', 'lowpoly', 'sculpture', 'marblez', 'collectible', 'music', 'audio', 'the dead god', 'easter egg', 'secret', 'game maker studio', 'psx aesthetic']
+  },
+  'pulse-of-the-dead-god': {
+    id: 'pulse-of-the-dead-god',
+    title: 'vestige_001: pulse of the Dead God',
+    series: 'vestiges',
+    year: 2021,
+    platform: 'teia',
+    description: 'The first vestige. A psychosomatic pulse that emanates from remnants of the Dead God, felt as a low-frequency vibration with adverse cognitive effects.',
+    ipfs: 'https://ipfs.io/ipfs/QmZKswae8aTgfRif9YGHfxXbn3QFfSb74f4m6aA5WuxR3E/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/104632'
+    },
+    provenance: 'ipfs://QmfSfY2LbSeBtBe43McVTob7mZ3che6EEcz7aiP6TEAALc',
+    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    sourceCode: null,
+    favorite: false,
+    themes: ['vestiges', 'the dead god', 'gif', 'loop', 'pixelart', 'pico-8', 'cryptic', '1/1']
+  },
+  'voidroses': {
+    id: 'voidroses',
+    title: 'Voidroses',
+    series: 'misc',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'Generative void roses with a ~1/69 chance of rare rainbow mode. Royalty splits support the Processing Foundation.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmNzM4qtJxbxJUNxzbUZATLZatNCFasKUdwgiyag1wt5Li/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/11467'
+    },
+    provenance: 'ipfs://QmYDXDfvpis5SwZGQ7b8qpZLkoMfU19THFgdGdhCcCxZka',
+    thumbnail: 'https://ipfs.io/ipfs/QmTmUWGDBYWYnkHUzDGgyns2o89pAyGPGB1x8H3mxenRY4',
+    sourceCode: null,
+    favorite: false,
+    themes: ['p5js', 'generative', 'flowers', 'neoretro', 'processing']
   }
 };
 

@@ -32,10 +32,11 @@ function renderFeaturedWork(seriesId, seriesWorks) {
   const featuredContainer = document.getElementById('series-featured');
   if (!featuredContainer) return;
 
-  // Get random favorite from this series
+  // Get random favorite from this series, falling back to any work
   const favorites = seriesWorks.filter(work => work.favorite);
-  const featuredWork = favorites.length > 0
-    ? favorites[Math.floor(Math.random() * favorites.length)]
+  const pool = favorites.length > 0 ? favorites : seriesWorks;
+  const featuredWork = pool.length > 0
+    ? pool[Math.floor(Math.random() * pool.length)]
     : null;
 
   if (featuredWork) {

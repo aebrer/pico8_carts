@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="voidroses">
+  <title>Voidroses - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Generative void roses with a ~1/69 chance of rare rainbow mode. Royalty splits support the Processing Foundation.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/voidroses.html">
+  <meta property="og:title" content="Voidroses">
+  <meta property="og:description" content="Generative void roses with a ~1/69 chance of rare rainbow mode. Royalty splits support the Processing Foundation.">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmTmUWGDBYWYnkHUzDGgyns2o89pAyGPGB1x8H3mxenRY4">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/voidroses.html">
+  <meta name="twitter:title" content="Voidroses">
+  <meta name="twitter:description" content="Generative void roses with a ~1/69 chance of rare rainbow mode. Royalty splits support the Processing Foundation.">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmTmUWGDBYWYnkHUzDGgyns2o89pAyGPGB1x8H3mxenRY4">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/voidroses.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "Voidroses",
+    "description": "Generative void roses with a ~1/69 chance of rare rainbow mode. Royalty splits support the Processing Foundation.",
+    "url": "https://entropist.ca/works/voidroses.html",
+    "image": "https://ipfs.io/ipfs/QmTmUWGDBYWYnkHUzDGgyns2o89pAyGPGB1x8H3mxenRY4",
+    "dateCreated": "2022",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Voidroses</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/misc.html">Miscellaneous</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>Description</h3>
+
+            <p>~1/69 chance of a rare "rainbow" one</p>
+
+            <p style="margin-top: 10px;">Part of the splits from this token go to the Processing Foundation. Part of the royalties go to the primary minter.</p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <p><strong>Editions:</strong> 40</p>
+        <p><strong>Platform:</strong> p5.js on fxhash</p>
+        <p><strong>Minted:</strong> April 2022</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/misc.html">&larr; Back to Miscellaneous</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmNzM4qtJxbxJUNxzbUZATLZatNCFasKUdwgiyag1wt5Li/';
+  </script>
+</body>
+</html>
