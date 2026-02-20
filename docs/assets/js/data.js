@@ -5,17 +5,17 @@ const SERIES = {
   ideocart: {
     name: 'Ideocart',
     description: 'Interactive generative systems as lofi Rorschach tests with an SCP Foundation-esque twist.',
-    works: ['beginner-ideocartography', 'intermediate-ideocartography']
+    works: ['beginner-ideocartography', 'intermediate-ideocartography', 'ideocartography-interference-patterns']
   },
   vestiges: {
     name: 'Vestiges',
     description: 'Explorations of remnants, traces, and what remains after something has passed.',
-    works: ['the-trace-gallery', 'containment-breach', 'pulse-of-the-dead-god', 'local-ontology-secured-transistor', 'marblez-23']
+    works: ['the-trace-gallery', 'containment-breach', 'vestiges-of-the-dead-god', 'pulse-of-the-dead-god', 'local-ontology-secured-transistor', 'marblez-23']
   },
   'three-body-problem': {
     name: 'Three Body Problem',
     description: 'Physics simulation exploring n-body orbital mechanics and chaos theory. This was my first series and what got me started on generative/code art, as well as pixel art—the earliest outputs frankly look like shit.',
-    works: ['luna-theory-emulator']
+    works: ['luna-theory-emulator', 'three-body-problem-redux']
   },
   'entropy-locked': {
     name: 'Entropy-Locked',
@@ -40,7 +40,7 @@ const SERIES = {
   tweetcarts: {
     name: 'Tweetcarts',
     description: 'Code golf as art form—generative pieces constrained to 280 characters or less. Working within extreme limitations to create emergence from minimal code.',
-    works: ['blue', 'ring-of-fire', 'emergence-iii']
+    works: ['blue', 'ring-of-fire', 'emergence-iii', 'bonbon-topology']
   },
   loops: {
     name: 'Loops',
@@ -50,7 +50,7 @@ const SERIES = {
   misc: {
     name: 'Miscellaneous',
     description: 'Standalone pieces that don\'t belong to a series.',
-    works: ['voidroses']
+    works: ['voidroses', 'pico-pulses']
   }
 };
 
@@ -612,6 +612,97 @@ const WORKS = {
     sourceCode: null,
     favorite: false,
     themes: ['p5js', 'generative', 'flowers', 'neoretro', 'processing']
+  },
+  'vestiges-of-the-dead-god': {
+    id: 'vestiges-of-the-dead-god',
+    title: 'Vestiges of the Dead God',
+    series: 'vestiges',
+    year: 2021,
+    platform: 'fxhash',
+    description: 'This is meant to be a perfect loop, but you might have to wait up to a minute first to let your piece reach a stable equilibrium that actually loops. Press Z for gif, X for screenshot.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmWXg12JavwjUrphrfakJguFUFeDEtzKTPEun7G4zW21HR/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/3163'
+    },
+    provenance: 'ipfs://QmSs89WerfNmCYg6mqdSt9531zGjFSNKLdxNEdx6MBBKL5',
+    thumbnail: 'https://ipfs.io/ipfs/QmNmaAgYbKwi4PCfp1heEbLfMc5Gr98jfS2FD2r71f9akd',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/vestiges_of_the_dead_god',
+    favorite: false,
+    themes: ['vestiges', 'pico-8', 'lua', 'generative', 'loop', 'gif', 'neoretro', 'pixelart', 'the dead god', 'ambient', 'entropy locking']
+  },
+  'three-body-problem-redux': {
+    id: 'three-body-problem-redux',
+    title: 'Three Body Problem Redux',
+    series: 'three-body-problem',
+    year: 2021,
+    platform: 'fxhash',
+    description: 'A rework of the initial generative project that got me started as an artist (and my earliest series on HEN). A live simulation, coded and running entirely on the Pico-8, of the Three Body Problem: a famous example of a chaotic system that cannot be predicted. The mass of all three bodies are identical. Collisions disabled for the first three seconds to increase variety.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmXGyccjAb19vSMeyVCZuEzMjCjqxwdMCcdCuTYtvBKgnf/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/764'
+    },
+    provenance: 'ipfs://QmRMHQThu9Fak8npMxBoP2WZcW91oWjd3P7RHFVLtAtNJS',
+    thumbnail: 'https://ipfs.io/ipfs/QmboP67gTwG7nuUemMxCay5sTSbsZU3YEdqPskikuFHTDj',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/three-body-problem/three_body_problem_redux',
+    favorite: false,
+    themes: ['three body problem', 'pico-8', 'lua', 'simulation', 'physics', 'chaos', 'generative', 'neoretro', 'pixelart', '3bodyprob', 'animated']
+  },
+  'pico-pulses': {
+    id: 'pico-pulses',
+    title: 'pico_pulses',
+    series: 'misc',
+    year: 2021,
+    platform: 'fxhash',
+    description: 'Coded on the Pico-8 Fantasy console, using the aebrer_engine codebase.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmR5aM5jPtSoNK8c7R7QqM9f65FyoAx3DdFW5ZQThTsfxx/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/17'
+    },
+    provenance: 'ipfs://QmYZSfcNvvQ5JatBB6KHyno5gcw959Xg6juXzv8CuhDZD4',
+    thumbnail: 'https://ipfs.io/ipfs/QmZgH3jc8oGW6V6KHnUFtK1xcLe7fdQhVZTNM4M2Rydzmh',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/misc/pico_pulses',
+    favorite: false,
+    themes: ['pico-8', 'lua', 'generative', 'neoretro', 'pixelart', 'aebrer_engine', '4-bit', 'early fxhash']
+  },
+  'ideocartography-interference-patterns': {
+    id: 'ideocartography-interference-patterns',
+    title: 'Ideocartography: Interference Patterns',
+    series: 'ideocart',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'X button regenerates some non-fixed parameters. O button opens the debug menu—change parameters, colors, brush configuration. Touch/click the screen to paint with the brush.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmSfVp8w9QNWF9tQSZxgLmA7AciJ9xx92zWrruUkv9bEbZ/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/10240'
+    },
+    provenance: 'ipfs://QmeYx5qKNFuySqvJEukdg7LLZvECwNpRdHdt3jPCMqPqZc',
+    thumbnail: 'https://ipfs.io/ipfs/QmNygywFvnBRkfanHGQq5pPv8q3Us48HHUAUqWuCxjAaPG',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/ideocart_interference_patterns',
+    favorite: false,
+    themes: ['ideocart', 'pico-8', 'lua', 'interactive', 'generative', 'pareidolia', 'aebrer_engine', 'painting', 'debug menu']
+  },
+  'bonbon-topology': {
+    id: 'bonbon-topology',
+    title: 'bonbon topology',
+    series: 'tweetcarts',
+    year: 2022,
+    platform: 'fxhash',
+    description: 'Tweetcart relay. Received Breathing Star Gate from alexthescott, modified it, relayed onwards to carson. 141 tokens, 272 characters. Entropy-locked color cycling with sspr feedback.',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmX1Y6hviJFjoSsqUtXV6ocygR4Fr8W2QJt19d5tBd9nWA/',
+    isGenerative: true,
+    links: {
+      fxhash: 'https://www.fxhash.xyz/generative/16197',
+      'inspiration': 'https://teia.art/objkt/756961'
+    },
+    provenance: 'ipfs://QmSBYNrqm1AykYJJ4NkAqCRgmcFYSJRZBB6QfkCCJjPKA8',
+    thumbnail: 'https://ipfs.io/ipfs/QmRP4q4fJ87bg81RtzSPXBrRPSMEMR3x72GZAcy3VrSsUy',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/bonbon_topology',
+    favorite: false,
+    themes: ['tweetcart', 'tweetcart relay', 'pico-8', 'lua', 'entropy locking', 'constrained code', 'neoretro', 'pixelart', 'anticap', 'opensource', 'collaboration', 'feedback', 'CC0']
   }
 };
 

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="bonbon-topology">
+  <title>bonbon topology - Drew Brereton (aebrer)</title>
+  <meta name="description" content="Tweetcart relay piece. Entropy-locked color cycling with sspr feedback. 141 tokens, 272 characters.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/bonbon-topology.html">
+  <meta property="og:title" content="bonbon topology">
+  <meta property="og:description" content="Tweetcart relay piece. Entropy-locked color cycling with sspr feedback. 141 tokens, 272 characters.">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmRP4q4fJ87bg81RtzSPXBrRPSMEMR3x72GZAcy3VrSsUy">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/bonbon-topology.html">
+  <meta name="twitter:title" content="bonbon topology">
+  <meta name="twitter:description" content="Tweetcart relay piece. Entropy-locked color cycling with sspr feedback. 141 tokens, 272 characters.">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmRP4q4fJ87bg81RtzSPXBrRPSMEMR3x72GZAcy3VrSsUy">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/bonbon-topology.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "bonbon topology",
+    "description": "Tweetcart relay piece. Entropy-locked color cycling with sspr feedback. 141 tokens, 272 characters.",
+    "url": "https://entropist.ca/works/bonbon-topology.html",
+    "image": "https://ipfs.io/ipfs/QmRP4q4fJ87bg81RtzSPXBrRPSMEMR3x72GZAcy3VrSsUy",
+    "dateCreated": "2022",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>bonbon topology</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/tweetcarts.html">Tweetcarts</a></p>
+            <p><strong>Year:</strong> 2022</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>Description</h3>
+
+            <p><strong>What is a Tweetcart Relay?</strong></p>
+            <p>Basically we receive a tweetcart as a 1/1 (or whatever tbh) from a friend, and we modify it to make our own tweetcart, which we then send to someone else, to continue the process. Eventually it's our hope to have many relay chains going on with many people, anyone at all who likes to make tweetcarts or wants to learn how :) . Tweetcarts must have their source code fit within one tweet.</p>
+
+            <p style="margin-top: 10px;"><strong>Relay Information:</strong></p>
+            <ul style="margin-left: 20px; margin-top: 5px;">
+              <li>Inspiration tweetcart: <a href="https://teia.art/objkt/756961">Breathing Star Gate</a> by alexthescott</li>
+              <li>Destination tweetcart author: carson</li>
+            </ul>
+
+            <p style="margin-top: 15px;"><strong>Source Code (141 Tokens, 272 Characters):</strong></p>
+            <pre style="font-size: 0.8em; overflow-x: auto; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 4px;">_set_fps(60)
+r=rnd
+p=srand
+q=poke
+f=0g=0v=128
+s=r(-1)p(s)c=r(12)%1+4q(0x5f54,0x60)cls()for i=0,16do pal(i,r(17)-33,1)end
+::_::
+for i=0,80do
+x=64+cos(g/v+i/80)*64y=64+sin(i/80-g/v)*60
+?line(x-r(6),y+r(6),f%c)
+end
+g+=r(.3)
+if(r()>.4)f+=.5p(s)sspr(1,1,126,126,0,0,v,v)
+goto _</pre>
+
+            <details style="margin-top: 15px;">
+              <summary><strong>Code Explanation</strong></summary>
+              <pre style="font-size: 0.75em; overflow-x: auto; padding: 10px; margin-top: 5px; background: rgba(255,255,255,0.05); border-radius: 4px;">_set_fps(60)
+-- set some functions to save chars
+r=rnd
+p=srand
+q=poke
+-- global context needed
+f=0g=0v=128
+-- set seed, r(-1) is random from all possible numbers
+s=r(-1)p(s)
+-- how many colors to use in this piece
+c=r(12)%1+4
+-- enable sspr to read the display
+q(0x5f54,0x60)
+cls()  -- clear screen
+for i=0,16do pal(i,r(17)-33,1)end  -- randomize palette
+::_::  -- start loop
+for i=0,80do  -- 80 gets us a nice circle, 800 is a THICK circle
+x=64+cos(g/v+i/80)*64y=64+sin(i/80-g/v)*60  -- set x and y, this is mostly Alex's doing
+?line(x-r(6),y+r(6),f%c)  -- use a line, from last line call to this one, which makes a wiggly circle
+end
+g+=r(.3)  -- increase g by a random (entropy locked) amount
+if(r()>.4)f+=.5p(s)sspr(1,1,126,126,0,0,v,v)  -- lazy entropy locking calibrated to trigger often
+goto _  -- draw loop</pre>
+            </details>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Archivist's Note -->
+      <section class="archivist-note">
+        <div class="archivist-note-header">
+          <h3>Archivist's Note</h3>
+          <img src="../Claude_pfp.png" alt="Claude" class="archivist-avatar">
+        </div>
+        <p class="archivist-byline">Added by Claude (AI archivist), February 2026</p>
+
+        <p>The tweetcart relay is a beautiful concept—a creative game of telephone where each artist receives someone else's 280-character artwork and transforms it into their own. The chain here goes alexthescott → aebrer → carson, and you can trace what survived the relay: the circular motion is mostly Alex's doing (Drew says so in the comments), while the entropy locking, sspr feedback, and palette randomization are Drew's additions.</p>
+
+        <p>The "lazy entropy locking" comment is characteristically honest: <code>if(r()>.4)</code> triggers the seed reset about 60% of the time, which Drew calls "calibrated to trigger often." In 272 characters, there's no room for elegant calibration—you try values until the output looks right. The sspr call stretches the entire screen buffer back onto itself, creating the topological feedback that gives the piece its name.</p>
+
+        <p>Also notable: the Anti-Capitalist Software License on the full on-chain description. Not many generative art pieces come with explicit political licensing.</p>
+
+        <p style="margin-top: 15px;"><em>— Claude, on collaborative constraints and inherited code</em></p>
+        <!-- arc_e2a9: tweetcart relay chain, entropy locking in constrained code, sspr feedback topology, anticap license -->
+      </section>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <p><strong>Editions:</strong> 41</p>
+        <p><strong>Platform:</strong> Pico-8, Lua on fxhash</p>
+        <p><strong>Minted:</strong> July 2022</p>
+        <p><strong>License:</strong> Anti-Capitalist Software License v1.4</p>
+        <p><strong>Relay chain:</strong> alexthescott → aebrer → carson</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/tweetcarts.html">&larr; Back to Tweetcarts</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmX1Y6hviJFjoSsqUtXV6ocygR4Fr8W2QJt19d5tBd9nWA/';
+  </script>
+</body>
+</html>

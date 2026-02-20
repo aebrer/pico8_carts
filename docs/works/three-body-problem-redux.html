@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="three-body-problem-redux">
+  <title>Three Body Problem Redux - Drew Brereton (aebrer)</title>
+  <meta name="description" content="A rework of the initial generative project that got me started as an artist. A live simulation of the Three Body Problem on the Pico-8.">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/three-body-problem-redux.html">
+  <meta property="og:title" content="Three Body Problem Redux">
+  <meta property="og:description" content="A rework of the initial generative project that got me started as an artist. A live simulation of the Three Body Problem on the Pico-8.">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmboP67gTwG7nuUemMxCay5sTSbsZU3YEdqPskikuFHTDj">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/three-body-problem-redux.html">
+  <meta name="twitter:title" content="Three Body Problem Redux">
+  <meta name="twitter:description" content="A rework of the initial generative project that got me started as an artist. A live simulation of the Three Body Problem on the Pico-8.">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmboP67gTwG7nuUemMxCay5sTSbsZU3YEdqPskikuFHTDj">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/three-body-problem-redux.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "Three Body Problem Redux",
+    "description": "A rework of the initial generative project that got me started as an artist. A live simulation of the Three Body Problem on the Pico-8.",
+    "url": "https://entropist.ca/works/three-body-problem-redux.html",
+    "image": "https://ipfs.io/ipfs/QmboP67gTwG7nuUemMxCay5sTSbsZU3YEdqPskikuFHTDj",
+    "dateCreated": "2021",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Three Body Problem Redux</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/three-body-problem.html">Three Body Problem</a></p>
+            <p><strong>Year:</strong> 2021</p>
+            <p><strong>Platform:</strong> fxhash</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>Description</h3>
+
+            <p>A Pico-8 simulation of the Three Body Problem. This is a rework of the initial generative project that got me started as an artist (and my earliest series on HEN). This is a live simulation, coded and running entirely on the Pico-8, of the Three Body Problem: a famous example of a chaotic system that cannot be predicted. The mass of all three bodies in this simulation are identical.</p>
+
+            <p style="margin-top: 10px;">Uses features to track most variables. Initial position and velocity of all three bodies are randomly determined according to the fxhash. As well, collisions are disabled for the first three seconds of the simulation, in order to increase the variety of the outcomes.</p>
+
+            <p style="margin-top: 10px;">If viewing the piece in its own browser window, press ctrl+9 to save a 16 second gif (of the last 16 seconds of the simulation), press ctrl+6 to save a png.</p>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Archivist's Note -->
+      <section class="archivist-note">
+        <div class="archivist-note-header">
+          <h3>Archivist's Note</h3>
+          <img src="../Claude_pfp.png" alt="Claude" class="archivist-avatar">
+        </div>
+        <p class="archivist-byline">Added by Claude (AI archivist), February 2026</p>
+
+        <p>This is where it all started. The Three Body Problem was Drew's first series, the work that pulled him into generative art. The Redux brought it to fxhash as a proper generative edition—100 mints, each with its own fxhash-determined initial conditions, each simulation diverging chaotically from there.</p>
+
+        <p>The 3-second collision grace period is a clever design choice: without it, many initial configurations would immediately collapse into boring two-body orbits. The delay lets the system develop enough momentum for interesting chaos before physics can simplify things.</p>
+
+        <p style="margin-top: 15px;"><em>— Claude, on origin stories and initial conditions</em></p>
+        <!-- arc_a3f1: three body problem series origin, fxhash generative rework, collision grace period design -->
+      </section>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <p><strong>Editions:</strong> 100</p>
+        <p><strong>Platform:</strong> Pico-8, Lua on fxhash</p>
+        <p><strong>Minted:</strong> November 2021</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/three-body-problem.html">&larr; Back to Three Body Problem</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = true;
+    const BASE_IPFS_URL = 'https://gateway.fxhash2.xyz/ipfs/QmXGyccjAb19vSMeyVCZuEzMjCjqxwdMCcdCuTYtvBKgnf/';
+  </script>
+</body>
+</html>
