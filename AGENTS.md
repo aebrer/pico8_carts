@@ -98,6 +98,7 @@ When Drew says "publish the page":
 3. `git merge <working-branch>`
 4. `git push`
 5. `git branch -d <working-branch>` (clean up the merged branch)
+6. Kill the preview server: `kill $(lsof -ti:8080)`
 
 ---
 
