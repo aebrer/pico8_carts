@@ -97,7 +97,7 @@ When Drew says "publish the page":
 2. `git checkout master`
 3. `git merge <working-branch>`
 4. `git push`
-5. `git checkout <working-branch>` (back to working branch)
+5. `git branch -d <working-branch>` (clean up the merged branch)
 
 ---
 
