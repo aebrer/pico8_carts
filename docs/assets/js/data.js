@@ -20,7 +20,7 @@ const SERIES = {
   'entropy-locked': {
     name: 'Entropy-Locked',
     description: 'Pieces showcasing entropy locking—probabilistic RNG reseeding creating controlled chaos.',
-    works: ['entropy-generator', 'entropy-locked-wfc', 'entropy-locked-recursive-glitch-textures', 'sedimentary-city', 'the-city-is-burning']
+    works: ['entropy-generator', 'entropy-locked-wfc', 'entropy-locked-recursive-glitch-textures', 'sedimentary-city', 'the-city-is-burning', 'hidden-intersections']
   },
   'pico_punks': {
     name: 'pico_punks',
@@ -256,6 +256,22 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/the_city_is_burning',
     favorite: true,
     themes: ['entropy locking', 'p5js', 'minimal', 'creative coding', 'neoretro', 'pixelart', 'landscape', 'city', 'fire', 'breadfond', 'diptych', 'fuck cars']
+  },
+  'hidden-intersections': {
+    id: 'hidden-intersections',
+    title: 'Hidden Intersections',
+    series: 'entropy-locked',
+    year: 2023,
+    platform: 'fxhash',
+    description: 'In this piece, two grids overlap: a perfect one composed of lines drawn on the screen, and an irregular one composed of linear zones that reference other parts of the screen. Everything you see in the final composition is a result of the overlapping intersections of these two grids with each other, and eventually themselves. Created as part of #genuaryTogether for #genuary2023, for the 4th day, theme: "intersections".',
+    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmaEYNKbjAXSYh8S5Lm8ytD93CxoFDwE5pKrwwarhV18Kz/',
+    isGenerative: true,
+    links: {'fxhash': 'https://www.fxhash.xyz/generative/23188'},
+    provenance: 'ipfs://QmXRx78A1wL2EPAvZURMBLfhAxfMxsFCgPh75uiny74YiF',
+    thumbnail: 'https://ipfs.io/ipfs/QmNmkxxGbJAhCp1VxtHnSkF4QHeVG2zJ6Vxi1ByjxC6N67',
+    sourceCode: 'https://github.com/protozoo/genuary23_04_intersections',
+    favorite: false,
+    themes: ['entropy locking', 'glitch', 'grid', 'intersections', 'genuary', 'collaboration', 'abstract', 'minimal', 'p5js', 'generative', 'wallpaper']
   },
   'entropy-generator': {
     id: 'entropy-generator',
