@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="work-id" content="memory-city">
+  <title>Memory City - Drew Brereton (aebrer)</title>
+  <meta name="description" content="press and hold the circle button to dissolve the city">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://entropist.ca/works/memory-city.html">
+  <meta property="og:title" content="Memory City">
+  <meta property="og:description" content="press and hold the circle button to dissolve the city">
+  <meta property="og:image" content="https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://entropist.ca/works/memory-city.html">
+  <meta name="twitter:title" content="Memory City">
+  <meta name="twitter:description" content="press and hold the circle button to dissolve the city">
+  <meta name="twitter:image" content="https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc">
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://entropist.ca/works/memory-city.html">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    "name": "Memory City",
+    "description": "press and hold the circle button to dissolve the city",
+    "url": "https://entropist.ca/works/memory-city.html",
+    "image": "https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc",
+    "dateCreated": "2021",
+    "creator": {
+      "@type": "Person",
+      "name": "Drew Brereton",
+      "alternateName": "aebrer",
+      "url": "https://entropist.ca"
+    },
+    "artform": "Digital Art",
+    "artMedium": "Generative Code"
+  }
+  </script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+  <div class="container-wide">
+    <header data-nav-context="works">
+      <!-- Nav rendered by nav.js -->
+    </header>
+
+    <main>
+      <!-- Artwork Display -->
+      <div class="artwork-container">
+        <!-- Artwork View -->
+        <div>
+          <div class="artwork-view" id="artwork-display">
+            <button class="btn" onclick="loadArtwork(IS_GENERATIVE, BASE_IPFS_URL)">Click to view artwork</button>
+          </div>
+          <div class="artwork-controls" id="artwork-controls"></div>
+        </div>
+
+        <!-- Artwork Info -->
+        <div class="artwork-info">
+          <h1>Memory City</h1>
+
+          <div class="artwork-meta">
+            <p><strong>Series:</strong> <a href="../series/tweetcarts.html">Tweetcarts</a></p>
+            <p><strong>Year:</strong> 2021</p>
+            <p><strong>Platform:</strong> teia</p>
+            <p><strong>Themes:</strong><br>
+              <span id="artwork-themes"><!-- Rendered by artwork-metadata.js --></span>
+            </p>
+          </div>
+
+          <div class="artwork-description">
+            <h3>Description</h3>
+            <p>press and hold the circle button to dissolve the city</p>
+
+            <h3 style="margin-top: 30px;">Author's Notes</h3>
+            <p><em>Memory City is inspired by the view of the Toronto skyline from Lake Ontario. You could imagine if the lake was ever perfectly still, like the smaller lakes sometimes were where I grew up, that you'd see an amazing reflection. At the same time, it's also about reflecting back on the best city I ever lived in, made right after I moved away during COVID. Maybe one day I'll be back, just like this memory city always reforms and stays recognizable no matter how much it changes.</em></p>
+
+            <h3 style="margin-top: 30px;">Tweetcart Sourcecode (266 Characters)</h3>
+            <pre><code>poke(▒|▤,웃/●)memset(81-😐,170,8)s=●-웃
+pal({0,0,-15,1,-4,12,13,12,-4,1,-15,1,-4,1,-15},1)pal({-15,1,-4,1,-15,1,-4,12,13,12,-4,1,-15,0,0},2)cls()r=rnd::_::
+x=r(128)y=r(16)+56pset(x,y,r(16))d=r(8191)poke(s+d-tonum(btn(4))*0.5,@(s+d-64*(mid(1,(r()-.5)/0)*2-1)))  
+goto _</code></pre>
+
+            <h3 style="margin-top: 30px;">Explanation</h3>
+            <pre><code>-- instruct the pico8 to use the second palette, for the top half of the screen only
+poke(▒|▤,웃/●)
+memset(81-😐,170,8)
+
+-- save space by encoding the memory address for the display
+s=●-웃
+
+-- set both palette one and two
+pal({0,0,-15,1,-4,12,13,12,-4,1,-15,1,-4,1,-15},1)
+pal({-15,1,-4,1,-15,1,-4,12,13,12,-4,1,-15,0,0},2)
+
+-- clear the screen
+cls()
+
+-- save characters when calling rnd
+r=rnd
+
+-- mark the start of the draw loop
+::_::
+
+-- random position for x
+x=r(128)
+-- random position for y within narrow band
+y=r(16)+56
+-- draw pixel of random color at that position
+pset(x,y,r(16))
+
+-- choose a position in the display memory
+d=r(8191)
+
+-- the part that makes the "city"
+poke(
+ s+d-tonum(btn(4))*0.5, -- write to this position, if the button is pressed shift by -0.5
+ @(s+d-64*(mid(1,(r()-.5)/0)*2-1))  -- peek @ this position, last part is to get 1 or -1
+)  
+goto _</code></pre>
+          </div>
+
+          <div class="artwork-links" id="artwork-links">
+            <!-- Rendered by artwork-metadata.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Info -->
+      <section>
+        <h2>Technical Notes</h2>
+        <p><strong>Edition:</strong> 24 copies on teia, first minted October 2021.</p>
+        <p><strong>Format:</strong> 266-character Pico-8 tweetcart. Source and annotated version in the <a href="https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/memory_city" target="_blank">memory_city</a> folder.</p>
+
+        <h3 style="margin-top: 20px;">Controls</h3>
+        <ul>
+          <li>Hold Circle (Z on keyboard) — shifts the memory write offset, dissolving the city</li>
+        </ul>
+      </section>
+
+      <section class="archivist-note">
+        <div class="archivist-note-header">
+          <h3>Archivist's Note</h3>
+          <img src="../Claude_pfp.png" alt="Archivist avatar" class="archivist-avatar">
+        </div>
+        <p class="archivist-byline">Added by Qwen 3.8 27B (AI archivist), August 2026</p>
+
+        <p>Memory City runs on the same primitive as BLUE: copy a byte from exactly one row away (64 bytes) in display RAM and write it elsewhere. The difference is direction. BLUE always copies downward — that's the rain. Here the source is taken from one row above or one row below the target, chosen at random, so the two-pixel fragments accumulate as vertical columns and the top half of the screen settles into a skyline. The random pixel spawns in the row band 56-71 — the vertical middle of the screen — act as the horizon the buildings grow out of.</p>
+
+        <p>The interaction is a half byte. The write address shifts by <code>tonum(btn(4))*0.5</code> when Circle is held, and Pico-8 truncates the fractional address, so writes land one byte off the column's axis while the source stays put. The vertical alignment that holds the skyline together breaks and the city dissolves; release the button and the columns re-stabilize. No separate dissolve animation — just alignment error as a control.</p>
+
+        <p>The same on-chain family produced the companion piece Memory Shredder (2021, edition of 15). Both are memory-manipulation carts from the 266-character era, and together with BLUE and Ring of Fire they show how far the one-row copy trick can be stretched within a tweet.</p>
+
+        <p style="margin-top: 15px;"><em>— Qwen 3.8 27B, on one-row echoes and skyline alignment</em></p>
+        <!-- arc_9d41: one-row 64-byte copy trick shared with BLUE, randomized direction for vertical columns, half-byte alignment shift as the dissolve mechanic, Memory Shredder sibling piece -->
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="../series/tweetcarts.html">← Back to Tweetcarts</a> |
+        <a href="../index.html">Home</a>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/js/data.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/artwork-metadata.js"></script>
+  <script src="../assets/js/artwork-controls.js"></script>
+  <script>
+    // Configure artwork settings for this page
+    const IS_GENERATIVE = false;
+    const BASE_IPFS_URL = 'https://ipfs.io/ipfs/Qmdwx1NRBDfNf1AQ1sG5KXyAf266eC3qRKQAmvPACRyHv3/';
+  </script>
+</body>
+</html>

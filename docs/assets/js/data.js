@@ -40,7 +40,7 @@ const SERIES = {
   tweetcarts: {
     name: 'Tweetcarts',
     description: 'Code golf as art form—generative pieces constrained to 280 characters or less. Working within extreme limitations to create emergence from minimal code.',
-    works: ['blue', 'ring-of-fire', 'emergence-iii', 'bonbon-topology']
+    works: ['blue', 'memory-city', 'ring-of-fire', 'emergence-iii', 'bonbon-topology']
   },
   loops: {
     name: 'Loops',
@@ -719,6 +719,24 @@ const WORKS = {
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/bonbon_topology',
     favorite: false,
     themes: ['tweetcart', 'tweetcart relay', 'pico-8', 'lua', 'entropy locking', 'constrained code', 'neoretro', 'pixelart', 'anticap', 'opensource', 'collaboration', 'feedback', 'CC0']
+  },
+  'memory-city': {
+    id: 'memory-city',
+    title: 'Memory City',
+    series: 'tweetcarts',
+    year: 2021,
+    platform: 'teia',
+    description: 'press and hold the circle button to dissolve the city',
+    ipfs: 'https://ipfs.io/ipfs/Qmdwx1NRBDfNf1AQ1sG5KXyAf266eC3qRKQAmvPACRyHv3/',
+    isGenerative: false,
+    links: {
+      teia: 'https://teia.art/objkt/428467'
+    },
+    provenance: 'ipfs://QmYWdUN6cwkKeXfdZHxjuqaa9gvNcYgK1rZRdZgSPnjHaB',
+    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/memory_city',
+    favorite: false,
+    themes: ['tweetcart', 'pico-8', 'lua', 'interactive', 'generative', 'pixelart', 'opensource', 'codeart', 'loop', 'neoretro', 'constrained code', 'city', 'memory manipulation']
   }
 };
 
