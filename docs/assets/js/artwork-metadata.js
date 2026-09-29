@@ -43,12 +43,16 @@ function renderArtworkMetadata(workId) {
 
     // Provenance link
     if (work.provenance) {
-      // Determine if it's IPFS or on-chain metadata
-      const isOnChain = work.provenance.includes('tzkt.io') || work.provenance.includes('api.') || !work.provenance.startsWith('ipfs://');
-      const provenanceUrl = work.provenance.startsWith('ipfs://')
-        ? `/artifacts/provenance/${work.id}.json`   // local mirror; original CID kept in data.js
+      // Label the record by what it actually is, and point at our archival copy where
+      // we hold one. The canonical identifier stays in data.js either way.
+      const scheme = work.provenance.split('://')[0];
+      const LOCAL_MIRRORED = { ipfs: 'Provenance (IPFS Metadata)', onchfs: 'Provenance (On-Chain Metadata)' };
+      const provenanceUrl = LOCAL_MIRRORED[scheme]
+        ? `/artifacts/provenance/${work.id}.json`
         : work.provenance;
-      const provenanceLabel = isOnChain ? 'Provenance (On-Chain Metadata)' : 'Provenance (IPFS Metadata)';
+      const provenanceLabel = LOCAL_MIRRORED[scheme]
+        || (work.provenance.includes('arweave.net') ? 'Provenance (Arweave Metadata)'
+                                                    : 'Provenance (On-Chain Metadata)');
       linksHTML += `<a href="${provenanceUrl}" target="_blank">${provenanceLabel}</a>\n            `;
     }
 

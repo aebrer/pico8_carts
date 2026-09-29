@@ -438,7 +438,8 @@ const WORKS = {
     links: {
       fxhash: 'https://www.fxhash.xyz/project/the-fall'
     },
-    provenance: 'ipfs://QmQFnmjSdwxCNt2CVAaNXXKEZgXP1q9hePcH3daiTZwFkP',
+    // onchfs (on-chain file system), Base mainnet. Not IPFS - see artifacts/provenance/the-fall.json
+    provenance: 'onchfs://eip155:8453:0x2983008f292a43f208bba0275afd7e9b3d39af3b/a853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b',
     thumbnail: '/assets/images/thumbs/the-fall.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/the_fall',
     favorite: true,
