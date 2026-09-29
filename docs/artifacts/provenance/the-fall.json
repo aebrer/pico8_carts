@@ -1,18 +1,94 @@
 {
-  "_status": "unavailable",
-  "_note": "The IPFS provenance document for THE FALL could not be retrieved. This is not a gateway outage: a kubo node with 431 peers queried the DHT for providers and found none, so no node on the IPFS network is currently providing this block. It is a dangling reference.",
   "_works": "the-fall",
-  "_original_uri": "ipfs://QmQFnmjSdwxCNt2CVAaNXXKEZgXP1q9hePcH3daiTZwFkP",
-  "_artifact_storage": "on-chfs (Base chain), not IPFS - see docs/artifacts/the-fall/",
-  "_retrieval_attempts": [
-    "ipfs.filebase.io: no response",
-    "dweb.link: 403",
-    "w3s.link: 403",
-    "nftstorage.link: 403",
-    "ipfs.io: 403 (gateway retired)",
-    "gateway.pinata.cloud: no response",
-    "kubo 0.43.1 DHT findprovs: 0 providers",
-    "kubo 0.43.1 bitswap get: context canceled (timeout)"
-  ],
+  "_artifact_recovered": true,
+  "_artifact_source": "on-chfs (onchfs) on Base mainnet - recovered directly from chain state on 2026-09-28",
+  "_artifact_note": "THE FALL was not stored on IPFS. Its artifact lives in the onchfs on-chain file system, and onchfs.fxhash2.xyz - the only public resolver - is dead. The artifact is nonetheless fully intact and was recovered by calling the onchfs contract directly. Every file under artifacts/the-fall/ is byte-identical to the mint.",
+  "_onchain": {
+    "chain": "eip155:8453 (Base mainnet)",
+    "contract": "0x2983008f292a43f208bba0275afd7e9b3d39af3b",
+    "root_inode_cid": "0xa853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b",
+    "read_interface": "getInodeAt(bytes32,string[]) / inodes(bytes32) / readDirectory(bytes32) / readFile(bytes32) / concatenateChunks(bytes32[]) - all view functions",
+    "abi_source": "https://github.com/fxhash/onchfs packages/onchfs-js/src/utils/abi.ts",
+    "spec": "https://github.com/fxhash/onchfs"
+  },
+  "_tree": {
+    "": {
+      "type": "directory",
+      "cid": "0xa853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b"
+    },
+    "fxhash.min.js": {
+      "type": "file",
+      "cid": "0x6e8ff7e0ce0ccd23c2d324f62fc8c590646f04fefa61cb12ed84e63a3c7985d6",
+      "metadata_hpack": "0x5f901d75d0620d263d4c741f71a0961ab4ff5a839bd9ab",
+      "metadata_decoded": {
+        "content-type": "application/javascript",
+        "content-encoding": "gzip"
+      },
+      "chunks": 1,
+      "bytes_uncompressed": 9125,
+      "sha256": "033e66fa68f8a74ab0028012351e18db3067e230a13ae9100ccc4f7f1e06a072"
+    },
+    "index.html": {
+      "type": "file",
+      "cid": "0x6191b02054efde9b91a3417f41bdc4da7631fe6a258f2219fa1c127b9c0d2812",
+      "metadata_hpack": "0x5f87497ca589d34d1f5a839bd9ab",
+      "metadata_decoded": {
+        "content-type": "text/html"
+      },
+      "chunks": 1,
+      "bytes_uncompressed": 594,
+      "sha256": "5d93c908ce67e41b604d51b3db7248348efbb7309d4c7527a74dc539f0f03219"
+    },
+    "index.js": {
+      "type": "file",
+      "cid": "0xf47be8c2fb78af4b913e73fb73b5e7ef162da64334fb3f779c5474f4ae8ac54a",
+      "metadata_hpack": "0x5f901d75d0620d263d4c741f71a0961ab4ff5a839bd9ab",
+      "metadata_decoded": {
+        "content-type": "application/javascript",
+        "content-encoding": "gzip"
+      },
+      "chunks": 1,
+      "bytes_uncompressed": 5407,
+      "sha256": "7fa42731b1ada8543c366666f2c7493cdb9d6d1cb775c5a0f586e9e6b4884aae"
+    },
+    "p5": {
+      "type": "directory",
+      "cid": "0x3dffea1c1a26b3714f61e1f76211eb399ad9e8859c8ea6bf686e694ad2558756"
+    },
+    "p5/p5.min.js": {
+      "type": "file",
+      "cid": "0x19eca039c3a6688494675a9d71877824d0c1e879ef37931d22a786af5b165542",
+      "metadata_hpack": "0x5f901d75d0620d263d4c741f71a0961ab4ff5a839bd9ab",
+      "metadata_decoded": {
+        "content-type": "application/javascript",
+        "content-encoding": "gzip"
+      },
+      "chunks": 11,
+      "bytes_uncompressed": 1029097,
+      "sha256": "726ac96626b93f5bcaff83a910b6c60d3a9728f063e0eb73b5d0819ffc356915"
+    }
+  },
+  "_verification": {
+    "method": "Bytes were read via eth_call against the onchfs contract. Retrieval is inherently content-addressed: the inode lookup is keyed by the CID, and concatenateChunks reads each chunk from the Content Store by the keccak256 of its own content, so a chunk cannot be returned under a hash it does not match.",
+    "cross_checked_against": "the copy previously served from repo source (series/screensavers/the_fall)",
+    "result": "index.html, index.js and p5/p5.min.js were already byte-identical. fxhash.min.js differed by exactly one trailing newline, which was removed so the served tree is byte-identical to the mint.",
+    "styles_css": "The mint contains no styles.css, but index.html requests one. That 404 was present in the minted artifact itself; it is faithful, and the page uses no CSS classes (all layout is inline)."
+  },
+  "_unrelated_dangling_reference": {
+    "_note": "Separate from the artifact. The provenance document referenced by data.js is on IPFS and is genuinely gone.",
+    "_original_uri": "ipfs://QmQFnmjSdwxCNt2CVAaNXXKEZgXP1q9hePcH3daiTZwFkP",
+    "_why": "A kubo node with 431 peers queried the DHT for providers and found none, so no node on the IPFS network is providing this block. Not a gateway outage - a dangling reference.",
+    "_attempted": [
+      "ipfs.filebase.io: no response",
+      "dweb.link: 403",
+      "w3s.link: 403",
+      "nftstorage.link: 403",
+      "ipfs.io: 403 (gateway retired)",
+      "gateway.pinata.cloud: no response",
+      "kubo 0.43.1 DHT findprovs: 0 providers",
+      "kubo 0.43.1 bitswap get: context canceled (timeout)"
+    ],
+    "_replacement": "The on-chain inode tree above is a stronger and still-live provenance record than the lost IPFS document; the artwork's canonical content is the chain itself."
+  },
   "_checked_utc": "2026-09-28"
 }

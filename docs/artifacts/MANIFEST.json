@@ -385,12 +385,12 @@
       "thumbnail_bytes": 4402859,
       "thumbnail_cid": "QmTs2GDFnyaR8TiT9B6PrWHAfFG86b9xwNFmUHQZTyzZT7",
       "artifact": "artifacts/the-fall/",
-      "artifact_source": "repo source (series/screensavers/the_fall) - on-chfs artifact on Base chain is unrecoverable",
+      "artifact_source": "on-chfs (onchfs) on Base mainnet, recovered from chain state via eth_call",
       "artifact_files": 4,
       "artifact_bytes": 1044224,
       "provenance_cid": "QmQFnmjSdwxCNt2CVAaNXXKEZgXP1q9hePcH3daiTZwFkP",
       "provenance_mirror": "artifacts/provenance/the-fall.json",
-      "artifact_caveat": "Served from repo source, not minted bytes. The original artifact lives in on-chfs (Base chain contract storage) and onchfs.fxhash2.xyz is dead, so it could not be mirrored from IPFS. index.html links ./styles.css, which exists in neither the repo nor any gateway; the page uses no CSS classes (all layout is inline), so this is a harmless 404 with no visual effect."
+      "artifact_caveat": "Not on IPFS. THE FALL was minted with its artifact in the onchfs on-chain file system, and onchfs.fxhash2.xyz - the only public resolver - is dead. The artifact was recovered by calling the onchfs contract on Base directly (0x2983008f292a43f208bba0275afd7e9b3d39af3b, root inode a853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b). The served tree is now byte-identical to the mint. See artifacts/provenance/the-fall.json for the full inode tree and hashes."
     },
     "the-seed-marche": {
       "platform": "editart",
@@ -470,6 +470,6 @@
   "_gateways_dead": {
     "gateway.fxhash2.xyz": "403 - gateway retired",
     "ipfs.io": "retired 2026-09-21 (public gateway brownout -> retirement)",
-    "onchfs.fxhash2.xyz": "400 - dead"
+    "onchfs.fxhash2.xyz": "400 - dead as an HTTP resolver, but the underlying on-chain content is intact and readable via eth_call"
   }
 }
