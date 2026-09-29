@@ -152,3 +152,16 @@ docs/wip/backrooms_power_crawl/index.png:Zone.Identifier
 docs/wip/backrooms_power_crawl/index.png.import:Zone.Identifier
 docs/wip/backrooms_power_crawl/index.service.worker.js:Zone.Identifier
 docs/wip/backrooms_power_crawl/index.wasm:Zone.Identifier
+
+# ---------------------------------------------------------------------------
+# Self-hosted art mirrors
+# ---------------------------------------------------------------------------
+# The blanket media rules above (*.gif, *.png, *.zip, cart.js) exist to keep
+# large binaries out of the piece source trees. The gallery now serves its own
+# copies of the minted artifacts, which are gif/png/zip heavy by nature, so
+# re-include the deployed mirror paths specifically. Keeping the blanket rules
+# means a stray cart.js or render in series/ still stays out of the repo.
+#
+# Provenance for every file under these paths is in docs/artifacts/MANIFEST.json.
+!docs/artifacts/**
+!docs/assets/images/thumbs/**

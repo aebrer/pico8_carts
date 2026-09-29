@@ -1,0 +1,133 @@
+<!DOCTYPE html><html><head>
+    <meta http-equiv="Content-Security-Policy" content="
+    upgrade-insecure-requests;
+    default-src
+      'none';
+    frame-src
+      'self';
+    child-src
+      'self'
+      'unsafe-inline'
+      blob:;
+    script-src
+      'self'
+      'unsafe-inline'
+      'unsafe-eval'
+      blob:;
+    style-src
+      'self'
+      'unsafe-inline';
+    img-src
+      'self'
+      'unsafe-inline'
+      data:
+      blob:
+      https://services.tzkt.io
+      https://cloudflare-ipfs.com/
+      https://ipfs.io/
+      https://templewallet.com/logo.png
+      https://gateway.pinata.cloud/;
+    font-src
+      'self'
+      data:
+      https://cloudflare-ipfs.com/
+      https://fonts.googleapis.com/
+      https://ipfs.io/
+      https://gateway.pinata.cloud/;
+    connect-src
+      'self'
+      https://better-call.dev
+      https://*.better-call.dev
+      https://*.cryptonomic-infra.tech
+      https://cryptonomic-infra.tech
+      blob:
+      data:
+      ws:
+      wss:
+      bootstrap.libp2p.io
+      preload.ipfs.io
+      https://mainnet.smartpy.io
+      https://mainnet-tezos.giganode.io
+      https://api.etherscan.io
+      https://api.thegraph.com
+      https://*.tzkt.io
+      https://api.hicdex.com
+      https://hdapi.teztools.io
+      https://api.teia.rocks
+      https://data.objkt.com
+      https://api.tzstats.com
+      https://*.wikidata.org
+      https://*.coinmarketcap.com
+      https://api.openweathermap.org
+      https://hicetnunc.xyz
+      https://*.hicetnunc.xyz
+      https://teia.art
+      https://*.teia.art
+      https://*.hicetnunc.art
+      https://*.teztools.io;
+    manifest-src
+      'self';
+    base-uri
+      'self';
+    form-action
+      'none';
+    media-src
+      'self'
+      'unsafe-inline'
+      data:
+      blob:
+      https://cloudflare-ipfs.com/
+      https://ipfs.io/
+      https://gateway.pinata.cloud/;
+    prefetch-src
+      'self'
+      https://cloudflare-ipfs.com/
+      https://fonts.googleapis.com/
+      https://ipfs.io/
+      https://gateway.pinata.cloud/;
+    worker-src
+      'self'
+      'unsafe-inline'
+      blob:;">
+  
+    <script id="fxhash-snippet">
+  //---- do not edit the following code (you can indent as you wish)
+  let alphabet = "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
+  var fxhash = "oo" + Array(49).fill(0).map(_=>alphabet[(Math.random()*alphabet.length)|0]).join('')
+  let b58dec = str=>[...str].reduce((p,c)=>p*alphabet.length+alphabet.indexOf(c)|0, 0)
+  let fxhashTrunc = fxhash.slice(2)
+  let regex = new RegExp(".{" + ((fxhashTrunc.length/4)|0) + "}", 'g')
+  let hashes = fxhashTrunc.match(regex).map(h => b58dec(h))
+  let sfc32 = (a, b, c, d) => {
+    return () => {
+      a |= 0; b |= 0; c |= 0; d |= 0
+      var t = (a + b | 0) + d | 0
+      d = d + 1 | 0
+      a = b ^ b >>> 9
+      b = c + (c << 3) | 0
+      c = c << 21 | c >>> 11
+      c = c + t | 0
+      return (t >>> 0) / 4294967296
+    }
+  }
+  var fxrand = sfc32(...hashes)
+  // true if preview mode active, false otherwise
+  // you can append preview=1 to the URL to simulate preview active
+  var isFxpreview = new URLSearchParams(window.location.search).get('preview') === "1"
+  // call this method to trigger the preview
+  function fxpreview() {
+    console.log("fxhash: TRIGGER PREVIEW")
+  }
+  //---- /do not edit the following code
+</script>
+
+    <script src="./p5/p5.js"></script>
+  </head>
+  <body style="margin: 0px; overflow: hidden; background-color: black; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 100vh; align-items: center; justify-items: center;">
+    <main>
+      <script src="index.js"></script>
+      <div id="log" style="text-align: center; position: absolute; top: 0px; left 0px; font-size: 30px; color: #fff; text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;"></div>
+    </main>
+  
+
+</body></html>

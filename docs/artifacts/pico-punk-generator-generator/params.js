@@ -1,0 +1,238 @@
+// boilerplate 
+// $fx.params([
+//   {
+//     id: "number_id",
+//     name: "A number",
+//     type: "number",
+//     default: 1.2,
+//     options: {
+//       min: -2,
+//       max: 10,
+//       step: 0.1,
+//     },
+//   },
+//   {
+//     id: "select_id",
+//     name: "A selection",
+//     type: "select",
+//     default: "pear",
+//     options: {
+//       options: ["apple", "orange", "pear"],
+//     }
+//   },
+//   {
+//     id: "color_id",
+//     name: "A color",
+//     type: "color",
+//     default: "ff0000",
+//   },
+//   {
+//     id: "boolean_id",
+//     name: "A boolean",
+//     type: "boolean",
+//     default: true,
+//   },
+//   {
+//     id: "string_id",
+//     name: "A string",
+//     type: "string",
+//     default: "hello",
+//     options: {
+//       minLength: 1,
+//       maxLength: 5
+//     }
+//   },
+// ]);
+
+
+const sp = new URLSearchParams(window.location.search);
+
+pico8_cols = [
+    "black",
+    "dark-blue",
+    "dark-purple",
+    "dark-green",
+    "brown",
+    "dark-gray",
+    "light-gray",
+    "white",
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "lavender",
+    "pink",
+    "light-peach",
+    "brownish-black",
+    "darker-blue",
+    "darker-purple",
+    "blue-green",
+    "dark-brown",
+    "darker-gray",
+    "medium-gray",
+    "light-yellow",
+    "dark-red",
+    "dark-orange",
+    "lime-green",
+    "medium-green",
+    "true-blue",
+    "mauve",
+    "dark-peach",
+    "peach"
+]
+
+
+// boilerplate 
+window.$fx.params([
+    {
+        id: "bg_color",
+        name: "Background Color",
+        type: "select",
+        // default is a random choice from pico8_cols
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "skin2_color",
+        name: "Skin Accent Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "skin1_color",
+        name: "Main Skin Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "eye_color",
+        name: "Eye Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "eye_alt_color",
+        name: "Eye Accent Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "hair_color",
+        name: "Hair Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "mouth_color",
+        name: "Mouth Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "mouth_alt_color",
+        name: "Mouth Accent Color",
+        type: "select",
+        default: pico8_cols[Math.floor(Math.random() * pico8_cols.length)],
+        options: {
+            options: pico8_cols,
+        },
+    },
+    {
+        id: "demo_lim",
+        name: "Initial Composition Layers",
+        type: "number",
+        default: 20,
+        options: {
+            min: 1,
+            max: 100,
+            step: 1,
+        },
+    },
+    {
+        id: "noise_freq",
+        name: "Noise Frequency",
+        type: "number",
+        default: 1,
+        options: {
+            min: 0,
+            max: 25,
+            step: 1,
+        },
+    },
+    {
+        id: "memfuck_freq",
+        name: "Memory Corruption Frequency",
+        type: "number",
+        default: 3,
+        options: {
+            min: 0,
+            max: 25,
+            step: 1,
+        },
+    },
+    {
+        id: "glitch_freq",
+        name: "Glitch Frequency",
+        type: "number",
+        default: 12,
+        options: {
+            min: 0,
+            max: 25,
+            step: 1,
+        },
+    },
+    {
+        id: "shrink_freq",
+        name: "Shrink Frequency",
+        type: "number",
+        default: 17,
+        options: {
+            min: 0,
+            max: 25,
+            step: 1,
+        },
+    },
+    {
+        id: "expand_freq",
+        name: "Expand Frequency",
+        type: "number",
+        default: 1,
+        options: {
+            min: 0,
+            max: 5,
+            step: 1,
+        },
+    },
+    {
+        id: "copy_freq",
+        name: "Copy Frequency",
+        type: "number",
+        default: 25,
+        options: {
+            min: 0,
+            max: 25,
+            step: 1,
+        },
+    },
+]);

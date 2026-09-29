@@ -1,0 +1,18 @@
+{
+  "_status": "unavailable",
+  "_note": "The IPFS provenance document for THE FALL could not be retrieved. This is not a gateway outage: a kubo node with 431 peers queried the DHT for providers and found none, so no node on the IPFS network is currently providing this block. It is a dangling reference.",
+  "_works": "the-fall",
+  "_original_uri": "ipfs://QmQFnmjSdwxCNt2CVAaNXXKEZgXP1q9hePcH3daiTZwFkP",
+  "_artifact_storage": "on-chfs (Base chain), not IPFS - see docs/artifacts/the-fall/",
+  "_retrieval_attempts": [
+    "ipfs.filebase.io: no response",
+    "dweb.link: 403",
+    "w3s.link: 403",
+    "nftstorage.link: 403",
+    "ipfs.io: 403 (gateway retired)",
+    "gateway.pinata.cloud: no response",
+    "kubo 0.43.1 DHT findprovs: 0 providers",
+    "kubo 0.43.1 bitswap get: context canceled (timeout)"
+  ],
+  "_checked_utc": "2026-09-28"
+}
