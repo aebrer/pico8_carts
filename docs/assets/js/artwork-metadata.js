@@ -46,7 +46,7 @@ function renderArtworkMetadata(workId) {
       // Determine if it's IPFS or on-chain metadata
       const isOnChain = work.provenance.includes('tzkt.io') || work.provenance.includes('api.') || !work.provenance.startsWith('ipfs://');
       const provenanceUrl = work.provenance.startsWith('ipfs://')
-        ? work.provenance.replace('ipfs://', 'https://ipfs.io/ipfs/')
+        ? `/artifacts/provenance/${work.id}.json`   // local mirror; original CID kept in data.js
         : work.provenance;
       const provenanceLabel = isOnChain ? 'Provenance (On-Chain Metadata)' : 'Provenance (IPFS Metadata)';
       linksHTML += `<a href="${provenanceUrl}" target="_blank">${provenanceLabel}</a>\n            `;

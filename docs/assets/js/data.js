@@ -62,13 +62,13 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'Entry point to the ideocart system. An interactive exploration tool for perceiving entities compressed into two dimensions.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmV7C8QtpeyzJzAfh2Y6b3Y9AdeRsbDqLsE6ykva4GZ6f7/',
+    ipfs: '/artifacts/beginner-ideocartography/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/5529',
     },
     provenance: 'ipfs://QmXb4vXaF1T89HkXaY6PPMMNCokrunaraAnxMn9PR1EVzP',
-    thumbnail: 'https://ipfs.io/ipfs/Qmbw5qKk7G1MdgiS3pd4FyRyw6g7qpv2SbSFJk46rM3sTP',
+    thumbnail: '/assets/images/thumbs/beginner-ideocartography.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/beginner_ideocartography',
     favorite: true,
     themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'generative', 'pico-8', 'easter egg']
@@ -80,13 +80,13 @@ const WORKS = {
     year: 2022,
     platform: 'versum',
     description: 'Going deeper. More control, more danger. Navigate metalayers with entropy networks preventing seed adjacency.',
-    ipfs: 'https://ipfs.io/ipfs/Qmf7NBtXHyAL3EiXJyKxqGSuW8AHXC9B1v6aotm6GcJP8g/',
+    ipfs: '/artifacts/intermediate-ideocartography/',
     isGenerative: false, // Self-randomizes on launch
     links: {
       objkt: 'https://objkt.com/tokens/versum_items/10',
     },
     provenance: 'ipfs://QmQ8gj1rqYFzqyZwCeLRfMuBUMJ2ATT7MTqTUV7dJYPgWy',
-    thumbnail: 'https://ipfs.io/ipfs/QmY7npznSASiN61trocXBbYe43iRKKicx2ZtZgQZNJRjtA',
+    thumbnail: '/assets/images/thumbs/intermediate-ideocartography.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/intermediate_ideocartography',
     favorite: true,
     themes: ['ideocart', 'pareidolia', 'interactive', 'SCP aesthetics', 'entropy locking', 'pico-8', 'dark']
@@ -98,13 +98,13 @@ const WORKS = {
     year: 2024,
     platform: 'teia',
     description: 'Entropy locking meets wave function collapse algorithm, plus ideocartography. A screensaver exploration with bombastic colors—gods and temples emerging from controlled chaos.',
-    ipfs: 'https://ipfs.io/ipfs/bafybeibt6vi2jkvvf2cvhgw6qhwfsjuqcazbumds6vjags4i4hosh224yi/',
+    ipfs: '/artifacts/visions/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/844464'
     },
     provenance: 'ipfs://QmT6sc5d7MP3gG9sdnqFNifmYRVbRWcSdVcLW6C9R7LGPD',
-    thumbnail: 'https://ipfs.io/ipfs/QmPXPUhhbhniedCrn7U9ZM23CdmPG6tJucRuz1c8PAp7bu',
+    thumbnail: '/assets/images/thumbs/visions.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/VISIONS',
     favorite: true,
     themes: ['screensaver', 'entropy locking', 'wave function collapse', 'ideocart', 'pareidolia', 'ambient', 'infinite', 'p5js']
@@ -116,13 +116,13 @@ const WORKS = {
     year: 2022,
     platform: 'teia',
     description: 'A forgotten video game cartridge containing a full interactive gallery/game. Features inventory system, achievements, doom timer, mirror world mechanics, and ideocartography integration.',
-    ipfs: 'https://ipfs.io/ipfs/QmWQ5dUBCUqfJ3LeKRcHmsXoKmMUDdpPLDdg4HaudgLSBC/',
+    ipfs: '/artifacts/the-trace-gallery/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/717500'
     },
     provenance: 'ipfs://QmYt25faE3S8cypApJfv4Fq2YdoLMujokEMCxcbB3Fs8hJ',
-    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    thumbnail: '/assets/images/thumbs/the-trace-gallery.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/the_trace',
     favorite: true,
     themes: ['vestiges', 'ideocart', 'game', 'interactive', 'narrative', 'infohazard', 'cognitohazard', 'memetic', 'pico-8', 'gif export', 'multiple endings', 'neoretro', 'achievement system', 'doom timer', 'easter egg', 'secret hunting', 'entropy locking', 'text-based', 'CYOA', 'the hierophant', 'music', 'audio']
@@ -134,13 +134,13 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'A dangerous remnant that destabilizes with each interaction. The piece that crashes as part of its mechanics—an infohazard that breaks its own container.',
-    ipfs: 'https://ipfs.io/ipfs/Qmd2dUEeYwcwHET7rEgFuYFtAgf8pzJLJTPGrBEySVifkm/',
+    ipfs: '/artifacts/containment-breach/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/127402'
     },
     provenance: 'ipfs://Qmb8c79wVDBLzKLCXHzMWDxzKRD5vFXh9aKYLbxw6V5rVH',
-    thumbnail: 'https://ipfs.io/ipfs/QmYdV76bXNtPTWBEbvJRECnZZP4cVjg4fnEH1jfsUsJpa8',
+    thumbnail: '/assets/images/thumbs/containment-breach.gif',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/vestige_005',
     favorite: true,
     themes: ['vestiges', 'infohazard', 'entropy locking', 'pico-8', 'intentional crash', 'the hierophant', 'containment failure', 'neoretro', 'SCP aesthetics', 'generative', 'ambient', 'infinite']
@@ -152,14 +152,14 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'A Pico-8 tweetcart demonstrating entropy locking (originally called "seed looping"). Generator generator where each piece has its own unique starting position in a massive linear sequence. Featured in the Creative Code Toronto talk on entropy locking.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmQPNXi1Yf9eajWQVgw99jzW6hDwntg8PhdB1rTCDX5NGA/',
+    ipfs: '/artifacts/emergence-iii/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/slug/emergence-iii-ttc-s01t08',
       ttc: 'https://objkt.com/asset/hicetnunc/414400'
     },
     provenance: 'ipfs://QmUaJin2BiJJczVLvk4REyDYtGWmMbidFj5mcbXtwV5Usz',
-    thumbnail: 'https://ipfs.io/ipfs/QmUmVKJyWMey27zjNs4MGnj7QCcy5V6BLEunJyZwsRsprX',
+    thumbnail: '/assets/images/thumbs/emergence-iii.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/emergence_iii',
     favorite: true,
     themes: ['emergence', 'tweetcart', 'entropy locking', 'pico-8', 'generator generator', 'seed looping', 'TTC', 'tweetcart token club', 'opensource', 'lua', 'neoretro', 'rainbow', 'animated', 'pixelart', 'constrained code']
@@ -171,14 +171,14 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'Infinite cosmic exploration. Dive into the simulation and live the three body problem. Features ambient lofi soundtrack by @bisdvrk.',
-    ipfs: 'https://ipfs.io/ipfs/Qme6DgdHgYr14yis4ibxPcRZzr5TcvZgSmKAtQHGXqBr1U/',
+    ipfs: '/artifacts/luna-theory-emulator/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/161642',
       bisdvrk: 'https://teia.art/bisdvrk'
     },
     provenance: 'ipfs://QmRmoaTBx7MBKGLBt3ZKzsG8Zgo9ARJGALk6wWh4kb8X6r',
-    thumbnail: 'https://ipfs.io/ipfs/QmVd79wPHiWA4ivJ1vxSBkFasfpUqs2QgjXXRdDjHZEyzd',
+    thumbnail: '/assets/images/thumbs/luna-theory-emulator.gif',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/three-body-problem/luna_theory_emulator',
     favorite: true,
     themes: ['three body problem', 'animated', 'noise', 'interactive', 'simulation', 'pico-8', 'pixelart', 'space', 'cosmic', '3bodyprob', 'generative', 'sciart', 'lofi', 'music', 'audio', 'collaboration', 'soundtrack']
@@ -190,13 +190,13 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'Not really Wave Function Collapse—merely inspired by it. Pixels as tiling units with HSB-based connection rules. Entropy increases rather than decreases, possibilities expand rather than contract. Entropy locking triggers emergence from controlled chaos.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmboJtrRdzLahaudhbcsdQnLPyrfEAuNFXCXySChfk7rzc/',
+    ipfs: '/artifacts/entropy-locked-wfc/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/project/entropy-locked-wave-function-collapse'
     },
     provenance: 'ipfs://QmdZwda29bdrtGL666srfXVpv53esUcySjDsPgSG2YzzM2',
-    thumbnail: 'https://ipfs.io/ipfs/QmVTEoPbJMfFQnTgQvxBFbyoAJ4amtYqnXSELa84NxYuJJ',
+    thumbnail: '/assets/images/thumbs/entropy-locked-wfc.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/entropy_locked_wave_function_collapse',
     favorite: true,
     themes: ['entropy locking', 'wave function collapse', 'p5js', 'generative', 'abstract', 'pixelart', 'neoretro', 'opensource', 'creative coding', 'fullscreen', 'CC0', 'tileable']
@@ -208,13 +208,13 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'Recursive glitch textures generated through entropy locking and self-referential feed-forward loops. Uses probabilistic seed resets to create intricate fractal-like patterns at high resolutions. Interactive controls allow real-time re-rendering at different pixel densities and backgrounds.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmeakkfhooFi9cQtfghxx85HaZRtbDCj9NmUVtDL4mdx1w/',
+    ipfs: '/artifacts/entropy-locked-recursive-glitch-textures/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/project/entropy-locked-recursive-glitch-textures'
     },
     provenance: 'ipfs://QmZEnoL1L5UsHWEdChHGjCP6B2GjiW8XVGUrvotNy5N2Y5',
-    thumbnail: 'https://ipfs.io/ipfs/QmXyoYEXWt9i9xbWJv5j2T454jHb7R1tH941mb3yZ9iau5',
+    thumbnail: '/assets/images/thumbs/entropy-locked-recursive-glitch-textures.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/entropy_locked_recursive_glitch_textures',
     favorite: false,
     themes: ['entropy locking', 'p5js', 'creative coding', 'glitch', 'noise', 'recursion', 'texture', '4k', 'fullscreen', 'interactive', 'wallpaper', 'pixelart', 'CC0']
@@ -226,14 +226,14 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'Part one of a two-piece diptych. A tweetcart inspired by burning cities and layers of sediment—like the sins of those who came before us, piling up forever. Abstract entropy-locked patterns building over time.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmUZfwEkJ1zzBtgQckU47jHqNYi3BSttUFr2mogS3Zyr1v/',
+    ipfs: '/artifacts/sedimentary-city/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/project/sedimentary-city',
       diptych: 'the-city-is-burning'
     },
     provenance: 'ipfs://QmVB5LhUZbMxUFp8ZoH8BPMjBtTzh5mmhn2ftUkXfsB8ZJ',
-    thumbnail: 'https://ipfs.io/ipfs/QmW8hXat8yQ1PWx7qVfRtaa95e1b6G2YwPpvDvVvKvYmyr',
+    thumbnail: '/assets/images/thumbs/sedimentary-city.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/sedimentary_city',
     favorite: true,
     themes: ['entropy locking', 'tweetcart', 'pico-8', 'lua', 'neoretro', 'pixelart', 'abstract', 'still', 'opensource', 'diptych', 'landscape', 'city', 'sediment']
@@ -245,14 +245,14 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'Part two of a two-piece diptych. The p5.js expansion of sedimentary city—3D camera, fire palette cycling through dark to bright yellows. Lemme just say fuck cars and be done with it.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmeW1zwysTjkLSaU2o7ugVfZSYH9TzwyMHKbrsx4uJY5q5/',
+    ipfs: '/artifacts/the-city-is-burning/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/project/the-city-is-burning',
       diptych: 'sedimentary-city'
     },
     provenance: 'ipfs://QmNoEC2TZpRaCML514WGoEDmk6XPqoh2pmEpESFhhzFQH4',
-    thumbnail: 'https://ipfs.io/ipfs/QmWFgcwSZU1hW5bgfUBSRYk7aCu4U3taqaVoZnjdwCtown',
+    thumbnail: '/assets/images/thumbs/the-city-is-burning.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/entropy-locked/the_city_is_burning',
     favorite: true,
     themes: ['entropy locking', 'p5js', 'minimal', 'creative coding', 'neoretro', 'pixelart', 'landscape', 'city', 'fire', 'breadfond', 'diptych', 'fuck cars']
@@ -264,11 +264,11 @@ const WORKS = {
     year: 2023,
     platform: 'fxhash',
     description: 'In this piece, two grids overlap: a perfect one composed of lines drawn on the screen, and an irregular one composed of linear zones that reference other parts of the screen. Everything you see in the final composition is a result of the overlapping intersections of these two grids with each other, and eventually themselves. Created as part of #genuaryTogether for #genuary2023, for the 4th day, theme: "intersections".',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmaEYNKbjAXSYh8S5Lm8ytD93CxoFDwE5pKrwwarhV18Kz/',
+    ipfs: '/artifacts/hidden-intersections/',
     isGenerative: true,
     links: {'fxhash': 'https://www.fxhash.xyz/generative/23188'},
     provenance: 'ipfs://QmXRx78A1wL2EPAvZURMBLfhAxfMxsFCgPh75uiny74YiF',
-    thumbnail: 'https://ipfs.io/ipfs/QmNmkxxGbJAhCp1VxtHnSkF4QHeVG2zJ6Vxi1ByjxC6N67',
+    thumbnail: '/assets/images/thumbs/hidden-intersections.png',
     sourceCode: 'https://github.com/protozoo/genuary23_04_intersections',
     favorite: false,
     themes: ['entropy locking', 'glitch', 'grid', 'intersections', 'genuary', 'collaboration', 'abstract', 'minimal', 'p5js', 'generative', 'wallpaper']
@@ -280,14 +280,14 @@ const WORKS = {
     year: 2021,
     platform: 'versum',
     description: 'The generator for the Entropy series. Coded in Lua on the TIC-80 Fantasy Computer. Uses seed-looping (entropy locking) to create feedback loops. Click/tap to change pseudorandom seeds. Refresh to restart and generate a new palette. Palettes generated via decay function applied to a high-visibility data visualization palette.',
-    ipfs: 'https://ipfs.io/ipfs/QmafvZY8L8PXDJEfWaQwg8XXKC3odXRweTLN32PAygKdbE/',
+    ipfs: '/artifacts/entropy-generator/',
     isGenerative: false,
     links: {
       objkt: 'https://objkt.com/tokens/versum_items/17224',
       'entropy series': 'https://objkt.com/tokens?tags=aebrer_entropy&sort=timestamp:asc'
     },
     provenance: 'ipfs://Qmbnhkbg3w6aXprsfmVCFSwuXwwpdenPS2GPkPAZLaKfct',
-    thumbnail: 'https://ipfs.io/ipfs/QmUFt69akLcZTBZeVZ4994zdsFN5mZaVBbBfuSjusTqqHZ',
+    thumbnail: '/assets/images/thumbs/entropy-generator.jpg',
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/entropy-locked/entropy_generator.lua',
     favorite: true,
     themes: ['entropy locking', 'tic-80', 'tic80', 'generative', 'generator', 'interactive', 'pixelart', 'neoretro', 'lua', 'creative coding', '4bit', '4-bit', 'seed looping', 'feedback loops', 'palette generation', 'RGBMTL 2024']
@@ -299,14 +299,14 @@ const WORKS = {
     year: 2023,
     platform: 'fxhash',
     description: 'The terminus of pico_punks. A generator generator using fxparams—you choose colors and effect frequencies to create your own unique pico_punk generator. Then explore the infinite generative space interactively, building avatars layer by layer. What began as satire became identity.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmdaEhotLYzPMuKXqbjpk6EzB5oLgUUic45o8i277foPfG/',
+    ipfs: '/artifacts/pico-punk-generator-generator/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/project/pico_punk_generator_generator.p8',
       'first generator': 'https://objkt.com/asset/hicetnunc/439049'
     },
     provenance: 'ipfs://QmWwtD357wYmVhewCy1g5XhnpWSTMj8dcZMsm2sKLyrEr6',
-    thumbnail: 'https://ipfs.io/ipfs/QmW2HhAb7BzkqQCHvBwioKVozXydtsFszGFWZ1LmW4xLf6',
+    thumbnail: '/assets/images/thumbs/pico-punk-generator-generator.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punks_final_form',
     favorite: true,
     themes: ['pico_punks', 'pico-8', 'pfp', 'avatar', 'identity', 'pareidolia', 'interactive', 'generator generator', 'fxparams', 'neoretro', 'pixelart', 'lofi', 'entropy locking', 'irreversibility', 'noise', 'punks', 'aebrer_pfp']
@@ -318,7 +318,7 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'Purple spiral commission for @bisdvrk. When things are feeling dark just remember that most people are compassionate, and together we are strong. A perfect looping gif where the spiral decohere and recohere at exactly the right moment.',
-    ipfs: 'https://ipfs.io/ipfs/QmXQraiBtNg1ZN8JqKAXappS5L2BFLBevejfn1UwvHdNam',
+    ipfs: '/artifacts/pico-galaxy-010.gif',
     isGenerative: false,
     isImage: true,
     links: {
@@ -327,7 +327,7 @@ const WORKS = {
       bisdvrk: 'https://teia.art/bisdvrk'
     },
     provenance: 'ipfs://QmZY9GgNs2WYyUUqeFFskn9FouSe3dTGnSXZLcaSb6MfMh',
-    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    thumbnail: '/assets/images/thumbs/pico-galaxy-010.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_galaxies/pico_galaxy_010',
     favorite: true,
     themes: ['pico_galaxies', 'loop', 'gif', 'spiral', 'pico-8', 'codeart', 'neoretro', 'pixelart', 'purple', 'commission', 'decoherence', 'rotation', 'dither', 'collaboration']
@@ -339,14 +339,14 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'The original pico_punks generator. Inspired by Max Capacity\'s dos_punks—procedural avatar generation using nothing but stacked Pico-8 characters. Interactive exploration of the generative space with wallet-based starting seeds. Features rare combinations including 1/1000 rainbow mode.',
-    ipfs: 'https://ipfs.io/ipfs/Qmd7BMUZcPrUNab7VPY5renTqdzhqRN3UyfsiRuW4gUsLF/',
+    ipfs: '/artifacts/pico-punk-generator/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/439049',
       objkt: 'https://objkt.com/asset/hicetnunc/439049'
     },
     provenance: 'ipfs://QmfVXYwtLubx4YrxgJrFm6ZTSL4QvvfQJGh9Gqz4bRgKKb',
-    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    thumbnail: '/assets/images/thumbs/pico-punk-generator.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/pico_punks/pico_punk_generator',
     favorite: true,
     themes: ['pico_punks', 'pfp', 'avatar', 'generative', 'collectible', 'generator', 'pico-8', 'interactive', 'creative coding', 'pixelart', 'punks', 'pareidolia', 'procedural', 'text-based', 'neoretro', 'wallet seed']
@@ -358,13 +358,13 @@ const WORKS = {
     year: 2022,
     platform: 'objkt',
     description: 'Explore the generative space through arrow key navigation. Each step builds up layers of random events until faces emerge from noise through pareidolia. Screenshots capture discovered punks—but they\'re gone forever once you move away. Even recreating the same path yields different results due to irreversibility.',
-    ipfs: 'https://ipfs.io/ipfs/QmSWEGS348niMyEWHF8L5NSmepxmTkajYwipjFpwpPgFwy/',
+    ipfs: '/artifacts/pico-punk-compositions/',
     isGenerative: false,
     links: {
       objkt: 'https://objkt.com/tokens/KT1Dwf728rqUQhHCaFCauCYDQHKCWoUncD9F/2'
     },
     provenance: 'ipfs://Qmbby9Q5Uu2pEMehhUYunxioJw5WUhxuLXn1T9HJkZ5fh8',
-    thumbnail: 'https://ipfs.io/ipfs/QmRrjs47VFJ8PAkUkNgPEqvcFvEAFujknUVb4yyQa4pLJQ',
+    thumbnail: '/assets/images/thumbs/pico-punk-compositions.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/pico_punks/pico_punk_compositions.p8',
     favorite: true,
     themes: ['pico_punks', 'pfp', 'avatar', 'generative', 'generator', 'pico-8', 'interactive', 'creative coding', 'pixelart', 'punks', 'pareidolia', 'irreversibility', 'entropy', 'neoretro', 'CC0', 'Jano Lapin Gallery']
@@ -376,14 +376,14 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'Rain falling into a pool. A tweetcart exploring particle simulation and memory manipulation—pixels cascade downward, creating ripples of color within the circle. Press Circle Button (Z) to slow-mo. Part of a diptych with Ring of Fire.',
-    ipfs: 'https://ipfs.io/ipfs/QmQZ2YLSmmvFkFSsYz4CbzBqyU4GuBxDA66hxJWA9Te3KN/',
+    ipfs: '/artifacts/blue/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/390303',
       diptych: 'ring-of-fire'
     },
     provenance: 'ipfs://QmdULx1K168RU6MtNfJfgpystCjGLYcK8NAULUZCxc627h',
-    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    thumbnail: '/assets/images/thumbs/blue.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/tweetcarts/blue.p8',
     favorite: true,
     themes: ['tweetcart', 'pico-8', 'lua', 'interactive', 'generative', 'pixelart', 'opensource', 'codeart', 'loop', 'neoretro', 'constrained code', 'diptych', 'rain', 'water', 'particles', 'RGBMTL 2022']
@@ -395,14 +395,14 @@ const WORKS = {
     year: 2022,
     platform: 'teia',
     description: 'Flames rising from a ring. A tweetcart/tootcart exploring realistic fire simulation using entropy locking—with default seed 6 creating the intended effect. Click/tap to reseed and discover rare, bizarre outcomes. Part of a diptych with BLUE.',
-    ipfs: 'https://ipfs.io/ipfs/bafybeiby6evmdoajih64js7qnjmqixgphx5xm2xfroozbyhydqjy6ql6hi/',
+    ipfs: '/artifacts/ring-of-fire/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/797976',
       diptych: 'blue'
     },
     provenance: 'ipfs://QmbxxbTsVsEcBftUUkHFnUsegXQMpmg2Xh649V4rxGQXMu',
-    thumbnail: 'https://ipfs.io/ipfs/QmSGRydpJbNUMBTL4fjDvu6AZjeMGig1jtLr4rFLF2cJMm',
+    thumbnail: '/assets/images/thumbs/ring-of-fire.gif',
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/tweetcarts/ring_of_fire.p8',
     favorite: true,
     themes: ['tweetcart', 'tootcart', 'pico-8', 'fire', 'interactive', 'generative', 'generator', 'neoretro', 'pixelart', 'procedural', 'entropy locking', 'opensource', 'creative coding', 'CC0', 'diptych', 'RGBMTL 2022']
@@ -414,14 +414,14 @@ const WORKS = {
     year: 2024,
     platform: 'objkt',
     description: 'A piece about color exploration and palettes. Just something soothing to stare at that makes you feel good. A 16x16 grid of pixels with background color cycling. Derived from THE FALL. Sometimes the color cycle perfectly loops—look out for that. Also surprisingly, thanks to entropy locking, it\'s possible to generate a rare black and white output (seen once out of thousands).',
-    ipfs: 'https://ipfs.io/ipfs/QmViV7khUsodP81bwG3JUrq4eLaiKmAjhVzdzCt7okDD9W/',
+    ipfs: '/artifacts/petite-chute/',
     isGenerative: true,
     links: {
       objkt: 'https://objkt.com/tokens/KT1LNtgRnfyFgP85M9znLorh2anKSZAgBRrd/13',
       diptych: 'deja-hue'
     },
     provenance: 'ipfs://QmcdvwmvFUmRqX3yyJEoiTE4wy7uqT97FpqQDYPd2S1r6r',
-    thumbnail: 'https://ipfs.io/ipfs/QmYLaDCTVptiuE4oAqS4b8r7Zk63P3RF9tQAvDzjHgDzgq',
+    thumbnail: '/assets/images/thumbs/petite-chute.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/petite_chute',
     favorite: true,
     themes: ['screensaver', 'ambient', 'colors', 'palettes', 'entropy locking', 'p5js', 'generative', 'lofi', 'soothing', 'pixels', 'animation', 'derivative', 'objkt4objkt4', 'CC0', 'interactive', 'diptych']
@@ -433,13 +433,13 @@ const WORKS = {
     year: 2024,
     platform: 'fxhash',
     description: 'waves upon waves upon waves. A single black pixel cascades and creates a landscape. Entropy locked, uniform randomness drifts into recursive patterns. Feedback creates cycles, cycles create cycles. Life is a balance of living equilibria.',
-    ipfs: 'https://onchfs.fxhash2.xyz/a853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b/?cid=onchfs%3A%2F%2Fa853685b51aa771329fca30f8e4063e476485ba3571acb4472456b4f182c194b&fxhash=0xbc28123bc7730ae1d5c858931e48b7120604095758cb05e5db081e9ed856bd22&fxminter=0x7cb09983c9bde3fdce87f92ec2724c8cf8b296ef&fxiteration=1&fxcontext=standalone&fxchain=BASE&legacy=false',
+    ipfs: '/artifacts/the-fall/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/project/the-fall'
     },
     provenance: 'ipfs://QmQFnmjSdwxCNt2CVAaNXXKEZgXP1q9hePcH3daiTZwFkP',
-    thumbnail: 'https://ipfs.io/ipfs/QmTs2GDFnyaR8TiT9B6PrWHAfFG86b9xwNFmUHQZTyzZT7',
+    thumbnail: '/assets/images/thumbs/the-fall.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/the_fall',
     favorite: true,
     themes: ['screensaver', 'ambient', 'entropy locking', 'p5js', 'generative', 'waves', 'landscape', 'cascade', 'feedback', 'loop', 'equilibrium', 'onchain', 'base', 'animated', 'lofi', 'noise', 'pixelart']
@@ -470,13 +470,13 @@ const WORKS = {
     year: 2024,
     platform: 'teia',
     description: 'COLORSCAPES is a cellular automata, where all the rules for movement and color have been converted to random events. This should produce nonsense, but by adding Entropy Locking, we see each seed acting as a "genotype" creating emergent rules and cool visuals. The original base for this was the same WFC algo that I was using in my previous pieces... but after many refactors for performance almost none of the original remains.',
-    ipfs: 'https://ipfs.io/ipfs/bafybeidufgxl7qyy2i7yympdn5fgrnncmblrkuxwadb7rv4zurbsjzjnlq/',
+    ipfs: '/artifacts/colorscapes/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/844581'
     },
     provenance: 'ipfs://QmS1oJdEkm8XSWy3HA16xv5EkxMW82zGtUTXd76mK6WSky',
-    thumbnail: 'https://ipfs.io/ipfs/QmfHidMgTt1AhMd8MZKrLJw55P4DzJYYCvRx4yQzjZa5FQ',
+    thumbnail: '/assets/images/thumbs/colorscapes.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/colorscapes_wip',
     favorite: true,
     themes: ['screensaver', 'ambient', 'colors', 'cellular automata', 'entropy locking', 'p5js', 'generative', 'fullscreen', 'infinite', 'landscape', 'mountains', 'genotype']
@@ -488,13 +488,13 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'A showcase of entropy locking with three different modes: Random Chance, Consistent by Frame Count, or None. This allows appreciation of how entropy locking creates emergent patterns from highly random generators, and how subtle differences in locking method have large consequences. Visually inspired by sedimentary city, Device 1, and Grid Rules and Cells.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmTTbTcjmuGC9dinFSxPa7swz5z7ZbGfsNxHAJ39yRFH73/',
+    ipfs: '/artifacts/skyscrapers/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/project/skyscapers'
     },
     provenance: 'ipfs://QmWpvB4V47F9rZVC1EiwcaBYtGs55eLRquEHhn7py8KwqL',
-    thumbnail: 'https://ipfs.io/ipfs/QmWTMksQyqYqH2dTMJ97YUADCqF7mdKUZ4tbSG8NHBW8Ai',
+    thumbnail: '/assets/images/thumbs/skyscrapers.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/skyscrapers',
     favorite: true,
     themes: ['screensaver', 'ambient', 'entropy locking', 'p5js', 'generative', 'fullscreen', 'infinite', 'glitch', 'noise', 'texture', 'wallpaper', 'pixelart', 'neoretro', 'CC0', 'interactive', '4k', 'Tezos4Iran']
@@ -506,13 +506,13 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'made with love for my little sister',
-    ipfs: 'https://ipfs.io/ipfs/QmXXxBR3dy1zBsQnnmZEe6kCyY92WuepQcc6eG9QVgXHED/',
+    ipfs: '/artifacts/oregon-sunset/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/290242'
     },
     provenance: 'ipfs://QmVZyzRScNy7v876XgoeDc3JvR5hKUNHskgewb7syEmmyY',
-    thumbnail: 'https://ipfs.io/ipfs/QmTJEncw1HE1z9YMqUGDGid9XuoJ7QgTxj1yCrnVytKCy5',
+    thumbnail: '/assets/images/thumbs/oregon-sunset.gif',
     sourceCode: 'https://github.com/aebrer/pico8_carts/blob/master/series/loops/oregon_sunset.p8',
     favorite: true,
     themes: ['loop', 'gif', 'pico-8', 'generative', 'generator', 'lua', 'codeart', 'noise', 'aebrer_engine', 'interactive', 'menu system', 'palette']
@@ -524,13 +524,13 @@ const WORKS = {
     year: 2025,
     platform: 'objkt',
     description: 'Entropy-locked ASCII screensaver where each seed generates its own character vocabulary through a random walk. Hunt for coral-like moiré patterns by resizing your viewport, or press \'r\' to explore new seeds. Tight entropy locking during character generation creates distinct visual identities - matrixy equation-heavy outputs, pipe patterns, varied coherent aesthetics per seed. Loose entropy locking during simulation guarantees eventual loops but never predictably.',
-    ipfs: 'https://ipfs.io/ipfs/bafybeiax6n2vcggv2doybyfvthjelu5vrtimoes2flshhwwjxj3px35kmy/',
+    ipfs: '/artifacts/coral-hunting/',
     isGenerative: true,
     links: {
       objkt: 'https://objkt.com/tokens/KT1URVzdQNsdXULazJcK6TtS5mUCY82aEvwL/12'
     },
     provenance: 'ipfs://Qmdt29Aw4TrkqaedRXjcVLcSMWi4ocfef2JyLMRDUTLh12',
-    thumbnail: 'https://ipfs.io/ipfs/bafybeibxrh5wf2cqcfq2s7mmzxccw4d26r4q7kuadhsdozux6pfm22y3aa',
+    thumbnail: '/assets/images/thumbs/coral-hunting.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/screensavers/CORAL_HUNTING',
     favorite: true,
     themes: ['screensaver', 'ascii art', 'entropy locking', 'webgl', 'interactive', 'pattern hunting', 'character art', 'emergence', 'p5js', 'moiré', 'collaboration', 'CC0']
@@ -542,7 +542,7 @@ const WORKS = {
     year: 2025,
     platform: 'editart',
     description: 'Minimal unit derivative of CORAL HUNTING - 8x8 characters revealing the atomic behavior of seed-specific character vocabularies and color burn dynamics. A play on "marsh" (returning to the coral theme), "march" (the seed navigation mechanic), and "marché" (market - exploring/trading seeds). Like petite_chute strips THE FALL to 8x8 pixels, the_seed_marche strips CORAL HUNTING to 8x8 characters to reveal pure burn dynamics at their smallest viable scale. In this piece you can also "hunt", but each seed acts as a starting position for a generator that you can explore deterministically—if you find a path from your start point to an interesting output, you can always get there again by following the exact same steps.',
-    ipfs: 'https://ipfs.io/ipfs/QmYM4e5WZB5BGpswgQe8M5cgeiDQr9hh9hsNrZPLbWNKC5/',
+    ipfs: '/artifacts/the-seed-marche/',
     isGenerative: true,
     links: {
       editart: 'https://www.editart.xyz/series/KT1CwHqA6CEcLWr2oDnuET1McFiD4kuraB96'
@@ -560,7 +560,7 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'A collaborative circuit board vestige - Guandanarian\'s pixel art composition integrated with Drew\'s entropy-locked micro-animations. Container integrity degrading, pulse strength fluctuating, network state uncertain.',
-    ipfs: 'https://ipfs.io/ipfs/QmTokAhnEbYXYn9ERcgBTDwJ6LRGY818EwM6kjGtqJRnSo',
+    ipfs: '/artifacts/local-ontology-secured-transistor.gif',
     isGenerative: false,
     isImage: true,
     links: {
@@ -580,7 +580,7 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: '"it\'s the motherload" - A cracked marble containing a quantified unit of Dead God Pulse energy. The marble serves as a standard weight for GDGP measurement, but the crack suggests containment may not be as reliable as the Foundation imagined. Part of the marblez project by @jmh_wwyg.',
-    ipfs: 'https://ipfs.io/ipfs/QmWe1xWvdEr9gi2UikVQn4iL19rAgzFXDiC141fKraMVba/',
+    ipfs: '/artifacts/marblez-23/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/153445',
@@ -588,7 +588,7 @@ const WORKS = {
       'jmh_wwyg': 'https://x.com/jmh_wwyg'
     },
     provenance: 'ipfs://QmT9XCC5SNZ3vTf96rwcjPKcmN1oNzPBsMTK6T4hpyj6FR',
-    thumbnail: 'https://ipfs.io/ipfs/QmeQMBHi1UGTcnmW5vCJNtUBqZVuNMV66hUjcKxzgsDi5D',
+    thumbnail: '/assets/images/thumbs/marblez-23.gif',
     sourceCode: null,
     favorite: true,
     themes: ['vestiges', 'collaboration', 'interactive', 'pixelart', '2D', '3D', 'lowpoly', 'sculpture', 'marblez', 'collectible', 'music', 'audio', 'the dead god', 'easter egg', 'secret', 'game maker studio', 'psx aesthetic']
@@ -600,13 +600,13 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'The first vestige. A psychosomatic pulse that emanates from remnants of the Dead God, felt as a low-frequency vibration with adverse cognitive effects.',
-    ipfs: 'https://ipfs.io/ipfs/QmZKswae8aTgfRif9YGHfxXbn3QFfSb74f4m6aA5WuxR3E/',
+    ipfs: '/artifacts/pulse-of-the-dead-god.gif',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/104632'
     },
     provenance: 'ipfs://QmfSfY2LbSeBtBe43McVTob7mZ3che6EEcz7aiP6TEAALc',
-    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    thumbnail: '/assets/images/thumbs/pulse-of-the-dead-god.png',
     sourceCode: null,
     favorite: false,
     themes: ['vestiges', 'the dead god', 'gif', 'loop', 'pixelart', 'pico-8', 'cryptic', '1/1']
@@ -618,13 +618,13 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'Generative void roses with a ~1/69 chance of rare rainbow mode. Royalty splits support the Processing Foundation.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmNzM4qtJxbxJUNxzbUZATLZatNCFasKUdwgiyag1wt5Li/',
+    ipfs: '/artifacts/voidroses/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/11467'
     },
     provenance: 'ipfs://QmYDXDfvpis5SwZGQ7b8qpZLkoMfU19THFgdGdhCcCxZka',
-    thumbnail: 'https://ipfs.io/ipfs/QmTmUWGDBYWYnkHUzDGgyns2o89pAyGPGB1x8H3mxenRY4',
+    thumbnail: '/assets/images/thumbs/voidroses.png',
     sourceCode: null,
     favorite: false,
     themes: ['p5js', 'generative', 'flowers', 'neoretro', 'processing']
@@ -636,13 +636,13 @@ const WORKS = {
     year: 2021,
     platform: 'fxhash',
     description: 'This is meant to be a perfect loop, but you might have to wait up to a minute first to let your piece reach a stable equilibrium that actually loops. Press Z for gif, X for screenshot.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmWXg12JavwjUrphrfakJguFUFeDEtzKTPEun7G4zW21HR/',
+    ipfs: '/artifacts/vestiges-of-the-dead-god/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/3163'
     },
     provenance: 'ipfs://QmSs89WerfNmCYg6mqdSt9531zGjFSNKLdxNEdx6MBBKL5',
-    thumbnail: 'https://ipfs.io/ipfs/QmNmaAgYbKwi4PCfp1heEbLfMc5Gr98jfS2FD2r71f9akd',
+    thumbnail: '/assets/images/thumbs/vestiges-of-the-dead-god.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/vestiges/vestiges_of_the_dead_god',
     favorite: false,
     themes: ['vestiges', 'pico-8', 'lua', 'generative', 'loop', 'gif', 'neoretro', 'pixelart', 'the dead god', 'ambient', 'entropy locking']
@@ -654,13 +654,13 @@ const WORKS = {
     year: 2021,
     platform: 'fxhash',
     description: 'A rework of the initial generative project that got me started as an artist (and my earliest series on HEN). A live simulation, coded and running entirely on the Pico-8, of the Three Body Problem: a famous example of a chaotic system that cannot be predicted. The mass of all three bodies are identical. Collisions disabled for the first three seconds to increase variety.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmXGyccjAb19vSMeyVCZuEzMjCjqxwdMCcdCuTYtvBKgnf/',
+    ipfs: '/artifacts/three-body-problem-redux/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/764'
     },
     provenance: 'ipfs://QmRMHQThu9Fak8npMxBoP2WZcW91oWjd3P7RHFVLtAtNJS',
-    thumbnail: 'https://ipfs.io/ipfs/QmboP67gTwG7nuUemMxCay5sTSbsZU3YEdqPskikuFHTDj',
+    thumbnail: '/assets/images/thumbs/three-body-problem-redux.jpg',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/three-body-problem/three_body_problem_redux',
     favorite: false,
     themes: ['three body problem', 'pico-8', 'lua', 'simulation', 'physics', 'chaos', 'generative', 'neoretro', 'pixelart', '3bodyprob', 'animated']
@@ -672,13 +672,13 @@ const WORKS = {
     year: 2021,
     platform: 'fxhash',
     description: 'Coded on the Pico-8 Fantasy console, using the aebrer_engine codebase.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmR5aM5jPtSoNK8c7R7QqM9f65FyoAx3DdFW5ZQThTsfxx/',
+    ipfs: '/artifacts/pico-pulses/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/17'
     },
     provenance: 'ipfs://QmYZSfcNvvQ5JatBB6KHyno5gcw959Xg6juXzv8CuhDZD4',
-    thumbnail: 'https://ipfs.io/ipfs/QmZgH3jc8oGW6V6KHnUFtK1xcLe7fdQhVZTNM4M2Rydzmh',
+    thumbnail: '/assets/images/thumbs/pico-pulses.jpg',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/misc/pico_pulses',
     favorite: false,
     themes: ['pico-8', 'lua', 'generative', 'neoretro', 'pixelart', 'aebrer_engine', '4-bit', 'early fxhash']
@@ -690,13 +690,13 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'X button regenerates some non-fixed parameters. O button opens the debug menu—change parameters, colors, brush configuration. Touch/click the screen to paint with the brush.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmSfVp8w9QNWF9tQSZxgLmA7AciJ9xx92zWrruUkv9bEbZ/',
+    ipfs: '/artifacts/ideocartography-interference-patterns/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/10240'
     },
     provenance: 'ipfs://QmeYx5qKNFuySqvJEukdg7LLZvECwNpRdHdt3jPCMqPqZc',
-    thumbnail: 'https://ipfs.io/ipfs/QmNygywFvnBRkfanHGQq5pPv8q3Us48HHUAUqWuCxjAaPG',
+    thumbnail: '/assets/images/thumbs/ideocartography-interference-patterns.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/ideocart/ideocart_interference_patterns',
     favorite: false,
     themes: ['ideocart', 'pico-8', 'lua', 'interactive', 'generative', 'pareidolia', 'aebrer_engine', 'painting', 'debug menu']
@@ -708,14 +708,14 @@ const WORKS = {
     year: 2022,
     platform: 'fxhash',
     description: 'Tweetcart relay. Received Breathing Star Gate from alexthescott, modified it, relayed onwards to carson. 141 tokens, 272 characters. Entropy-locked color cycling with sspr feedback.',
-    ipfs: 'https://gateway.fxhash2.xyz/ipfs/QmX1Y6hviJFjoSsqUtXV6ocygR4Fr8W2QJt19d5tBd9nWA/',
+    ipfs: '/artifacts/bonbon-topology/',
     isGenerative: true,
     links: {
       fxhash: 'https://www.fxhash.xyz/generative/16197',
       'inspiration': 'https://teia.art/objkt/756961'
     },
     provenance: 'ipfs://QmSBYNrqm1AykYJJ4NkAqCRgmcFYSJRZBB6QfkCCJjPKA8',
-    thumbnail: 'https://ipfs.io/ipfs/QmRP4q4fJ87bg81RtzSPXBrRPSMEMR3x72GZAcy3VrSsUy',
+    thumbnail: '/assets/images/thumbs/bonbon-topology.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/bonbon_topology',
     favorite: false,
     themes: ['tweetcart', 'tweetcart relay', 'pico-8', 'lua', 'entropy locking', 'constrained code', 'neoretro', 'pixelart', 'anticap', 'opensource', 'collaboration', 'feedback', 'CC0']
@@ -727,13 +727,13 @@ const WORKS = {
     year: 2021,
     platform: 'teia',
     description: 'press and hold the circle button to dissolve the city',
-    ipfs: 'https://ipfs.io/ipfs/Qmdwx1NRBDfNf1AQ1sG5KXyAf266eC3qRKQAmvPACRyHv3/',
+    ipfs: '/artifacts/memory-city/',
     isGenerative: false,
     links: {
       teia: 'https://teia.art/objkt/428467'
     },
     provenance: 'ipfs://QmYWdUN6cwkKeXfdZHxjuqaa9gvNcYgK1rZRdZgSPnjHaB',
-    thumbnail: 'https://ipfs.io/ipfs/QmNrhZHUaEqxhyLfqoq1mtHSipkWHeT31LNHb1QEbDHgnc',
+    thumbnail: '/assets/images/thumbs/memory-city.png',
     sourceCode: 'https://github.com/aebrer/pico8_carts/tree/master/series/tweetcarts/memory_city',
     favorite: false,
     themes: ['tweetcart', 'pico-8', 'lua', 'interactive', 'generative', 'pixelart', 'opensource', 'codeart', 'loop', 'neoretro', 'constrained code', 'city', 'memory manipulation']
